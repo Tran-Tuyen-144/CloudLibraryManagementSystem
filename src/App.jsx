@@ -3,6 +3,7 @@ import Sidebar from "./components/layout/Sidebar";
 import Header from "./components/layout/Header";
 import BookCarousel from "./components/books/BookCarousel";
 import ReadingHistory from "./components/books/ReadingHistory";
+import BotanicalDecor from "./components/layout/BotanicalDecor";
 import HomeSections from "./components/books/HomeSections";
 import CatalogPage from "./pages/CatalogPage";
 import LoansPage from "./pages/LoansPage";
@@ -21,6 +22,7 @@ import { readerMessages } from "./ui/readerMessages";
 import { books } from "./data/books";
 import "./App.css";
 import "./GalaxyTheme.css";
+import "./components/layout/BotanicalTheme.css";
 
 const pageTitles = {
   discover: "Khám phá",
@@ -228,7 +230,8 @@ export default function App() {
             onNavigate={handleNavigate}
           />
 
-          <main className="main-content">
+          <main className="main-content botanical-main">
+            {activePage === "discover" && <BotanicalDecor />}{" "}
             <Header
               title={currentTitle}
               searchTerm={searchTerm}
@@ -239,17 +242,20 @@ export default function App() {
               onLoginClick={handleLoginClick}
               onLogout={handleLogout}
             />
-
             {activePage === "auth" && (
               <AuthPage
                 onAuthenticate={handleAuthenticated}
                 onBack={() => handleNavigate("discover")}
               />
             )}
-
             {activePage === "discover" && (
               <>
-                <BookCarousel books={books} />
+                <BookCarousel
+                  books={books}
+                  favoriteIds={favoriteIds}
+                  onToggleFavorite={handleToggleFavorite}
+                  onBrowseCategory={handleBrowseCategory}
+                />
 
                 <ReadingHistory
                   key={user?.email || "guest"}
@@ -265,7 +271,6 @@ export default function App() {
                 />
               </>
             )}
-
             {(activePage === "catalog" || (favoritesMode && user)) && (
               <CatalogPage
                 key={activePage}
@@ -282,7 +287,6 @@ export default function App() {
                 onBrowse={() => handleNavigate("discover")}
               />
             )}
-
             {activePage === "loans" && user && (
               <LoansPage
                 key={user.email + ":" + (borrowBookId ?? "")}
@@ -294,7 +298,6 @@ export default function App() {
                 onBrowse={() => handleBrowseCategory()}
               />
             )}
-
             {activePage === "reader" && user && readingBook && (
               <ReaderPage
                 key={user.email + ":" + readingBook.id}
@@ -303,7 +306,6 @@ export default function App() {
                 onBack={() => handleBrowseCategory()}
               />
             )}
-
             {activePage === "ai" && user && (
               <AssistantPage
                 books={books}
@@ -311,7 +313,6 @@ export default function App() {
                 onToggleFavorite={handleToggleFavorite}
               />
             )}
-
             {activePage === "profile" && user && (
               <ProfilePage
                 key={user.email}

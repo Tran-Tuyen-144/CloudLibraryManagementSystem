@@ -1,4 +1,5 @@
 import { t } from "../../ui/settings.js";
+import BotanicalDecor from "./BotanicalDecor";
 import {
   Library,
   Compass,
@@ -44,6 +45,8 @@ const menuItems = [
 export default function Sidebar({ activePage, onNavigate }) {
   return (
     <aside className="sidebar">
+      <BotanicalDecor placement="sidebar" />
+      {activePage === "discover" && <BotanicalDecor />}
       <button
         type="button"
         className="sidebar-brand"
