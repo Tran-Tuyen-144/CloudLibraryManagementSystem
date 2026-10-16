@@ -1,0 +1,1024 @@
+:root {
+  --eclipse-violet: #151626;
+  --onyx-purple: #120d1e;
+  --midnight-velvet: #251928;
+  --nebula-night: #2e2c4b;
+  --indigo-dusk: #3f3b53;
+  --twilight-plum: #6c5770;
+  --shadow-lavender: #85839a;
+  --amethyst-mist: #aba6c4;
+  --aurora-berry: #8a758f;
+  --lunar-dusk: #89879c;
+
+  --bg-page: var(--onyx-purple);
+  --bg-panel: var(--eclipse-violet);
+  --text-primary: var(--amethyst-mist);
+  --text-secondary: var(--lunar-dusk);
+  --text-muted: var(--shadow-lavender);
+  --border: var(--indigo-dusk);
+  --accent: var(--aurora-berry);
+
+  --surface-top: var(--nebula-night);
+  --surface-bottom: var(--eclipse-violet);
+  --input-bg: var(--eclipse-violet);
+  --selected-bg: var(--nebula-night);
+  --button-bg: var(--nebula-night);
+  --button-hover: var(--indigo-dusk);
+
+  --glow-blue: color-mix(in srgb, var(--nebula-night) 85%, transparent);
+
+  --glow-indigo: color-mix(in srgb, var(--indigo-dusk) 65%, transparent);
+
+  --glow-purple: color-mix(in srgb, var(--twilight-plum) 35%, transparent);
+
+  --glow-berry: color-mix(in srgb, var(--aurora-berry) 18%, transparent);
+
+  --star-color: color-mix(in srgb, var(--amethyst-mist) 55%, transparent);
+
+  --panel-shadow: color-mix(in srgb, var(--onyx-purple) 55%, transparent);
+
+  --focus-glow: color-mix(in srgb, var(--accent) 20%, transparent);
+
+  color-scheme: dark;
+}
+
+/* Chế độ sáng */
+
+:root[data-theme="light"] {
+  --bg-page: color-mix(in srgb, var(--amethyst-mist) 12%, white);
+
+  --bg-panel: color-mix(in srgb, var(--amethyst-mist) 4%, white);
+
+  --text-primary: var(--eclipse-violet);
+  --text-secondary: var(--indigo-dusk);
+  --text-muted: var(--twilight-plum);
+  --accent: var(--twilight-plum);
+
+  --border: color-mix(in srgb, var(--amethyst-mist) 65%, white);
+
+  --surface-top: color-mix(in srgb, var(--amethyst-mist) 12%, white);
+
+  --surface-bottom: var(--bg-panel);
+
+  --input-bg: color-mix(in srgb, var(--amethyst-mist) 8%, white);
+
+  --selected-bg: color-mix(in srgb, var(--indigo-dusk) 14%, white);
+
+  --button-bg: var(--selected-bg);
+
+  --button-hover: color-mix(in srgb, var(--indigo-dusk) 22%, white);
+
+  --glow-blue: color-mix(in srgb, var(--nebula-night) 10%, transparent);
+
+  --glow-indigo: color-mix(in srgb, var(--indigo-dusk) 12%, transparent);
+
+  --glow-purple: color-mix(in srgb, var(--twilight-plum) 10%, transparent);
+
+  --glow-berry: color-mix(in srgb, var(--aurora-berry) 9%, transparent);
+
+  --star-color: color-mix(in srgb, var(--indigo-dusk) 22%, transparent);
+
+  --panel-shadow: color-mix(in srgb, var(--indigo-dusk) 12%, transparent);
+
+  color-scheme: light;
+}
+
+body {
+  background: var(--bg-page);
+  color: var(--text-primary);
+}
+
+/* Galaxy tím lam */
+
+.app-layout.galaxy-theme {
+  position: relative;
+  isolation: isolate;
+  min-height: 100dvh;
+  color: var(--text-primary);
+  background:
+    radial-gradient(ellipse at 85% 8%, var(--glow-blue), transparent 48%),
+    radial-gradient(ellipse at 65% 65%, var(--glow-indigo), transparent 52%),
+    radial-gradient(ellipse at 8% 20%, var(--glow-purple), transparent 45%),
+    radial-gradient(ellipse at 95% 90%, var(--glow-berry), transparent 45%),
+    var(--bg-page);
+}
+
+.galaxy-theme::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle, var(--star-color) 0.8px, transparent 1.3px),
+    radial-gradient(circle, var(--star-color) 0.6px, transparent 1.1px);
+  background-size:
+    127px 149px,
+    211px 193px;
+  background-position:
+    19px 31px,
+    83px 107px;
+}
+
+.galaxy-theme .main-content {
+  background: transparent;
+}
+
+/* Sidebar */
+
+.galaxy-theme .sidebar {
+  background: color-mix(in srgb, var(--bg-panel) 94%, transparent);
+  border-right-color: var(--border);
+  box-shadow: 8px 0 28px var(--panel-shadow);
+}
+
+.galaxy-theme .sidebar-brand-mark,
+.galaxy-theme .reader-avatar {
+  color: var(--text-primary);
+  background: var(--selected-bg);
+  border: 1px solid var(--accent);
+  box-shadow: 0 0 20px var(--focus-glow);
+}
+
+.galaxy-theme .sidebar-brand-text strong {
+  color: var(--text-primary);
+}
+
+.galaxy-theme .sidebar-brand-text small,
+.galaxy-theme .sidebar-button {
+  color: var(--text-secondary);
+}
+
+.galaxy-theme .sidebar-button:hover {
+  color: var(--text-primary);
+  background: var(--selected-bg);
+}
+
+.galaxy-theme .sidebar-button.is-active {
+  color: var(--text-primary);
+  background: var(--selected-bg);
+  box-shadow:
+    inset 3px 0 var(--accent),
+    0 0 16px var(--focus-glow);
+}
+
+/* Header */
+
+.galaxy-theme .header {
+  border-bottom-color: var(--border);
+}
+
+.galaxy-theme .header-title {
+  color: var(--text-primary);
+}
+
+.galaxy-theme .header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.galaxy-theme .header-search {
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+}
+
+.galaxy-theme .header-search input {
+  background: transparent;
+  color: var(--text-primary);
+}
+
+.galaxy-theme .header-search:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--focus-glow);
+}
+
+.galaxy-theme .header-actions button,
+.galaxy-theme .header-notifications > summary {
+  color: var(--text-primary);
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+}
+
+.galaxy-theme .header-notifications > div {
+  color: var(--text-primary);
+  background: var(--bg-panel);
+  border-color: var(--border);
+}
+
+/* Nút Sáng/Tối và ngôn ngữ */
+
+.galaxy-theme .ui-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.galaxy-theme .ui-controls .ui-theme-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: auto;
+  height: 36px;
+  min-width: 76px;
+  padding: 0 11px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--input-bg);
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.galaxy-theme .ui-theme-button:hover {
+  background: var(--selected-bg);
+  border-color: var(--accent);
+}
+
+.galaxy-theme .ui-language-control {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 9px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--input-bg);
+  color: var(--text-primary);
+}
+
+.galaxy-theme .ui-language-control select {
+  width: auto;
+  min-width: 82px;
+  height: 32px;
+  padding: 0 3px;
+  border: 0;
+  background: transparent;
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* Panel và viền phân chia */
+
+.galaxy-theme .home-panel,
+.galaxy-theme .catalog-toolbar,
+.galaxy-theme .reader-panel,
+.galaxy-theme .reader-stat {
+  background: linear-gradient(
+    145deg,
+    var(--surface-top),
+    var(--surface-bottom)
+  );
+  border: 1px solid var(--border);
+  box-shadow: 0 12px 28px var(--panel-shadow);
+}
+
+.galaxy-theme .home-panel-header,
+.galaxy-theme .reader-panel-heading,
+.galaxy-theme .reader-tabs {
+  border-bottom-color: var(--border);
+}
+
+/* Chữ */
+
+.galaxy-theme h1,
+.galaxy-theme h2,
+.galaxy-theme h3,
+.galaxy-theme .catalog-title,
+.galaxy-theme .book-tile-title,
+.galaxy-theme .reader-book-button strong,
+.galaxy-theme .reader-stat strong {
+  color: var(--text-primary);
+}
+
+.galaxy-theme .home-author,
+.galaxy-theme .home-category,
+.galaxy-theme .home-description,
+.galaxy-theme .home-eyebrow,
+.galaxy-theme .book-modal-isbn,
+.galaxy-theme .catalog-author,
+.galaxy-theme .catalog-category,
+.galaxy-theme .catalog-summary,
+.galaxy-theme .catalog-field,
+.galaxy-theme .section-subtitle,
+.galaxy-theme .home-section-heading p,
+.galaxy-theme .home-panel-header > span,
+.galaxy-theme .book-tile-author,
+.galaxy-theme .reader-muted,
+.galaxy-theme .reader-status,
+.galaxy-theme .reader-field,
+.galaxy-theme .reader-check,
+.galaxy-theme .reader-stat span,
+.galaxy-theme .reader-request-info p,
+.galaxy-theme .reader-profile-summary p,
+.galaxy-theme .reader-empty p,
+.galaxy-theme .book-modal-actions span {
+  color: var(--text-secondary);
+}
+
+.galaxy-theme input::placeholder,
+.galaxy-theme textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+}
+
+.galaxy-theme .home-rating {
+  color: var(--accent);
+}
+
+.galaxy-theme .home-rating small {
+  color: var(--text-primary);
+}
+
+/* Sách */
+
+.galaxy-theme .catalog-card,
+.galaxy-theme .reader-book-button,
+.galaxy-theme .reader-request {
+  background: var(--bg-panel);
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+.galaxy-theme .catalog-card:hover,
+.galaxy-theme .reader-book-button:hover,
+.galaxy-theme .book-tile-button:hover {
+  background: var(--selected-bg);
+  border-color: var(--accent);
+  box-shadow: 0 0 16px var(--focus-glow);
+}
+
+.galaxy-theme .reader-book-button > span:not(.reader-suggestion-cover) {
+  color: var(--text-secondary);
+}
+
+.galaxy-theme .home-cover-fallback {
+  color: var(--amethyst-mist);
+  background: linear-gradient(
+    145deg,
+    var(--indigo-dusk),
+    var(--midnight-velvet),
+    var(--twilight-plum)
+  );
+}
+
+/* Button */
+
+.galaxy-theme .home-detail-button,
+.galaxy-theme .catalog-reset,
+.galaxy-theme .reader-button {
+  color: var(--text-primary);
+  background: var(--button-bg);
+  border: 1px solid var(--accent);
+}
+
+.galaxy-theme .home-detail-button:hover,
+.galaxy-theme .catalog-reset:hover,
+.galaxy-theme .reader-button:hover {
+  background: var(--button-hover);
+  box-shadow: 0 0 16px var(--focus-glow);
+}
+
+.galaxy-theme .reader-button-secondary {
+  background: var(--input-bg);
+  border-color: var(--border);
+}
+
+.galaxy-theme .section-view-all,
+.galaxy-theme .reader-link {
+  color: var(--text-primary);
+}
+
+.galaxy-theme .favorite-button {
+  color: var(--text-primary);
+  background: var(--input-bg);
+  border-color: var(--border);
+}
+
+.galaxy-theme .favorite-button.is-saved {
+  color: var(--accent);
+  background: var(--selected-bg);
+  border-color: var(--accent);
+  box-shadow: 0 0 12px var(--focus-glow);
+}
+
+/* Input */
+
+.galaxy-theme .catalog-field input,
+.galaxy-theme .catalog-field select,
+.galaxy-theme .reader-field input,
+.galaxy-theme .reader-field select,
+.galaxy-theme .reader-field textarea {
+  color: var(--text-primary);
+  background: var(--input-bg);
+  border-color: var(--border);
+}
+
+.galaxy-theme select option {
+  color: var(--text-primary);
+  background: var(--bg-panel);
+}
+
+.galaxy-theme .reader-check input {
+  accent-color: var(--accent);
+}
+
+/* Chủ đề và tab */
+
+.galaxy-theme .topic-bar {
+  background: var(--input-bg);
+  border-color: var(--border);
+  border-bottom-color: var(--accent);
+}
+
+.galaxy-theme .topic-tab,
+.galaxy-theme .topic-select,
+.galaxy-theme .reader-tabs button {
+  color: var(--text-secondary);
+  background: var(--input-bg);
+  border-color: var(--border);
+}
+
+.galaxy-theme .topic-tab:hover,
+.galaxy-theme .topic-tab.is-active,
+.galaxy-theme .reader-tabs button.is-active {
+  color: var(--text-primary);
+  background: var(--selected-bg);
+  border-color: var(--accent);
+}
+
+.galaxy-theme .topic-tab.is-active {
+  box-shadow: inset 0 -3px var(--accent);
+}
+
+/* Trạng thái */
+
+.galaxy-theme .catalog-availability,
+.galaxy-theme .reader-badge {
+  color: var(--text-primary);
+  background: var(--selected-bg);
+  border: 1px solid var(--border);
+}
+
+.galaxy-theme .catalog-availability.is-unavailable {
+  color: var(--text-secondary);
+  background: var(--input-bg);
+}
+
+.galaxy-theme .reader-note {
+  color: var(--text-secondary);
+  background: var(--input-bg);
+  border-left-color: var(--accent);
+}
+
+/* Hộp chi tiết */
+
+.galaxy-theme .book-modal {
+  color: var(--text-primary);
+  background: linear-gradient(
+    145deg,
+    var(--surface-top),
+    var(--surface-bottom)
+  );
+  border-color: var(--border);
+  box-shadow: 0 24px 80px var(--panel-shadow);
+}
+
+.galaxy-theme .book-modal::backdrop {
+  background: #120d1ed9;
+}
+
+.galaxy-theme .book-modal-close {
+  color: var(--text-primary);
+  background: var(--input-bg);
+}
+
+/* Focus và thanh cuộn */
+
+.galaxy-theme button:focus-visible,
+.galaxy-theme input:focus-visible,
+.galaxy-theme select:focus-visible,
+.galaxy-theme textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.galaxy-theme .sidebar-nav,
+.galaxy-theme .popular-grid,
+.galaxy-theme .book-shelf,
+.galaxy-theme .topic-bar {
+  scrollbar-color: var(--accent) var(--input-bg);
+}
+
+@media (max-width: 1100px) {
+  .galaxy-theme .header {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .galaxy-theme .header-title {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .galaxy-theme .header-actions {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .galaxy-theme .header-search {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+}
+
+@media (max-width: 600px) {
+  .galaxy-theme .header {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .galaxy-theme .header-title {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .galaxy-theme .header-actions {
+    grid-column: 1;
+    grid-row: 2;
+    justify-content: flex-start;
+  }
+
+  .galaxy-theme .header-search {
+    grid-column: 1;
+    grid-row: 3;
+  }
+}
+/* Galaxy tím lam rõ hơn — chỉ áp dụng chế độ tối */
+
+:root[data-theme="dark"] {
+  --text-primary: color-mix(in srgb, var(--amethyst-mist) 80%, white);
+}
+
+.app-layout.galaxy-theme[data-theme="dark"] {
+  position: relative;
+  isolation: isolate;
+  background: var(--onyx-purple);
+}
+
+/* Tinh vân: tăng độ đậm của lam và tím */
+
+.galaxy-theme[data-theme="dark"]::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse at 85% 12%,
+      color-mix(in srgb, var(--nebula-night) 85%, transparent),
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse at 8% 35%,
+      color-mix(in srgb, var(--twilight-plum) 55%, transparent),
+      transparent 48%
+    ),
+    radial-gradient(
+      ellipse at 65% 90%,
+      color-mix(in srgb, var(--indigo-dusk) 65%, transparent),
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse at 35% 70%,
+      color-mix(in srgb, var(--aurora-berry) 25%, transparent),
+      transparent 40%
+    );
+  filter: saturate(3.6) brightness(1.5);
+}
+
+/* Sao nằm trên lớp tinh vân */
+
+.galaxy-theme[data-theme="dark"]::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle, var(--amethyst-mist) 0.8px, transparent 1.4px),
+    radial-gradient(circle, var(--lunar-dusk) 0.6px, transparent 1.2px);
+  background-size:
+    139px 163px,
+    227px 211px;
+  background-position:
+    23px 41px,
+    97px 113px;
+  opacity: 0.5;
+}
+
+/* Panel hơi trong để thấy màu galaxy phía sau */
+
+.galaxy-theme[data-theme="dark"] .home-panel,
+.galaxy-theme[data-theme="dark"] .catalog-toolbar,
+.galaxy-theme[data-theme="dark"] .reader-panel,
+.galaxy-theme[data-theme="dark"] .reader-stat {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--nebula-night) 88%, transparent),
+    color-mix(in srgb, var(--eclipse-violet) 85%, transparent)
+  );
+  border-color: var(--twilight-plum);
+  box-shadow:
+    0 12px 32px #120d1e80,
+    inset 0 1px 0 #aba6c426;
+}
+
+.galaxy-theme[data-theme="dark"] .sidebar {
+  background: #120d1ee6;
+  border-right-color: var(--twilight-plum);
+}
+
+.galaxy-theme[data-theme="dark"] .sidebar-button.is-active {
+  background: linear-gradient(110deg, var(--nebula-night), var(--indigo-dusk));
+  box-shadow:
+    inset 3px 0 var(--aurora-berry),
+    0 0 20px #8a758f33;
+}
+
+.galaxy-theme[data-theme="dark"] .header-title {
+  text-shadow: 0 0 24px #aba6c44d;
+}
+/* Đồng bộ màu menu cho cả hai chế độ */
+
+.app-layout.galaxy-theme[data-theme] .sidebar {
+  background: linear-gradient(
+    180deg,
+    var(--surface-top),
+    var(--surface-bottom)
+  );
+  border-right: 1px solid var(--border);
+  box-shadow: 6px 0 24px var(--panel-shadow);
+}
+
+.app-layout.galaxy-theme[data-theme] .sidebar-brand {
+  color: var(--text-primary);
+}
+
+.app-layout.galaxy-theme[data-theme] .sidebar-brand-mark {
+  color: var(--text-primary);
+  background: var(--selected-bg);
+  border: 1px solid var(--border);
+  box-shadow: none;
+}
+
+.app-layout.galaxy-theme[data-theme] .sidebar-brand-text strong {
+  color: var(--text-primary);
+}
+
+.app-layout.galaxy-theme[data-theme] .sidebar-brand-text small {
+  color: var(--text-secondary);
+}
+
+/* Các mục có cùng màu nền, chữ và kích thước */
+
+.app-layout.galaxy-theme[data-theme] .sidebar-button {
+  min-height: 46px;
+  padding: 12px 14px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: none;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+.app-layout.galaxy-theme[data-theme] .sidebar-button svg,
+.app-layout.galaxy-theme[data-theme] .sidebar-label {
+  color: inherit;
+}
+
+.app-layout.galaxy-theme[data-theme] .sidebar-button svg {
+  flex-shrink: 0;
+}
+
+.app-layout.galaxy-theme[data-theme] .sidebar-button:hover {
+  color: var(--text-primary);
+  background: var(--selected-bg);
+  border-color: var(--border);
+}
+
+.app-layout.galaxy-theme[data-theme] .sidebar-button.is-active {
+  color: var(--text-primary);
+  background: var(--selected-bg);
+  border-color: var(--border);
+  box-shadow: inset 3px 0 var(--accent);
+}
+
+.app-layout.galaxy-theme[data-theme] .sidebar-nav {
+  scrollbar-color: var(--accent) transparent;
+}
+
+/* Thanh chủ đề cùng tông với menu trái */
+
+.app-layout.galaxy-theme[data-theme] .topic-bar {
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-bottom: 2px solid var(--accent);
+  box-shadow: 0 4px 16px var(--panel-shadow);
+}
+
+.app-layout.galaxy-theme[data-theme] .topic-tab,
+.app-layout.galaxy-theme[data-theme] .topic-select {
+  background: transparent;
+  color: var(--text-secondary);
+  border-color: var(--border);
+}
+
+.app-layout.galaxy-theme[data-theme] .topic-tab:hover,
+.app-layout.galaxy-theme[data-theme] .topic-tab.is-active {
+  background: var(--selected-bg);
+  color: var(--text-primary);
+}
+
+.app-layout.galaxy-theme[data-theme] .topic-tab.is-active {
+  box-shadow: inset 0 -3px var(--accent);
+}
+
+.app-layout.galaxy-theme[data-theme] .topic-select,
+.app-layout.galaxy-theme[data-theme] .topic-select option {
+  background: var(--input-bg);
+  color: var(--text-primary);
+}
+
+/* Giữ menu thu gọn trên màn hình nhỏ */
+
+@media (max-width: 900px) {
+  .app-layout.galaxy-theme[data-theme] .sidebar-button {
+    width: 44px;
+    height: 44px;
+    min-height: 44px;
+    padding: 0;
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-layout.galaxy-theme[data-theme] .sidebar-button {
+    transition: none;
+  }
+}
+/* ===== CĂN LẠI HEADER ===== */
+
+.app-layout.galaxy-theme .main-content > .header {
+  position: relative;
+  inset: auto;
+  z-index: 20;
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    auto
+    minmax(max-content, 1fr);
+  grid-template-areas: "search title actions";
+  align-items: center;
+  gap: 16px;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  height: auto;
+  min-height: 44px;
+  margin: 0 0 28px;
+  padding: 0;
+  overflow: visible;
+  background: transparent;
+}
+
+/* Ô tìm kiếm */
+
+.app-layout.galaxy-theme .header > .header-search {
+  grid-area: search;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 340px;
+  min-width: 0;
+  height: 44px;
+  margin: 0;
+  padding: 0 10px 0 4px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--input-bg);
+}
+
+.app-layout.galaxy-theme .header-search > button {
+  display: grid;
+  place-items: center;
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.app-layout.galaxy-theme .header-search > input {
+  box-sizing: border-box;
+  flex: 1 1 0;
+  width: 0;
+  min-width: 0;
+  height: 100%;
+  margin: 0;
+  padding: 0 4px;
+  border: 0;
+  border-radius: 0;
+  outline: none;
+  background: transparent;
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 13px;
+  box-shadow: none;
+}
+
+.app-layout.galaxy-theme .header-search > input::placeholder {
+  color: var(--text-muted);
+}
+
+.app-layout.galaxy-theme .header-search:focus-within {
+  border-color: var(--accent);
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Tiêu đề trang */
+
+.app-layout.galaxy-theme .header > .header-title {
+  grid-area: title;
+  position: static;
+  width: auto;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  transform: none;
+  color: var(--text-primary);
+  font-family: Cambria, Georgia, serif;
+  font-size: clamp(20px, 1.6vw, 26px);
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Các nút bên phải */
+
+.app-layout.galaxy-theme .header > .header-actions {
+  grid-area: actions;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+  gap: 8px;
+  min-width: 0;
+  margin: 0;
+}
+
+.app-layout.galaxy-theme .header .header-user-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.app-layout.galaxy-theme .header .header-account-button,
+.app-layout.galaxy-theme .header .header-login-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  gap: 8px;
+  box-sizing: border-box;
+  width: auto;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--input-bg);
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 12px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.app-layout.galaxy-theme .header .header-account-name {
+  max-width: 100px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.app-layout.galaxy-theme .header .header-logout-button,
+.app-layout.galaxy-theme .header .header-notifications > summary {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--input-bg);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.app-layout.galaxy-theme .header .header-notifications {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.app-layout.galaxy-theme .header .header-notifications > summary {
+  list-style: none;
+}
+
+.app-layout.galaxy-theme
+  .header-notifications
+  > summary::-webkit-details-marker {
+  display: none;
+}
+
+.app-layout.galaxy-theme .header .header-actions button:focus-visible,
+.app-layout.galaxy-theme .header .header-notifications > summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Laptop: tiêu đề và nút cùng hàng, tìm kiếm bên dưới */
+
+@media (max-width: 1400px) {
+  .app-layout.galaxy-theme .main-content > .header {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "title actions"
+      "search search";
+    gap: 14px 16px;
+  }
+
+  .app-layout.galaxy-theme .header > .header-title {
+    text-align: left;
+  }
+
+  .app-layout.galaxy-theme .header > .header-search {
+    max-width: 420px;
+  }
+}
+
+/* Màn hình nhỏ: tự xuống hàng, tránh chồng nội dung */
+
+@media (max-width: 1000px) {
+  .app-layout.galaxy-theme .main-content > .header {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "title"
+      "actions"
+      "search";
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+
+  .app-layout.galaxy-theme .header > .header-actions {
+    justify-self: stretch;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .app-layout.galaxy-theme .header > .header-search {
+    max-width: none;
+  }
+
+  .app-layout.galaxy-theme .header .header-notifications {
+    position: static;
+  }
+}

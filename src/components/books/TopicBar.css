@@ -1,0 +1,67 @@
+.topic-bar {
+  display: flex;
+  align-items: stretch;
+  min-width: 0;
+  overflow-x: auto;
+  border: 1px solid var(--indigo-dusk);
+  border-bottom: 2px solid var(--amethyst-mist);
+  border-radius: 8px;
+  background: var(--nebula-night);
+  scrollbar-width: thin;
+  scrollbar-color: var(--twilight-plum) var(--nebula-night);
+}
+
+.topic-tab,
+.topic-select {
+  flex-shrink: 0;
+  min-height: 48px;
+  padding: 12px 18px;
+  border: 0;
+  border-right: 1px solid var(--indigo-dusk);
+  background: transparent;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.topic-tab:hover,
+.topic-tab.is-active {
+  background: var(--indigo-dusk);
+  color: var(--text-primary);
+}
+
+.topic-tab.is-active {
+  font-weight: 600;
+  box-shadow: inset 0 -3px var(--aurora-berry);
+}
+
+.topic-select {
+  min-width: 160px;
+  margin-left: auto;
+  border-right: 0;
+  border-left: 1px solid var(--indigo-dusk);
+  background: var(--nebula-night);
+  color: var(--text-primary);
+}
+
+.topic-select option {
+  background: var(--nebula-night);
+  color: var(--text-primary);
+}
+
+.topic-tab:focus-visible,
+.topic-select:focus-visible {
+  outline: 2px solid var(--amethyst-mist);
+  outline-offset: -3px;
+}
+
+@media (max-width: 600px) {
+  .topic-tab,
+  .topic-select {
+    min-height: 44px;
+    padding: 10px 14px;
+  }
+}

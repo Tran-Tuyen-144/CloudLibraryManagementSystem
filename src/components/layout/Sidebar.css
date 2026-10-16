@@ -1,0 +1,133 @@
+.sidebar {
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 28px;
+  width: 232px;
+  height: 100dvh;
+  padding: 24px 16px;
+  border-right: 1px solid var(--border);
+  background: var(--onyx-purple);
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 0 6px;
+  border: 0;
+  background: transparent;
+  color: var(--text-primary);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.sidebar-brand-mark {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--nebula-night);
+  color: var(--amethyst-mist);
+}
+
+.sidebar-brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.sidebar-brand-text strong {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.sidebar-brand-text small {
+  color: var(--shadow-lavender);
+  font-size: 11px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.sidebar-button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  width: 100%;
+  min-height: 46px;
+  padding: 12px 14px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--shadow-lavender);
+  font: inherit;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.sidebar-button svg {
+  flex-shrink: 0;
+}
+
+.sidebar-button:hover {
+  background: var(--nebula-night);
+  color: var(--text-primary);
+}
+
+.sidebar-button.is-active {
+  background: var(--indigo-dusk);
+  color: var(--text-primary);
+  box-shadow: inset 3px 0 0 var(--aurora-berry);
+}
+
+.sidebar-button:last-child {
+  margin-top: auto;
+}
+
+.sidebar-brand:focus-visible,
+.sidebar-button:focus-visible {
+  outline: 2px solid var(--amethyst-mist);
+  outline-offset: 3px;
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    width: 72px;
+    padding: 20px 10px;
+  }
+
+  .sidebar-brand {
+    justify-content: center;
+    padding: 0;
+  }
+
+  .sidebar-brand-text,
+  .sidebar-label {
+    display: none;
+  }
+
+  .sidebar-button {
+    justify-content: center;
+    width: 44px;
+    min-height: 44px;
+    margin-inline: auto;
+    padding: 0;
+  }
+}

@@ -1,0 +1,26 @@
+.app-layout {
+  display: flex;
+  width: 100%;
+  min-height: 100dvh;
+  margin: 0;
+  background: var(--bg-panel);
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+}
+
+.main-content {
+  flex: 1;
+  min-width: 0;
+  padding: 24px 32px;
+}
+
+.main-content h1 {
+  margin-top: 0;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 20px 16px;
+  }
+}
