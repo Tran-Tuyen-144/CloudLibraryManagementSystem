@@ -1,16 +1,24 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Library, Eye, EyeOff } from "lucide-react";
 import { useUiSettings } from "../ui/settings";
 import { authMessages } from "../ui/authMessages";
 import "./AuthPage.css";
 
-export default function AuthPage({ onAuthenticate, onBack }) {
+export default function AuthPage({
+  onAuthenticate,
+  onBack,
+}) {
   const { language } = useUiSettings();
   const copy = authMessages[language];
 
   const [mode, setMode] = useState("login");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  const pending = useRef(null);
+
+  useEffect(() => () => pending.current?.abort(), []);
 
   const isRegister = mode === "register";
 
@@ -20,15 +28,18 @@ export default function AuthPage({ onAuthenticate, onBack }) {
     setShowPassword(false);
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
 
-    const data = new FormData(event.currentTarget);
+    if (pending.current) return;
 
+    const data = new FormData(event.currentTarget);
     const fullName = String(data.get("fullName") || "").trim();
     const email = String(data.get("email") || "").trim();
     const password = String(data.get("password") || "");
-    const confirmPassword = String(data.get("confirmPassword") || "");
+    const confirmPassword = String(
+      data.get("confirmPassword") || "",
+    );
 
     if (isRegister && !fullName) {
       setError("emptyName");
@@ -47,10 +58,36 @@ export default function AuthPage({ onAuthenticate, onBack }) {
 
     setError("");
 
-    onAuthenticate({
-      email,
-      fullName: isRegister ? fullName : "",
-    });
+    const controller = new AbortController();
+    pending.current = controller;
+    setBusy(true);
+
+    try {
+      const result = await onAuthenticate({
+        email,
+        password,
+        mode,
+        fullName: isRegister ? fullName : "",
+        signal: controller.signal,
+      });
+
+      if (
+        !controller.signal.aborted &&
+        result?.ok === false
+      ) {
+        setError(result.error);
+      }
+    } catch {
+      if (!controller.signal.aborted) {
+        setError("cryptoUnavailable");
+      }
+    } finally {
+      pending.current = null;
+
+      if (!controller.signal.aborted) {
+        setBusy(false);
+      }
+    }
   }
 
   return (
@@ -60,15 +97,24 @@ export default function AuthPage({ onAuthenticate, onBack }) {
           <Library size={28} />
         </div>
 
-        <h2>{isRegister ? copy.registerTitle : copy.loginTitle}</h2>
+        <h2>
+          {isRegister
+            ? copy.registerTitle
+            : copy.loginTitle}
+        </h2>
 
         <p className="auth-subtitle">{copy.subtitle}</p>
 
-        <div className="auth-tabs" role="group" aria-label={copy.account}>
+        <div
+          className="auth-tabs"
+          role="group"
+          aria-label={copy.account}
+        >
           <button
             type="button"
             aria-pressed={!isRegister}
             className={!isRegister ? "is-active" : ""}
+            disabled={busy}
             onClick={() => changeMode("login")}
           >
             {copy.login}
@@ -78,13 +124,19 @@ export default function AuthPage({ onAuthenticate, onBack }) {
             type="button"
             aria-pressed={isRegister}
             className={isRegister ? "is-active" : ""}
+            disabled={busy}
             onClick={() => changeMode("register")}
           >
             {copy.register}
           </button>
         </div>
 
-        <form key={mode} className="auth-form" onSubmit={handleSubmit}>
+        <form
+          key={mode}
+          className="auth-form"
+          onSubmit={handleSubmit}
+          aria-busy={busy}
+        >
           {isRegister && (
             <label className="auth-field">
               <span>{copy.fullName}</span>
@@ -119,7 +171,12 @@ export default function AuthPage({ onAuthenticate, onBack }) {
               <input
                 name="password"
                 type={showPassword ? "text" : "password"}
-                autoComplete={isRegister ? "new-password" : "current-password"}
+                autoComplete={
+                  isRegister
+                    ? "new-password"
+                    : "current-password"
+                }
+                maxLength={128}
                 minLength={8}
                 required
               />
@@ -128,10 +185,14 @@ export default function AuthPage({ onAuthenticate, onBack }) {
                 className="auth-password-toggle"
                 type="button"
                 aria-label={
-                  showPassword ? copy.hidePassword : copy.showPassword
+                  showPassword
+                    ? copy.hidePassword
+                    : copy.showPassword
                 }
                 aria-pressed={showPassword}
-                onClick={() => setShowPassword((current) => !current)}
+                onClick={() =>
+                  setShowPassword((current) => !current)
+                }
               >
                 {showPassword ? (
                   <EyeOff size={18} aria-hidden="true" />
@@ -152,6 +213,7 @@ export default function AuthPage({ onAuthenticate, onBack }) {
                 name="confirmPassword"
                 type={showPassword ? "text" : "password"}
                 autoComplete="new-password"
+                maxLength={128}
                 minLength={8}
                 required
               />
@@ -160,18 +222,31 @@ export default function AuthPage({ onAuthenticate, onBack }) {
 
           {error && (
             <p className="auth-error" role="alert">
-              {copy[error]}
+              {copy[error] || copy.invalidCredentials}
             </p>
           )}
 
-          <button className="auth-submit" type="submit">
-            {isRegister ? copy.register : copy.login}
+          <button
+            className="auth-submit"
+            type="submit"
+            disabled={busy}
+          >
+            {busy
+              ? copy.signingIn
+              : isRegister
+                ? copy.register
+                : copy.login}
           </button>
         </form>
 
         <p className="auth-demo-note">{copy.demoNote}</p>
 
-        <button className="auth-back" type="button" onClick={onBack}>
+        <button
+          className="auth-back"
+          type="button"
+          disabled={busy}
+          onClick={onBack}
+        >
           {copy.back}
         </button>
       </div>

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { Star, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import FavoriteButton from "./FavoriteButton";
 import TopicBar from "./TopicBar";
 import { BorrowContext } from "../../ui/BorrowContext";
@@ -231,6 +231,18 @@ function BookTile({ book, favoriteIds = [], onToggleFavorite, onOpenBook }) {
 function BookShelf({ title, subtitle, books = [], onViewAll, ...tileProps }) {
   const { language } = useUiSettings();
   const copy = homeMessages[language];
+  const shelfRef = useRef(null);
+
+  function scrollShelf(direction) {
+    const shelf = shelfRef.current;
+    if (shelf)
+      shelf.scrollBy({
+        left: direction * shelf.clientWidth * 0.8,
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? "instant"
+          : "smooth",
+      });
+  }
 
   if (books.length === 0) {
     return null;
@@ -245,18 +257,34 @@ function BookShelf({ title, subtitle, books = [], onViewAll, ...tileProps }) {
           {subtitle && <p className="section-subtitle">{subtitle}</p>}
         </div>
 
-        {onViewAll && (
+        <div className="shelf-controls">
+          {onViewAll && (
+            <button
+              type="button"
+              className="section-view-all"
+              onClick={onViewAll}
+            >
+              {copy.viewAll}
+            </button>
+          )}
           <button
             type="button"
-            className="section-view-all"
-            onClick={onViewAll}
+            aria-label={t("Sách trước")}
+            onClick={() => scrollShelf(-1)}
           >
-            {copy.viewAll}
+            <ChevronLeft size={20} aria-hidden="true" />
           </button>
-        )}
+          <button
+            type="button"
+            aria-label={t("Sách tiếp theo")}
+            onClick={() => scrollShelf(1)}
+          >
+            <ChevronRight size={20} aria-hidden="true" />
+          </button>
+        </div>
       </div>
 
-      <div className="book-shelf">
+      <div className="book-shelf" ref={shelfRef}>
         {books.map((book) => (
           <BookTile key={book.id} book={book} {...tileProps} />
         ))}
@@ -280,19 +308,6 @@ export default function HomeSections({
   if (books.length === 0) {
     return null;
   }
-
-  const sourceBook = books.find((book) => book.id === "midnight") || books[0];
-
-  const featuredBook = {
-    ...sourceBook,
-    rating: sourceBook.rating ?? 4.8,
-  };
-
-  const popularBooks = (
-    books.length > 1
-      ? books.filter((book) => book.id !== featuredBook.id)
-      : books
-  ).slice(0, 6);
 
   const categories = [...new Set(books.map((book) => book.category || "Khác"))];
 
@@ -321,7 +336,7 @@ export default function HomeSections({
     .slice(0, 6);
 
   function openBook(book) {
-    setSelectedBook(book.id === featuredBook.id ? featuredBook : book);
+    setSelectedBook(book);
   }
 
   const tileProps = {
@@ -332,86 +347,7 @@ export default function HomeSections({
 
   return (
     <div className="discovery-page">
-      <div className="home-sections">
-        <section className="home-panel featured-panel">
-          <div className="home-panel-header">
-            <h2>{copy.featured}</h2>
-            <span>{copy.week}</span>
-          </div>
-
-          <div className="featured-content">
-            <div className="featured-cover">
-              <BookCover book={featuredBook} />
-            </div>
-
-            <div className="featured-info">
-              <h3>{featuredBook.title}</h3>
-
-              <p className="home-author">{featuredBook.author}</p>
-
-              <p className="home-category">
-                {t(featuredBook.category || "Khác")}
-              </p>
-
-              <div className="home-rating">
-                <span aria-hidden="true">
-                  {Array.from({ length: 5 }, (_, index) => (
-                    <Star
-                      key={index}
-                      size={15}
-                      fill={
-                        index < Math.round(featuredBook.rating)
-                          ? "currentColor"
-                          : "none"
-                      }
-                    />
-                  ))}
-                </span>
-
-                <small>{featuredBook.rating}/5</small>
-              </div>
-
-              <p className="home-description featured-description">
-                {featuredBook.description || copy.noDescription}
-              </p>
-
-              <div className="featured-actions">
-                <button
-                  type="button"
-                  className="home-detail-button"
-                  onClick={() => openBook(featuredBook)}
-                >
-                  {copy.details}
-                </button>
-
-                {onToggleFavorite && (
-                  <FavoriteButton
-                    book={featuredBook}
-                    isFavorite={favoriteIds.includes(featuredBook.id)}
-                    onToggleFavorite={onToggleFavorite}
-                  />
-                )}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="home-panel popular-panel">
-          <div className="home-panel-header">
-            <h2>{copy.popular}</h2>
-
-            <span>
-              {popularBooks.length} {copy.books}
-            </span>
-          </div>
-
-          <div className="popular-grid">
-            {popularBooks.map((book) => (
-              <BookTile key={book.id} book={book} {...tileProps} />
-            ))}
-          </div>
-        </section>
-      </div>
+      <BookShelf title={copy.featured} books={books} {...tileProps} />
 
       <BookShelf
         title={copy.recommended}

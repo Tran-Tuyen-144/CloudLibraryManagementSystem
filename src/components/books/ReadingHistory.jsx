@@ -1,4 +1,5 @@
 import { useContext, useState } from "react";
+import { ArrowRight, MoreVertical } from "lucide-react";
 import { BookCover } from "./HomeSections";
 import { ReadContext } from "../../ui/ReadContext";
 import { useUiSettings } from "../../ui/settings";
@@ -12,6 +13,7 @@ const messages = {
     saved: "Ngày lưu",
     resume: "Đọc tiếp",
     remove: "Xóa mốc đọc",
+    more: "Tùy chọn mốc đọc",
     empty: "Chưa có mốc đọc",
     emptyHint: "Mở tài liệu, nhập số trang và bấm lưu mốc để tiếp tục từ đây.",
     removed: "Đã xóa mốc đọc.",
@@ -26,6 +28,7 @@ const messages = {
     saved: "Saved",
     resume: "Continue reading",
     remove: "Clear bookmark",
+    more: "Bookmark options",
     empty: "No bookmarks yet",
     emptyHint:
       "Open a document, enter a page number and save a bookmark to continue here.",
@@ -170,16 +173,25 @@ export default function ReadingHistory({ user, books = [] }) {
                     onClick={() => onRead(book.id)}
                   >
                     {copy.resume}
+                    <ArrowRight size={16} aria-hidden="true" />
                   </button>
 
-                  <button
-                    type="button"
-                    className="reading-history-remove"
-                    onClick={() => removeBookmark(key)}
-                    aria-label={copy.remove + ": " + book.title}
-                  >
-                    {copy.remove}
-                  </button>
+                  <details className="reading-history-menu">
+                    <summary
+                      aria-label={copy.more + ": " + book.title}
+                      title={copy.more}
+                    >
+                      <MoreVertical size={20} aria-hidden="true" />
+                    </summary>
+                    <button
+                      type="button"
+                      className="reading-history-remove"
+                      onClick={() => removeBookmark(key)}
+                      aria-label={copy.remove + ": " + book.title}
+                    >
+                      {copy.remove}
+                    </button>
+                  </details>
                 </div>
               </div>
             </article>

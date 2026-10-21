@@ -1,5 +1,6 @@
-import { Search, Bell, UserRound, LogIn, LogOut } from "lucide-react";
+import { Search, UserRound, LogIn, LogOut } from "lucide-react";
 import UiControls from "./UiControls";
+import NotificationCenter from "./NotificationCenter";
 import { t, useUiSettings } from "../../ui/settings";
 import { authMessages } from "../../ui/authMessages";
 import "./Header.css";
@@ -13,6 +14,7 @@ export default function Header({
   user,
   onLoginClick,
   onLogout,
+  onOpenRequest,
 }) {
   const { language } = useUiSettings();
   const copy = authMessages[language];
@@ -50,16 +52,11 @@ export default function Header({
       <div className="header-actions">
         <UiControls />
 
-        <details className="header-notifications">
-          <summary aria-label={t("Thông báo")} title={t("Thông báo")}>
-            <Bell size={20} aria-hidden="true" />
-          </summary>
-
-          <div className="header-notification-panel">
-            <strong>{t("Thông báo")}</strong>
-            <p>{t("Chưa có thông báo mới.")}</p>
-          </div>
-        </details>
+        <NotificationCenter
+          key={user?.email || "guest"}
+          user={user}
+          onOpenRequest={onOpenRequest}
+        />
 
         {user ? (
           <div className="header-user-controls">
@@ -72,7 +69,9 @@ export default function Header({
             >
               <UserRound size={19} aria-hidden="true" />
 
-              <span className="header-account-name">{user.fullName}</span>
+              <span className="header-account-name">
+                {user.fullName}
+              </span>
             </button>
 
             <button

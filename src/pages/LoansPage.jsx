@@ -1,9 +1,16 @@
-import { useState } from "react";
+import { useLibrarySettings } from "../ui/librarySettingsStore";
+import { LibraryInfo } from "./LibrarySettingsPage";
+import { useEffect, useRef, useState } from "react";
+import LoanRecord from "../components/books/LoanRecord";
+import { ACTIVE_STATUSES, isOverdue } from "../ui/borrowWorkflow";
+import { getLoanMessages } from "../ui/loanMessages";
 import { BookCover } from "../components/books/HomeSections";
 import { useUiSettings } from "../ui/settings";
 import { borrowMessages } from "../ui/borrowMessages";
+
 import "./ReaderPages.css";
 import "./BorrowFlow.css";
+import "./LoanWorkspace.css";
 
 export default function LoansPage({
   books,
@@ -11,42 +18,68 @@ export default function LoansPage({
   onCreateRequest,
   onCancelRequest,
   initialBookId = null,
+  initialRequestId = null,
   onBrowse,
 }) {
   const { language } = useUiSettings();
-  const copy = borrowMessages[language];
+  const settings = useLibrarySettings();
+
+  const copy = {
+    ...borrowMessages[language],
+    ...getLoanMessages(language, settings),
+  };
 
   const [selectedId, setSelectedId] = useState(
     initialBookId === null ? "" : String(initialBookId),
   );
 
   const [note, setNote] = useState("");
-  const [activeTab, setActiveTab] = useState("pending");
+  const [activeTab, setActiveTab] = useState(
+    initialRequestId ? "all" : "pending",
+  );
   const [message, setMessage] = useState("");
 
-  const pending = requests.filter((request) => request.status === "pending");
+  const target = useRef(null);
 
-  const cancelled = requests.filter(
-    (request) => request.status === "cancelled",
+  useEffect(() => {
+    if (!initialRequestId || !target.current) return;
+
+    target.current.focus({ preventScroll: true });
+    target.current.scrollIntoView({ block: "center" });
+  }, [initialRequestId]);
+
+  const pending = requests.filter(
+    (request) => request.status === "pending",
+  );
+
+  const active = requests.filter((request) =>
+    ACTIVE_STATUSES.includes(request.status),
+  );
+
+  const borrowed = requests.filter(
+    (request) => request.status === "borrowed",
   );
 
   const selectableBooks = books.filter(
     (book) =>
+      !book.archived &&
       book.availableCopies > 0 &&
-      !pending.some((request) => request.bookId === book.id),
+      !active.some((request) => request.bookId === book.id),
   );
 
   const selectedBook = selectableBooks.find(
     (book) => String(book.id) === selectedId,
   );
 
-  const visibleRequests = activeTab === "pending" ? pending : cancelled;
-
-  function formatDate(value) {
-    return new Date(value).toLocaleDateString(
-      language === "en" ? "en-GB" : "vi-VN",
-    );
-  }
+  const visibleRequests = requests.filter(
+    (request) =>
+      activeTab === "all" ||
+      (activeTab === "history"
+        ? !ACTIVE_STATUSES.includes(request.status)
+        : activeTab === "overdue"
+          ? isOverdue(request)
+          : request.status === activeTab),
+  );
 
   function submitRequest(event) {
     event.preventDefault();
@@ -65,29 +98,40 @@ export default function LoansPage({
   }
 
   function handleCancel(requestId) {
-    onCancelRequest(requestId);
-    setMessage("cancelSuccess");
+    const result = onCancelRequest(requestId);
+
+    setMessage(result.ok ? "cancelSuccess" : result.error);
   }
 
   return (
-    <section className="reader-page borrow-page" aria-label={copy.page}>
-      <p className="reader-note">{copy.note}</p>
+    <section
+      className="reader-page borrow-page loan-workspace"
+      aria-label={copy.page}
+    >
+      <p className="reader-note">{copy.readerNote}</p>
+
+      <LibraryInfo />
 
       <div className="reader-stats">
         <div className="reader-stat">
-          <span>{copy.pending}</span>
-          <strong>{pending.length}</strong>
+          <span>{copy.active}</span>
+          <strong>{active.length}</strong>
         </div>
 
         <div className="reader-stat">
-          <span>{copy.cancelled}</span>
-          <strong>{cancelled.length}</strong>
+          <span>{copy.borrowed}</span>
+          <strong>{borrowed.length}</strong>
         </div>
 
         <div className="reader-stat">
-          <span>{copy.available}</span>
+          <span>{borrowMessages[language].available}</span>
+
           <strong>
-            {books.filter((book) => book.availableCopies > 0).length}
+            {
+              books.filter(
+                (book) => !book.archived && book.availableCopies > 0,
+              ).length
+            }
           </strong>
         </div>
       </div>
@@ -96,7 +140,11 @@ export default function LoansPage({
         <div className="reader-panel-heading">
           <h2>{copy.heading}</h2>
 
-          <button className="reader-link" type="button" onClick={onBrowse}>
+          <button
+            className="reader-link"
+            type="button"
+            onClick={onBrowse}
+          >
             {copy.browse}
           </button>
         </div>
@@ -132,6 +180,7 @@ export default function LoansPage({
               <div>
                 <h3>{selectedBook.title}</h3>
                 <p>{selectedBook.author}</p>
+
                 <p>
                   {copy.copies}: {selectedBook.availableCopies}
                 </p>
@@ -155,7 +204,10 @@ export default function LoansPage({
             <button
               className="borrow-button"
               type="submit"
-              disabled={!selectedBook || pending.length >= 3}
+              disabled={
+                !selectedBook ||
+                active.length >= settings.maxActiveLoans
+              }
             >
               {copy.submit}
             </button>
@@ -164,7 +216,9 @@ export default function LoansPage({
           </div>
         </form>
 
-        {pending.length >= 3 && <p className="reader-muted">{copy.limit}</p>}
+        {active.length >= settings.maxActiveLoans && (
+          <p className="reader-muted">{copy.limit}</p>
+        )}
 
         {selectableBooks.length === 0 && (
           <p className="reader-muted">{copy.noBooks}</p>
@@ -175,90 +229,83 @@ export default function LoansPage({
         </p>
       </div>
 
-      <div className="reader-panel">
-        <div className="reader-tabs" role="group" aria-label={copy.filter}>
-          <button
-            type="button"
-            className={activeTab === "pending" ? "is-active" : ""}
-            aria-pressed={activeTab === "pending"}
-            onClick={() => setActiveTab("pending")}
-          >
-            {copy.pending} ({pending.length})
-          </button>
+      <div className="loan-panel">
+        <div className="loan-panel-heading">
+          <h2>{copy.readerHistory}</h2>
 
-          <button
-            type="button"
-            className={activeTab === "cancelled" ? "is-active" : ""}
-            aria-pressed={activeTab === "cancelled"}
-            onClick={() => setActiveTab("cancelled")}
-          >
-            {copy.cancelled} ({cancelled.length})
-          </button>
+          <span>
+            {visibleRequests.length} / {requests.length}{" "}
+            {copy.results}
+          </span>
+        </div>
+
+        <div
+          className="loan-tabs"
+          role="group"
+          aria-label={copy.filter}
+        >
+          {[
+            "pending",
+            "approved",
+            "borrowed",
+            "overdue",
+            "history",
+            "all",
+          ].map((status) => (
+            <button
+              type="button"
+              key={status}
+              className={activeTab === status ? "is-active" : ""}
+              aria-pressed={activeTab === status}
+              onClick={() => setActiveTab(status)}
+            >
+              {copy[status]}
+              {status === "pending" ? ` (${pending.length})` : ""}
+            </button>
+          ))}
         </div>
 
         {visibleRequests.length === 0 ? (
-          <div className="reader-empty">
-            <h3>
-              {activeTab === "pending"
-                ? copy.emptyPending
-                : copy.emptyCancelled}
-            </h3>
-
+          <div className="loan-empty">
+            <h3>{copy.empty}</h3>
             <p>{copy.emptyHint}</p>
           </div>
         ) : (
-          <div className="reader-request-list">
-            {visibleRequests.map((request) => {
-              const book = books.find((item) => item.id === request.bookId);
-
-              return (
-                <article className="reader-request" key={request.id}>
-                  {book && (
-                    <div className="reader-small-cover">
-                      <BookCover book={book} />
-                    </div>
+          <div className="loan-record-list">
+            {visibleRequests.map((request) => (
+              <div
+                key={request.id}
+                data-request-id={request.id}
+                ref={request.id === initialRequestId ? target : null}
+                tabIndex={
+                  request.id === initialRequestId ? -1 : undefined
+                }
+                className={
+                  request.id === initialRequestId
+                    ? "loan-notification-target"
+                    : undefined
+                }
+              >
+                <LoanRecord
+                  request={request}
+                  book={books.find(
+                    (book) => book.id === request.bookId,
                   )}
-
-                  <div className="reader-request-info">
-                    <h3>{book?.title || request.title}</h3>
-
-                    {book && <p>{book.author}</p>}
-
-                    <p>
-                      {copy.createdAt}: {formatDate(request.createdAt)}
-                    </p>
-
-                    {request.cancelledAt && (
-                      <p>
-                        {copy.cancelledAt}: {formatDate(request.cancelledAt)}
-                      </p>
-                    )}
-
-                    {request.note && (
-                      <p className="borrow-request-note">
-                        {copy.requestNote}: {request.note}
-                      </p>
-                    )}
-
-                    <span className="reader-badge">
-                      {request.status === "pending"
-                        ? copy.pendingBadge
-                        : copy.cancelledBadge}
-                    </span>
-                  </div>
-
-                  {request.status === "pending" && (
+                >
+                  {["pending", "approved"].includes(
+                    request.status,
+                  ) && (
                     <button
-                      className="reader-button reader-button-secondary"
+                      className="loan-button"
                       type="button"
                       onClick={() => handleCancel(request.id)}
                     >
-                      {copy.cancel}
+                      {copy.cancelRequest}
                     </button>
                   )}
-                </article>
-              );
-            })}
+                </LoanRecord>
+              </div>
+            ))}
           </div>
         )}
       </div>

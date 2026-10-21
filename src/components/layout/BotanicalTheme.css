@@ -96,62 +96,68 @@
   color-scheme: light;
 }
 
-/* ===== NỀN GALAXY ===== */
-
+/* Một bộ quy tắc bố cục dùng chung cho light và dark. */
 body {
   background: var(--bg-page);
   color: var(--text-primary);
 }
 
-.app-layout.galaxy-theme,
-.app-layout.galaxy-theme[data-theme="dark"] {
+.app-layout.galaxy-theme[data-theme] {
   position: relative;
   isolation: isolate;
   background: var(--bg-page);
 }
 
-.galaxy-theme::before,
-.galaxy-theme[data-theme="dark"]::before {
+.galaxy-theme[data-theme]::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
   filter: none;
-
   background:
-    radial-gradient(ellipse at 88% 8%, var(--galaxy-indigo), transparent 56%),
-    radial-gradient(ellipse at 15% 40%, var(--galaxy-mauve), transparent 55%),
-    radial-gradient(ellipse at 60% 85%, var(--galaxy-violet), transparent 60%);
+    radial-gradient(ellipse at 61% 24%, var(--galaxy-indigo), transparent 43%),
+    radial-gradient(ellipse at 25% 41%, var(--galaxy-mauve), transparent 36%),
+    radial-gradient(ellipse at 91% 10%, var(--galaxy-violet), transparent 48%);
 }
 
-.galaxy-theme::after,
-.galaxy-theme[data-theme="dark"]::after {
+.galaxy-theme[data-theme]::after {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-
   background-image:
-    radial-gradient(circle, var(--star-color) 0.7px, transparent 1.3px),
-    radial-gradient(circle, var(--star-color) 0.5px, transparent 1.1px);
-
+    radial-gradient(circle, var(--star-color) 0.8px, transparent 1.5px),
+    radial-gradient(circle, var(--star-color) 0.6px, transparent 1.2px),
+    radial-gradient(circle, var(--star-color) 0.7px, transparent 1.8px);
   background-size:
-    173px 187px,
-    263px 239px;
-
+    137px 163px,
+    211px 227px,
+    307px 293px;
   background-position:
-    31px 53px,
-    119px 101px;
-
+    19px 31px,
+    83px 107px,
+    53px 73px;
   opacity: var(--star-opacity);
 }
 
-.botanical-main {
+:root[data-theme="dark"] {
+  --bg-page: #121122;
+  --surface-top: #232039;
+  --surface-bottom: #161526;
+  --border: #5e5078;
+  --galaxy-indigo: #4933a3b3;
+  --galaxy-mauve: #7c46817d;
+  --galaxy-violet: #3a2c806e;
+  --star-opacity: 0.52;
+}
+
+.app-layout.galaxy-theme .botanical-main {
   position: relative;
   isolation: isolate;
   overflow: clip;
+  padding: 28px 32px;
 }
 
 .botanical-main > :not(.botanical-decor) {
@@ -159,101 +165,59 @@ body {
   z-index: 1;
 }
 
-/* ===== HOA VÀ BƯỚM ===== */
+/* Header: tìm kiếm — tiêu đề — các nút tài khoản. */
+.app-layout.galaxy-theme .botanical-main > .header {
+  grid-template-columns: minmax(150px, 1fr) auto minmax(max-content, 1fr);
+  grid-template-areas: "search title actions";
+  gap: 16px;
+  min-height: 46px;
+  margin-bottom: 34px;
+  border: 0;
+}
 
-.botanical-decor {
+.app-layout.galaxy-theme .header > .header-search {
+  max-width: 396px;
+  height: 48px;
+  background: color-mix(in srgb, var(--input-bg) 88%, transparent);
+}
+
+.app-layout.galaxy-theme .header > .header-title {
+  position: relative;
+  overflow: visible;
+  padding-bottom: 9px;
+  font-size: clamp(23px, 1.9vw, 32px);
+  text-align: center;
+}
+
+.header-title::after {
+  content: "";
   position: absolute;
-  z-index: 0;
-  pointer-events: none;
-  user-select: none;
+  bottom: 0;
+  left: 50%;
+  width: 110px;
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
 }
 
-.botanical-flowers {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  opacity: var(--decor-opacity);
+.app-layout.galaxy-theme .header > .header-actions {
+  flex-wrap: nowrap;
 }
 
-.botanical-decor--page {
-  top: 74px;
-  right: -40px;
-  width: clamp(200px, 24vw, 360px);
-  height: clamp(200px, 24vw, 360px);
-}
-
-.botanical-butterfly {
-  position: absolute;
-  display: block;
-  width: 58px;
-  aspect-ratio: 5 / 7;
-  overflow: hidden;
-  filter: drop-shadow(0 4px 7px #3b175333);
-}
-
-/* Hiển thị một con bướm từ ảnh PNG có nhiều con. */
-
-.botanical-butterfly img {
-  position: absolute;
-  top: -50%;
-  left: -91.667%;
-  width: 533.333%;
-  max-width: none;
-  height: auto;
-}
-
-.botanical-decor--page .botanical-butterfly--first {
-  top: -8px;
-  left: -56px;
-  transform: rotate(18deg);
-  animation: botanical-drift 9s ease-in-out infinite;
-}
-
-.botanical-decor--page .botanical-butterfly--second {
-  top: 340px;
-  right: 50px;
-  width: 35px;
-  transform: scaleX(-1) rotate(-15deg);
-}
-
-.botanical-decor--sidebar {
-  bottom: 82px;
-  left: -30px;
-  width: 250px;
-  height: 240px;
-}
-
-.botanical-decor--sidebar .botanical-flowers {
-  transform: rotate(180deg);
-  opacity: 0.8;
-}
-
-.botanical-decor--sidebar .botanical-butterfly {
-  top: 6px;
-  right: 16px;
-  width: 44px;
-  transform: scaleX(-1) rotate(-16deg);
-}
-
-@keyframes botanical-drift {
-  0%,
-  100% {
-    translate: 0 0;
-  }
-
-  50% {
-    translate: -4px -8px;
-  }
-}
-
-/* ===== SIDEBAR ===== */
-
+/* Sidebar: chỉ một lớp trang trí, đặt dưới các nút điều hướng. */
 .app-layout.galaxy-theme[data-theme] .sidebar {
+  width: clamp(232px, 17vw, 284px);
+  gap: 34px;
+  padding: 30px 20px 24px;
   isolation: isolate;
   overflow: clip;
-  background: linear-gradient(175deg, var(--surface-top), var(--bg-panel) 70%);
+  background: linear-gradient(
+    160deg,
+    var(--surface-top),
+    var(--surface-bottom) 75%
+  );
   border-right-color: var(--border);
+  box-shadow: none;
 }
 
 .sidebar > .sidebar-brand,
@@ -261,20 +225,327 @@ body {
   position: relative;
   z-index: 1;
 }
-
 .app-layout.galaxy-theme[data-theme] .sidebar-brand-text strong {
   font-family: Cambria, Georgia, serif;
-  font-size: 17px;
+  font-size: clamp(17px, 1.4vw, 23px);
   white-space: nowrap;
 }
 
+.app-layout.galaxy-theme[data-theme] .sidebar-brand-mark {
+  width: 46px;
+  height: 46px;
+  background: color-mix(in srgb, var(--selected-bg) 55%, transparent);
+}
+
+.app-layout.galaxy-theme[data-theme] .sidebar-nav {
+  gap: 16px;
+}
+.app-layout.galaxy-theme[data-theme] .sidebar-button {
+  min-height: 58px;
+  gap: 15px;
+  font-size: 14px;
+}
+
 .app-layout.galaxy-theme[data-theme] .sidebar-button.is-active {
+  background: color-mix(in srgb, var(--selected-bg) 65%, transparent);
   box-shadow:
     inset 3px 0 var(--accent),
     0 0 16px var(--focus-glow);
 }
 
-/* ===== CÁC KHUNG NỘI DUNG ===== */
+/* PNG trong suốt nằm sau nội dung và không chặn thao tác. */
+.botanical-decor {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+.botanical-flowers {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  opacity: var(--decor-opacity);
+}
+.botanical-decor--page {
+  top: -10px;
+  right: -2px;
+  width: 480px;
+  height: auto;
+  aspect-ratio: 1;
+}
+
+.botanical-decor--sidebar {
+  bottom: 6px;
+  left: 2px;
+  width: 10px;
+  height: auto;
+  aspect-ratio: 1;
+}
+
+.botanical-decor--sidebar .botanical-flowers {
+  transform: rotate(190deg);
+  opacity: 1;
+}
+
+.botanical-butterfly {
+  position: absolute;
+  display: block;
+  width: 200px;
+  aspect-ratio: 47 / 41;
+  overflow: hidden;
+  filter: drop-shadow(10px 4px 10px #1c1aa344);
+}
+.botanical-butterfly img {
+  position: absolute;
+  width: 340.426%;
+  max-width: none;
+  height: auto;
+  top: -134.146%;
+  left: -144.681%;
+}
+.botanical-decor--page .botanical-butterfly--first {
+  top: 115px;
+  left: 13px;
+  transform: rotate(-28deg);
+}
+.botanical-decor--page .botanical-butterfly--second {
+  display: none;
+}
+.botanical-decor--sidebar .botanical-butterfly--first {
+  top: 61px;
+  right: 56px;
+  width: 62px;
+  transform: rotate(24deg);
+}
+
+/* Bìa giữa nổi bật, hai bên giảm dần nhưng vẫn đọc được. */
+.galaxy-theme .book-carousel {
+  --cover-width: clamp(174px, 14vw, 234px);
+  --step: clamp(130px, 12vw, 200px);
+  margin-bottom: 18px;
+}
+.book-carousel .carousel-stage {
+  height: calc(var(--cover-width) * 1.4 + 28px);
+}
+.carousel-halo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(780px, 100%);
+  height: 100%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse, var(--focus-glow), transparent 69%);
+  pointer-events: none;
+}
+.book-carousel .carousel-card {
+  opacity: calc(0.65 + var(--opacity) * 0.35);
+}
+.book-carousel .carousel-card.is-current {
+  border-color: var(--accent);
+  box-shadow:
+    0 16px 30px var(--panel-shadow),
+    0 0 30px var(--focus-glow),
+    0 0 3px var(--accent);
+}
+.app-layout.galaxy-theme[data-theme]
+  :is(.home-cover-fallback, .carousel-cover-fallback) {
+  background: var(--cover-bg);
+  color: var(--cover-text);
+}
+.book-carousel .carousel-cover-fallback strong {
+  font-size: clamp(15px, 1.2vw, 19px);
+}
+.carousel-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  margin: 4px 0 12px;
+  text-align: center;
+}
+.carousel-details h2 {
+  max-width: 90%;
+  margin: 0;
+  font-family: Cambria, Georgia, serif;
+  font-size: clamp(21px, 1.5vw, 26px);
+  font-weight: 500;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+.carousel-details > p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+.carousel-details-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 34px;
+  margin-top: 3px;
+  padding: 6px 22px;
+  border: 1px solid var(--accent);
+  border-radius: 24px;
+  background: var(--primary-bg);
+  color: var(--primary-text);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: 0 0 18px var(--focus-glow);
+}
+.carousel-details-button:hover {
+  background: var(--primary-hover);
+}
+.carousel-topics {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0 4px;
+}
+.carousel-topic {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 140px;
+  min-height: 40px;
+  padding: 8px 18px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--input-bg) 80%, transparent);
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+.carousel-topic:is(:hover, .is-active) {
+  border-color: var(--accent);
+  background: var(--selected-bg);
+  color: var(--text-primary);
+}
+.carousel-topic.is-active {
+  box-shadow:
+    inset 0 1px 0 #ffffff30,
+    0 0 16px var(--focus-glow);
+}
+
+/* Tiếp tục đọc: một hàng đầy đủ thông tin và thao tác. */
+.galaxy-theme .reading-history {
+  margin-bottom: 22px;
+  padding: 18px 24px 12px;
+}
+.galaxy-theme .reading-history-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+.reading-history-heading {
+  margin-bottom: 12px;
+}
+.reading-history-heading h2 {
+  font-size: 27px;
+}
+.reading-history-heading p {
+  margin-top: 4px;
+}
+.reading-history-card {
+  align-items: center;
+  gap: 18px;
+  padding: 12px 20px;
+}
+.reading-history-cover {
+  flex-basis: 64px;
+  width: 64px;
+}
+/* Chữ trên bìa dự phòng nhỏ vừa khung lịch sử đọc. */
+.reading-history-cover .home-cover-fallback {
+  gap: 6px;
+  padding: 6px;
+}
+.reading-history-cover .home-cover-fallback strong {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  font-size: 10px;
+  line-height: 1.35;
+}
+.reading-history-cover .home-cover-fallback small {
+  max-height: 2.6em;
+  overflow: hidden;
+  font-size: 7px;
+  line-height: 1.3;
+}
+.reading-history-info {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 18px;
+}
+.reading-history-info > :is(h3, p, span, small) {
+  grid-column: 1;
+}
+.reading-history-info h3 {
+  font-size: 19px;
+}
+.reading-history-info > .reading-history-page {
+  justify-self: start;
+  margin-top: 7px;
+}
+.reading-history-info > small {
+  margin-top: 5px;
+}
+.reading-history-info > .reading-history-actions {
+  grid-column: 2;
+  grid-row: 1 / span 4;
+  margin: 0;
+  align-self: center;
+}
+.reading-history-actions .reading-history-resume {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-width: 124px;
+  background: var(--primary-bg);
+  color: var(--primary-text);
+}
+.reading-history-actions .reading-history-resume:hover:not(:disabled) {
+  background: var(--primary-hover);
+  color: var(--primary-text);
+}
+.reading-history-menu {
+  position: relative;
+}
+.reading-history-menu > summary {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  color: var(--text-secondary);
+  list-style: none;
+  cursor: pointer;
+}
+.reading-history-menu > summary::-webkit-details-marker {
+  display: none;
+}
+.reading-history-menu[open] > summary {
+  background: var(--selected-bg);
+}
+.reading-history-menu .reading-history-remove {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  z-index: 10;
+  min-width: max-content;
+  background: var(--input-bg);
+  box-shadow: 0 8px 24px var(--panel-shadow);
+}
 
 .app-layout.galaxy-theme[data-theme]
   :is(
@@ -286,497 +557,575 @@ body {
     .auth-card
   ) {
   background: linear-gradient(
-    145deg,
-    var(--surface-top),
-    var(--surface-bottom)
+    135deg,
+    color-mix(in srgb, var(--surface-top) 83%, transparent),
+    color-mix(in srgb, var(--surface-bottom) 88%, transparent)
   );
-
   border: 1px solid var(--border);
-
   box-shadow:
     0 10px 28px var(--panel-shadow),
     inset 0 1px 0 #ffffff08;
 }
 
-.app-layout.galaxy-theme[data-theme]
-  :is(.home-cover-fallback, .carousel-cover-fallback) {
-  background: var(--cover-bg);
-  color: var(--cover-text);
+/* Các kệ sách tiếp theo dùng cùng bố cục rộng như ảnh mẫu. */
+.app-layout.galaxy-theme[data-theme] .shelf-panel {
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
 }
-
-/* ===== CAROUSEL ===== */
-
-.book-carousel .carousel-stage {
-  height: calc(var(--cover-width) * 1.4 + 76px);
+.shelf-panel > .home-panel-header {
+  flex-wrap: nowrap;
+  gap: 16px;
+  margin-bottom: 12px;
+  padding: 0;
+  border: 0;
 }
-
-.carousel-halo {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: min(540px, 88%);
-  height: 95%;
-  border-radius: 50%;
-
-  background: radial-gradient(ellipse, var(--focus-glow), transparent 68%);
-
-  transform: translate(-50%, -50%);
-  pointer-events: none;
+.shelf-panel > .home-panel-header::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
 }
-
-.book-carousel .carousel-card.is-current {
-  border-color: var(--accent);
-
-  box-shadow:
-    0 16px 32px var(--panel-shadow),
-    0 0 28px var(--focus-glow);
+.shelf-panel > .home-panel-header > .shelf-controls {
+  order: 1;
 }
-
-.book-carousel .carousel-cover-fallback strong {
-  font-size: clamp(14px, 1.2vw, 18px);
+.shelf-panel .home-panel-header h2 {
+  font-size: 25px;
 }
-
-.carousel-details {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 7px;
-  min-width: 0;
-  margin: -8px 0 22px;
-  text-align: center;
-}
-
-.carousel-details h2 {
-  max-width: 90%;
-  margin: 0;
-  color: var(--text-primary);
-  font-family: Cambria, Georgia, serif;
-  font-size: clamp(20px, 2vw, 27px);
-  font-weight: 500;
-  line-height: 1.3;
-  overflow-wrap: anywhere;
-}
-
-.carousel-details > p {
-  margin: 0;
-  color: var(--text-secondary);
-  font-size: 13px;
-}
-
-.carousel-details-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  min-height: 38px;
-  margin-top: 4px;
-  padding: 8px 20px;
-  border: 1px solid var(--accent);
-  border-radius: 24px;
-  background: var(--primary-bg);
-  color: var(--primary-text);
-  font: inherit;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 0 18px var(--focus-glow);
-}
-
-.carousel-details-button:hover {
-  background: var(--primary-hover);
-}
-
-/* ===== CHỦ ĐỀ NHANH ===== */
-
-.carousel-topics {
+.shelf-controls {
   display: flex;
   align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 0 auto 26px;
-  padding: 4px;
+  gap: 8px;
 }
-
-.carousel-topic {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  min-height: 40px;
-  padding: 9px 20px;
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  background: var(--input-bg);
-  color: var(--text-secondary);
-  font: inherit;
-  font-size: 12px;
-  cursor: pointer;
-}
-
-.carousel-topic:hover,
-.carousel-topic.is-active {
-  background: var(--selected-bg);
-  color: var(--text-primary);
-  border-color: var(--accent);
-}
-
-.carousel-topic.is-active {
-  box-shadow: 0 0 14px var(--focus-glow);
-}
-
-/* ===== TIẾP TỤC ĐỌC GỌN HƠN ===== */
-
-.reading-history-grid {
-  grid-template-columns: minmax(0, 1fr);
-}
-
-.reading-history-card {
-  align-items: center;
-}
-
-.reading-history-info {
+.shelf-controls > button:not(.section-view-all) {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  column-gap: 18px;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--input-bg);
+  color: var(--text-primary);
+  cursor: pointer;
 }
-
-.reading-history-info > h3,
-.reading-history-info > p,
-.reading-history-info > span,
-.reading-history-info > small {
-  grid-column: 1;
+.galaxy-theme .book-shelf {
+  grid-auto-columns: clamp(140px, 15vw, 220px);
+  gap: 18px;
 }
-
-.reading-history-info > .reading-history-page {
-  justify-self: start;
+.book-shelf .book-tile-button {
+  padding: 0;
 }
-
-.reading-history-info > .reading-history-actions {
-  grid-column: 2;
-  grid-row: 1 / span 4;
-  align-self: center;
-  margin: 0;
+.book-shelf .book-tile-title {
+  font-size: 17px;
 }
-
-.reading-history-actions .reading-history-resume {
-  background: var(--primary-bg);
-  color: var(--primary-text);
-  font-weight: 600;
+.galaxy-theme .book-shelf .book-tile-button:hover {
+  background: transparent;
+  box-shadow: none;
 }
-
-.reading-history-actions .reading-history-resume:hover:not(:disabled) {
-  background: var(--primary-hover);
-  color: var(--primary-text);
-}
-
-/* ===== FOCUS VÀ MÀN HÌNH NHỎ ===== */
 
 .carousel-details-button:focus-visible,
-.carousel-topic:focus-visible {
+.carousel-topic:focus-visible,
+.reading-history-menu > summary:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
 
-@media (max-width: 1400px) {
+/* Chuyển hàng theo khoảng trống thực tế của màn hình. */
+@media (max-width: 1250px) {
+  .app-layout.galaxy-theme .botanical-main > .header {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "title actions" "search search";
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .app-layout.galaxy-theme .header > .header-title {
+    justify-self: start;
+  }
+  .app-layout.galaxy-theme .header > .header-search {
+    max-width: none;
+  }
   .botanical-decor--page {
-    top: 130px;
-    width: 230px;
-    height: 230px;
+    top: 35px;
+    right: -40px;
+    width: 240px;
+    height: auto;
+    opacity: 0.75;
   }
-}
-
-@media (max-height: 800px) {
-  .botanical-decor--sidebar {
-    width: 200px;
-    height: 165px;
-  }
-}
-
-@media (max-height: 680px) {
-  .botanical-decor--sidebar {
-    display: none;
+  .galaxy-theme .book-carousel {
+    --cover-width: 190px;
+    --step: 155px;
   }
 }
 
 @media (max-width: 900px) {
+  .app-layout.galaxy-theme[data-theme] .sidebar {
+    width: 72px;
+    padding: 22px 10px;
+  }
+  .app-layout.galaxy-theme[data-theme] .sidebar-brand-mark {
+    width: 40px;
+    height: 40px;
+  }
+  .app-layout.galaxy-theme[data-theme] .sidebar-button {
+    width: 44px;
+    min-height: 44px;
+    padding: 0;
+  }
   .botanical-decor--sidebar {
     display: none;
+  }
+  .app-layout.galaxy-theme .botanical-main {
+    padding: 22px;
+  }
+  .galaxy-theme .reading-history {
+    padding: 18px;
   }
 }
 
 @media (max-width: 650px) {
-  .botanical-decor--page {
-    top: 166px;
-    right: -45px;
-    width: 150px;
-    height: 150px;
-    opacity: 0.6;
+  .app-layout.galaxy-theme .botanical-main {
+    padding: 20px 14px;
   }
-
-  .botanical-decor--page .botanical-butterfly--first {
-    top: 25px;
-    left: 0;
-    width: 32px;
+  .app-layout.galaxy-theme .botanical-main > .header {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "title" "actions" "search";
+    gap: 12px;
+    margin-bottom: 16px;
   }
-
-  .botanical-decor--page .botanical-butterfly--second {
-    display: none;
+  .app-layout.galaxy-theme .header > .header-actions {
+    justify-self: start;
+    flex-wrap: wrap;
   }
-
-  .carousel-topics {
-    gap: 8px;
+  .app-layout.galaxy-theme .header .header-notifications {
+    position: static;
   }
-
+  .galaxy-theme .book-carousel {
+    --cover-width: clamp(112px, 30vw, 180px);
+    --step: clamp(77px, 20vw, 120px);
+  }
+  .book-carousel .carousel-stage {
+    height: calc(var(--cover-width) * 1.4 + 30px);
+  }
+  .carousel-details h2 {
+    font-size: 21px;
+  }
   .carousel-topic {
-    padding: 9px 12px;
+    min-width: 0;
+    min-height: 36px;
+    padding: 7px 12px;
+    font-size: 12px;
   }
-
+  .carousel-topics {
+    gap: 7px;
+  }
+  .botanical-decor--page {
+    top: 170px;
+    right: -46px;
+    width: 170px;
+    height: auto;
+    opacity: 0.5;
+  }
+  .botanical-decor--page .botanical-butterfly--first {
+    top: 28px;
+    left: 10px;
+    width: 34px;
+  }
+  .galaxy-theme .reading-history {
+    padding: 14px;
+  }
+  .reading-history-heading h2 {
+    font-size: 23px;
+  }
+  .reading-history-heading p {
+    font-size: 12px;
+  }
+  .reading-history-card {
+    padding: 10px;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .reading-history-cover {
+    flex-basis: 44px;
+    width: 44px;
+  }
   .reading-history-info {
     grid-template-columns: minmax(0, 1fr);
   }
-
+  .reading-history-info h3 {
+    font-size: 16px;
+  }
   .reading-history-info > .reading-history-actions {
     grid-column: 1;
     grid-row: auto;
     margin-top: 10px;
   }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .botanical-butterfly {
-    animation: none;
+  .reading-history-actions .reading-history-resume {
+    min-width: 0;
+  }
+  .shelf-panel .home-panel-header h2 {
+    font-size: 22px;
+  }
+  .shelf-panel .section-subtitle {
+    max-width: 170px;
+  }
+  .galaxy-theme .book-shelf {
+    grid-auto-columns: 130px;
+    gap: 12px;
   }
 }
-/* ===== CĂN LẠI BỐ CỤC THEO MẪU ===== */
 
-/* Hoa sidebar nằm ở góc dưới, tránh các nút menu. */
-
-.app-layout.galaxy-theme[data-theme] .sidebar > .botanical-decor {
-  top: auto;
-  right: auto;
-  bottom: 82px;
-  left: -30px;
-  width: 230px;
-  height: 210px;
+@media (max-height: 720px) and (min-width: 901px) {
+  .botanical-decor--sidebar {
+    width: 220px;
+    height: auto;
+    opacity: 0.75;
+  }
+  .app-layout.galaxy-theme[data-theme] .sidebar {
+    gap: 22px;
+  }
+  .app-layout.galaxy-theme[data-theme] .sidebar-nav {
+    gap: 10px;
+  }
+  .app-layout.galaxy-theme[data-theme] .sidebar-button {
+    min-height: 48px;
+  }
 }
 
-.sidebar > .botanical-decor .botanical-flowers {
-  transform: rotate(180deg);
-  opacity: 0.72;
+@media (max-height: 620px) {
+  .botanical-decor--sidebar {
+    display: none;
+  }
 }
 
-.sidebar > .botanical-decor .botanical-butterfly--first {
-  top: 8px;
-  right: 14px;
-  bottom: auto;
-  left: auto;
-  width: 36px;
-  transform: scaleX(-1) rotate(-16deg);
-  animation: none;
+/* ===== CHIỀU SÂU VÀ CHUYỂN ĐỘNG NỔI ===== */
+:root {
+  --lift-shadow: #03011088;
+  --float-shadow: #05021299;
+  --page-edge: #a693b7;
+  --cover-gloss: #ffffff32;
+  --bloom: #bc8fff66;
+}
+:root[data-theme="light"] {
+  --lift-shadow: #57306e30;
+  --float-shadow: #60388138;
+  --page-edge: #ede5f5;
+  --cover-gloss: #ffffff85;
+  --bloom: #b983ef55;
 }
 
-.sidebar > .botanical-decor .botanical-butterfly--second {
-  display: none;
+/* Dùng translate riêng để giữ nguyên vị trí và chuyển slide của carousel. */
+.book-carousel .carousel-card {
+  --hover-lift: 0px;
+  transform: translate(
+      calc(-50% + var(--offset, 0) * var(--step)),
+      calc(-50% + var(--hover-lift))
+    )
+    perspective(1200px) rotateY(calc(var(--offset, 0) * -4deg))
+    scale(var(--scale, 1));
+  box-shadow:
+    3px 1px 0 -1px var(--page-edge),
+    0 16px 24px var(--lift-shadow);
+  transition:
+    transform 380ms ease,
+    opacity 320ms ease,
+    box-shadow 250ms ease;
+}
+.book-carousel .carousel-card.is-current {
+  animation: book-levitate 6s ease-in-out infinite;
+  box-shadow:
+    4px 1px 0 -1px var(--page-edge),
+    0 25px 32px var(--lift-shadow),
+    0 0 34px var(--bloom),
+    inset 0 0 0 1px var(--accent);
+}
+.book-carousel .carousel-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    115deg,
+    transparent 25%,
+    var(--cover-gloss) 46%,
+    transparent 63%
+  );
+  transform: translateX(-130%);
+  transition: transform 750ms ease;
+}
+.carousel-halo::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 30%;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, var(--float-shadow), transparent 70%);
+  transform: translateX(-50%);
+  animation: book-ground-shadow 6s ease-in-out infinite;
 }
 
-/* Hoa góc phải nhỏ hơn, không lấn nhiều vào bìa sách. */
-
-.botanical-main > .botanical-decor {
-  top: 66px;
-  right: -24px;
-  width: clamp(190px, 20vw, 280px);
-  height: clamp(190px, 20vw, 280px);
+/* Hoa có bóng mềm; bướm và hoa trôi nhẹ ở các nhịp khác nhau. */
+.botanical-flowers {
+  filter: drop-shadow(0 3px 6px #3923471a);
+  animation: flower-drift 12s ease-in-out infinite;
+}
+.botanical-decor--sidebar .botanical-flowers {
+  animation-delay: -5s;
+}
+.botanical-butterfly {
+  animation: butterfly-hover 7s ease-in-out infinite;
+  transform-origin: center;
+}
+.botanical-decor--sidebar .botanical-butterfly {
+  animation-delay: -3s;
 }
 
-.botanical-main > .botanical-decor .botanical-butterfly--first {
-  top: -8px;
-  left: -45px;
-  width: 46px;
+.reading-history,
+.catalog-item,
+.book-tile {
+  transition:
+    translate 250ms ease,
+    box-shadow 250ms ease,
+    border-color 250ms ease;
 }
-
-.botanical-main > .botanical-decor .botanical-butterfly--second {
-  top: 285px;
-  right: 36px;
-  width: 30px;
+.galaxy-theme .catalog-cover,
+.galaxy-theme .book-tile-cover {
+  box-shadow: 0 9px 18px var(--lift-shadow);
+  transition: box-shadow 250ms ease;
 }
-
-/* Khoảng cách từ header đến carousel. */
-
-.app-layout.galaxy-theme .main-content > .header {
-  margin-bottom: 12px;
+.galaxy-theme .book-shelf {
+  padding-top: 10px;
+  padding-bottom: 22px;
 }
-
-/* Carousel vẫn giữ dạng sách lớn ở giữa. */
-
-.galaxy-theme .book-carousel {
-  --cover-width: clamp(145px, 13vw, 190px);
-  --step: clamp(90px, 12vw, 175px);
-
-  margin-bottom: 16px;
-}
-
-.book-carousel .carousel-stage {
-  height: calc(var(--cover-width) * 1.4 + 40px);
-}
-
-.carousel-details {
-  gap: 6px;
-  margin: 0 0 16px;
-}
-
-.carousel-details h2 {
-  font-size: clamp(21px, 1.8vw, 26px);
-  line-height: 1.25;
-}
-
-.carousel-details > p {
-  font-size: 12px;
-}
-
-.carousel-details-button {
-  min-height: 35px;
-  margin-top: 3px;
-  padding: 7px 18px;
-}
-
-.carousel-topics {
-  gap: 9px;
-  margin-bottom: 14px;
-}
-
+.carousel-details-button,
 .carousel-topic {
-  min-height: 38px;
-  padding: 8px 16px;
+  transition:
+    translate 200ms ease,
+    box-shadow 200ms ease,
+    background-color 200ms ease;
+}
+.carousel-details-button {
+  box-shadow:
+    0 6px 15px var(--lift-shadow),
+    0 0 16px var(--focus-glow);
 }
 
-/* Làm nền tối có sắc tím gần ảnh mẫu hơn. */
-
-:root[data-theme="dark"] {
-  --galaxy-indigo: #49349788;
-  --galaxy-mauve: #854c9770;
-  --galaxy-violet: #60428b66;
+@media (hover: hover) and (pointer: fine) {
+  .book-carousel .carousel-card:hover {
+    --hover-lift: -7px;
+  }
+  .book-carousel .carousel-card.is-current:hover {
+    --hover-lift: -4px;
+    animation-play-state: paused;
+  }
+  .book-carousel .carousel-card:hover::after {
+    transform: translateX(130%);
+  }
+  .galaxy-theme .catalog-item:hover,
+  .galaxy-theme .book-tile:hover {
+    translate: 0 -6px;
+  }
+  .galaxy-theme .catalog-item:hover .catalog-cover,
+  .galaxy-theme .book-tile:hover .book-tile-cover {
+    box-shadow: 0 16px 26px var(--lift-shadow);
+  }
+  .app-layout.galaxy-theme[data-theme] .reading-history:hover {
+    translate: 0 -3px;
+    border-color: var(--accent);
+    box-shadow:
+      0 17px 34px var(--lift-shadow),
+      inset 0 1px 0 #ffffff20;
+  }
+  .carousel-details-button:hover,
+  .carousel-topic:hover {
+    translate: 0 -3px;
+    box-shadow: 0 8px 18px var(--lift-shadow);
+  }
 }
 
-/* Màn hình laptop thấp: giảm chiều cao phần đầu trang. */
+@keyframes book-levitate {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -8px;
+  }
+}
+@keyframes book-ground-shadow {
+  0%,
+  100% {
+    scale: 1;
+    opacity: 0.7;
+  }
+  50% {
+    scale: 0.8;
+    opacity: 0.42;
+  }
+}
+@keyframes flower-drift {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: -3px -5px;
+  }
+}
+@keyframes butterfly-hover {
+  0%,
+  100% {
+    translate: 0 0;
+    rotate: -3deg;
+  }
+  50% {
+    translate: 3px -12px;
+    rotate: 3deg;
+  }
+}
 
-@media (max-height: 850px) and (min-width: 901px) {
+/* Laptop: phần đầu gọn hơn, dành chỗ cho lịch sử đọc. */
+@media (max-height: 800px) and (min-width: 901px) {
+  .app-layout.galaxy-theme .botanical-main {
+    padding-top: 22px;
+  }
+  .app-layout.galaxy-theme .botanical-main > .header {
+    margin-bottom: 20px;
+  }
   .galaxy-theme .book-carousel {
-    --cover-width: clamp(135px, 10.5vw, 150px);
-    --step: clamp(85px, 11vw, 140px);
+    --cover-width: clamp(155px, 11.4vw, 182px);
+    --step: clamp(110px, 10.5vw, 170px);
+    margin-bottom: 14px;
   }
-
   .book-carousel .carousel-stage {
-    height: calc(var(--cover-width) * 1.4 + 30px);
+    height: calc(var(--cover-width) * 1.4 + 32px);
   }
-
   .carousel-details {
-    margin-bottom: 12px;
+    gap: 4px;
+    margin: 2px 0 8px;
   }
-
   .carousel-details h2 {
     font-size: 23px;
+    line-height: 1.2;
   }
-
-  .carousel-topics {
-    margin-bottom: 10px;
-  }
-
-  .reading-history {
-    padding: 16px;
-  }
-
-  .reading-history-heading {
-    margin-bottom: 12px;
-  }
-
-  .reading-history-heading h2 {
-    font-size: 23px;
-  }
-
-  .reading-history-heading p {
-    margin-top: 4px;
+  .carousel-details > p {
     font-size: 12px;
   }
-
-  .reading-history-card {
-    gap: 12px;
-    padding: 10px 12px;
+  .carousel-details-button {
+    min-height: 32px;
+    margin-top: 1px;
+    padding: 5px 20px;
   }
-
+  .carousel-topic {
+    min-height: 36px;
+    padding-block: 6px;
+  }
+  .galaxy-theme .reading-history {
+    padding: 14px 20px;
+  }
+  .reading-history-heading {
+    margin-bottom: 10px;
+  }
+  .reading-history-heading h2 {
+    font-size: 24px;
+  }
+  .reading-history-heading p {
+    font-size: 12px;
+  }
+  .reading-history-card {
+    padding: 10px 14px;
+    gap: 14px;
+  }
   .reading-history-cover {
     flex-basis: 48px;
     width: 48px;
   }
-
   .reading-history-info h3 {
-    font-size: 16px;
+    font-size: 17px;
+    line-height: 1.3;
   }
-
   .reading-history-info > p {
     margin-top: 4px;
+    line-height: 1.3;
   }
-
-  .reading-history-page {
-    margin-top: 6px;
+  .reading-history-info > .reading-history-page {
+    margin-top: 5px;
     padding: 3px 7px;
     font-size: 11px;
   }
-
   .reading-history-info > small {
-    display: none;
-  }
-
-  .reading-history-info > .reading-history-actions {
-    grid-row: 1 / span 3;
-  }
-
-  .app-layout.galaxy-theme[data-theme] .sidebar > .botanical-decor {
-    width: 190px;
-    height: 160px;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 }
 
-/* Sidebar thu gọn thì ẩn hoa để menu rõ ràng. */
-
-@media (max-width: 900px), (max-height: 680px) {
-  .app-layout.galaxy-theme[data-theme] .sidebar > .botanical-decor {
-    display: none;
+@media (prefers-reduced-motion: reduce) {
+  .book-carousel .carousel-card.is-current,
+  .book-carousel .carousel-card,
+  .carousel-halo::after,
+  .botanical-flowers,
+  .botanical-butterfly {
+    animation: none;
   }
-}
-
-/* Điện thoại. */
-
-@media (max-width: 650px) {
-  .botanical-main > .botanical-decor {
-    top: 170px;
-    right: -40px;
-    width: 140px;
-    height: 140px;
-    opacity: 0.55;
-  }
-
-  .botanical-main > .botanical-decor .botanical-butterfly--first {
-    top: 12px;
-    left: 0;
-    width: 28px;
-  }
-
-  .botanical-main > .botanical-decor .botanical-butterfly--second {
-    display: none;
-  }
-
-  .galaxy-theme .book-carousel {
-    --cover-width: clamp(110px, 27vw, 145px);
-    --step: clamp(65px, 18vw, 100px);
-  }
-
-  .carousel-details h2 {
-    font-size: 21px;
-  }
-
+  .book-carousel .carousel-card,
+  .book-carousel .carousel-card::after,
+  .reading-history,
+  .catalog-item,
+  .book-tile,
+  .catalog-cover,
+  .book-tile-cover,
+  .carousel-details-button,
   .carousel-topic {
-    padding: 8px 12px;
+    transition: none;
   }
+  .book-carousel .carousel-card:hover,
+  .book-carousel .carousel-card.is-current:hover {
+    --hover-lift: 0px;
+  }
+  .app-layout.galaxy-theme[data-theme] .reading-history:hover,
+  .galaxy-theme .catalog-item:hover,
+  .galaxy-theme .book-tile:hover,
+  .carousel-details-button:hover,
+  .carousel-topic:hover {
+    translate: none;
+  }
+}
+
+/* Làm nổi nút Profile trên nền hoa */
+.app-layout.galaxy-theme[data-theme] .sidebar-nav > .sidebar-button:last-child {
+  position: relative;
+  z-index: 2;
+  background: var(--input-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  font-weight: 600;
+  box-shadow: 0 6px 16px var(--lift-shadow);
+}
+
+/* Khi rê chuột */
+.app-layout.galaxy-theme[data-theme]
+  .sidebar-nav
+  > .sidebar-button:last-child:hover {
+  background: var(--selected-bg);
+  border-color: var(--accent);
+}
+
+/* Khi đang ở trang Profile */
+.app-layout.galaxy-theme[data-theme]
+  .sidebar-nav
+  > .sidebar-button:last-child.is-active {
+  background: var(--selected-bg);
+  border-color: var(--accent);
+  box-shadow:
+    inset 3px 0 var(--accent),
+    0 6px 16px var(--lift-shadow);
 }
