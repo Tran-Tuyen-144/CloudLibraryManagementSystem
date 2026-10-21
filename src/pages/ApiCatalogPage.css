@@ -1,0 +1,76 @@
+.app-layout.galaxy-theme.api-catalog
+  .sidebar
+  .sidebar-brand-text {
+  min-width: 0;
+}
+
+.app-layout.galaxy-theme.api-catalog[data-theme]
+  .sidebar-brand-text
+  strong {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.api-catalog
+  .sidebar-nav
+  > .sidebar-button:last-child {
+  margin-top: 0;
+}
+
+.api-catalog .home-cover-fallback small {
+  color: #e0d2f0;
+}
+
+.api-catalog
+  .botanical-main
+  > .header.api-catalog-header {
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "title actions";
+}
+
+.api-catalog
+  .api-catalog-header
+  .header-title {
+  text-align: left;
+}
+
+.api-catalog-note,
+.api-catalog-more-error {
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.catalog-request-state {
+  padding: 32px 20px;
+  margin-top: 18px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--bg-panel);
+  color: var(--text-primary);
+  line-height: 1.6;
+  text-align: center;
+}
+
+.api-catalog-pagination {
+  display: flex;
+  justify-content: center;
+  margin: 24px 0;
+}
+
+.api-catalog button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+@media (max-width: 600px) {
+  .api-catalog
+    .botanical-main
+    > .header.api-catalog-header {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "title"
+      "actions";
+  }
+}

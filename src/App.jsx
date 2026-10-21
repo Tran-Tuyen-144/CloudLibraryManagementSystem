@@ -1,10 +1,12 @@
 import { useState } from "react";
+
 import Sidebar from "./components/layout/Sidebar";
 import Header from "./components/layout/Header";
 import BookCarousel from "./components/books/BookCarousel";
 import ReadingHistory from "./components/books/ReadingHistory";
 import BotanicalDecor from "./components/layout/BotanicalDecor";
 import HomeSections from "./components/books/HomeSections";
+
 import CatalogPage from "./pages/CatalogPage";
 import LoansPage from "./pages/LoansPage";
 import ManagementPage from "./pages/ManagementPage";
@@ -12,9 +14,11 @@ import AssistantPage from "./pages/AssistantPage";
 import ProfilePage from "./pages/ProfilePage";
 import AuthPage from "./pages/AuthPage";
 import ReaderPage from "./pages/ReaderPage";
+
 import useFavorites from "./hooks/useFavorites";
 import useDemoAuth from "./hooks/useDemoAuth";
 import useBorrowRequests from "./hooks/useBorrowRequests";
+
 import { BorrowContext } from "./ui/BorrowContext";
 import { ReadContext } from "./ui/ReadContext";
 import { t, useUiSettings } from "./ui/settings";
@@ -221,7 +225,7 @@ export default function App() {
       (protectedPages.has(activePage) ? activePage : "profile");
 
     if (pendingFavoriteId !== null) {
-      toggleFavorite(pendingFavoriteId);
+      toggleFavorite(pendingFavoriteId, true);
     }
 
     if (destination === "favorites") {
@@ -253,7 +257,9 @@ export default function App() {
   }
 
   function handleOpenRequest(id) {
-    if (!requests.some((request) => request.id === id)) return;
+    if (!requests.some((request) => request.id === id)) {
+      return;
+    }
 
     handleNavigate("loans");
 

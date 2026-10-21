@@ -1,36 +1,52 @@
-import { useEffect, useState } from "react";
-
-const STORAGE_KEY = "cloudlibrary:favorites:v1";
-
-function loadFavorites() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-
-    if (!Array.isArray(saved)) return [];
-
-    return [...new Set(saved.filter((id) => typeof id === "string"))];
-  } catch {
-    return [];
-  }
-}
+import { currentLibraryUser } from "../data/libraryData.js";
+import {
+  updateLibrary,
+  useLibraryData,
+} from "../ui/libraryStore.js";
 
 export default function useFavorites() {
-  const [favoriteIds, setFavoriteIds] = useState(loadFavorites);
+  const data = useLibraryData();
+  const user = currentLibraryUser(data);
 
-  useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(favoriteIds));
-    } catch (error) {
-      console.warn("Không lưu được danh sách yêu thích:", error);
-    }
-  }, [favoriteIds]);
+  const favoriteIds =
+    user?.role === "reader"
+      ? data.favoriteIdsByEmail?.[user.email] || []
+      : [];
 
-  function toggleFavorite(bookId) {
-    setFavoriteIds((current) =>
-      current.includes(bookId)
-        ? current.filter((id) => id !== bookId)
-        : [...current, bookId],
-    );
+  function toggleFavorite(bookId, ensureSaved = false) {
+    updateLibrary((state) => {
+      // Lấy tài khoản hiện tại ngay lúc thao tác.
+      const actor = currentLibraryUser(state);
+
+      if (actor?.role !== "reader") return state;
+
+      const current = state.favoriteIdsByEmail?.[actor.email] || [];
+      const isFavorite = current.includes(bookId);
+
+      // Khi đăng nhập để lưu sách, giữ nguyên nếu sách đã được lưu.
+      if (ensureSaved && isFavorite) return state;
+
+      if (
+        !isFavorite &&
+        !state.books.some(
+          (book) => book.id === bookId && !book.archived,
+        )
+      ) {
+        return state;
+      }
+
+      return {
+        ...state,
+
+        favoriteIdsByEmail: {
+          ...state.favoriteIdsByEmail,
+
+          [actor.email]: isFavorite
+            ? current.filter((id) => id !== bookId)
+            : [...current, bookId],
+        },
+      };
+    });
   }
 
   return { favoriteIds, toggleFavorite };

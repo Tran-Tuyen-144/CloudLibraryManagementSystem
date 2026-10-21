@@ -1,5 +1,6 @@
 import { useSyncExternalStore } from "react";
 import { books } from "../data/books.js";
+
 import {
   createLibraryData,
   createLibraryLog,
@@ -8,8 +9,14 @@ import {
   LEGACY_SESSION_KEY,
   LIBRARY_STORAGE_KEY,
 } from "../data/libraryData.js";
+
 import { hasPermission } from "../data/libraryPermissions.js";
 import { normalizeNotificationReads } from "../data/libraryNotifications.js";
+
+import {
+  LEGACY_FAVORITES_KEY,
+  normalizeFavoriteLists,
+} from "../data/libraryFavorites.js";
 
 export { LIBRARY_STORAGE_KEY };
 
@@ -39,9 +46,24 @@ function load() {
 
   const saved = readJSON(LIBRARY_STORAGE_KEY, null);
 
+  const data = createLibraryData(
+    saved,
+    { session, requestsByEmail, profiles },
+    books,
+  );
+
   return {
-    ...createLibraryData(saved, { session, requestsByEmail, profiles }, books),
-    notificationReads: normalizeNotificationReads(saved?.notificationReads),
+    ...data,
+
+    notificationReads: normalizeNotificationReads(
+      saved?.notificationReads,
+    ),
+
+    favoriteIdsByEmail: normalizeFavoriteLists(
+      saved?.favoriteIdsByEmail,
+      readJSON(LEGACY_FAVORITES_KEY, []),
+      data.accounts,
+    ),
   };
 }
 
@@ -50,7 +72,11 @@ const listeners = new Set();
 
 function persist() {
   try {
-    localStorage.setItem(LIBRARY_STORAGE_KEY, JSON.stringify(snapshot));
+    localStorage.setItem(
+      LIBRARY_STORAGE_KEY,
+      JSON.stringify(snapshot),
+    );
+
     localStorage.removeItem(LEGACY_SESSION_KEY);
   } catch (error) {
     console.warn("Không thể lưu dữ liệu thư viện demo:", error);
@@ -102,8 +128,14 @@ export function runLibraryCommand(permission, transform) {
   if (!hasPermission(actor, permission)) {
     updateLibrary((current) => ({
       ...current,
+
       accessLogs: [
-        createLibraryLog(actor, "access.denied", permission, "denied"),
+        createLibraryLog(
+          actor,
+          "access.denied",
+          permission,
+          "denied",
+        ),
         ...current.accessLogs,
       ],
     }));
@@ -119,6 +151,7 @@ export function runLibraryCommand(permission, transform) {
   if (!result.ok) {
     updateLibrary((current) => ({
       ...current,
+
       auditLogs: [
         createLibraryLog(
           actor,
@@ -136,6 +169,7 @@ export function runLibraryCommand(permission, transform) {
 
   updateLibrary(() => ({
     ...result.state,
+
     auditLogs: [
       createLibraryLog(
         actor,
@@ -153,7 +187,12 @@ export function runLibraryCommand(permission, transform) {
 
 if (typeof window !== "undefined") {
   window.addEventListener("storage", (event) => {
-    if (event.key !== LIBRARY_STORAGE_KEY && event.key !== null) return;
+    if (
+      event.key !== LIBRARY_STORAGE_KEY &&
+      event.key !== null
+    ) {
+      return;
+    }
 
     snapshot = load();
     listeners.forEach((listener) => listener());
