@@ -1,8 +1,4 @@
-export const ACTIVE_STATUSES = [
-  "pending",
-  "approved",
-  "borrowed",
-];
+export const ACTIVE_STATUSES = ["pending", "approved", "borrowed"];
 
 export const LOAN_STATUSES = [
   ...ACTIVE_STATUSES,
@@ -51,9 +47,7 @@ export function flattenRequests(state) {
         : [],
     )
     .sort((a, b) =>
-      String(b.createdAt || "").localeCompare(
-        String(a.createdAt || ""),
-      ),
+      String(b.createdAt || "").localeCompare(String(a.createdAt || "")),
     );
 }
 
@@ -67,20 +61,12 @@ export function availableBooks(books, requests) {
 
     return {
       ...book,
-      availableCopies: Math.max(
-        0,
-        Number(book.availableCopies || 0) - held,
-      ),
+      availableCopies: Math.max(0, Number(book.availableCopies || 0) - held),
     };
   });
 }
 
-export function requestError(
-  requests,
-  email,
-  book,
-  maxActiveLoans = 3,
-) {
+export function requestError(requests, email, book, maxActiveLoans = 3) {
   if (!email) return "loginRequired";
 
   // Không cho tạo phiếu mới với sách đã bị ẩn.
@@ -90,8 +76,7 @@ export function requestError(
 
   const active = requests.filter(
     (request) =>
-      request.readerEmail === email &&
-      ACTIVE_STATUSES.includes(request.status),
+      request.readerEmail === email && ACTIVE_STATUSES.includes(request.status),
   );
 
   if (active.some((request) => request.bookId === book.id)) {
@@ -104,21 +89,13 @@ export function requestError(
 export function transitionRequest(
   state,
   books,
-  {
-    readerEmail,
-    id,
-    action,
-    reason = "",
-    dueDate = "",
-  },
+  { readerEmail, id, action, reason = "", dueDate = "" },
   now = new Date(),
 ) {
   const requests = flattenRequests(state);
 
   const request = requests.find(
-    (item) =>
-      item.readerEmail === readerEmail &&
-      item.id === id,
+    (item) => item.readerEmail === readerEmail && item.id === id,
   );
 
   if (!request) {
@@ -142,11 +119,7 @@ export function transitionRequest(
       (item) => item.id === request.bookId,
     );
 
-    if (
-      !book ||
-      book.archived ||
-      book.availableCopies < 1
-    ) {
+    if (!book || book.archived || book.availableCopies < 1) {
       return { ok: false, error: "unavailable" };
     }
   }
@@ -205,9 +178,7 @@ export function transitionRequest(
     state: {
       ...state,
       [readerEmail]: state[readerEmail].map((item) =>
-        item.id === id
-          ? { ...item, ...changes[action] }
-          : item,
+        item.id === id ? { ...item, ...changes[action] } : item,
       ),
     },
   };

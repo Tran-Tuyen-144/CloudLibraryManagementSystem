@@ -48,17 +48,13 @@ export default function LoansPage({
     target.current.scrollIntoView({ block: "center" });
   }, [initialRequestId]);
 
-  const pending = requests.filter(
-    (request) => request.status === "pending",
-  );
+  const pending = requests.filter((request) => request.status === "pending");
 
   const active = requests.filter((request) =>
     ACTIVE_STATUSES.includes(request.status),
   );
 
-  const borrowed = requests.filter(
-    (request) => request.status === "borrowed",
-  );
+  const borrowed = requests.filter((request) => request.status === "borrowed");
 
   const selectableBooks = books.filter(
     (book) =>
@@ -128,9 +124,8 @@ export default function LoansPage({
 
           <strong>
             {
-              books.filter(
-                (book) => !book.archived && book.availableCopies > 0,
-              ).length
+              books.filter((book) => !book.archived && book.availableCopies > 0)
+                .length
             }
           </strong>
         </div>
@@ -140,11 +135,7 @@ export default function LoansPage({
         <div className="reader-panel-heading">
           <h2>{copy.heading}</h2>
 
-          <button
-            className="reader-link"
-            type="button"
-            onClick={onBrowse}
-          >
+          <button className="reader-link" type="button" onClick={onBrowse}>
             {copy.browse}
           </button>
         </div>
@@ -205,8 +196,7 @@ export default function LoansPage({
               className="borrow-button"
               type="submit"
               disabled={
-                !selectedBook ||
-                active.length >= settings.maxActiveLoans
+                !selectedBook || active.length >= settings.maxActiveLoans
               }
             >
               {copy.submit}
@@ -234,35 +224,25 @@ export default function LoansPage({
           <h2>{copy.readerHistory}</h2>
 
           <span>
-            {visibleRequests.length} / {requests.length}{" "}
-            {copy.results}
+            {visibleRequests.length} / {requests.length} {copy.results}
           </span>
         </div>
 
-        <div
-          className="loan-tabs"
-          role="group"
-          aria-label={copy.filter}
-        >
-          {[
-            "pending",
-            "approved",
-            "borrowed",
-            "overdue",
-            "history",
-            "all",
-          ].map((status) => (
-            <button
-              type="button"
-              key={status}
-              className={activeTab === status ? "is-active" : ""}
-              aria-pressed={activeTab === status}
-              onClick={() => setActiveTab(status)}
-            >
-              {copy[status]}
-              {status === "pending" ? ` (${pending.length})` : ""}
-            </button>
-          ))}
+        <div className="loan-tabs" role="group" aria-label={copy.filter}>
+          {["pending", "approved", "borrowed", "overdue", "history", "all"].map(
+            (status) => (
+              <button
+                type="button"
+                key={status}
+                className={activeTab === status ? "is-active" : ""}
+                aria-pressed={activeTab === status}
+                onClick={() => setActiveTab(status)}
+              >
+                {copy[status]}
+                {status === "pending" ? ` (${pending.length})` : ""}
+              </button>
+            ),
+          )}
         </div>
 
         {visibleRequests.length === 0 ? (
@@ -277,9 +257,7 @@ export default function LoansPage({
                 key={request.id}
                 data-request-id={request.id}
                 ref={request.id === initialRequestId ? target : null}
-                tabIndex={
-                  request.id === initialRequestId ? -1 : undefined
-                }
+                tabIndex={request.id === initialRequestId ? -1 : undefined}
                 className={
                   request.id === initialRequestId
                     ? "loan-notification-target"
@@ -288,13 +266,9 @@ export default function LoansPage({
               >
                 <LoanRecord
                   request={request}
-                  book={books.find(
-                    (book) => book.id === request.bookId,
-                  )}
+                  book={books.find((book) => book.id === request.bookId)}
                 >
-                  {["pending", "approved"].includes(
-                    request.status,
-                  ) && (
+                  {["pending", "approved"].includes(request.status) && (
                     <button
                       className="loan-button"
                       type="button"

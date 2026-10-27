@@ -11,13 +11,12 @@ export function markNotificationsRead(id = null) {
   const data = getLibrarySnapshot();
   const user = currentLibraryUser(data);
 
-  if (!user || user.role !== "reader") {
+  if (!["reader", "author"].includes(user?.role)) {
     return { ok: false, error: "forbidden" };
   }
 
   const items = readerNotifications(data, user);
-  const selected =
-    id === null ? items : items.filter((item) => item.id === id);
+  const selected = id === null ? items : items.filter((item) => item.id === id);
 
   if (id !== null && selected.length === 0) {
     return { ok: false, error: "staleNotification" };

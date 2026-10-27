@@ -5,30 +5,20 @@ import {
 
 import { PERMISSIONS as P } from "../data/libraryPermissions.js";
 
-import {
-  runLibraryCommand,
-  useLibraryData,
-} from "./libraryStore.js";
+import { runLibraryCommand, useLibraryData } from "./libraryStore.js";
 
 export function useLibrarySettings() {
-  return normalizeLibrarySettings(
-    useLibraryData().settings,
-  );
+  return normalizeLibrarySettings(useLibraryData().settings);
 }
 
-export function saveLibrarySettings(
-  input,
-  expectedSettings,
-) {
+export function saveLibrarySettings(input, expectedSettings) {
   return runLibraryCommand(P.SETTINGS_MANAGE, (state) => {
     const before = normalizeLibrarySettings(state.settings);
 
     if (
       expectedSettings &&
       JSON.stringify(before) !==
-        JSON.stringify(
-          normalizeLibrarySettings(expectedSettings),
-        )
+        JSON.stringify(normalizeLibrarySettings(expectedSettings))
     ) {
       return {
         ok: false,

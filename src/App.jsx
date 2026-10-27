@@ -6,7 +6,7 @@ import BookCarousel from "./components/books/BookCarousel";
 import ReadingHistory from "./components/books/ReadingHistory";
 import BotanicalDecor from "./components/layout/BotanicalDecor";
 import HomeSections from "./components/books/HomeSections";
-
+import AuthorRegistrationPage from "./pages/AuthorRegistrationPage";
 import CatalogPage from "./pages/CatalogPage";
 import LoansPage from "./pages/LoansPage";
 import ManagementPage from "./pages/ManagementPage";
@@ -14,11 +14,11 @@ import AssistantPage from "./pages/AssistantPage";
 import ProfilePage from "./pages/ProfilePage";
 import AuthPage from "./pages/AuthPage";
 import ReaderPage from "./pages/ReaderPage";
-
+import AuthorWorkspacePage from "./pages/AuthorWorkspacePage";
 import useFavorites from "./hooks/useFavorites";
 import useDemoAuth from "./hooks/useDemoAuth";
 import useBorrowRequests from "./hooks/useBorrowRequests";
-
+import AuthorDirectoryPage from "./pages/AuthorDirectoryPage";
 import { BorrowContext } from "./ui/BorrowContext";
 import { ReadContext } from "./ui/ReadContext";
 import { t, useUiSettings } from "./ui/settings";
@@ -37,6 +37,9 @@ const pageTitles = {
   loans: "Sách đang mượn",
   ai: "Trợ lý AI",
   profile: "Hồ sơ của tôi",
+  "author-workspace": "Khu vực tác giả",
+  "author-registration": "Đăng ký tác giả",
+  authors: "Danh mục tác giả",
 };
 
 const protectedPages = new Set([
@@ -45,6 +48,8 @@ const protectedPages = new Set([
   "ai",
   "profile",
   "reader",
+  "author-registration",
+  "author-workspace",
 ]);
 
 const initialFilters = {
@@ -56,12 +61,7 @@ const initialFilters = {
 export default function App() {
   const { theme, language } = useUiSettings();
 
-  const {
-    user,
-    signInDemo,
-    signOutDemo,
-    updateDemoProfile,
-  } = useDemoAuth();
+  const { user, signInDemo, signOutDemo, updateDemoProfile } = useDemoAuth();
 
   const { favoriteIds, toggleFavorite } = useFavorites();
 
@@ -87,13 +87,9 @@ export default function App() {
   const [readingBookId, setReadingBookId] = useState(null);
   const [requestTarget, setRequestTarget] = useState(null);
 
-  const favoriteBooks = books.filter((book) =>
-    favoriteIds.includes(book.id),
-  );
+  const favoriteBooks = books.filter((book) => favoriteIds.includes(book.id));
 
-  const readingBook = books.find(
-    (book) => book.id === readingBookId,
-  );
+  const readingBook = books.find((book) => book.id === readingBookId);
 
   const favoritesMode = activePage === "favorites";
 
@@ -183,10 +179,7 @@ export default function App() {
   function handleReadBook(bookId) {
     const book = books.find((item) => item.id === bookId);
 
-    if (
-      typeof book?.pdfUrl !== "string" ||
-      !book.pdfUrl.trim()
-    ) {
+    if (typeof book?.pdfUrl !== "string" || !book.pdfUrl.trim()) {
       return;
     }
 
@@ -221,8 +214,11 @@ export default function App() {
     }
 
     const destination =
-      pendingPage ||
-      (protectedPages.has(activePage) ? activePage : "profile");
+      nextUser.role === "author" &&
+      (!pendingPage || ["profile", "author-registration"].includes(pendingPage))
+        ? "author-workspace"
+        : pendingPage ||
+          (protectedPages.has(activePage) ? activePage : "profile");
 
     if (pendingFavoriteId !== null) {
       toggleFavorite(pendingFavoriteId, true);
@@ -301,10 +297,9 @@ export default function App() {
           lang={language}
         >
           <Sidebar
-            activePage={
-              activePage === "reader" ? "catalog" : activePage
-            }
+            activePage={activePage === "reader" ? "catalog" : activePage}
             onNavigate={handleNavigate}
+            user={user}
           />
 
           <main className="main-content botanical-main">
@@ -352,9 +347,15 @@ export default function App() {
                 />
               </>
             )}
+            {activePage === "authors" && (
+              <AuthorDirectoryPage
+                books={books}
+                favoriteIds={favoriteIds}
+                onToggleFavorite={handleToggleFavorite}
+              />
+            )}
 
-            {(activePage === "catalog" ||
-              (favoritesMode && user)) && (
+            {(activePage === "catalog" || (favoritesMode && user)) && (
               <CatalogPage
                 key={activePage}
                 books={favoritesMode ? favoriteBooks : books}
@@ -409,14 +410,23 @@ export default function App() {
               />
             )}
 
+            {activePage === "author-registration" && user && (
+              <AuthorRegistrationPage key={user.email} user={user} />
+            )}
+
+            {activePage === "author-workspace" && user && (
+              <AuthorWorkspacePage
+                key={user.email}
+                onBrowse={() => handleNavigate("discover")}
+              />
+            )}
+
             {activePage === "profile" && user && (
               <ProfilePage
                 key={user.email}
                 user={user}
                 favoriteCount={favoriteBooks.length}
-                onBrowseFavorites={() =>
-                  handleNavigate("favorites")
-                }
+                onBrowseFavorites={() => handleNavigate("favorites")}
                 onUpdateProfile={updateDemoProfile}
               />
             )}

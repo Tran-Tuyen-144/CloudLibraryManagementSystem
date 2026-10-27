@@ -1,0 +1,68 @@
+.author-review-list {
+  display: grid;
+  gap: 16px;
+}
+
+.author-review-card {
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--bg-panel);
+  overflow-wrap: anywhere;
+}
+
+.author-review-card summary {
+  cursor: pointer;
+  line-height: 1.8;
+}
+
+.author-review-card summary > * {
+  margin-right: 12px;
+}
+
+.author-review-card summary > span:not(.manage-badge) {
+  color: var(--text-secondary);
+}
+
+.author-review-card dl {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 12px;
+}
+
+.author-review-card dt {
+  color: var(--text-secondary);
+}
+
+.author-review-card dd {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.author-review-card a {
+  color: var(--primary-bg);
+  text-decoration: underline;
+}
+
+.author-review-card textarea {
+  font: inherit;
+  color: var(--text-primary);
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.author-review .manage-feedback {
+  margin: 16px 0;
+}
+
+@media (max-width: 600px) {
+  .author-review-card dl {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+  }
+
+  .author-review-card dd {
+    margin-bottom: 12px;
+  }
+}

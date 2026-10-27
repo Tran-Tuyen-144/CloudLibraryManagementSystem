@@ -1,0 +1,122 @@
+.author-workspace .author-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: linear-gradient(130deg, var(--surface-top), var(--bg-panel));
+}
+
+.author-hero > div {
+  min-width: 0;
+}
+
+.author-hero h2 {
+  margin: 12px 0;
+}
+
+.author-hero p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.author-verified {
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.author-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.author-draft-form {
+  display: grid;
+  gap: 16px;
+}
+
+.author-work-list {
+  display: grid;
+  gap: 12px;
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+}
+
+.author-work-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.author-work-list li > div {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+}
+
+.author-work-list strong {
+  overflow-wrap: anywhere;
+}
+
+.author-work-list span,
+.author-work-list small {
+  color: var(--text-secondary);
+}
+
+.author-profile-data {
+  display: grid;
+  grid-template-columns: 170px minmax(0, 1fr);
+  gap: 16px;
+}
+
+.author-profile-data dt {
+  color: var(--text-secondary);
+}
+
+.author-profile-data dd {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.author-workspace .reader-panel,
+.author-workspace .reader-stat {
+  border-color: var(--border);
+  background: var(--bg-panel);
+}
+
+@media (max-width: 700px) {
+  .author-workspace .author-hero,
+  .author-work-list li {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .author-workspace .reader-stats,
+  .author-profile-data {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .author-profile-data dd {
+    margin-bottom: 12px;
+  }
+}
+.author-work-list .author-actions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 0;
+}
+
+.author-work-list .reader-muted {
+  overflow-wrap: anywhere;
+}

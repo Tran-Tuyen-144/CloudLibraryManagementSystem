@@ -185,16 +185,11 @@
   overflow-wrap: anywhere;
 }
 
-.app-layout.galaxy-theme[data-theme]
-  .sidebar
-  .sidebar-brand-text {
+.app-layout.galaxy-theme[data-theme] .sidebar .sidebar-brand-text {
   min-width: 0;
 }
 
-.app-layout.galaxy-theme[data-theme]
-  .sidebar
-  .sidebar-brand-text
-  strong {
+.app-layout.galaxy-theme[data-theme] .sidebar .sidebar-brand-text strong {
   white-space: normal;
   overflow-wrap: anywhere;
 }

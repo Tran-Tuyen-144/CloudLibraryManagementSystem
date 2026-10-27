@@ -20,25 +20,18 @@ const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phonePattern = /^[+\d][\d\s().-]{3,29}$/;
 
 const validPhone = (value) =>
-  phonePattern.test(value) &&
-  (value.match(/\d/g) || []).length >= 4;
+  phonePattern.test(value) && (value.match(/\d/g) || []).length >= 4;
 
 const policyNumber = (value) =>
-  ["string", "number"].includes(typeof value)
-    ? Number(value)
-    : NaN;
+  ["string", "number"].includes(typeof value) ? Number(value) : NaN;
 
 const validInteger = (value, max) =>
-  Number.isInteger(value) &&
-  value >= 1 &&
-  value <= max;
+  Number.isInteger(value) && value >= 1 && value <= max;
 
-const text = (value) =>
-  typeof value === "string" ? value.trim() : "";
+const text = (value) => (typeof value === "string" ? value.trim() : "");
 
 export function normalizeLibrarySettings(input = {}) {
-  const source =
-    input && typeof input === "object" ? input : {};
+  const source = input && typeof input === "object" ? input : {};
 
   const result = { ...DEFAULT_LIBRARY_SETTINGS };
 
@@ -53,18 +46,12 @@ export function normalizeLibrarySettings(input = {}) {
   for (const [key, max] of Object.entries(LIBRARY_TEXT_LIMITS)) {
     const value = text(source[key]);
 
-    if (
-      value.length <= max &&
-      (key !== "libraryName" || value)
-    ) {
+    if (value.length <= max && (key !== "libraryName" || value)) {
       result[key] = value;
     }
   }
 
-  if (
-    result.contactEmail &&
-    !emailPattern.test(result.contactEmail)
-  ) {
+  if (result.contactEmail && !emailPattern.test(result.contactEmail)) {
     result.contactEmail = "";
   }
 
@@ -77,25 +64,16 @@ export function normalizeLibrarySettings(input = {}) {
 
 export function validateLibrarySettings(input = {}) {
   input =
-    input &&
-    typeof input === "object" &&
-    !Array.isArray(input)
-      ? input
-      : {};
+    input && typeof input === "object" && !Array.isArray(input) ? input : {};
 
   const maxActiveLoans = policyNumber(input.maxActiveLoans);
   const loanDays = policyNumber(input.loanDays);
 
-  if (
-    !validInteger(maxActiveLoans, 20) ||
-    !validInteger(loanDays, 60)
-  ) {
+  if (!validInteger(maxActiveLoans, 20) || !validInteger(loanDays, 60)) {
     return {
       ok: false,
       error: "invalidPolicy",
-      field: !validInteger(maxActiveLoans, 20)
-        ? "maxActiveLoans"
-        : "loanDays",
+      field: !validInteger(maxActiveLoans, 20) ? "maxActiveLoans" : "loanDays",
     };
   }
 
@@ -116,10 +94,7 @@ export function validateLibrarySettings(input = {}) {
     }
   }
 
-  if (
-    settings.contactEmail &&
-    !emailPattern.test(settings.contactEmail)
-  ) {
+  if (settings.contactEmail && !emailPattern.test(settings.contactEmail)) {
     return {
       ok: false,
       error: "invalidContact",

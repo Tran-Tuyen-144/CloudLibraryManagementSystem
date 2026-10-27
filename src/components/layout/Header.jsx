@@ -69,9 +69,7 @@ export default function Header({
             >
               <UserRound size={19} aria-hidden="true" />
 
-              <span className="header-account-name">
-                {user.fullName}
-              </span>
+              <span className="header-account-name">{user.fullName}</span>
             </button>
 
             <button

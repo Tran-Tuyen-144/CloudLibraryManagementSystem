@@ -2,13 +2,9 @@ import { ApiError } from "./client.js";
 import { libraryApi } from "./libraryApi.js";
 
 const invalid = () =>
-  new ApiError(
-    "invalidResponse",
-    "Dữ liệu danh mục không hợp lệ.",
-  );
+  new ApiError("invalidResponse", "Dữ liệu danh mục không hợp lệ.");
 
-const count = (value) =>
-  Number.isInteger(value) && value >= 0;
+const count = (value) => Number.isInteger(value) && value >= 0;
 
 export function mapApiBook(value) {
   if (
@@ -22,20 +18,13 @@ export function mapApiBook(value) {
     !count(value.totalCopies) ||
     !count(value.availableCopies) ||
     value.availableCopies > value.totalCopies ||
-    (value.archived !== undefined &&
-      value.archived !== false)
+    (value.archived !== undefined && value.archived !== false)
   ) {
     throw invalid();
   }
 
-  for (const key of [
-    "reservedCopies",
-    "borrowedCopies",
-  ]) {
-    if (
-      value[key] !== undefined &&
-      !count(value[key])
-    ) {
+  for (const key of ["reservedCopies", "borrowedCopies"]) {
+    if (value[key] !== undefined && !count(value[key])) {
       throw invalid();
     }
   }
@@ -43,9 +32,7 @@ export function mapApiBook(value) {
   if (
     value.reservedCopies !== undefined &&
     value.borrowedCopies !== undefined &&
-    value.totalCopies -
-      value.reservedCopies -
-      value.borrowedCopies !==
+    value.totalCopies - value.reservedCopies - value.borrowedCopies !==
       value.availableCopies
   ) {
     throw invalid();
@@ -53,16 +40,11 @@ export function mapApiBook(value) {
 
   let cover = "";
 
-  if (
-    typeof value.coverUrl === "string" &&
-    value.coverUrl
-  ) {
+  if (typeof value.coverUrl === "string" && value.coverUrl) {
     try {
       const url = new URL(value.coverUrl);
 
-      if (
-        ["http:", "https:"].includes(url.protocol)
-      ) {
+      if (["http:", "https:"].includes(url.protocol)) {
         cover = url.href;
       }
     } catch {
@@ -74,18 +56,9 @@ export function mapApiBook(value) {
     id: value.id,
     title: value.title,
     author: value.author,
-    category:
-      typeof value.category === "string"
-        ? value.category
-        : "",
-    isbn:
-      typeof value.isbn === "string"
-        ? value.isbn
-        : "",
-    description:
-      typeof value.description === "string"
-        ? value.description
-        : "",
+    category: typeof value.category === "string" ? value.category : "",
+    isbn: typeof value.isbn === "string" ? value.isbn : "",
+    description: typeof value.description === "string" ? value.description : "",
     cover,
     totalCopies: value.totalCopies,
     availableCopies: value.availableCopies,
@@ -94,10 +67,7 @@ export function mapApiBook(value) {
 }
 
 export function parseCatalogPage(payload) {
-  if (
-    !payload ||
-    !Array.isArray(payload.data)
-  ) {
+  if (!payload || !Array.isArray(payload.data)) {
     throw invalid();
   }
 
@@ -109,17 +79,13 @@ export function parseCatalogPage(payload) {
     throw invalid();
   }
 
-  const cursor =
-    payload.pagination?.nextCursor ?? null;
+  const cursor = payload.pagination?.nextCursor ?? null;
 
-  const total =
-    payload.pagination?.total ?? null;
+  const total = payload.pagination?.total ?? null;
 
   if (
     cursor !== null &&
-    (typeof cursor !== "string" ||
-      !cursor ||
-      cursor.length > 4096)
+    (typeof cursor !== "string" || !cursor || cursor.length > 4096)
   ) {
     throw invalid();
   }
@@ -130,17 +96,11 @@ export function parseCatalogPage(payload) {
 
   const items = payload.data.map(mapApiBook);
 
-  if (
-    total !== null &&
-    total < items.length
-  ) {
+  if (total !== null && total < items.length) {
     throw invalid();
   }
 
-  if (
-    new Set(items.map((book) => book.id)).size !==
-    items.length
-  ) {
+  if (new Set(items.map((book) => book.id)).size !== items.length) {
     throw invalid();
   }
 
@@ -153,19 +113,11 @@ export function parseCatalogPage(payload) {
 
 export function mergeCatalogBooks(previous, next) {
   return [
-    ...new Map(
-      [...previous, ...next].map((book) => [
-        book.id,
-        book,
-      ]),
-    ).values(),
+    ...new Map([...previous, ...next].map((book) => [book.id, book])).values(),
   ];
 }
 
-export async function fetchCatalogPage(
-  query,
-  { signal } = {},
-) {
+export async function fetchCatalogPage(query, { signal } = {}) {
   const payload = await libraryApi.books.list(
     {
       q: query.q?.trim() || undefined,
@@ -176,9 +128,7 @@ export async function fetchCatalogPage(
           : query.category?.trim() || undefined,
 
       availability:
-        query.availability === "all"
-          ? undefined
-          : query.availability,
+        query.availability === "all" ? undefined : query.availability,
 
       sort: query.sort || "title-asc",
       cursor: query.cursor || undefined,

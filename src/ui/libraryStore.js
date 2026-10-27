@@ -55,9 +55,7 @@ function load() {
   return {
     ...data,
 
-    notificationReads: normalizeNotificationReads(
-      saved?.notificationReads,
-    ),
+    notificationReads: normalizeNotificationReads(saved?.notificationReads),
 
     favoriteIdsByEmail: normalizeFavoriteLists(
       saved?.favoriteIdsByEmail,
@@ -72,10 +70,7 @@ const listeners = new Set();
 
 function persist() {
   try {
-    localStorage.setItem(
-      LIBRARY_STORAGE_KEY,
-      JSON.stringify(snapshot),
-    );
+    localStorage.setItem(LIBRARY_STORAGE_KEY, JSON.stringify(snapshot));
 
     localStorage.removeItem(LEGACY_SESSION_KEY);
   } catch (error) {
@@ -130,12 +125,7 @@ export function runLibraryCommand(permission, transform) {
       ...current,
 
       accessLogs: [
-        createLibraryLog(
-          actor,
-          "access.denied",
-          permission,
-          "denied",
-        ),
+        createLibraryLog(actor, "access.denied", permission, "denied"),
         ...current.accessLogs,
       ],
     }));
@@ -187,10 +177,7 @@ export function runLibraryCommand(permission, transform) {
 
 if (typeof window !== "undefined") {
   window.addEventListener("storage", (event) => {
-    if (
-      event.key !== LIBRARY_STORAGE_KEY &&
-      event.key !== null
-    ) {
+    if (event.key !== LIBRARY_STORAGE_KEY && event.key !== null) {
       return;
     }
 

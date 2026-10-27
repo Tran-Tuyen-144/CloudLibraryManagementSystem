@@ -19,8 +19,7 @@ export const loanMessages = {
 
     staffTitle: "Bàn thủ thư",
     demo: "CHẾ ĐỘ DEMO",
-    staffIntro:
-      "Theo dõi yêu cầu, bàn giao sách và nhận trả tại một nơi.",
+    staffIntro: "Theo dõi yêu cầu, bàn giao sách và nhận trả tại một nơi.",
 
     staffNote:
       "Khu vực thủ thư demo xử lý dữ liệu mượn trả lưu trong trình duyệt. Chưa kết nối hệ thống xác thực và phân quyền.",
@@ -42,15 +41,11 @@ export const loanMessages = {
     confirm: "Xác nhận",
     cancelRequest: "Hủy yêu cầu",
 
-    approveSuccess:
-      "Đã duyệt và giữ một bản sách cho độc giả.",
+    approveSuccess: "Đã duyệt và giữ một bản sách cho độc giả.",
     rejectSuccess: "Đã từ chối yêu cầu.",
-    handoverSuccess:
-      "Đã bàn giao sách và ghi nhận hạn trả.",
-    returnSuccess:
-      "Đã nhận trả và cập nhật số bản còn sẵn.",
-    cancelSuccess:
-      "Đã hủy yêu cầu và giải phóng bản sách được giữ (nếu có).",
+    handoverSuccess: "Đã bàn giao sách và ghi nhận hạn trả.",
+    returnSuccess: "Đã nhận trả và cập nhật số bản còn sẵn.",
+    cancelSuccess: "Đã hủy yêu cầu và giải phóng bản sách được giữ (nếu có).",
 
     reason: "Lý do từ chối",
     reasonHint: "Nhập lý do để độc giả biết...",
@@ -70,8 +65,7 @@ export const loanMessages = {
     returnHint:
       "Xác nhận khi bạn đã nhận lại cuốn sách từ độc giả. Một bản sách sẽ được đưa về danh mục còn sẵn.",
 
-    invalidDueDate:
-      "Chọn ngày hợp lệ từ hôm nay đến 60 ngày tới.",
+    invalidDueDate: "Chọn ngày hợp lệ từ hôm nay đến 60 ngày tới.",
 
     staleRequest:
       "Phiếu đã đổi trạng thái hoặc không còn tồn tại. Hãy kiểm tra lại danh sách.",
@@ -86,8 +80,7 @@ export const loanMessages = {
     open: "Xem phiếu",
 
     empty: "Chưa có phiếu ở đây",
-    emptyHint:
-      "Thử trạng thái khác hoặc thay đổi từ khóa tìm kiếm.",
+    emptyHint: "Thử trạng thái khác hoặc thay đổi từ khóa tìm kiếm.",
 
     seed: "Tạo 3 phiếu mẫu",
     seedHint:
@@ -99,16 +92,14 @@ export const loanMessages = {
     limitHint:
       "Tối đa {maxActiveLoans} phiếu đang xử lý hoặc đang mượn cho mỗi email.",
 
-    duplicate:
-      "Bạn đã có phiếu chờ xử lý hoặc đang mượn cuốn sách này.",
+    duplicate: "Bạn đã có phiếu chờ xử lý hoặc đang mượn cuốn sách này.",
 
     limit:
       "Đã đạt giới hạn phiếu đang xử lý hoặc đang mượn tại thời điểm thực hiện.",
   },
 
   en: {
-    forbidden:
-      "You do not have permission to perform this action.",
+    forbidden: "You do not have permission to perform this action.",
     staffRequired:
       "Sign in with an administrator or librarian account to process requests.",
 
@@ -148,15 +139,11 @@ export const loanMessages = {
     confirm: "Confirm",
     cancelRequest: "Cancel request",
 
-    approveSuccess:
-      "Request approved and one copy reserved.",
+    approveSuccess: "Request approved and one copy reserved.",
     rejectSuccess: "Request rejected.",
-    handoverSuccess:
-      "Book handed over and due date saved.",
-    returnSuccess:
-      "Return recorded and available copies updated.",
-    cancelSuccess:
-      "Request cancelled and any reserved copy released.",
+    handoverSuccess: "Book handed over and due date saved.",
+    returnSuccess: "Return recorded and available copies updated.",
+    cancelSuccess: "Request cancelled and any reserved copy released.",
 
     reason: "Reason for rejection",
     reasonHint: "Let the reader know why...",
@@ -176,8 +163,7 @@ export const loanMessages = {
     returnHint:
       "Confirm once you have received the book from the reader. One copy will become available again.",
 
-    invalidDueDate:
-      "Choose a valid date between today and 60 days from now.",
+    invalidDueDate: "Choose a valid date between today and 60 days from now.",
 
     staleRequest:
       "This record changed or no longer exists. Check the list again.",
@@ -192,8 +178,7 @@ export const loanMessages = {
     open: "View record",
 
     empty: "No records here yet",
-    emptyHint:
-      "Try another status or change the search terms.",
+    emptyHint: "Try another status or change the search terms.",
 
     seed: "Create 3 sample records",
     seedHint:
@@ -205,8 +190,7 @@ export const loanMessages = {
     limitHint:
       "Up to {maxActiveLoans} in-progress requests or loans per email.",
 
-    duplicate:
-      "You already have an in-progress request or loan for this book.",
+    duplicate: "You already have an in-progress request or loan for this book.",
 
     limit:
       "The active request or loan limit was reached at the time of the action.",
@@ -216,17 +200,11 @@ export const loanMessages = {
 export function formatLoanDate(value, language) {
   if (!value) return "—";
 
-  const date = new Date(
-    value.length === 10
-      ? `${value}T12:00:00`
-      : value,
-  );
+  const date = new Date(value.length === 10 ? `${value}T12:00:00` : value);
 
   return Number.isNaN(date.getTime())
     ? "—"
-    : date.toLocaleDateString(
-        language === "en" ? "en-GB" : "vi-VN",
-      );
+    : date.toLocaleDateString(language === "en" ? "en-GB" : "vi-VN");
 }
 
 export function getLoanMessages(language, settings) {
@@ -234,15 +212,12 @@ export function getLoanMessages(language, settings) {
 
   return {
     ...Object.fromEntries(
-      Object.entries(loanMessages[language]).map(
-        ([key, value]) => [
-          key,
-          value.replace(
-            /\{(maxActiveLoans|loanDays)\}/g,
-            (_, name) => String(policy[name]),
-          ),
-        ],
-      ),
+      Object.entries(loanMessages[language]).map(([key, value]) => [
+        key,
+        value.replace(/\{(maxActiveLoans|loanDays)\}/g, (_, name) =>
+          String(policy[name]),
+        ),
+      ]),
     ),
 
     limit:

@@ -11,11 +11,7 @@ import {
 
 import LoanRecord from "../components/books/LoanRecord";
 
-import {
-  dateKey,
-  futureDate,
-  isOverdue,
-} from "../ui/borrowWorkflow";
+import { dateKey, futureDate, isOverdue } from "../ui/borrowWorkflow";
 
 import { getLoanMessages } from "../ui/loanMessages";
 import { useLibrarySettings } from "../ui/librarySettingsStore";
@@ -33,12 +29,7 @@ function normalize(value) {
     .trim();
 }
 
-function ActionDialog({
-  request,
-  action,
-  onProcess,
-  onClose,
-}) {
+function ActionDialog({ request, action, onProcess, onClose }) {
   const { language } = useUiSettings();
   const settings = useLibrarySettings();
   const copy = getLoanMessages(language, settings);
@@ -46,9 +37,7 @@ function ActionDialog({
   const dialog = useRef(null);
   const [reason, setReason] = useState("");
 
-  const [dueDate, setDueDate] = useState(() =>
-    futureDate(settings.loanDays),
-  );
+  const [dueDate, setDueDate] = useState(() => futureDate(settings.loanDays));
 
   const [error, setError] = useState("");
 
@@ -108,9 +97,7 @@ function ActionDialog({
 
             <textarea
               value={reason}
-              onChange={(event) =>
-                setReason(event.target.value)
-              }
+              onChange={(event) => setReason(event.target.value)}
               placeholder={copy.reasonHint}
               required
               maxLength={300}
@@ -129,9 +116,7 @@ function ActionDialog({
               <input
                 type="date"
                 value={dueDate}
-                onChange={(event) =>
-                  setDueDate(event.target.value)
-                }
+                onChange={(event) => setDueDate(event.target.value)}
                 min={dateKey()}
                 max={futureDate(60)}
                 required
@@ -147,18 +132,11 @@ function ActionDialog({
         </p>
 
         <div className="loan-dialog-actions">
-          <button
-            type="button"
-            className="loan-button"
-            onClick={onClose}
-          >
+          <button type="button" className="loan-button" onClick={onClose}>
             {copy.cancel}
           </button>
 
-          <button
-            type="submit"
-            className="loan-button is-primary"
-          >
+          <button type="submit" className="loan-button is-primary">
             {copy.confirm}
           </button>
         </div>
@@ -187,15 +165,11 @@ export default function LibrarianPage({
   const counts = Object.fromEntries(
     ["pending", "approved", "borrowed"].map((status) => [
       status,
-      requests.filter(
-        (request) => request.status === status,
-      ).length,
+      requests.filter((request) => request.status === status).length,
     ]),
   );
 
-  const overdueCount = requests.filter(
-    (request) => isOverdue(request),
-  ).length;
+  const overdueCount = requests.filter((request) => isOverdue(request)).length;
 
   const keyword = normalize(query);
 
@@ -204,15 +178,11 @@ export default function LibrarianPage({
     (tab === "overdue"
       ? isOverdue(request)
       : tab === "history"
-        ? ["returned", "cancelled", "rejected"].includes(
-            request.status,
-          )
+        ? ["returned", "cancelled", "rejected"].includes(request.status)
         : request.status === tab);
 
   const visible = requests.filter((request) => {
-    const book = books.find(
-      (item) => item.id === request.bookId,
-    );
+    const book = books.find((item) => item.id === request.bookId);
 
     return (
       matchesTab(request) &&
@@ -235,11 +205,7 @@ export default function LibrarianPage({
   function process(values) {
     const result = onProcess(values);
 
-    setMessage(
-      result.ok
-        ? `${values.action}Success`
-        : result.error,
-    );
+    setMessage(result.ok ? `${values.action}Success` : result.error);
 
     if (result.ok) setSelection(null);
 
@@ -255,25 +221,18 @@ export default function LibrarianPage({
         <>
           <div className="loan-hero">
             <div>
-              <span className="loan-eyebrow">
-                CLOUD LIBRARY · {copy.demo}
-              </span>
+              <span className="loan-eyebrow">CLOUD LIBRARY · {copy.demo}</span>
 
               <h2>{copy.staffTitle}</h2>
               <p>{copy.staffIntro}</p>
             </div>
 
-            <span
-              className="loan-hero-icon"
-              aria-hidden="true"
-            >
+            <span className="loan-hero-icon" aria-hidden="true">
               <BookOpen size={36} strokeWidth={1.4} />
             </span>
           </div>
 
-          <p className="loan-demo-note">
-            {copy.staffNote}
-          </p>
+          <p className="loan-demo-note">{copy.staffNote}</p>
         </>
       )}
 
@@ -303,9 +262,7 @@ export default function LibrarianPage({
           <button
             type="button"
             key={id}
-            className={`loan-stat ${
-              tab === id ? "is-active" : ""
-            }`}
+            className={`loan-stat ${tab === id ? "is-active" : ""}`}
             onClick={() => setTab(id)}
             aria-pressed={tab === id}
           >
@@ -324,51 +281,37 @@ export default function LibrarianPage({
           <h2>{copy.queue}</h2>
 
           <span>
-            {visible.length} / {requests.length}{" "}
-            {copy.results}
+            {visible.length} / {requests.length} {copy.results}
           </span>
         </div>
 
         <label className="loan-search">
           <Search size={18} aria-hidden="true" />
 
-          <span className="loan-sr-only">
-            {copy.search}
-          </span>
+          <span className="loan-sr-only">{copy.search}</span>
 
           <input
             type="search"
             value={query}
             placeholder={copy.searchHint}
-            onChange={(event) =>
-              setQuery(event.target.value)
-            }
+            onChange={(event) => setQuery(event.target.value)}
           />
         </label>
 
-        <div
-          className="loan-tabs"
-          role="group"
-          aria-label={copy.filter}
-        >
-          {[
-            "pending",
-            "approved",
-            "borrowed",
-            "overdue",
-            "history",
-            "all",
-          ].map((id) => (
-            <button
-              type="button"
-              key={id}
-              className={tab === id ? "is-active" : ""}
-              onClick={() => setTab(id)}
-              aria-pressed={tab === id}
-            >
-              {copy[id]}
-            </button>
-          ))}
+        <div className="loan-tabs" role="group" aria-label={copy.filter}>
+          {["pending", "approved", "borrowed", "overdue", "history", "all"].map(
+            (id) => (
+              <button
+                type="button"
+                key={id}
+                className={tab === id ? "is-active" : ""}
+                onClick={() => setTab(id)}
+                aria-pressed={tab === id}
+              >
+                {copy[id]}
+              </button>
+            ),
+          )}
         </div>
 
         <p className="loan-feedback" role="status">
@@ -377,11 +320,7 @@ export default function LibrarianPage({
 
         {visible.length === 0 ? (
           <div className="loan-empty">
-            <ClipboardList
-              size={32}
-              strokeWidth={1.3}
-              aria-hidden="true"
-            />
+            <ClipboardList size={32} strokeWidth={1.3} aria-hidden="true" />
 
             <h3>{copy.empty}</h3>
             <p>{copy.emptyHint}</p>
@@ -396,9 +335,7 @@ export default function LibrarianPage({
                   onClick={() => {
                     const result = onCreateDemo();
 
-                    setMessage(
-                      result.ok ? "seeded" : result.error,
-                    );
+                    setMessage(result.ok ? "seeded" : result.error);
                   }}
                 >
                   {copy.seed}
@@ -409,9 +346,7 @@ export default function LibrarianPage({
         ) : (
           <div className="loan-record-list">
             {visible.map((request) => {
-              const book = books.find(
-                (item) => item.id === request.bookId,
-              );
+              const book = books.find((item) => item.id === request.bookId);
 
               const openAction = (action) => {
                 setMessage("");
@@ -433,8 +368,7 @@ export default function LibrarianPage({
                   {request.status === "pending" && (
                     <>
                       <span className="loan-stock">
-                        {copy.available}:{" "}
-                        {book?.availableCopies ?? 0}
+                        {copy.available}: {book?.availableCopies ?? 0}
                       </span>
 
                       <button
@@ -449,9 +383,7 @@ export default function LibrarianPage({
                         className="loan-button is-primary"
                         type="button"
                         disabled={
-                          !book ||
-                          book.archived ||
-                          book.availableCopies < 1
+                          !book || book.archived || book.availableCopies < 1
                         }
                         onClick={() =>
                           process({

@@ -4,10 +4,7 @@ import { useUiSettings } from "../ui/settings";
 import { authMessages } from "../ui/authMessages";
 import "./AuthPage.css";
 
-export default function AuthPage({
-  onAuthenticate,
-  onBack,
-}) {
+export default function AuthPage({ onAuthenticate, onBack }) {
   const { language } = useUiSettings();
   const copy = authMessages[language];
 
@@ -37,9 +34,7 @@ export default function AuthPage({
     const fullName = String(data.get("fullName") || "").trim();
     const email = String(data.get("email") || "").trim();
     const password = String(data.get("password") || "");
-    const confirmPassword = String(
-      data.get("confirmPassword") || "",
-    );
+    const confirmPassword = String(data.get("confirmPassword") || "");
 
     if (isRegister && !fullName) {
       setError("emptyName");
@@ -71,10 +66,7 @@ export default function AuthPage({
         signal: controller.signal,
       });
 
-      if (
-        !controller.signal.aborted &&
-        result?.ok === false
-      ) {
+      if (!controller.signal.aborted && result?.ok === false) {
         setError(result.error);
       }
     } catch {
@@ -97,19 +89,11 @@ export default function AuthPage({
           <Library size={28} />
         </div>
 
-        <h2>
-          {isRegister
-            ? copy.registerTitle
-            : copy.loginTitle}
-        </h2>
+        <h2>{isRegister ? copy.registerTitle : copy.loginTitle}</h2>
 
         <p className="auth-subtitle">{copy.subtitle}</p>
 
-        <div
-          className="auth-tabs"
-          role="group"
-          aria-label={copy.account}
-        >
+        <div className="auth-tabs" role="group" aria-label={copy.account}>
           <button
             type="button"
             aria-pressed={!isRegister}
@@ -171,11 +155,7 @@ export default function AuthPage({
               <input
                 name="password"
                 type={showPassword ? "text" : "password"}
-                autoComplete={
-                  isRegister
-                    ? "new-password"
-                    : "current-password"
-                }
+                autoComplete={isRegister ? "new-password" : "current-password"}
                 maxLength={128}
                 minLength={8}
                 required
@@ -185,14 +165,10 @@ export default function AuthPage({
                 className="auth-password-toggle"
                 type="button"
                 aria-label={
-                  showPassword
-                    ? copy.hidePassword
-                    : copy.showPassword
+                  showPassword ? copy.hidePassword : copy.showPassword
                 }
                 aria-pressed={showPassword}
-                onClick={() =>
-                  setShowPassword((current) => !current)
-                }
+                onClick={() => setShowPassword((current) => !current)}
               >
                 {showPassword ? (
                   <EyeOff size={18} aria-hidden="true" />
@@ -226,16 +202,8 @@ export default function AuthPage({
             </p>
           )}
 
-          <button
-            className="auth-submit"
-            type="submit"
-            disabled={busy}
-          >
-            {busy
-              ? copy.signingIn
-              : isRegister
-                ? copy.register
-                : copy.login}
+          <button className="auth-submit" type="submit" disabled={busy}>
+            {busy ? copy.signingIn : isRegister ? copy.register : copy.login}
           </button>
         </form>
 

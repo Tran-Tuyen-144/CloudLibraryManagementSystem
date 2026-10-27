@@ -66,9 +66,7 @@ export default function NotificationCenter({ user, onOpenRequest }) {
   const dialog = useRef(null);
   const titleId = useId();
 
-  const filtered = onlyUnread
-    ? items.filter((item) => !item.read)
-    : items;
+  const filtered = onlyUnread ? items.filter((item) => !item.read) : items;
 
   function open() {
     setError("");
@@ -181,9 +179,7 @@ export default function NotificationCenter({ user, onOpenRequest }) {
                     >
                       <strong>{copy[item.type]}</strong>
 
-                      <span className="notification-book">
-                        {item.title}
-                      </span>
+                      <span className="notification-book">{item.title}</span>
 
                       {item.type === "rejected" && item.reason && (
                         <span>
@@ -193,8 +189,7 @@ export default function NotificationCenter({ user, onOpenRequest }) {
 
                       {["dueSoon", "overdue"].includes(item.type) && (
                         <span>
-                          {copy.due}:{" "}
-                          {formatLoanDate(item.dueDate, language)}
+                          {copy.due}: {formatLoanDate(item.dueDate, language)}
                         </span>
                       )}
 
@@ -202,9 +197,7 @@ export default function NotificationCenter({ user, onOpenRequest }) {
                         {formatLoanDate(item.at, language)}
                       </time>
 
-                      <span className="notification-view">
-                        {copy.view} →
-                      </span>
+                      <span className="notification-view">{copy.view} →</span>
                     </button>
                   </li>
                 ))}

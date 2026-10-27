@@ -1,16 +1,8 @@
-import {
-  useEffect,
-  useId,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 import { Clock3, Search, X } from "lucide-react";
 
-import {
-  historyChanges,
-  libraryHistory,
-} from "../data/libraryHistory";
+import { historyChanges, libraryHistory } from "../data/libraryHistory";
 
 import { useLibraryData } from "../ui/libraryStore";
 import { authMessages } from "../ui/authMessages";
@@ -59,8 +51,7 @@ const messages = {
     close: "Đóng",
 
     empty: "Chưa có sự kiện phù hợp",
-    emptyHint:
-      "Thử đổi bộ lọc hoặc thực hiện thao tác rồi quay lại xem.",
+    emptyHint: "Thử đổi bộ lọc hoặc thực hiện thao tác rồi quay lại xem.",
 
     previous: "Trang trước",
     next: "Trang sau",
@@ -74,8 +65,7 @@ const messages = {
     before: "Trước",
     after: "Sau",
 
-    noChanges:
-      "Sự kiện này không có dữ liệu thay đổi được ghi lại.",
+    noChanges: "Sự kiện này không có dữ liệu thay đổi được ghi lại.",
 
     yes: "Có",
     no: "Không",
@@ -87,15 +77,12 @@ const messages = {
     invalidPolicy: "Quy định mượn trả không hợp lệ.",
     invalidLibraryInfo: "Thông tin thư viện không hợp lệ.",
     invalidContact: "Thông tin liên hệ không hợp lệ.",
-    settingsConflict:
-      "Cài đặt đã được cập nhật ở phiên khác.",
+    settingsConflict: "Cài đặt đã được cập nhật ở phiên khác.",
     invalidBook: "Thông tin sách không hợp lệ.",
     invalidAccount: "Thông tin tài khoản không hợp lệ.",
     duplicateIsbn: "ISBN đã tồn tại.",
-    stockBelowLoans:
-      "Số bản thấp hơn số đang giữ chỗ hoặc đang mượn.",
-    lastAdmin:
-      "Cần giữ ít nhất một admin đang hoạt động.",
+    stockBelowLoans: "Số bản thấp hơn số đang giữ chỗ hoặc đang mượn.",
+    lastAdmin: "Cần giữ ít nhất một admin đang hoạt động.",
     invalidPassword: "Mật khẩu không hợp lệ.",
     invalidUrl: "URL không hợp lệ.",
     loginRequired: "Cần đăng nhập.",
@@ -221,8 +208,7 @@ const messages = {
     close: "Close",
 
     empty: "No matching events",
-    emptyHint:
-      "Change filters, or perform an action and return here.",
+    emptyHint: "Change filters, or perform an action and return here.",
 
     previous: "Previous",
     next: "Next",
@@ -236,8 +222,7 @@ const messages = {
     before: "Before",
     after: "After",
 
-    noChanges:
-      "No changed data was recorded for this event.",
+    noChanges: "No changed data was recorded for this event.",
 
     yes: "Yes",
     no: "No",
@@ -245,21 +230,17 @@ const messages = {
     invalidRange:
       "Choose valid dates; the start date must not be after the end date.",
 
-    forbidden:
-      "You do not have permission to view these logs.",
+    forbidden: "You do not have permission to view these logs.",
 
     invalidPolicy: "Invalid borrowing rules.",
     invalidLibraryInfo: "Invalid library information.",
     invalidContact: "Invalid contact information.",
-    settingsConflict:
-      "Settings changed in another session.",
+    settingsConflict: "Settings changed in another session.",
     invalidBook: "Invalid book details.",
     invalidAccount: "Invalid account details.",
     duplicateIsbn: "ISBN already exists.",
-    stockBelowLoans:
-      "Total copies cannot cover reservations and loans.",
-    lastAdmin:
-      "At least one active administrator must remain.",
+    stockBelowLoans: "Total copies cannot cover reservations and loans.",
+    lastAdmin: "At least one active administrator must remain.",
     invalidPassword: "Invalid password.",
     invalidUrl: "Invalid URL.",
     loginRequired: "Sign-in required.",
@@ -362,13 +343,10 @@ function formatTime(value, language) {
   const date = new Date(value);
 
   return Number.isFinite(date.getTime())
-    ? new Intl.DateTimeFormat(
-        language === "vi" ? "vi-VN" : "en-GB",
-        {
-          dateStyle: "medium",
-          timeStyle: "medium",
-        },
-      ).format(date)
+    ? new Intl.DateTimeFormat(language === "vi" ? "vi-VN" : "en-GB", {
+        dateStyle: "medium",
+        timeStyle: "medium",
+      }).format(date)
     : "—";
 }
 
@@ -390,11 +368,7 @@ function targetLabel(log, copy) {
 }
 
 function displayValue(value, field, copy, language) {
-  if (
-    value === undefined ||
-    value === null ||
-    value === ""
-  ) {
+  if (value === undefined || value === null || value === "") {
     return "—";
   }
 
@@ -407,22 +381,13 @@ function displayValue(value, field, copy, language) {
   }
 
   if (["role", "status"].includes(field)) {
-    return (
-      copy[value] ||
-      loanMessages[language][value] ||
-      String(value)
-    );
+    return copy[value] || loanMessages[language][value] || String(value);
   }
 
   return String(value);
 }
 
-function HistoryDialog({
-  log,
-  copy,
-  language,
-  onClose,
-}) {
+function HistoryDialog({ log, copy, language, onClose }) {
   const dialog = useRef(null);
   const titleId = useId();
 
@@ -446,22 +411,16 @@ function HistoryDialog({
 
     [
       copy.actor,
-      [log.actorName, log.actorEmail]
-        .filter(Boolean)
-        .join(" · ") || copy.unknown,
+      [log.actorName, log.actorEmail].filter(Boolean).join(" · ") ||
+        copy.unknown,
     ],
 
-    [
-      copy.result,
-      copy[log.result] || log.result || "—",
-    ],
+    [copy.result, copy[log.result] || log.result || "—"],
 
     [copy.target, targetLabel(log, copy)],
     [copy.identifier, log.targetId || "—"],
 
-    ...(log.attemptedEmail
-      ? [[copy.attemptedEmail, log.attemptedEmail]]
-      : []),
+    ...(log.attemptedEmail ? [[copy.attemptedEmail, log.attemptedEmail]] : []),
 
     ...(reason ? [[copy.error, reason]] : []),
   ];
@@ -477,15 +436,9 @@ function HistoryDialog({
       }}
     >
       <div className="history-dialog-heading">
-        <h2 id={titleId}>
-          {eventLabel(log, copy)}
-        </h2>
+        <h2 id={titleId}>{eventLabel(log, copy)}</h2>
 
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label={copy.close}
-        >
+        <button type="button" onClick={onClose} aria-label={copy.close}>
           <X size={20} />
         </button>
       </div>
@@ -511,11 +464,7 @@ function HistoryDialog({
           <table className="history-table history-changes">
             <thead>
               <tr>
-                {[
-                  copy.field,
-                  copy.before,
-                  copy.after,
-                ].map((label) => (
+                {[copy.field, copy.before, copy.after].map((label) => (
                   <th scope="col" key={label}>
                     {label}
                   </th>
@@ -526,36 +475,18 @@ function HistoryDialog({
             <tbody>
               {changes.map(({ field, before, after }) => (
                 <tr key={field}>
-                  <th scope="row">
-                    {copy.fields[field] || field}
-                  </th>
+                  <th scope="row">{copy.fields[field] || field}</th>
 
-                  <td>
-                    {displayValue(
-                      before,
-                      field,
-                      copy,
-                      language,
-                    )}
-                  </td>
+                  <td>{displayValue(before, field, copy, language)}</td>
 
-                  <td>
-                    {displayValue(
-                      after,
-                      field,
-                      copy,
-                      language,
-                    )}
-                  </td>
+                  <td>{displayValue(after, field, copy, language)}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       ) : (
-        <p className="history-muted">
-          {copy.noChanges}
-        </p>
+        <p className="history-muted">{copy.noChanges}</p>
       )}
     </dialog>
   );
@@ -572,10 +503,7 @@ export default function HistoryPage({ kind }) {
 
   const view = libraryHistory(data, kind, filters);
 
-  const pageCount = Math.max(
-    1,
-    Math.ceil(view.rows.length / pageSize),
-  );
+  const pageCount = Math.max(1, Math.ceil(view.rows.length / pageSize));
 
   const currentPage = Math.min(page, pageCount);
 
@@ -586,9 +514,7 @@ export default function HistoryPage({ kind }) {
 
   const selected =
     selectedId &&
-    libraryHistory(data, kind).rows.find(
-      (row) => row.id === selectedId,
-    );
+    libraryHistory(data, kind).rows.find((row) => row.id === selectedId);
 
   function change(name, value) {
     setFilters((current) => ({
@@ -604,10 +530,7 @@ export default function HistoryPage({ kind }) {
   }
 
   return (
-    <section
-      className="history-page loan-workspace"
-      aria-label={copy[kind]}
-    >
+    <section className="history-page loan-workspace" aria-label={copy[kind]}>
       <div className="history-heading">
         <div>
           <h2>
@@ -615,15 +538,7 @@ export default function HistoryPage({ kind }) {
             {copy[kind]}
           </h2>
 
-          <p>
-            {
-              copy[
-                kind === "audit"
-                  ? "auditHint"
-                  : "accessHint"
-              ]
-            }
-          </p>
+          <p>{copy[kind === "audit" ? "auditHint" : "accessHint"]}</p>
         </div>
 
         <span className="history-scope">
@@ -639,9 +554,8 @@ export default function HistoryPage({ kind }) {
           [copy.total, view.total],
           [
             copy.issues,
-            view.rows.filter((row) =>
-              ["failed", "denied"].includes(row.result),
-            ).length,
+            view.rows.filter((row) => ["failed", "denied"].includes(row.result))
+              .length,
           ],
         ].map(([label, count]) => (
           <div key={label}>
@@ -662,9 +576,7 @@ export default function HistoryPage({ kind }) {
             type="search"
             value={filters.query}
             placeholder={copy.searchHint}
-            onChange={(event) =>
-              change("query", event.target.value)
-            }
+            onChange={(event) => change("query", event.target.value)}
           />
         </label>
 
@@ -675,9 +587,7 @@ export default function HistoryPage({ kind }) {
             <input
               type="date"
               value={filters[name]}
-              onChange={(event) =>
-                change(name, event.target.value)
-              }
+              onChange={(event) => change(name, event.target.value)}
             />
           </label>
         ))}
@@ -688,16 +598,9 @@ export default function HistoryPage({ kind }) {
           <select
             aria-label={copy.result}
             value={filters.result}
-            onChange={(event) =>
-              change("result", event.target.value)
-            }
+            onChange={(event) => change("result", event.target.value)}
           >
-            {[
-              "all",
-              "success",
-              "failed",
-              "denied",
-            ].map((value) => (
+            {["all", "success", "failed", "denied"].map((value) => (
               <option key={value} value={value}>
                 {copy[value]}
               </option>
@@ -711,9 +614,7 @@ export default function HistoryPage({ kind }) {
           <select
             aria-label={copy.action}
             value={filters.action}
-            onChange={(event) =>
-              change("action", event.target.value)
-            }
+            onChange={(event) => change("action", event.target.value)}
           >
             <option value="all">{copy.all}</option>
 
@@ -731,9 +632,7 @@ export default function HistoryPage({ kind }) {
           <select
             aria-label={copy.sort}
             value={filters.sort}
-            onChange={(event) =>
-              change("sort", event.target.value)
-            }
+            onChange={(event) => change("sort", event.target.value)}
           >
             {["newest", "oldest"].map((value) => (
               <option key={value} value={value}>
@@ -796,50 +695,35 @@ export default function HistoryPage({ kind }) {
 
                 <td>
                   <strong>
-                    {log.actorName ||
-                      log.actorEmail ||
-                      copy.unknown}
+                    {log.actorName || log.actorEmail || copy.unknown}
                   </strong>
 
-                  {log.actorEmail && (
-                    <small>{log.actorEmail}</small>
-                  )}
+                  {log.actorEmail && <small>{log.actorEmail}</small>}
 
                   {log.actorRole && (
-                    <small>
-                      {copy[log.actorRole] || log.actorRole}
-                    </small>
+                    <small>{copy[log.actorRole] || log.actorRole}</small>
                   )}
 
                   {log.attemptedEmail && (
                     <small>
-                      {copy.attemptedEmail}:{" "}
-                      {log.attemptedEmail}
+                      {copy.attemptedEmail}: {log.attemptedEmail}
                     </small>
                   )}
                 </td>
 
-                <th scope="row">
-                  {eventLabel(log, copy)}
-                </th>
+                <th scope="row">{eventLabel(log, copy)}</th>
 
                 <td>{targetLabel(log, copy)}</td>
 
                 <td>
                   <span
                     className={`history-result is-${
-                      [
-                        "success",
-                        "failed",
-                        "denied",
-                      ].includes(log.result)
+                      ["success", "failed", "denied"].includes(log.result)
                         ? log.result
                         : "unknown"
                     }`}
                   >
-                    {copy[log.result] ||
-                      log.result ||
-                      "—"}
+                    {copy[log.result] || log.result || "—"}
                   </span>
                 </td>
 
@@ -847,15 +731,10 @@ export default function HistoryPage({ kind }) {
                   <button
                     className="loan-button"
                     type="button"
-                    aria-label={`${
-                      copy.details
-                    }: ${eventLabel(
+                    aria-label={`${copy.details}: ${eventLabel(
                       log,
                       copy,
-                    )} · ${formatTime(
-                      log.at,
-                      language,
-                    )} · ${
+                    )} · ${formatTime(log.at, language)} · ${
                       log.actorEmail || copy.unknown
                     }`}
                     onClick={() => setSelectedId(log.id)}
@@ -876,10 +755,7 @@ export default function HistoryPage({ kind }) {
         )}
       </div>
 
-      <nav
-        className="history-pagination"
-        aria-label={copy.page}
-      >
+      <nav className="history-pagination" aria-label={copy.page}>
         <button
           className="loan-button"
           type="button"

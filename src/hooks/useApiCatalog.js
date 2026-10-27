@@ -1,13 +1,6 @@
-import {
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useRef, useState } from "react";
 
-import {
-  fetchCatalogPage,
-  mergeCatalogBooks,
-} from "../api/catalog.js";
+import { fetchCatalogPage, mergeCatalogBooks } from "../api/catalog.js";
 
 import { ApiError } from "../api/client.js";
 
@@ -26,47 +19,42 @@ export default function useApiCatalog(query) {
 
   const requestKey = `${queryKey}:${attempt}`;
 
-  const current =
-    state?.key === requestKey ? state : null;
+  const current = state?.key === requestKey ? state : null;
 
   useEffect(() => {
     const controller = new AbortController();
 
-    const timer = window.setTimeout(
-      async () => {
-        try {
-          const page = await fetchCatalogPage(
-            JSON.parse(queryKey),
-            { signal: controller.signal },
-          );
+    const timer = window.setTimeout(async () => {
+      try {
+        const page = await fetchCatalogPage(JSON.parse(queryKey), {
+          signal: controller.signal,
+        });
 
-          if (!controller.signal.aborted) {
-            setState({
-              ...page,
-              key: requestKey,
-              error: null,
-              moreError: null,
-              loadingMore: false,
-              cursors: [],
-            });
-          }
-        } catch (error) {
-          if (!controller.signal.aborted) {
-            setState({
-              key: requestKey,
-              items: [],
-              nextCursor: null,
-              total: null,
-              error,
-              moreError: null,
-              loadingMore: false,
-              cursors: [],
-            });
-          }
+        if (!controller.signal.aborted) {
+          setState({
+            ...page,
+            key: requestKey,
+            error: null,
+            moreError: null,
+            loadingMore: false,
+            cursors: [],
+          });
         }
-      },
-      250,
-    );
+      } catch (error) {
+        if (!controller.signal.aborted) {
+          setState({
+            key: requestKey,
+            items: [],
+            nextCursor: null,
+            total: null,
+            error,
+            moreError: null,
+            loadingMore: false,
+            cursors: [],
+          });
+        }
+      }
+    }, 250);
 
     return () => {
       window.clearTimeout(timer);
@@ -78,11 +66,7 @@ export default function useApiCatalog(query) {
   }, [queryKey, requestKey]);
 
   async function loadMore() {
-    if (
-      !current?.nextCursor ||
-      current.loadingMore ||
-      moreRequest.current
-    ) {
+    if (!current?.nextCursor || current.loadingMore || moreRequest.current) {
       return;
     }
 
@@ -114,15 +98,9 @@ export default function useApiCatalog(query) {
 
       if (
         page.nextCursor === cursor ||
-        (page.nextCursor &&
-          current.cursors.includes(
-            page.nextCursor,
-          ))
+        (page.nextCursor && current.cursors.includes(page.nextCursor))
       ) {
-        throw new ApiError(
-          "invalidResponse",
-          "Con trỏ phân trang bị lặp.",
-        );
+        throw new ApiError("invalidResponse", "Con trỏ phân trang bị lặp.");
       }
 
       setState((previous) =>
@@ -130,21 +108,14 @@ export default function useApiCatalog(query) {
           ? {
               ...previous,
 
-              items: mergeCatalogBooks(
-                previous.items,
-                page.items,
-              ),
+              items: mergeCatalogBooks(previous.items, page.items),
 
               nextCursor: page.nextCursor,
-              total:
-                page.total ?? previous.total,
+              total: page.total ?? previous.total,
               loadingMore: false,
               moreError: null,
 
-              cursors: [
-                ...previous.cursors,
-                cursor,
-              ],
+              cursors: [...previous.cursors, cursor],
             }
           : previous,
       );
@@ -161,9 +132,7 @@ export default function useApiCatalog(query) {
         );
       }
     } finally {
-      if (
-        moreRequest.current === controller
-      ) {
+      if (moreRequest.current === controller) {
         moreRequest.current = null;
       }
     }
@@ -175,12 +144,10 @@ export default function useApiCatalog(query) {
     loading: !current,
     error: current?.error || null,
     nextCursor: current?.nextCursor || null,
-    loadingMore:
-      current?.loadingMore || false,
+    loadingMore: current?.loadingMore || false,
     moreError: current?.moreError || null,
 
-    reload: () =>
-      setAttempt((value) => value + 1),
+    reload: () => setAttempt((value) => value + 1),
 
     loadMore,
   };

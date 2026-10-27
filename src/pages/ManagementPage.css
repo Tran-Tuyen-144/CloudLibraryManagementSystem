@@ -50,7 +50,9 @@
 }
 
 .management-brand strong {
-  font: 600 19px Cambria, serif;
+  font:
+    600 19px Cambria,
+    serif;
   white-space: nowrap;
 }
 
@@ -153,7 +155,9 @@
 
 .management-header h1 {
   margin: 4px 0 0;
-  font: 400 28px Cambria, serif;
+  font:
+    400 28px Cambria,
+    serif;
 }
 
 .management-header .ui-controls {
@@ -246,7 +250,9 @@
 
 .management-welcome h2 {
   margin: 8px 0;
-  font: 400 30px Cambria, serif;
+  font:
+    400 30px Cambria,
+    serif;
 }
 
 .management-welcome p {
@@ -296,7 +302,9 @@
 
 .management-overview .loan-panel-heading h2 {
   margin: 0;
-  font: 400 23px Cambria, serif;
+  font:
+    400 23px Cambria,
+    serif;
 }
 
 .management-overview .loan-button {
@@ -466,12 +474,7 @@
   --panel-shadow: #03092044;
   --focus-glow: #91e3ff33;
 
-  --cover-bg: linear-gradient(
-    145deg,
-    #244c82,
-    #513575,
-    #8254a5
-  );
+  --cover-bg: linear-gradient(145deg, #244c82, #513575, #8254a5);
 
   --cover-text: #f2f6ff;
 
@@ -479,36 +482,19 @@
   --management-violet-glow: #8547d92e;
   --management-pink-glow: #df79db1c;
 
-  --management-sidebar: linear-gradient(
-    180deg,
-    #101d44,
-    #191735
-  );
+  --management-sidebar: linear-gradient(180deg, #101d44, #191735);
 
-  --management-header: linear-gradient(
-    110deg,
-    #122148,
-    #241e46
-  );
+  --management-header: linear-gradient(110deg, #122148, #241e46);
 
-  --management-primary: linear-gradient(
-    115deg,
-    #92e5ff,
-    #b5b8ff
-  );
+  --management-primary: linear-gradient(115deg, #92e5ff, #b5b8ff);
 
-  --management-primary-hover: linear-gradient(
-    115deg,
-    #b0efff,
-    #d0c6ff
-  );
+  --management-primary-hover: linear-gradient(115deg, #b0efff, #d0c6ff);
 
   --management-note: #112044b3;
   --management-star: #d8edff;
   --management-star-opacity: 0.12;
 
-  --management-shadow:
-    0 12px 32px #03092030;
+  --management-shadow: 0 12px 32px #03092030;
 
   color-scheme: dark;
 }
@@ -541,12 +527,7 @@
   --panel-shadow: #28458112;
   --focus-glow: #597fe52b;
 
-  --cover-bg: linear-gradient(
-    145deg,
-    #dceaff,
-    #e8ddff,
-    #f4dffa
-  );
+  --cover-bg: linear-gradient(145deg, #dceaff, #e8ddff, #f4dffa);
 
   --cover-text: #283963;
 
@@ -554,36 +535,19 @@
   --management-violet-glow: #c5b7ff40;
   --management-pink-glow: #efbaff33;
 
-  --management-sidebar: linear-gradient(
-    180deg,
-    #f6faff,
-    #f4efff
-  );
+  --management-sidebar: linear-gradient(180deg, #f6faff, #f4efff);
 
-  --management-header: linear-gradient(
-    110deg,
-    #f8fcff,
-    #f4efff
-  );
+  --management-header: linear-gradient(110deg, #f8fcff, #f4efff);
 
-  --management-primary: linear-gradient(
-    115deg,
-    #365fcb,
-    #7850bd
-  );
+  --management-primary: linear-gradient(115deg, #365fcb, #7850bd);
 
-  --management-primary-hover: linear-gradient(
-    115deg,
-    #294eaf,
-    #653da6
-  );
+  --management-primary-hover: linear-gradient(115deg, #294eaf, #653da6);
 
   --management-note: #ffffffb3;
   --management-star: #587cc1;
   --management-star-opacity: 0.07;
 
-  --management-shadow:
-    0 10px 28px #2845810d;
+  --management-shadow: 0 10px 28px #2845810d;
 
   color-scheme: light;
 }
@@ -625,16 +589,8 @@
   pointer-events: none;
 
   background-image:
-    radial-gradient(
-      circle,
-      var(--management-star) 0.6px,
-      transparent 1.2px
-    ),
-    radial-gradient(
-      circle,
-      var(--management-star) 0.8px,
-      transparent 1.5px
-    );
+    radial-gradient(circle, var(--management-star) 0.6px, transparent 1.2px),
+    radial-gradient(circle, var(--management-star) 0.8px, transparent 1.5px);
 
   background-size:
     173px 191px,
@@ -665,9 +621,7 @@
   border: 1px solid var(--border);
 }
 
-.management-app[data-theme]
-  .management-nav
-  button[aria-current="page"] {
+.management-app[data-theme] .management-nav button[aria-current="page"] {
   color: var(--text-primary);
   background: var(--selected-bg);
   border-color: var(--border);
@@ -685,45 +639,44 @@
 
 /* Các thẻ, bảng và bộ lọc. */
 
-.management-app[data-theme] :is(
-  .report-panel,
-  .report-metric,
-  .report-filters,
-  .report-inventory,
-  .history-stats > div,
-  .history-filters,
-  .history-table-scroll,
-  .manage-toolbar,
-  .manage-table-scroll,
-  .management-permissions,
-  .loan-panel
-) {
+.management-app[data-theme]
+  :is(
+    .report-panel,
+    .report-metric,
+    .report-filters,
+    .report-inventory,
+    .history-stats > div,
+    .history-filters,
+    .history-table-scroll,
+    .manage-toolbar,
+    .manage-table-scroll,
+    .management-permissions,
+    .loan-panel
+  ) {
   box-shadow: var(--management-shadow);
 }
 
 /* Nút chính và khoảng ngày đang chọn. */
 
-.management-app[data-theme] :is(
-  .loan-button.is-primary,
-  .report-presets button[aria-pressed="true"]
-) {
+.management-app[data-theme]
+  :is(.loan-button.is-primary, .report-presets button[aria-pressed="true"]) {
   color: var(--primary-text);
   background: var(--management-primary);
   border-color: var(--primary-bg);
   box-shadow: 0 4px 14px var(--focus-glow);
 }
 
-.management-app[data-theme] :is(
-  .loan-button.is-primary,
-  .report-presets button[aria-pressed="true"]
-):hover:not(:disabled) {
+.management-app[data-theme]
+  :is(
+    .loan-button.is-primary,
+    .report-presets button[aria-pressed="true"]
+  ):hover:not(:disabled) {
   background: var(--management-primary-hover);
 }
 
 /* Ô nhập và danh sách chọn. */
 
-.management-app[data-theme]
-  :is(input, textarea)::placeholder {
+.management-app[data-theme] :is(input, textarea)::placeholder {
   color: var(--text-muted);
   opacity: 1;
 }
@@ -740,11 +693,7 @@
 
 /* Hộp thoại quản lý và mượn trả. */
 
-.management-app[data-theme] :is(
-  .manage-dialog,
-  .history-dialog,
-  .loan-dialog
-) {
+.management-app[data-theme] :is(.manage-dialog, .history-dialog, .loan-dialog) {
   background: var(--bg-panel);
   color: var(--text-primary);
   border-color: var(--border);

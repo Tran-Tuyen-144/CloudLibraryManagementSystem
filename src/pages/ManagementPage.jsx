@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-
+import AuthorApplicationsPage from "./AuthorApplicationsPage";
 import {
   BookOpen,
   ClipboardList,
@@ -13,7 +13,7 @@ import {
   LogIn,
   Settings,
 } from "lucide-react";
-
+import ManuscriptReviewPage from "./ManuscriptReviewPage";
 import UiControls from "../components/layout/UiControls";
 import LibrarianPage from "./LibrarianPage";
 import PermissionPage from "./PermissionPage";
@@ -24,17 +24,11 @@ import LibrarySettingsPage from "./LibrarySettingsPage";
 
 import { useLibrarySettings } from "../ui/librarySettingsStore";
 
-import {
-  MANAGEMENT_PAGES,
-  managementVisit,
-} from "../data/libraryHistory";
+import { MANAGEMENT_PAGES, managementVisit } from "../data/libraryHistory";
 
 import { updateLibrary } from "../ui/libraryStore";
 
-import {
-  hasPermission,
-  PERMISSIONS as P,
-} from "../data/libraryPermissions";
+import { hasPermission, PERMISSIONS as P } from "../data/libraryPermissions";
 
 import { useUiSettings } from "../ui/settings";
 
@@ -43,6 +37,8 @@ import "./ManagementPage.css";
 
 const messages = {
   vi: {
+    manuscripts: "Duyệt tác phẩm",
+    authors: "Duyệt tác giả",
     area: "KHU VỰC QUẢN TRỊ",
     overview: "Tổng quan",
     settings: "Cài đặt thư viện",
@@ -58,11 +54,12 @@ const messages = {
     admin: "Quản trị viên · Demo",
     logout: "Đăng xuất",
     navigation: "Điều hướng quản trị",
-    demo:
-      "Demo frontend: tài khoản, quyền và dữ liệu được kiểm tra, lưu trong trình duyệt. Chưa kết nối xác thực máy chủ.",
+    demo: "Demo frontend: tài khoản, quyền và dữ liệu được kiểm tra, lưu trong trình duyệt. Chưa kết nối xác thực máy chủ.",
   },
 
   en: {
+    manuscripts: "Manuscript reviews",
+    authors: "Author applications",
     area: "MANAGEMENT AREA",
     overview: "Overview",
     settings: "Library settings",
@@ -72,15 +69,13 @@ const messages = {
     permissions: "Account permissions",
     audit: "Activity history",
     access: "Access history",
-    forbidden:
-      "You do not have permission to open this function.",
+    forbidden: "You do not have permission to open this function.",
     loans: "Loan management",
     role: "Librarian · Demo",
     admin: "Administrator · Demo",
     logout: "Sign out",
     navigation: "Management navigation",
-    demo:
-      "Frontend demo: accounts, permissions and data are checked and saved in this browser. Server authentication is not connected.",
+    demo: "Frontend demo: accounts, permissions and data are checked and saved in this browser. Server authentication is not connected.",
   },
 };
 
@@ -105,15 +100,11 @@ export default function ManagementPage({
 
     entered.current = true;
 
-    updateLibrary((state) =>
-      managementVisit(state, "overview"),
-    );
+    updateLibrary((state) => managementVisit(state, "overview"));
   }, []);
 
   function openPage(nextPage) {
-    updateLibrary((state) =>
-      managementVisit(state, nextPage),
-    );
+    updateLibrary((state) => managementVisit(state, nextPage));
 
     setPage(nextPage);
   }
@@ -124,11 +115,7 @@ export default function ManagementPage({
   }
 
   return (
-    <div
-      className="management-app"
-      data-theme={theme}
-      lang={language}
-    >
+    <div className="management-app" data-theme={theme} lang={language}>
       <aside className="management-sidebar">
         <div className="management-brand">
           <span>
@@ -141,10 +128,7 @@ export default function ManagementPage({
           </div>
         </div>
 
-        <nav
-          className="management-nav"
-          aria-label={copy.navigation}
-        >
+        <nav className="management-nav" aria-label={copy.navigation}>
           {[
             {
               id: "overview",
@@ -165,6 +149,16 @@ export default function ManagementPage({
               id: "readersPage",
               permission: P.READERS_READ,
               Icon: Users,
+            },
+            {
+              id: "authors",
+              permission: P.AUTHORS_REVIEW,
+              Icon: UserCog,
+            },
+            {
+              id: "manuscripts",
+              permission: P.MANUSCRIPTS_REVIEW,
+              Icon: BookOpen,
             },
             {
               id: "staff",
@@ -192,21 +186,13 @@ export default function ManagementPage({
               Icon: ShieldCheck,
             },
           ]
-            .filter((item) =>
-              hasPermission(user, item.permission),
-            )
+            .filter((item) => hasPermission(user, item.permission))
             .map(({ id, Icon }) => (
               <button
                 key={id}
                 type="button"
-                aria-current={
-                  page === id ? "page" : undefined
-                }
-                onClick={() =>
-                  id === "loans"
-                    ? openLoans()
-                    : openPage(id)
-                }
+                aria-current={page === id ? "page" : undefined}
+                onClick={() => (id === "loans" ? openLoans() : openPage(id))}
               >
                 <Icon size={19} aria-hidden="true" />
                 {copy[id]}
@@ -215,9 +201,7 @@ export default function ManagementPage({
         </nav>
 
         <div className="management-account">
-          <span>
-            {user.role === "admin" ? copy.admin : copy.role}
-          </span>
+          <span>{user.role === "admin" ? copy.admin : copy.role}</span>
 
           <strong>{user.fullName}</strong>
           <small>{user.email}</small>
@@ -242,23 +226,20 @@ export default function ManagementPage({
         <main className="management-main">
           <p className="management-demo">{copy.demo}</p>
 
-          {!hasPermission(
-            user,
-            MANAGEMENT_PAGES[page],
-          ) ? (
+          {!hasPermission(user, MANAGEMENT_PAGES[page]) ? (
             <p role="alert">{copy.forbidden}</p>
+          ) : page === "manuscripts" ? (
+            <ManuscriptReviewPage />
+          ) : page === "authors" ? (
+            <AuthorApplicationsPage />
           ) : page === "settings" ? (
             <LibrarySettingsPage />
           ) : ["audit", "access"].includes(page) ? (
             <HistoryPage key={page} kind={page} />
-          ) : ["books", "readersPage", "staff"].includes(
-              page,
-            ) ? (
+          ) : ["books", "readersPage", "staff"].includes(page) ? (
             <ManagementModules
               key={page}
-              kind={
-                page === "readersPage" ? "readers" : page
-              }
+              kind={page === "readersPage" ? "readers" : page}
             />
           ) : page === "permissions" ? (
             <PermissionPage user={user} />
@@ -271,9 +252,7 @@ export default function ManagementPage({
               requests={requests}
               onProcess={onProcess}
               onCreateDemo={
-                hasPermission(user, P.DEMO_SEED)
-                  ? onCreateDemo
-                  : undefined
+                hasPermission(user, P.DEMO_SEED) ? onCreateDemo : undefined
               }
               initialTab={initialTab}
               embedded

@@ -25,8 +25,7 @@ const safeUrl = (value) => {
   }
 };
 
-const isbnKey = (value) =>
-  text(value, 32).replace(/[\s-]/g, "").toUpperCase();
+const isbnKey = (value) => text(value, 32).replace(/[\s-]/g, "").toUpperCase();
 
 export function saveManagedBook(state, input) {
   if (!hasPermission(currentLibraryUser(state), P.BOOKS_MANAGE)) {
@@ -64,8 +63,7 @@ export function saveManagedBook(state, input) {
     fields.isbn &&
     state.books.some(
       (book) =>
-        book.id !== input.id &&
-        isbnKey(book.isbn) === isbnKey(fields.isbn),
+        book.id !== input.id && isbnKey(book.isbn) === isbnKey(fields.isbn),
     )
   ) {
     return fail("duplicateIsbn");
@@ -99,9 +97,7 @@ export function saveManagedBook(state, input) {
     state: {
       ...state,
       books: before
-        ? state.books.map((book) =>
-            book.id === before.id ? after : book,
-          )
+        ? state.books.map((book) => (book.id === before.id ? after : book))
         : [...state.books, after],
     },
   };
@@ -130,16 +126,13 @@ export function archiveManagedBook(state, id, archived) {
     },
     state: {
       ...state,
-      books: state.books.map((book) =>
-        book.id === id ? after : book,
-      ),
+      books: state.books.map((book) => (book.id === id ? after : book)),
     },
   };
 }
 
 export function saveManagedAccount(state, input, kind, credential) {
-  const permission =
-    kind === "readers" ? P.READERS_MANAGE : P.ACCOUNTS_MANAGE;
+  const permission = kind === "readers" ? P.READERS_MANAGE : P.ACCOUNTS_MANAGE;
 
   if (!hasPermission(currentLibraryUser(state), permission)) {
     return fail("forbidden");
@@ -151,7 +144,10 @@ export function saveManagedAccount(state, input, kind, credential) {
 
   const email = text(input.email, 254).toLowerCase();
   const fullName = text(input.fullName, 100);
-  const role = kind === "readers" ? "reader" : input.role;
+  const role =
+    kind === "readers"
+      ? state.accounts.find((account) => account.email === email)?.role
+      : input.role;
   const status = input.status;
 
   if (
@@ -159,15 +155,13 @@ export function saveManagedAccount(state, input, kind, credential) {
     !fullName ||
     !["active", "locked"].includes(status) ||
     !(kind === "readers"
-      ? role === "reader"
+      ? ["reader", "author"].includes(role)
       : ["admin", "librarian"].includes(role))
   ) {
     return fail("invalidAccount");
   }
 
-  const before = state.accounts.find(
-    (account) => account.email === email,
-  );
+  const before = state.accounts.find((account) => account.email === email);
 
   if (input.create) {
     if (kind !== "staff" || before) {
@@ -204,7 +198,7 @@ export function saveManagedAccount(state, input, kind, credential) {
 
   if (
     !before ||
-    (kind === "readers") !== (before.role === "reader")
+    (kind === "readers") !== ["reader", "author"].includes(before.role)
   ) {
     return fail("invalidAccount");
   }
@@ -240,10 +234,7 @@ export function managedAccounts(state, kind) {
   const actor = currentLibraryUser(state);
 
   if (
-    !hasPermission(
-      actor,
-      kind === "staff" ? P.ACCOUNTS_MANAGE : P.READERS_READ,
-    )
+    !hasPermission(actor, kind === "staff" ? P.ACCOUNTS_MANAGE : P.READERS_READ)
   ) {
     return [];
   }
@@ -251,9 +242,10 @@ export function managedAccounts(state, kind) {
   const rows = flattenRequests(state.requestsByEmail);
 
   return state.accounts
-    .filter(
-      (account) =>
-        (account.role === "reader") === (kind === "readers"),
+    .filter((account) =>
+      kind === "readers"
+        ? ["reader", "author"].includes(account.role)
+        : ["admin", "librarian"].includes(account.role),
     )
     .map((account) => ({
       ...publicAccount(account),

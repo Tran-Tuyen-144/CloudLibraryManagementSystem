@@ -1,18 +1,12 @@
 import { useState } from "react";
-import {
-  BookOpen,
-  Library,
-} from "lucide-react";
+import { BookOpen, Library } from "lucide-react";
 
 import CatalogPage from "./CatalogPage";
 import useApiCatalog from "../hooks/useApiCatalog";
 import UiControls from "../components/layout/UiControls";
 import BotanicalDecor from "../components/layout/BotanicalDecor";
 
-import {
-  useUiSettings,
-  t,
-} from "../ui/settings";
+import { useUiSettings, t } from "../ui/settings";
 
 import "../App.css";
 import "../GalaxyTheme.css";
@@ -30,8 +24,7 @@ const initialFilters = {
 const messages = {
   vi: {
     note: "Danh mục đang ở chế độ chỉ xem.",
-    error:
-      "Không thể tải danh mục sách. Vui lòng thử lại.",
+    error: "Không thể tải danh mục sách. Vui lòng thử lại.",
     moreError:
       "Chưa tải được trang tiếp theo. Các sách đã tải vẫn được giữ lại.",
     more: "Xem thêm sách",
@@ -41,8 +34,7 @@ const messages = {
 
   en: {
     note: "The catalog is currently read-only.",
-    error:
-      "The catalog could not be loaded. Please try again.",
+    error: "The catalog could not be loaded. Please try again.",
     moreError:
       "The next page could not be loaded. Previously loaded books are still available.",
     more: "Load more books",
@@ -55,11 +47,9 @@ export default function ApiCatalogPage() {
   const { theme, language } = useUiSettings();
   const copy = messages[language];
 
-  const [searchTerm, setSearchTerm] =
-    useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const [filters, setFilters] =
-    useState(initialFilters);
+  const [filters, setFilters] = useState(initialFilters);
 
   const catalog = useApiCatalog({
     q: searchTerm,
@@ -87,24 +77,16 @@ export default function ApiCatalogPage() {
           aria-label="Cloud Library"
         >
           <span className="sidebar-brand-mark">
-            <Library
-              size={24}
-              aria-hidden="true"
-            />
+            <Library size={24} aria-hidden="true" />
           </span>
 
           <span className="sidebar-brand-text">
             <strong>Cloud Library</strong>
-            <small>
-              {t("Thư viện của bạn")}
-            </small>
+            <small>{t("Thư viện của bạn")}</small>
           </span>
         </button>
 
-        <nav
-          className="sidebar-nav"
-          aria-label={t("Danh mục sách")}
-        >
+        <nav className="sidebar-nav" aria-label={t("Danh mục sách")}>
           <button
             type="button"
             className="sidebar-button is-active"
@@ -112,32 +94,23 @@ export default function ApiCatalogPage() {
             onClick={reset}
             title={t("Danh mục sách")}
           >
-            <BookOpen
-              size={21}
-              aria-hidden="true"
-            />
+            <BookOpen size={21} aria-hidden="true" />
 
-            <span className="sidebar-label">
-              {t("Danh mục sách")}
-            </span>
+            <span className="sidebar-label">{t("Danh mục sách")}</span>
           </button>
         </nav>
       </aside>
 
       <main className="main-content botanical-main">
         <header className="header api-catalog-header">
-          <h1 className="header-title">
-            {t("Danh mục sách")}
-          </h1>
+          <h1 className="header-title">{t("Danh mục sách")}</h1>
 
           <div className="header-actions">
             <UiControls />
           </div>
         </header>
 
-        <p className="api-catalog-note">
-          {copy.note}
-        </p>
+        <p className="api-catalog-note">{copy.note}</p>
 
         <CatalogPage
           books={catalog.items}
@@ -148,40 +121,33 @@ export default function ApiCatalogPage() {
           onReset={reset}
           remote
           loading={catalog.loading}
-          errorMessage={
-            catalog.error ? copy.error : ""
-          }
+          errorMessage={catalog.error ? copy.error : ""}
           onRetry={catalog.reload}
           totalCount={catalog.total}
         />
 
         {catalog.moreError && (
-          <p
-            className="api-catalog-more-error"
-            role="alert"
-          >
+          <p className="api-catalog-more-error" role="alert">
             {copy.moreError}
           </p>
         )}
 
-        {catalog.nextCursor &&
-          !catalog.loading &&
-          !catalog.error && (
-            <div className="api-catalog-pagination">
-              <button
-                type="button"
-                className="catalog-reset"
-                disabled={catalog.loadingMore}
-                onClick={catalog.loadMore}
-              >
-                {catalog.loadingMore
-                  ? copy.loading
-                  : catalog.moreError
-                    ? copy.retry
-                    : copy.more}
-              </button>
-            </div>
-          )}
+        {catalog.nextCursor && !catalog.loading && !catalog.error && (
+          <div className="api-catalog-pagination">
+            <button
+              type="button"
+              className="catalog-reset"
+              disabled={catalog.loadingMore}
+              onClick={catalog.loadMore}
+            >
+              {catalog.loadingMore
+                ? copy.loading
+                : catalog.moreError
+                  ? copy.retry
+                  : copy.more}
+            </button>
+          </div>
+        )}
       </main>
     </div>
   );

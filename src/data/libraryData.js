@@ -1,10 +1,7 @@
 import { normalizeLibrarySettings } from "./librarySettings.js";
 import { isDemoCredential } from "./demoCredentials.js";
 
-import {
-  getDemoAccountProfiles,
-  restoreDemoSession,
-} from "./demoAccounts.js";
+import { getDemoAccountProfiles, restoreDemoSession } from "./demoAccounts.js";
 
 import {
   hasPermission,
@@ -14,25 +11,17 @@ import {
 
 import { flattenRequests } from "../ui/borrowWorkflow.js";
 
-export const LIBRARY_STORAGE_KEY =
-  "cloudlibrary:demo-library:v3";
+export const LIBRARY_STORAGE_KEY = "cloudlibrary:demo-library:v3";
 
-export const LEGACY_REQUESTS_KEY =
-  "cloudlibrary:demo-requests-by-email:v1";
+export const LEGACY_REQUESTS_KEY = "cloudlibrary:demo-requests-by-email:v1";
 
-export const LEGACY_SESSION_KEY =
-  "cloudlibrary:demo-session:v1";
+export const LEGACY_SESSION_KEY = "cloudlibrary:demo-session:v1";
 
 const isObject = (value) =>
-  value &&
-  typeof value === "object" &&
-  !Array.isArray(value);
+  value && typeof value === "object" && !Array.isArray(value);
 
 export function createLibraryData(saved, legacy, catalogBooks) {
-  const source =
-    isObject(saved) && saved.schemaVersion === 3
-      ? saved
-      : null;
+  const source = isObject(saved) && saved.schemaVersion === 3 ? saved : null;
 
   const rows = flattenRequests(
     isObject(source?.requestsByEmail)
@@ -53,15 +42,10 @@ export function createLibraryData(saved, legacy, catalogBooks) {
   }
 
   const accounts = new Map(
-    getDemoAccountProfiles().map((account) => [
-      account.email,
-      account,
-    ]),
+    getDemoAccountProfiles().map((account) => [account.email, account]),
   );
 
-  for (const item of Array.isArray(source?.accounts)
-    ? source.accounts
-    : []) {
+  for (const item of Array.isArray(source?.accounts) ? source.accounts : []) {
     if (
       !isObject(item) ||
       typeof item.email !== "string" ||
@@ -78,9 +62,7 @@ export function createLibraryData(saved, legacy, catalogBooks) {
       email,
 
       fullName:
-        typeof item.fullName === "string"
-          ? item.fullName
-          : email.split("@")[0],
+        typeof item.fullName === "string" ? item.fullName : email.split("@")[0],
 
       role: item.role,
       status: item.status === "locked" ? "locked" : "active",
@@ -98,15 +80,12 @@ export function createLibraryData(saved, legacy, catalogBooks) {
     });
   }
 
-  const rawSession = source
-    ? source.session
-    : legacy?.session;
+  const rawSession = source ? source.session : legacy?.session;
 
   for (const email of [
     ...Object.keys(requestsByEmail),
 
-    ...(rawSession?.role === "reader" &&
-    typeof rawSession.email === "string"
+    ...(rawSession?.role === "reader" && typeof rawSession.email === "string"
       ? [rawSession.email.toLowerCase()]
       : []),
   ]) {
@@ -118,19 +97,15 @@ export function createLibraryData(saved, legacy, catalogBooks) {
 
     const candidateName =
       profile?.fullName ||
-      rows.find((row) => row.readerEmail === email)
-        ?.readerName ||
-      (rawSession?.email === email
-        ? rawSession.fullName
-        : "");
+      rows.find((row) => row.readerEmail === email)?.readerName ||
+      (rawSession?.email === email ? rawSession.fullName : "");
 
     accounts.set(email, {
       id: `account:${email}`,
       email,
 
       fullName:
-        typeof candidateName === "string" &&
-        candidateName.trim()
+        typeof candidateName === "string" && candidateName.trim()
           ? candidateName.trim()
           : email.split("@")[0],
 
@@ -141,13 +116,28 @@ export function createLibraryData(saved, legacy, catalogBooks) {
 
   const accountList = [...accounts.values()];
 
-  const session = source
-    ? rawSession
-    : restoreDemoSession(rawSession);
+  const session = source ? rawSession : restoreDemoSession(rawSession);
 
   return {
     schemaVersion: 3,
     accounts: accountList,
+    authorApplications: Array.isArray(source?.authorApplications)
+      ? source.authorApplications.filter(
+          (item) =>
+            isObject(item) &&
+            [
+              "id",
+              "readerEmail",
+              "fullName",
+              "penName",
+              "phone",
+              "bio",
+              "portfolioUrl",
+              "submittedAt",
+            ].every((field) => typeof item[field] === "string") &&
+            ["pending", "approved", "rejected"].includes(item.status),
+        )
+      : [],
 
     session:
       session &&
@@ -159,11 +149,7 @@ export function createLibraryData(saved, legacy, catalogBooks) {
           }
         : null,
 
-    books: (
-      Array.isArray(source?.books)
-        ? source.books
-        : catalogBooks
-    )
+    books: (Array.isArray(source?.books) ? source.books : catalogBooks)
       .filter(
         (book) =>
           book &&
@@ -180,17 +166,33 @@ export function createLibraryData(saved, legacy, catalogBooks) {
         ),
       })),
 
+    authorManuscripts: Array.isArray(source?.authorManuscripts)
+      ? source.authorManuscripts.filter(
+          (item) =>
+            isObject(item) &&
+            [
+              "id",
+              "authorEmail",
+              "authorName",
+              "title",
+              "category",
+              "description",
+              "pdfUrl",
+              "createdAt",
+              "updatedAt",
+              "revision",
+            ].every((field) => typeof item[field] === "string") &&
+            ["draft", "pending", "published", "rejected"].includes(item.status),
+        )
+      : [],
+
     requestsByEmail,
 
     settings: normalizeLibrarySettings(source?.settings),
 
-    auditLogs: Array.isArray(source?.auditLogs)
-      ? source.auditLogs
-      : [],
+    auditLogs: Array.isArray(source?.auditLogs) ? source.auditLogs : [],
 
-    accessLogs: Array.isArray(source?.accessLogs)
-      ? source.accessLogs
-      : [],
+    accessLogs: Array.isArray(source?.accessLogs) ? source.accessLogs : [],
   };
 }
 
@@ -251,22 +253,13 @@ export function visibleLibraryLogs(
 ) {
   if (!["audit", "access"].includes(kind)) return [];
 
-  const rows =
-    kind === "audit" ? data.auditLogs : data.accessLogs;
+  const rows = kind === "audit" ? data.auditLogs : data.accessLogs;
 
-  if (
-    hasPermission(
-      user,
-      kind === "audit" ? P.AUDIT_ALL : P.ACCESS_ALL,
-    )
-  ) {
+  if (hasPermission(user, kind === "audit" ? P.AUDIT_ALL : P.ACCESS_ALL)) {
     return rows;
   }
 
-  return hasPermission(
-    user,
-    kind === "audit" ? P.AUDIT_OWN : P.ACCESS_OWN,
-  )
+  return hasPermission(user, kind === "audit" ? P.AUDIT_OWN : P.ACCESS_OWN)
     ? rows.filter((row) => row.actorEmail === user.email)
     : [];
 }
@@ -278,9 +271,7 @@ export function changeLibraryAccount(data, email, changes) {
     return { ok: false, error: "forbidden" };
   }
 
-  const account = data.accounts.find(
-    (item) => item.email === email,
-  );
+  const account = data.accounts.find((item) => item.email === email);
 
   if (!account) {
     return { ok: false, error: "invalidAccount" };
@@ -298,8 +289,7 @@ export function changeLibraryAccount(data, email, changes) {
   const next = {
     ...account,
 
-    ...(typeof changes.fullName === "string" &&
-    changes.fullName.trim()
+    ...(typeof changes.fullName === "string" && changes.fullName.trim()
       ? {
           fullName: changes.fullName.trim().slice(0, 100),
         }
@@ -319,11 +309,7 @@ export function changeLibraryAccount(data, email, changes) {
   );
 
   if (
-    !accounts.some(
-      (item) =>
-        item.role === "admin" &&
-        item.status === "active",
-    )
+    !accounts.some((item) => item.role === "admin" && item.status === "active")
   ) {
     return { ok: false, error: "lastAdmin" };
   }
@@ -336,22 +322,15 @@ export function changeLibraryAccount(data, email, changes) {
       accounts,
 
       session:
-        data.session?.email === email &&
-        next.status === "locked"
+        data.session?.email === email && next.status === "locked"
           ? null
           : data.session,
 
       auditLogs: [
-        createLibraryLog(
-          actor,
-          "account.update",
-          email,
-          "success",
-          {
-            before: publicAccount(account),
-            after: publicAccount(next),
-          },
-        ),
+        createLibraryLog(actor, "account.update", email, "success", {
+          before: publicAccount(account),
+          after: publicAccount(next),
+        }),
         ...data.auditLogs,
       ],
     },

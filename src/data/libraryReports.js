@@ -1,9 +1,6 @@
 import { currentLibraryUser } from "./libraryData.js";
 
-import {
-  hasPermission,
-  PERMISSIONS as P,
-} from "./libraryPermissions.js";
+import { hasPermission, PERMISSIONS as P } from "./libraryPermissions.js";
 
 import {
   availableBooks,
@@ -19,49 +16,31 @@ function dayNumber(key) {
     return NaN;
   }
 
-  const [year, month, day] = key
-    .split("-")
-    .map(Number);
+  const [year, month, day] = key.split("-").map(Number);
 
-  const date = new Date(
-    Date.UTC(year, month - 1, day),
-  );
+  const date = new Date(Date.UTC(year, month - 1, day));
 
-  return date.toISOString().slice(0, 10) === key
-    ? date.getTime() / dayMs
-    : NaN;
+  return date.toISOString().slice(0, 10) === key ? date.getTime() / dayMs : NaN;
 }
 
 function eventDay(value) {
-  if (
-    typeof value !== "string" ||
-    !value.trim()
-  ) {
+  if (typeof value !== "string" || !value.trim()) {
     return "";
   }
 
   const date = new Date(value);
 
-  return Number.isFinite(date.getTime())
-    ? dateKey(date)
-    : "";
+  return Number.isFinite(date.getTime()) ? dateKey(date) : "";
 }
 
-export function reportRange(
-  days = 30,
-  now = new Date(),
-) {
+export function reportRange(days = 30, now = new Date()) {
   return {
     from: futureDate(-(days - 1), now),
     to: dateKey(now),
   };
 }
 
-export function libraryReport(
-  state,
-  filters = {},
-  now = new Date(),
-) {
+export function libraryReport(state, filters = {}, now = new Date()) {
   const actor = currentLibraryUser(state);
 
   if (
@@ -96,27 +75,15 @@ export function libraryReport(
     };
   }
 
-  const rows = flattenRequests(
-    state.requestsByEmail,
-  );
+  const rows = flattenRequests(state.requestsByEmail);
 
-  const books = new Map(
-    state.books.map((book) => [book.id, book]),
-  );
+  const books = new Map(state.books.map((book) => [book.id, book]));
 
   const accounts = new Map(
-    state.accounts.map((account) => [
-      account.email,
-      account,
-    ]),
+    state.accounts.map((account) => [account.email, account]),
   );
 
-  const within = (day) =>
-    Boolean(
-      day &&
-      day >= from &&
-      day <= to,
-    );
+  const within = (day) => Boolean(day && day >= from && day <= to);
 
   const events = rows.map((row) => ({
     row,
@@ -125,30 +92,21 @@ export function libraryReport(
     returned: eventDay(row.returnedAt),
   }));
 
-  const borrowed = events.filter((event) =>
-    within(event.borrowed),
-  );
+  const borrowed = events.filter((event) => within(event.borrowed));
 
-  const returned = events.filter((event) =>
-    within(event.returned),
-  );
+  const returned = events.filter((event) => within(event.returned));
 
   const overdue = rows
     .filter(
       (row) =>
         row.status === "borrowed" &&
-        Number.isFinite(
-          dayNumber(row.dueDate || ""),
-        ) &&
+        Number.isFinite(dayNumber(row.dueDate || "")) &&
         row.dueDate < today,
     )
     .map((row) => ({
       id: `${row.readerEmail}:${row.id}`,
 
-      title:
-        books.get(row.bookId)?.title ||
-        row.title ||
-        row.bookId,
+      title: books.get(row.bookId)?.title || row.title || row.bookId,
 
       readerName:
         accounts.get(row.readerEmail)?.fullName ||
@@ -158,14 +116,10 @@ export function libraryReport(
       readerEmail: row.readerEmail,
       dueDate: row.dueDate,
 
-      daysLate:
-        dayNumber(today) -
-        dayNumber(row.dueDate),
+      daysLate: dayNumber(today) - dayNumber(row.dueDate),
     }))
     .sort(
-      (a, b) =>
-        b.daysLate - a.daysLate ||
-        a.title.localeCompare(b.title, "vi"),
+      (a, b) => b.daysLate - a.daysLate || a.title.localeCompare(b.title, "vi"),
     );
 
   const current = Object.fromEntries(
@@ -178,74 +132,48 @@ export function libraryReport(
       "cancelled",
     ].map((status) => [
       status,
-      rows.filter(
-        (row) => row.status === status,
-      ).length,
+      rows.filter((row) => row.status === status).length,
     ]),
   );
 
   current.overdue = overdue.length;
 
-  const inventory = availableBooks(
-    state.books,
-    rows,
-  ).filter((book) => !book.archived);
+  const inventory = availableBooks(state.books, rows).filter(
+    (book) => !book.archived,
+  );
 
   const span = last - first + 1;
 
-  const unit =
-    span <= 31
-      ? "day"
-      : span <= 93
-        ? "week"
-        : "month";
+  const unit = span <= 31 ? "day" : span <= 93 ? "week" : "month";
 
   const trend = [];
 
-  for (
-    let cursor = first;
-    cursor <= last;
-  ) {
+  for (let cursor = first; cursor <= last;) {
     const start = new Date(cursor * dayMs);
 
     const end =
       unit === "month"
         ? Math.min(
             last,
-            Date.UTC(
-              start.getUTCFullYear(),
-              start.getUTCMonth() + 1,
-              0,
-            ) / dayMs,
+            Date.UTC(start.getUTCFullYear(), start.getUTCMonth() + 1, 0) /
+              dayMs,
           )
-        : Math.min(
-            last,
-            cursor +
-              (unit === "week" ? 6 : 0),
-          );
+        : Math.min(last, cursor + (unit === "week" ? 6 : 0));
 
-    const startKey = start
-      .toISOString()
-      .slice(0, 10);
+    const startKey = start.toISOString().slice(0, 10);
 
-    const endKey = new Date(end * dayMs)
-      .toISOString()
-      .slice(0, 10);
+    const endKey = new Date(end * dayMs).toISOString().slice(0, 10);
 
     trend.push({
       from: startKey,
       to: endKey,
 
       borrowed: borrowed.filter(
-        (event) =>
-          event.borrowed >= startKey &&
-          event.borrowed <= endKey,
+        (event) => event.borrowed >= startKey && event.borrowed <= endKey,
       ).length,
 
       returned: returned.filter(
-        (event) =>
-          event.returned >= startKey &&
-          event.returned <= endKey,
+        (event) => event.returned >= startKey && event.returned <= endKey,
       ).length,
     });
 
@@ -258,10 +186,7 @@ export function libraryReport(
     const item = ranking.get(row.bookId) || {
       id: row.bookId,
 
-      title:
-        books.get(row.bookId)?.title ||
-        row.title ||
-        row.bookId,
+      title: books.get(row.bookId)?.title || row.title || row.bookId,
 
       count: 0,
     };
@@ -280,18 +205,12 @@ export function libraryReport(
     trend,
 
     period: {
-      requested: events.filter((event) =>
-        within(event.created),
-      ).length,
+      requested: events.filter((event) => within(event.created)).length,
 
       borrowed: borrowed.length,
       returned: returned.length,
 
-      readers: new Set(
-        borrowed.map(
-          (event) => event.row.readerEmail,
-        ),
-      ).size,
+      readers: new Set(borrowed.map((event) => event.row.readerEmail)).size,
     },
 
     current,
@@ -301,41 +220,22 @@ export function libraryReport(
 
       totalCopies: state.books
         .filter((book) => !book.archived)
-        .reduce(
-          (sum, book) =>
-            sum +
-            Number(book.availableCopies || 0),
-          0,
-        ),
+        .reduce((sum, book) => sum + Number(book.availableCopies || 0), 0),
 
-      available: inventory.reduce(
-        (sum, book) =>
-          sum + book.availableCopies,
-        0,
-      ),
+      available: inventory.reduce((sum, book) => sum + book.availableCopies, 0),
     },
 
     topBooks: [...ranking.values()]
-      .sort(
-        (a, b) =>
-          b.count - a.count ||
-          a.title.localeCompare(
-            b.title,
-            "vi",
-          ),
-      )
+      .sort((a, b) => b.count - a.count || a.title.localeCompare(b.title, "vi"))
       .slice(0, 5),
 
     overdue,
 
     missingDates: events.filter(
       (event) =>
-        (["borrowed", "returned"].includes(
-          event.row.status,
-        ) &&
+        (["borrowed", "returned"].includes(event.row.status) &&
           !event.borrowed) ||
-        (event.row.status === "returned" &&
-          !event.returned),
+        (event.row.status === "returned" && !event.returned),
     ).length,
   };
 }
@@ -345,8 +245,7 @@ function csvCell(value) {
 
   if (
     typeof value === "string" &&
-    (/^\s*[=+\-@]/.test(text) ||
-      /^[\t\r\n]/.test(text))
+    (/^\s*[=+\-@]/.test(text) || /^[\t\r\n]/.test(text))
   ) {
     text = "'" + text;
   }
@@ -359,32 +258,13 @@ export function reportCsv(report, copy) {
     return "";
   }
 
-  const rows = [
-    copy.csvHeaders,
-    [
-      copy.generated,
-      report.asOf,
-      "",
-      "",
-      "",
-    ],
-  ];
+  const rows = [copy.csvHeaders, [copy.generated, report.asOf, "", "", ""]];
 
-  for (const [key, value] of Object.entries(
-    report.period,
-  )) {
-    rows.push([
-      copy.periodTitle,
-      copy[key],
-      report.from,
-      report.to,
-      value,
-    ]);
+  for (const [key, value] of Object.entries(report.period)) {
+    rows.push([copy.periodTitle, copy[key], report.from, report.to, value]);
   }
 
-  for (const [key, value] of Object.entries(
-    report.current,
-  )) {
+  for (const [key, value] of Object.entries(report.current)) {
     rows.push([
       copy.currentTitle,
 
@@ -400,16 +280,8 @@ export function reportCsv(report, copy) {
     ]);
   }
 
-  for (const [key, value] of Object.entries(
-    report.stock,
-  )) {
-    rows.push([
-      copy.inventory,
-      copy[key],
-      "",
-      report.asOf,
-      value,
-    ]);
+  for (const [key, value] of Object.entries(report.stock)) {
+    rows.push([copy.inventory, copy[key], "", report.asOf, value]);
   }
 
   for (const bucket of report.trend) {
@@ -431,21 +303,8 @@ export function reportCsv(report, copy) {
   }
 
   for (const book of report.topBooks) {
-    rows.push([
-      copy.topTitle,
-      book.title,
-      report.from,
-      report.to,
-      book.count,
-    ]);
+    rows.push([copy.topTitle, book.title, report.from, report.to, book.count]);
   }
 
-  return (
-    "\uFEFF" +
-    rows
-      .map((row) =>
-        row.map(csvCell).join(","),
-      )
-      .join("\r\n")
-  );
+  return "\uFEFF" + rows.map((row) => row.map(csvCell).join(",")).join("\r\n");
 }

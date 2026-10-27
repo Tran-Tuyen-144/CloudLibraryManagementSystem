@@ -2,20 +2,14 @@ import { useEffect, useId, useRef, useState } from "react";
 import { Plus, Search, X } from "lucide-react";
 import { createDemoCredential } from "../data/demoCredentials";
 import { currentLibraryUser } from "../data/libraryData";
-import {
-  hasPermission,
-  PERMISSIONS as P,
-} from "../data/libraryPermissions";
+import { hasPermission, PERMISSIONS as P } from "../data/libraryPermissions";
 import {
   archiveManagedBook,
   managedAccounts,
   saveManagedAccount,
   saveManagedBook,
 } from "../data/managementActions";
-import {
-  availableBooks,
-  flattenRequests,
-} from "../ui/borrowWorkflow";
+import { availableBooks, flattenRequests } from "../ui/borrowWorkflow";
 import {
   getLibrarySnapshot,
   runLibraryCommand,
@@ -91,23 +85,16 @@ const messages = {
     invalidBook:
       "Nhập đủ tên sách, tác giả, thể loại và số bản nguyên từ 0 đến 100.000.",
     invalidUrl: "Ảnh bìa cần là URL http hoặc https hợp lệ.",
-    duplicateIsbn:
-      "ISBN này đã thuộc về một đầu sách khác, kể cả sách đã ẩn.",
+    duplicateIsbn: "ISBN này đã thuộc về một đầu sách khác, kể cả sách đã ẩn.",
     stockBelowLoans:
       "Tổng số bản phải đủ cho các phiếu đã duyệt và sách đang mượn.",
-    invalidAccount:
-      "Kiểm tra họ tên, email, vai trò và trạng thái.",
-    accountExists:
-      "Email này đã tồn tại. Hãy dùng email khác.",
-    invalidPassword:
-      "Mật khẩu cần từ 8 đến 128 ký tự.",
-    lastAdmin:
-      "Cần giữ ít nhất một tài khoản admin đang hoạt động.",
-    forbidden:
-      "Bạn không có quyền thực hiện thao tác này.",
+    invalidAccount: "Kiểm tra họ tên, email, vai trò và trạng thái.",
+    accountExists: "Email này đã tồn tại. Hãy dùng email khác.",
+    invalidPassword: "Mật khẩu cần từ 8 đến 128 ký tự.",
+    lastAdmin: "Cần giữ ít nhất một tài khoản admin đang hoạt động.",
+    forbidden: "Bạn không có quyền thực hiện thao tác này.",
     loginRequired: "Vui lòng đăng nhập lại.",
-    accountChanged:
-      "Phiên đăng nhập vừa thay đổi. Hãy thử lại.",
+    accountChanged: "Phiên đăng nhập vừa thay đổi. Hãy thử lại.",
     cryptoUnavailable:
       "Không thể tạo mã băm mật khẩu. Hãy mở bằng localhost hoặc HTTPS.",
     failure: "Chưa lưu được. Hãy thử lại.",
@@ -177,25 +164,17 @@ const messages = {
     editAccount: "Edit account",
     invalidBook:
       "Enter title, author, category and an integer copy count between 0 and 100,000.",
-    invalidUrl:
-      "The cover needs a valid http or https URL.",
-    duplicateIsbn:
-      "This ISBN belongs to another book, including hidden books.",
+    invalidUrl: "The cover needs a valid http or https URL.",
+    duplicateIsbn: "This ISBN belongs to another book, including hidden books.",
     stockBelowLoans:
       "Total copies must cover approved reservations and active loans.",
-    invalidAccount:
-      "Check name, email, role and status.",
-    accountExists:
-      "This email already exists. Use another email.",
-    invalidPassword:
-      "Passwords must contain 8–128 characters.",
-    lastAdmin:
-      "At least one active administrator must remain.",
-    forbidden:
-      "You do not have permission for this action.",
+    invalidAccount: "Check name, email, role and status.",
+    accountExists: "This email already exists. Use another email.",
+    invalidPassword: "Passwords must contain 8–128 characters.",
+    lastAdmin: "At least one active administrator must remain.",
+    forbidden: "You do not have permission for this action.",
     loginRequired: "Please sign in again.",
-    accountChanged:
-      "Your session has changed. Please retry.",
+    accountChanged: "Your session has changed. Please retry.",
     cryptoUnavailable:
       "Password hashing is unavailable. Open via localhost or HTTPS.",
     failure: "Unable to save. Please retry.",
@@ -210,13 +189,7 @@ const normalize = (value) =>
     .replace(/đ/g, "d")
     .trim();
 
-function ModuleDialog({
-  title,
-  copy,
-  onClose,
-  children,
-  busy = false,
-}) {
+function ModuleDialog({ title, copy, onClose, children, busy = false }) {
   const ref = useRef(null);
   const titleId = useId();
 
@@ -271,9 +244,7 @@ function Editor({ kind, item, copy, onClose, onSave }) {
 
     if (pending.current) return;
 
-    const values = Object.fromEntries(
-      new FormData(event.currentTarget),
-    );
+    const values = Object.fromEntries(new FormData(event.currentTarget));
 
     const controller = new AbortController();
     pending.current = controller;
@@ -304,12 +275,7 @@ function Editor({ kind, item, copy, onClose, onSave }) {
     }
   }
 
-  const field = (
-    name,
-    type = "text",
-    required = true,
-    maxLength = 100,
-  ) => (
+  const field = (name, type = "text", required = true, maxLength = 100) => (
     <label className="manage-field" key={name}>
       <span>{copy[name]}</span>
 
@@ -319,9 +285,7 @@ function Editor({ kind, item, copy, onClose, onSave }) {
         defaultValue={item?.[name] ?? ""}
         required={required}
         maxLength={maxLength}
-        {...(type === "number"
-          ? { min: 0, max: 100000, step: 1 }
-          : {})}
+        {...(type === "number" ? { min: 0, max: 100000, step: 1 } : {})}
       />
     </label>
   );
@@ -363,9 +327,7 @@ function Editor({ kind, item, copy, onClose, onSave }) {
                 />
               </label>
 
-              <p className="manage-wide manage-muted">
-                {copy.stockHint}
-              </p>
+              <p className="manage-wide manage-muted">{copy.stockHint}</p>
             </>
           ) : (
             <>
@@ -389,13 +351,8 @@ function Editor({ kind, item, copy, onClose, onSave }) {
                 <label className="manage-field">
                   <span>{copy.role}</span>
 
-                  <select
-                    name="role"
-                    defaultValue={item?.role || "librarian"}
-                  >
-                    <option value="librarian">
-                      {copy.librarian}
-                    </option>
+                  <select name="role" defaultValue={item?.role || "librarian"}>
+                    <option value="librarian">{copy.librarian}</option>
                     <option value="admin">{copy.admin}</option>
                   </select>
                 </label>
@@ -404,10 +361,7 @@ function Editor({ kind, item, copy, onClose, onSave }) {
               <label className="manage-field">
                 <span>{copy.status}</span>
 
-                <select
-                  name="status"
-                  defaultValue={item?.status || "active"}
-                >
+                <select name="status" defaultValue={item?.status || "active"}>
                   <option value="active">{copy.active}</option>
                   <option value="locked">{copy.locked}</option>
                 </select>
@@ -545,10 +499,7 @@ export default function ManagementModules({ kind }) {
         return { ok: false, error: "cancelled" };
       }
 
-      if (
-        currentLibraryUser(getLibrarySnapshot())?.email !==
-        actorEmail
-      ) {
+      if (currentLibraryUser(getLibrarySnapshot())?.email !== actorEmail) {
         return { ok: false, error: "accountChanged" };
       }
     }
@@ -557,12 +508,7 @@ export default function ManagementModules({ kind }) {
       runLibraryCommand(permission, (state) =>
         bookMode
           ? saveManagedBook(state, input)
-          : saveManagedAccount(
-              state,
-              input,
-              kind,
-              credential,
-            ),
+          : saveManagedAccount(state, input, kind, credential),
       ),
       !bookMode && input.create ? "created" : "saved",
     );
@@ -579,9 +525,7 @@ export default function ManagementModules({ kind }) {
         (request) =>
           request.readerEmail === selectedAccount.email &&
           (canEdit ||
-            ["pending", "approved", "borrowed"].includes(
-              request.status,
-            )),
+            ["pending", "approved", "borrowed"].includes(request.status)),
       )
     : [];
 
@@ -590,10 +534,7 @@ export default function ManagementModules({ kind }) {
   }
 
   return (
-    <section
-      className="manage-module loan-workspace"
-      aria-label={copy[kind]}
-    >
+    <section className="manage-module loan-workspace" aria-label={copy[kind]}>
       <div className="manage-module-heading">
         <div>
           <h2>{copy[kind]}</h2>
@@ -624,9 +565,7 @@ export default function ManagementModules({ kind }) {
             {copy[bookMode ? "addBook" : "addStaff"]}
           </button>
         ) : (
-          !canEdit && (
-            <span className="manage-badge">{copy.viewOnly}</span>
-          )
+          !canEdit && <span className="manage-badge">{copy.viewOnly}</span>
         )}
       </div>
 
@@ -652,9 +591,7 @@ export default function ManagementModules({ kind }) {
           >
             {[
               "all",
-              ...(bookMode
-                ? ["listed", "archived"]
-                : ["active", "locked"]),
+              ...(bookMode ? ["listed", "archived"] : ["active", "locked"]),
             ].map((value) => (
               <option value={value} key={value}>
                 {copy[value]}
@@ -728,20 +665,12 @@ export default function ManagementModules({ kind }) {
 
                       <td>{item.category}</td>
                       <td>{item.availableCopies}</td>
-                      <td>
-                        {item.availableCopies - available}
-                      </td>
+                      <td>{item.availableCopies - available}</td>
                       <td>{available}</td>
 
                       <td>
                         <span className="manage-badge">
-                          {
-                            copy[
-                              item.archived
-                                ? "archived"
-                                : "listed"
-                            ]
-                          }
+                          {copy[item.archived ? "archived" : "listed"]}
                         </span>
                       </td>
 
@@ -766,28 +695,18 @@ export default function ManagementModules({ kind }) {
                               className="loan-button"
                               onClick={() =>
                                 feedback(
-                                  runLibraryCommand(
-                                    P.BOOKS_MANAGE,
-                                    (state) =>
-                                      archiveManagedBook(
-                                        state,
-                                        item.id,
-                                        !item.archived,
-                                      ),
+                                  runLibraryCommand(P.BOOKS_MANAGE, (state) =>
+                                    archiveManagedBook(
+                                      state,
+                                      item.id,
+                                      !item.archived,
+                                    ),
                                   ),
-                                  item.archived
-                                    ? "restored"
-                                    : "hidden",
+                                  item.archived ? "restored" : "hidden",
                                 )
                               }
                             >
-                              {
-                                copy[
-                                  item.archived
-                                    ? "restore"
-                                    : "hide"
-                                ]
-                              }
+                              {copy[item.archived ? "restore" : "hide"]}
                             </button>
                           </div>
                         </td>
@@ -852,9 +771,7 @@ export default function ManagementModules({ kind }) {
           </tbody>
         </table>
 
-        {visible.length === 0 && (
-          <p className="manage-empty">{copy.empty}</p>
-        )}
+        {visible.length === 0 && <p className="manage-empty">{copy.empty}</p>}
       </div>
 
       {canEdit && dialog?.type === "edit" && (
@@ -874,31 +791,22 @@ export default function ManagementModules({ kind }) {
           copy={copy}
           onClose={() => setDialog(null)}
         >
-          <p className="manage-muted">
-            {selectedAccount.email}
-          </p>
+          <p className="manage-muted">{selectedAccount.email}</p>
 
           {accountLoans.length ? (
             <ul className="manage-loans">
               {accountLoans.map((request) => (
                 <li key={request.id}>
                   <strong>
-                    {data.books.find(
-                      (book) => book.id === request.bookId,
-                    )?.title || request.title}
+                    {data.books.find((book) => book.id === request.bookId)
+                      ?.title || request.title}
                   </strong>
 
-                  <span>
-                    {loanMessages[language][request.status]}
-                  </span>
+                  <span>{loanMessages[language][request.status]}</span>
 
                   {request.dueDate && (
                     <small>
-                      {copy.due}:{" "}
-                      {formatLoanDate(
-                        request.dueDate,
-                        language,
-                      )}
+                      {copy.due}: {formatLoanDate(request.dueDate, language)}
                     </small>
                   )}
                 </li>

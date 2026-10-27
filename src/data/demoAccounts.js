@@ -44,13 +44,9 @@ export function authenticateDemoAccount(
     return { ok: false, error: "invalidCredentials" };
   }
 
-  const account = accounts.find(
-    (item) => item.email === normalizedEmail,
-  );
+  const account = accounts.find((item) => item.email === normalizedEmail);
 
-  const profile = registry.find(
-    (item) => item.email === normalizedEmail,
-  );
+  const profile = registry.find((item) => item.email === normalizedEmail);
 
   if (profile?.status === "locked") {
     return { ok: false, error: "accountLocked" };
@@ -63,23 +59,18 @@ export function authenticateDemoAccount(
     return { ok: false, error: "reservedAccount" };
   }
 
-  if (
-    !profile?.credential &&
-    account &&
-    account.password !== password
-  ) {
+  if (!profile?.credential && account && account.password !== password) {
     return { ok: false, error: "invalidCredentials" };
   }
 
   if (
     !account &&
     profile &&
-    profile.role !== "reader" &&
+    !["reader", "author"].includes(profile.role) &&
     !profile.credential
   ) {
     return { ok: false, error: "invalidCredentials" };
   }
-
   if (profile && !account && mode === "register") {
     return { ok: false, error: "accountExists" };
   }
@@ -99,9 +90,7 @@ export function authenticateDemoAccount(
   if (profile?.credential) {
     return verifyDemoCredential(password, profile.credential)
       .then((valid) =>
-        valid
-          ? success
-          : { ok: false, error: "invalidCredentials" },
+        valid ? success : { ok: false, error: "invalidCredentials" },
       )
       .catch(() => ({
         ok: false,
@@ -122,9 +111,7 @@ export function restoreDemoSession(session) {
     return null;
   }
 
-  const account = accounts.find(
-    (item) => item.email === session.email,
-  );
+  const account = accounts.find((item) => item.email === session.email);
 
   if (session.role !== (account?.role || "reader")) {
     return null;

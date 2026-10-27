@@ -8,10 +8,7 @@ import {
   validateLibrarySettings,
 } from "../data/librarySettings";
 
-import {
-  hasPermission,
-  PERMISSIONS as P,
-} from "../data/libraryPermissions";
+import { hasPermission, PERMISSIONS as P } from "../data/libraryPermissions";
 
 import { useLibraryData } from "../ui/libraryStore";
 
@@ -34,11 +31,9 @@ const messages = {
     maxActiveLoans: "Giới hạn phiếu mỗi độc giả",
     loanDays: "Số ngày mượn mặc định",
 
-    limitHint:
-      "Từ 1 đến 20. Tính cả phiếu chờ duyệt, chờ nhận và đang mượn.",
+    limitHint: "Từ 1 đến 20. Tính cả phiếu chờ duyệt, chờ nhận và đang mượn.",
 
-    daysHint:
-      "Từ 1 đến 60 ngày. Dùng để gợi ý hạn trả khi mở phiếu bàn giao.",
+    daysHint: "Từ 1 đến 60 ngày. Dùng để gợi ý hạn trả khi mở phiếu bàn giao.",
 
     applies:
       "Cấu hình áp dụng cho yêu cầu mới và gợi ý hạn trả khi bàn giao. Hạn trả đã lưu và các phiếu cũ được giữ nguyên.",
@@ -65,14 +60,11 @@ const messages = {
     invalidPolicy:
       "Giới hạn phiếu phải là số nguyên từ 1–20; số ngày mượn từ 1–60.",
 
-    invalidLibraryInfo:
-      "Kiểm tra tên thư viện và độ dài thông tin đã nhập.",
+    invalidLibraryInfo: "Kiểm tra tên thư viện và độ dài thông tin đã nhập.",
 
-    invalidContact:
-      "Kiểm tra email hoặc số điện thoại liên hệ.",
+    invalidContact: "Kiểm tra email hoặc số điện thoại liên hệ.",
 
-    forbidden:
-      "Chỉ quản trị viên được thay đổi cài đặt thư viện.",
+    forbidden: "Chỉ quản trị viên được thay đổi cài đặt thư viện.",
 
     loginRequired: "Vui lòng đăng nhập lại.",
   },
@@ -118,14 +110,11 @@ const messages = {
     invalidPolicy:
       "Use an integer record limit of 1–20 and a loan duration of 1–60 days.",
 
-    invalidLibraryInfo:
-      "Check the library name and field lengths.",
+    invalidLibraryInfo: "Check the library name and field lengths.",
 
-    invalidContact:
-      "Check the contact email or phone number.",
+    invalidContact: "Check the contact email or phone number.",
 
-    forbidden:
-      "Only administrators can change library settings.",
+    forbidden: "Only administrators can change library settings.",
 
     loginRequired: "Please sign in again.",
   },
@@ -137,10 +126,7 @@ export function LibraryInfo() {
   const settings = useLibrarySettings();
 
   return (
-    <aside
-      className="library-info"
-      aria-label={copy.pickup}
-    >
+    <aside className="library-info" aria-label={copy.pickup}>
       <h2>
         <Building2 size={19} aria-hidden="true" />
         {copy.pickup}
@@ -149,12 +135,7 @@ export function LibraryInfo() {
       <strong>{settings.libraryName}</strong>
 
       <dl>
-        {[
-          "address",
-          "openingHours",
-          "contactEmail",
-          "phone",
-        ]
+        {["address", "openingHours", "contactEmail", "phone"]
           .filter((key) => settings[key])
           .map((key) => (
             <div key={key}>
@@ -180,15 +161,13 @@ export default function LibrarySettingsPage() {
   const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
 
-  const conflict =
-    JSON.stringify(settings) !== JSON.stringify(base);
+  const conflict = JSON.stringify(settings) !== JSON.stringify(base);
 
   const validation = validateLibrarySettings(draft);
 
   const dirty =
-    JSON.stringify(
-      validation.ok ? validation.settings : draft,
-    ) !== JSON.stringify(base);
+    JSON.stringify(validation.ok ? validation.settings : draft) !==
+    JSON.stringify(base);
 
   function reload() {
     setBase(settings);
@@ -216,9 +195,7 @@ export default function LibrarySettingsPage() {
       setError(result.error);
 
       if (result.field) {
-        event.currentTarget.elements
-          .namedItem(result.field)
-          ?.focus();
+        event.currentTarget.elements.namedItem(result.field)?.focus();
       }
 
       return;
@@ -232,12 +209,7 @@ export default function LibrarySettingsPage() {
     setNotice("saved");
   }
 
-  if (
-    !hasPermission(
-      currentLibraryUser(data),
-      P.SETTINGS_MANAGE,
-    )
-  ) {
+  if (!hasPermission(currentLibraryUser(data), P.SETTINGS_MANAGE)) {
     return <p role="alert">{copy.forbidden}</p>;
   }
 
@@ -254,22 +226,13 @@ export default function LibrarySettingsPage() {
         <p>{copy.intro}</p>
       </div>
 
-      <p className="library-settings-note">
-        {copy.applies}
-      </p>
+      <p className="library-settings-note">{copy.applies}</p>
 
       {conflict && (
-        <div
-          className="library-settings-conflict"
-          role="alert"
-        >
+        <div className="library-settings-conflict" role="alert">
           <p>{copy.settingsConflict}</p>
 
-          <button
-            type="button"
-            className="loan-button"
-            onClick={reload}
-          >
+          <button type="button" className="loan-button" onClick={reload}>
             {copy.reload}
           </button>
         </div>
@@ -281,10 +244,7 @@ export default function LibrarySettingsPage() {
 
           <div className="library-settings-grid">
             {["maxActiveLoans", "loanDays"].map((name) => (
-              <label
-                className="library-settings-field"
-                key={name}
-              >
+              <label className="library-settings-field" key={name}>
                 <span>{copy[name]}</span>
 
                 <input
@@ -296,20 +256,12 @@ export default function LibrarySettingsPage() {
                   max={name === "maxActiveLoans" ? 20 : 60}
                   step={1}
                   value={draft[name]}
-                  onChange={(event) =>
-                    change(name, event.target.value)
-                  }
+                  onChange={(event) => change(name, event.target.value)}
                   required
                 />
 
                 <small id={`${formId}-${name}-hint`}>
-                  {
-                    copy[
-                      name === "maxActiveLoans"
-                        ? "limitHint"
-                        : "daysHint"
-                    ]
-                  }
+                  {copy[name === "maxActiveLoans" ? "limitHint" : "daysHint"]}
                 </small>
               </label>
             ))}
@@ -319,62 +271,48 @@ export default function LibrarySettingsPage() {
         <fieldset className="library-settings-panel">
           <legend>{copy.info}</legend>
 
-          <p className="library-settings-muted">
-            {copy.optional}
-          </p>
+          <p className="library-settings-muted">{copy.optional}</p>
 
           <div className="library-settings-grid">
-            {Object.entries(LIBRARY_TEXT_LIMITS).map(
-              ([name, max]) => (
-                <label
-                  className={`library-settings-field ${
-                    [
-                      "libraryName",
-                      "address",
-                      "openingHours",
-                    ].includes(name)
-                      ? "is-wide"
-                      : ""
-                  }`}
-                  key={name}
-                >
-                  <span>{copy[name]}</span>
+            {Object.entries(LIBRARY_TEXT_LIMITS).map(([name, max]) => (
+              <label
+                className={`library-settings-field ${
+                  ["libraryName", "address", "openingHours"].includes(name)
+                    ? "is-wide"
+                    : ""
+                }`}
+                key={name}
+              >
+                <span>{copy[name]}</span>
 
-                  <input
-                    name={name}
-                    type={
-                      name === "contactEmail"
-                        ? "email"
-                        : name === "phone"
-                          ? "tel"
-                          : "text"
-                    }
-                    maxLength={max}
-                    required={name === "libraryName"}
-                    value={draft[name]}
-                    onChange={(event) =>
-                      change(name, event.target.value)
-                    }
-                  />
-                </label>
-              ),
-            )}
+                <input
+                  name={name}
+                  type={
+                    name === "contactEmail"
+                      ? "email"
+                      : name === "phone"
+                        ? "tel"
+                        : "text"
+                  }
+                  maxLength={max}
+                  required={name === "libraryName"}
+                  value={draft[name]}
+                  onChange={(event) => change(name, event.target.value)}
+                />
+              </label>
+            ))}
           </div>
         </fieldset>
 
         {error && (
-          <p
-            className="library-settings-error"
-            role="alert"
-          >
+          <p className="library-settings-error" role="alert">
             {copy[error] || copy.invalidLibraryInfo}
           </p>
         )}
 
         <div className="library-settings-actions">
           <span role="status">
-            {copy[notice] ||
-              (dirty ? copy.unsaved : copy.current)}
+            {copy[notice] || (dirty ? copy.unsaved : copy.current)}
           </span>
 
           <button

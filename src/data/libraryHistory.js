@@ -4,10 +4,7 @@ import {
   visibleLibraryLogs,
 } from "./libraryData.js";
 
-import {
-  hasPermission,
-  PERMISSIONS as P,
-} from "./libraryPermissions.js";
+import { hasPermission, PERMISSIONS as P } from "./libraryPermissions.js";
 
 import { dateKey } from "../ui/borrowWorkflow.js";
 
@@ -21,6 +18,8 @@ export const MANAGEMENT_PAGES = Object.freeze({
   audit: P.AUDIT_OWN,
   access: P.ACCESS_OWN,
   settings: P.SETTINGS_MANAGE,
+  authors: P.AUTHORS_REVIEW,
+  manuscripts: P.MANUSCRIPTS_REVIEW,
 });
 
 export function managementVisit(state, page) {
@@ -79,11 +78,7 @@ export const HISTORY_FIELDS = Object.freeze([
 ]);
 
 function publicSnapshot(value) {
-  if (
-    !value ||
-    typeof value !== "object" ||
-    Array.isArray(value)
-  ) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
     return null;
   }
 
@@ -92,15 +87,12 @@ function publicSnapshot(value) {
       (key) =>
         Object.hasOwn(value, key) &&
         (value[key] === null ||
-          ["string", "number", "boolean"].includes(
-            typeof value[key],
-          )),
+          ["string", "number", "boolean"].includes(typeof value[key])),
     ).map((key) => [key, value[key]]),
   );
 }
 
-const string = (value) =>
-  typeof value === "string" ? value : "";
+const string = (value) => (typeof value === "string" ? value : "");
 
 const normalize = (value) =>
   String(value)
@@ -117,10 +109,7 @@ const validDate = (value) => {
 
   const date = new Date(`${value}T12:00:00`);
 
-  return (
-    Number.isFinite(date.getTime()) &&
-    dateKey(date) === value
-  );
+  return Number.isFinite(date.getTime()) && dateKey(date) === value;
 };
 
 const timestamp = (value) => Date.parse(value) || 0;
@@ -138,32 +127,19 @@ export function historyChanges(log) {
   }));
 }
 
-export function libraryHistory(
-  state,
-  kind,
-  filters = {},
-) {
+export function libraryHistory(state, kind, filters = {}) {
   const actor = currentLibraryUser(state);
   const validKind = ["audit", "access"].includes(kind);
 
   const all =
     validKind &&
-    hasPermission(
-      actor,
-      kind === "audit" ? P.AUDIT_ALL : P.ACCESS_ALL,
-    );
+    hasPermission(actor, kind === "audit" ? P.AUDIT_ALL : P.ACCESS_ALL);
 
   const own =
     validKind &&
-    hasPermission(
-      actor,
-      kind === "audit" ? P.AUDIT_OWN : P.ACCESS_OWN,
-    );
+    hasPermission(actor, kind === "audit" ? P.AUDIT_OWN : P.ACCESS_OWN);
 
-  if (
-    !hasPermission(actor, P.MANAGEMENT) ||
-    (!all && !own)
-  ) {
+  if (!hasPermission(actor, P.MANAGEMENT) || (!all && !own)) {
     return {
       allowed: false,
       all: false,
@@ -174,41 +150,32 @@ export function libraryHistory(
     };
   }
 
-  const key =
-    kind === "audit" ? "auditLogs" : "accessLogs";
+  const key = kind === "audit" ? "auditLogs" : "accessLogs";
 
-  const safeRows = (
-    Array.isArray(state[key]) ? state[key] : []
-  ).filter(
-    (row) =>
-      row &&
-      typeof row === "object" &&
-      typeof row.action === "string",
+  const safeRows = (Array.isArray(state[key]) ? state[key] : []).filter(
+    (row) => row && typeof row === "object" && typeof row.action === "string",
   );
 
-  const scoped = visibleLibraryLogs(
-    { ...state, [key]: safeRows },
-    kind,
-  ).map((row, index) => ({
-    id: string(row.id) || `legacy:${index}`,
-    at: string(row.at),
-    action: row.action,
-    operation: string(row.operation),
-    targetId: string(row.targetId),
-    actorEmail: string(row.actorEmail),
-    actorName: string(row.actorName),
-    actorRole: string(row.actorRole),
-    result: string(row.result),
-    attemptedEmail: string(row.attemptedEmail),
-    error: string(row.error),
-    before: publicSnapshot(row.before),
-    after: publicSnapshot(row.after),
-  }));
+  const scoped = visibleLibraryLogs({ ...state, [key]: safeRows }, kind).map(
+    (row, index) => ({
+      id: string(row.id) || `legacy:${index}`,
+      at: string(row.at),
+      action: row.action,
+      operation: string(row.operation),
+      targetId: string(row.targetId),
+      actorEmail: string(row.actorEmail),
+      actorName: string(row.actorName),
+      actorRole: string(row.actorRole),
+      result: string(row.result),
+      attemptedEmail: string(row.attemptedEmail),
+      error: string(row.error),
+      before: publicSnapshot(row.before),
+      after: publicSnapshot(row.after),
+    }),
+  );
 
   const actions = [
-    ...new Set(
-      scoped.map((row) => row.operation || row.action),
-    ),
+    ...new Set(scoped.map((row) => row.operation || row.action)),
   ].sort();
 
   const from = filters.from || "";
@@ -235,9 +202,7 @@ export function libraryHistory(
     .filter((row) => {
       const date = new Date(row.at);
 
-      const day = Number.isFinite(date.getTime())
-        ? dateKey(date)
-        : "";
+      const day = Number.isFinite(date.getTime()) ? dateKey(date) : "";
 
       return (
         (!from || (day && day >= from)) &&
@@ -247,8 +212,7 @@ export function libraryHistory(
           row.result === filters.result) &&
         (!filters.action ||
           filters.action === "all" ||
-          (row.operation || row.action) ===
-            filters.action) &&
+          (row.operation || row.action) === filters.action) &&
         normalize(
           [
             row.actorName,

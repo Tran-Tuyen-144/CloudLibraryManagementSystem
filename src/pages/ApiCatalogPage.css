@@ -1,19 +1,13 @@
-.app-layout.galaxy-theme.api-catalog
-  .sidebar
-  .sidebar-brand-text {
+.app-layout.galaxy-theme.api-catalog .sidebar .sidebar-brand-text {
   min-width: 0;
 }
 
-.app-layout.galaxy-theme.api-catalog[data-theme]
-  .sidebar-brand-text
-  strong {
+.app-layout.galaxy-theme.api-catalog[data-theme] .sidebar-brand-text strong {
   white-space: normal;
   overflow-wrap: anywhere;
 }
 
-.api-catalog
-  .sidebar-nav
-  > .sidebar-button:last-child {
+.api-catalog .sidebar-nav > .sidebar-button:last-child {
   margin-top: 0;
 }
 
@@ -21,16 +15,12 @@
   color: #e0d2f0;
 }
 
-.api-catalog
-  .botanical-main
-  > .header.api-catalog-header {
+.api-catalog .botanical-main > .header.api-catalog-header {
   grid-template-columns: minmax(0, 1fr) auto;
   grid-template-areas: "title actions";
 }
 
-.api-catalog
-  .api-catalog-header
-  .header-title {
+.api-catalog .api-catalog-header .header-title {
   text-align: left;
 }
 
@@ -65,9 +55,7 @@
 }
 
 @media (max-width: 600px) {
-  .api-catalog
-    .botanical-main
-    > .header.api-catalog-header {
+  .api-catalog .botanical-main > .header.api-catalog-header {
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas:
       "title"

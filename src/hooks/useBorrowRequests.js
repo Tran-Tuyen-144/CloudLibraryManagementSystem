@@ -1,9 +1,6 @@
 import { currentLibraryUser } from "../data/libraryData";
 
-import {
-  hasPermission,
-  PERMISSIONS as P,
-} from "../data/libraryPermissions";
+import { hasPermission, PERMISSIONS as P } from "../data/libraryPermissions";
 
 import {
   availableBooks,
@@ -13,10 +10,7 @@ import {
   transitionRequest,
 } from "../ui/borrowWorkflow";
 
-import {
-  runLibraryCommand,
-  useLibraryData,
-} from "../ui/libraryStore";
+import { runLibraryCommand, useLibraryData } from "../ui/libraryStore";
 
 const actions = {
   approve: P.LOAN_APPROVE,
@@ -42,9 +36,7 @@ export default function useBorrowRequests() {
     (request) => request.readerEmail === user?.email,
   );
 
-  const allRequests = hasPermission(user, P.LOANS_READ)
-    ? rows
-    : [];
+  const allRequests = hasPermission(user, P.LOANS_READ) ? rows : [];
 
   function createRequest(candidate, note = "") {
     return runLibraryCommand(P.LOAN_CREATE, (state, actor) => {
@@ -99,9 +91,9 @@ export default function useBorrowRequests() {
           ? { ...values, readerEmail: actor.email }
           : values;
 
-      const before = (
-        state.requestsByEmail[command.readerEmail] || []
-      ).find((request) => request.id === command.id);
+      const before = (state.requestsByEmail[command.readerEmail] || []).find(
+        (request) => request.id === command.id,
+      );
 
       const result = transitionRequest(
         state.requestsByEmail,
@@ -151,9 +143,7 @@ export default function useBorrowRequests() {
         new Date(Date.now() - days * 86400000).toISOString();
 
       const records = state.books
-        .filter(
-          (book) => !book.archived && book.availableCopies > 0,
-        )
+        .filter((book) => !book.archived && book.availableCopies > 0)
         .slice(0, 3)
         .map((book, index) => ({
           id: crypto.randomUUID(),
@@ -161,12 +151,7 @@ export default function useBorrowRequests() {
           title: book.title,
           readerName: "Bạn đọc mẫu",
 
-          createdAt:
-            index === 2
-              ? daysAgo(18)
-              : index === 1
-                ? daysAgo(1)
-                : now,
+          createdAt: index === 2 ? daysAgo(18) : index === 1 ? daysAgo(1) : now,
 
           note: "Demo / Dữ liệu mẫu",
           status: ["pending", "approved", "borrowed"][index],

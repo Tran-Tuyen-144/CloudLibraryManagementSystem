@@ -11,20 +11,17 @@ export function normalizeFavoriteLists(value, legacyIds = [], accounts = []) {
     return Object.fromEntries(
       Object.entries(value)
         .filter(([email, ids]) => email.includes("@") && Array.isArray(ids))
-        .map(([email, ids]) => [
-          email.trim().toLowerCase(),
-          normalizeIds(ids),
-        ]),
+        .map(([email, ids]) => [email.trim().toLowerCase(), normalizeIds(ids)]),
     );
   }
 
   // Danh sách cũ không ghi chủ sở hữu.
   // Chỉ tự chuyển khi xác định được một tài khoản bạn đọc duy nhất.
   // Khóa lưu dữ liệu cũ vẫn được giữ nguyên.
-  const readers = accounts.filter((account) => account.role === "reader");
+  const readers = accounts.filter((account) =>
+    ["reader", "author"].includes(account.role),
+  );
   const ids = normalizeIds(legacyIds);
 
-  return readers.length === 1 && ids.length
-    ? { [readers[0].email]: ids }
-    : {};
+  return readers.length === 1 && ids.length ? { [readers[0].email]: ids } : {};
 }

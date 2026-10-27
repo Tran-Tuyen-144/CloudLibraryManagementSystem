@@ -24,6 +24,9 @@ export const PERMISSIONS = Object.freeze({
   PROFILE_OWN: "profile.update.own",
   PERMISSIONS_OWN: "permissions.read.own",
   DEMO_SEED: "demo.seed",
+  AUTHORS_REVIEW: "authors.review",
+  AUTHOR_WORKSPACE: "author.workspace",
+  MANUSCRIPTS_REVIEW: "manuscripts.review",
 });
 
 const P = PERMISSIONS;
@@ -34,6 +37,14 @@ export const ROLE_PERMISSIONS = Object.freeze({
     P.LOAN_CREATE,
     P.LOAN_CANCEL,
     P.PROFILE_OWN,
+  ]),
+
+  author: Object.freeze([
+    P.CATALOG,
+    P.LOAN_CREATE,
+    P.LOAN_CANCEL,
+    P.PROFILE_OWN,
+    P.AUTHOR_WORKSPACE,
   ]),
 
   librarian: Object.freeze([
@@ -59,8 +70,8 @@ export const ROLE_PERMISSIONS = Object.freeze({
 export function hasPermission(user, permission) {
   return Boolean(
     user &&
-      user.status === "active" &&
-      ROLE_PERMISSIONS[user.role]?.includes(permission),
+    user.status === "active" &&
+    ROLE_PERMISSIONS[user.role]?.includes(permission),
   );
 }
 

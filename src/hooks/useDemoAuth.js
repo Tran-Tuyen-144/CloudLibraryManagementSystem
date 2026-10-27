@@ -1,8 +1,5 @@
 import { authenticateDemoAccount } from "../data/demoAccounts";
-import {
-  createLibraryLog,
-  currentLibraryUser,
-} from "../data/libraryData";
+import { createLibraryLog, currentLibraryUser } from "../data/libraryData";
 import { PERMISSIONS as P } from "../data/libraryPermissions";
 import {
   getLibrarySnapshot,
@@ -12,11 +9,7 @@ import {
 } from "../ui/libraryStore";
 
 export function profileStorageKey(email) {
-  return (
-    "cloudlibrary:demo-profile:" +
-    email.toLowerCase() +
-    ":v1"
-  );
+  return "cloudlibrary:demo-profile:" + email.toLowerCase() + ":v1";
 }
 
 export default function useDemoAuth() {
@@ -61,16 +54,10 @@ export default function useDemoAuth() {
       updateLibrary((state) => ({
         ...state,
         accessLogs: [
-          createLibraryLog(
-            null,
-            "login.failed",
-            "session",
-            "failed",
-            {
-              attemptedEmail: normalized,
-              error: result.error,
-            },
-          ),
+          createLibraryLog(null, "login.failed", "session", "failed", {
+            attemptedEmail: normalized,
+            error: result.error,
+          }),
           ...state.accessLogs,
         ],
       }));
@@ -82,15 +69,9 @@ export default function useDemoAuth() {
     let savedProfile = {};
 
     try {
-      const saved = JSON.parse(
-        localStorage.getItem(key) || "{}",
-      );
+      const saved = JSON.parse(localStorage.getItem(key) || "{}");
 
-      if (
-        saved &&
-        typeof saved === "object" &&
-        !Array.isArray(saved)
-      ) {
+      if (saved && typeof saved === "object" && !Array.isArray(saved)) {
         savedProfile = saved;
       }
     } catch {
@@ -123,9 +104,7 @@ export default function useDemoAuth() {
     updateLibrary((state) => ({
       ...state,
       accounts: [
-        ...state.accounts.filter(
-          (item) => item.email !== account.email,
-        ),
+        ...state.accounts.filter((item) => item.email !== account.email),
         account,
       ],
       session: {
@@ -133,11 +112,7 @@ export default function useDemoAuth() {
         sessionVersion: 2,
       },
       accessLogs: [
-        createLibraryLog(
-          account,
-          "login.success",
-          "session",
-        ),
+        createLibraryLog(account, "login.success", "session"),
         ...state.accessLogs,
       ],
     }));
@@ -166,44 +141,34 @@ export default function useDemoAuth() {
         ...state,
         session: null,
         accessLogs: actor
-          ? [
-              createLibraryLog(
-                actor,
-                "logout",
-                "session",
-              ),
-              ...state.accessLogs,
-            ]
+          ? [createLibraryLog(actor, "logout", "session"), ...state.accessLogs]
           : state.accessLogs,
       };
     });
   }
 
   function updateDemoProfile({ fullName }) {
-    return runLibraryCommand(
-      P.PROFILE_OWN,
-      (state, actor) => ({
-        ok: true,
-        targetId: actor.email,
-        details: {
-          before: { fullName: actor.fullName },
-          after: {
-            fullName: fullName.trim().slice(0, 100),
-          },
+    return runLibraryCommand(P.PROFILE_OWN, (state, actor) => ({
+      ok: true,
+      targetId: actor.email,
+      details: {
+        before: { fullName: actor.fullName },
+        after: {
+          fullName: fullName.trim().slice(0, 100),
         },
-        state: {
-          ...state,
-          accounts: state.accounts.map((account) =>
-            account.email === actor.email
-              ? {
-                  ...account,
-                  fullName: fullName.trim().slice(0, 100),
-                }
-              : account,
-          ),
-        },
-      }),
-    );
+      },
+      state: {
+        ...state,
+        accounts: state.accounts.map((account) =>
+          account.email === actor.email
+            ? {
+                ...account,
+                fullName: fullName.trim().slice(0, 100),
+              }
+            : account,
+        ),
+      },
+    }));
   }
 
   return {

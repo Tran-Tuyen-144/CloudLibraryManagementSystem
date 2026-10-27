@@ -7,7 +7,9 @@
 
 .management-permission-heading h2 {
   margin: 0 0 8px;
-  font: 400 25px Cambria, serif;
+  font:
+    400 25px Cambria,
+    serif;
 }
 
 .management-permission-heading p {

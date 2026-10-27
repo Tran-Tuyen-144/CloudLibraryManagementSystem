@@ -24,7 +24,9 @@ function validDay(value) {
 }
 
 export function readerNotifications(data, user, now = new Date()) {
-  if (user?.role !== "reader" || user.status !== "active") return [];
+  if (!["reader", "author"].includes(user?.role) || user.status !== "active") {
+    return [];
+  }
 
   const readIds = new Set(data.notificationReads?.[user.email] || []);
   const today = dateKey(now);

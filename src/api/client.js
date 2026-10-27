@@ -9,26 +9,15 @@ export class ApiError extends Error {
 }
 
 function buildUrl(baseUrl, path, query = {}) {
-  if (
-    !path.startsWith("/") ||
-    path.startsWith("//") ||
-    /[?#]/.test(path)
-  ) {
-    throw new ApiError(
-      "invalidRequest",
-      "Đường dẫn API không hợp lệ.",
-    );
+  if (!path.startsWith("/") || path.startsWith("//") || /[?#]/.test(path)) {
+    throw new ApiError("invalidRequest", "Đường dẫn API không hợp lệ.");
   }
 
   const params = new URLSearchParams();
 
   for (const [name, value] of Object.entries(query)) {
     for (const item of Array.isArray(value) ? value : [value]) {
-      if (
-        item === undefined ||
-        item === null ||
-        item === ""
-      ) {
+      if (item === undefined || item === null || item === "") {
         continue;
       }
 
@@ -38,10 +27,7 @@ function buildUrl(baseUrl, path, query = {}) {
 
   const search = params.toString();
 
-  return (
-    `${baseUrl.replace(/\/+$/, "")}${path}` +
-    (search ? `?${search}` : "")
-  );
+  return `${baseUrl.replace(/\/+$/, "")}${path}` + (search ? `?${search}` : "");
 }
 
 function abortable(promise, signal) {
@@ -51,8 +37,7 @@ function abortable(promise, signal) {
       callback(value);
     };
 
-    const onAbort = () =>
-      finish(reject, new Error("aborted"));
+    const onAbort = () => finish(reject, new Error("aborted"));
 
     signal.addEventListener("abort", onAbort, {
       once: true,
@@ -102,24 +87,15 @@ export function createApiClient({
       requestTimeout <= 0 ||
       requestTimeout > 120000
     ) {
-      throw new ApiError(
-        "invalidRequest",
-        "Thời gian chờ API không hợp lệ.",
-      );
+      throw new ApiError("invalidRequest", "Thời gian chờ API không hợp lệ.");
     }
 
     if (!["json", "blob"].includes(responseType)) {
-      throw new ApiError(
-        "invalidRequest",
-        "Kiểu phản hồi không hợp lệ.",
-      );
+      throw new ApiError("invalidRequest", "Kiểu phản hồi không hợp lệ.");
     }
 
     if (signal?.aborted) {
-      throw new ApiError(
-        "cancelled",
-        "Đã hủy yêu cầu.",
-      );
+      throw new ApiError("cancelled", "Đã hủy yêu cầu.");
     }
 
     const url = buildUrl(baseUrl, path, query);
@@ -161,10 +137,7 @@ export function createApiClient({
           );
         }
 
-        if (
-          typeof token !== "string" ||
-          !token.trim()
-        ) {
+        if (typeof token !== "string" || !token.trim()) {
           throw new ApiError(
             "loginRequired",
             "Vui lòng đăng nhập trước khi tiếp tục.",
@@ -172,40 +145,25 @@ export function createApiClient({
           );
         }
 
-        requestHeaders.set(
-          "Authorization",
-          `Bearer ${token}`,
-        );
+        requestHeaders.set("Authorization", `Bearer ${token}`);
       }
 
       if (controller.signal.aborted) {
-        throw new ApiError(
-          "cancelled",
-          "Đã hủy yêu cầu.",
-        );
+        throw new ApiError("cancelled", "Đã hủy yêu cầu.");
       }
 
       if (body !== undefined) {
-        requestHeaders.set(
-          "Content-Type",
-          "application/json",
-        );
+        requestHeaders.set("Content-Type", "application/json");
       }
 
       if (idempotencyKey) {
-        requestHeaders.set(
-          "Idempotency-Key",
-          idempotencyKey,
-        );
+        requestHeaders.set("Idempotency-Key", idempotencyKey);
       }
 
       const response = await fetchImpl(url, {
         method: method.toUpperCase(),
         headers: requestHeaders,
-        body:
-          body === undefined
-            ? undefined
-            : JSON.stringify(body),
+        body: body === undefined ? undefined : JSON.stringify(body),
         signal: controller.signal,
         credentials: "omit",
         cache: "no-store",
@@ -247,10 +205,7 @@ export function createApiClient({
             : `Yêu cầu API thất bại (HTTP ${response.status}).`,
           {
             status: response.status,
-            field:
-              typeof error?.field === "string"
-                ? error.field
-                : undefined,
+            field: typeof error?.field === "string" ? error.field : undefined,
           },
         );
       }
@@ -259,10 +214,7 @@ export function createApiClient({
     }
 
     try {
-      return await abortable(
-        perform(),
-        controller.signal,
-      );
+      return await abortable(perform(), controller.signal);
     } catch (error) {
       if (controller.signal.aborted) {
         throw new ApiError(
@@ -275,10 +227,7 @@ export function createApiClient({
 
       if (error instanceof ApiError) throw error;
 
-      throw new ApiError(
-        "networkError",
-        "Không thể kết nối đến API.",
-      );
+      throw new ApiError("networkError", "Không thể kết nối đến API.");
     } finally {
       clearTimeout(timer);
       signal?.removeEventListener("abort", cancel);
@@ -289,22 +238,15 @@ export function createApiClient({
 let tokenProvider = () => null;
 
 export function setAccessTokenProvider(provider) {
-  if (
-    provider !== null &&
-    typeof provider !== "function"
-  ) {
-    throw new TypeError(
-      "Token provider must be a function or null.",
-    );
+  if (provider !== null && typeof provider !== "function") {
+    throw new TypeError("Token provider must be a function or null.");
   }
 
   tokenProvider = provider || (() => null);
 }
 
 export const apiRequest = createApiClient({
-  baseUrl:
-    import.meta.env?.VITE_API_BASE_URL?.trim() ||
-    "/api/v1",
+  baseUrl: import.meta.env?.VITE_API_BASE_URL?.trim() || "/api/v1",
 
   getAccessToken: (context) => tokenProvider(context),
 });

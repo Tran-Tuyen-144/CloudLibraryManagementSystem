@@ -1,28 +1,14 @@
 import { useState } from "react";
 
-import {
-  BarChart3,
-  Download,
-  ArrowUpRight,
-} from "lucide-react";
+import { BarChart3, Download, ArrowUpRight } from "lucide-react";
 
-import {
-  libraryReport,
-  reportCsv,
-  reportRange,
-} from "../data/libraryReports";
+import { libraryReport, reportCsv, reportRange } from "../data/libraryReports";
 
 import { currentLibraryUser } from "../data/libraryData";
 
-import {
-  hasPermission,
-  PERMISSIONS as P,
-} from "../data/libraryPermissions";
+import { hasPermission, PERMISSIONS as P } from "../data/libraryPermissions";
 
-import {
-  runLibraryCommand,
-  useLibraryData,
-} from "../ui/libraryStore";
+import { runLibraryCommand, useLibraryData } from "../ui/libraryStore";
 
 import { dateKey } from "../ui/borrowWorkflow";
 import { formatLoanDate } from "../ui/loanMessages";
@@ -34,8 +20,7 @@ const messages = {
   vi: {
     title: "Thống kê thư viện",
 
-    intro:
-      "Theo dõi số liệu từ các phiếu mượn trả đang lưu trong trình duyệt.",
+    intro: "Theo dõi số liệu từ các phiếu mượn trả đang lưu trong trình duyệt.",
 
     from: "Từ ngày",
     to: "Đến ngày",
@@ -44,8 +29,7 @@ const messages = {
 
     export: "Xuất CSV",
     exported: "Đã tạo tệp báo cáo CSV.",
-    exportError:
-      "Chưa tạo được tệp báo cáo. Hãy thử lại.",
+    exportError: "Chưa tạo được tệp báo cáo. Hãy thử lại.",
 
     periodTitle: "Trong khoảng ngày đã chọn",
 
@@ -75,8 +59,7 @@ const messages = {
     totalCopies: "Tổng số bản",
     available: "Bản còn sẵn",
 
-    trendTitle:
-      "Bàn giao và nhận trả theo thời gian",
+    trendTitle: "Bàn giao và nhận trả theo thời gian",
 
     trendHint:
       "Hai đường biểu diễn các sự kiện xảy ra trong kỳ, kể cả phiếu đã hoàn tất.",
@@ -88,8 +71,7 @@ const messages = {
     dataTable: "Xem bảng số liệu",
     interval: "Khoảng thời gian",
 
-    emptyTrend:
-      "Chưa có lượt bàn giao hoặc nhận trả trong khoảng này.",
+    emptyTrend: "Chưa có lượt bàn giao hoặc nhận trả trong khoảng này.",
 
     topTitle: "5 sách được mượn nhiều nhất",
 
@@ -97,8 +79,7 @@ const messages = {
       "Xếp theo số lượt bàn giao trong khoảng đã chọn, có tính sách đã ẩn.",
 
     loans: "lượt",
-    emptyTop:
-      "Chưa có lượt bàn giao để xếp hạng.",
+    emptyTop: "Chưa có lượt bàn giao để xếp hạng.",
 
     overdueTitle: "Sách đang quá hạn",
 
@@ -110,8 +91,7 @@ const messages = {
     due: "Hạn trả",
     late: "Số ngày quá hạn",
 
-    emptyOverdue:
-      "Hiện chưa có phiếu quá hạn.",
+    emptyOverdue: "Hiện chưa có phiếu quá hạn.",
 
     process: "Xử lý mượn trả",
     previous: "Trang trước",
@@ -124,8 +104,7 @@ const messages = {
     missingDates:
       "phiếu thiếu thời điểm bàn giao hoặc trả. Sự kiện thiếu ngày không được cộng vào số liệu theo kỳ.",
 
-    forbidden:
-      "Bạn không có quyền xem hoặc xuất báo cáo này.",
+    forbidden: "Bạn không có quyền xem hoặc xuất báo cáo này.",
 
     invalidRange:
       "Chọn ngày hợp lệ đến hôm nay, từ ngày không sau đến ngày và tối đa 366 ngày.",
@@ -144,8 +123,7 @@ const messages = {
   en: {
     title: "Library statistics",
 
-    intro:
-      "Explore figures from loan records saved in this browser.",
+    intro: "Explore figures from loan records saved in this browser.",
 
     from: "From date",
     to: "To date",
@@ -154,8 +132,7 @@ const messages = {
 
     export: "Export CSV",
     exported: "CSV report created.",
-    exportError:
-      "Unable to create the report. Please retry.",
+    exportError: "Unable to create the report. Please retry.",
 
     periodTitle: "Selected date range",
 
@@ -185,8 +162,7 @@ const messages = {
     totalCopies: "Total copies",
     available: "Available copies",
 
-    trendTitle:
-      "Handovers and returns over time",
+    trendTitle: "Handovers and returns over time",
 
     trendHint:
       "Both series count events occurring during the period, including completed records.",
@@ -198,8 +174,7 @@ const messages = {
     dataTable: "View data table",
     interval: "Date range",
 
-    emptyTrend:
-      "No handovers or returns in this period.",
+    emptyTrend: "No handovers or returns in this period.",
 
     topTitle: "5 most borrowed books",
 
@@ -219,8 +194,7 @@ const messages = {
     due: "Due date",
     late: "Days overdue",
 
-    emptyOverdue:
-      "There are no overdue loans.",
+    emptyOverdue: "There are no overdue loans.",
 
     process: "Manage loans",
     previous: "Previous",
@@ -228,14 +202,12 @@ const messages = {
     page: "Page",
 
     asOf: "Updated at",
-    localTime:
-      "Times use your device's timezone.",
+    localTime: "Times use your device's timezone.",
 
     missingDates:
       "records lack handover or return timestamps. Events without dates are excluded from period figures.",
 
-    forbidden:
-      "You do not have permission to view or export this report.",
+    forbidden: "You do not have permission to view or export this report.",
 
     invalidRange:
       "Choose valid dates up to today, in chronological order, covering no more than 366 days.",
@@ -252,11 +224,7 @@ const messages = {
   },
 };
 
-function TrendChart({
-  report,
-  copy,
-  language,
-}) {
+function TrendChart({ report, copy, language }) {
   const items = report.trend;
 
   const width = 600;
@@ -269,29 +237,17 @@ function TrendChart({
   const max = Math.max(
     4,
     Math.ceil(
-      Math.max(
-        ...items.flatMap((item) => [
-          item.borrowed,
-          item.returned,
-        ]),
-      ) / 4,
+      Math.max(...items.flatMap((item) => [item.borrowed, item.returned])) / 4,
     ) * 4,
   );
 
   const x = (index) =>
     items.length === 1
       ? (width + left - right) / 2
-      : left +
-        (index *
-          (width - left - right)) /
-          (items.length - 1);
+      : left + (index * (width - left - right)) / (items.length - 1);
 
   const y = (value) =>
-    height -
-    bottom -
-    (value *
-      (height - top - bottom)) /
-      max;
+    height - bottom - (value * (height - top - bottom)) / max;
 
   const pointLabel = (item) =>
     `${item.from} → ${item.to}: ${copy.borrowed} ${item.borrowed}; ${copy.returned} ${item.returned}`;
@@ -312,12 +268,8 @@ function TrendChart({
         <small>{copy[report.unit]}</small>
       </div>
 
-      {report.period.borrowed +
-        report.period.returned ===
-      0 ? (
-        <p className="report-empty">
-          {copy.emptyTrend}
-        </p>
+      {report.period.borrowed + report.period.returned === 0 ? (
+        <p className="report-empty">{copy.emptyTrend}</p>
       ) : (
         <div
           className="report-chart-scroll"
@@ -343,65 +295,40 @@ function TrendChart({
                   y2={y((max * tick) / 4)}
                 />
 
-                <text
-                  x={left - 9}
-                  y={y((max * tick) / 4) + 4}
-                  textAnchor="end"
-                >
+                <text x={left - 9} y={y((max * tick) / 4) + 4} textAnchor="end">
                   {(max * tick) / 4}
                 </text>
               </g>
             ))}
 
-            {[
-              "borrowed",
-              "returned",
-            ].map((series) => (
-              <g
-                key={series}
-                className={`report-series is-${series}`}
-              >
+            {["borrowed", "returned"].map((series) => (
+              <g key={series} className={`report-series is-${series}`}>
                 <polyline
                   points={items
-                    .map(
-                      (item, index) =>
-                        `${x(index)},${y(
-                          item[series],
-                        )}`,
-                    )
+                    .map((item, index) => `${x(index)},${y(item[series])}`)
                     .join(" ")}
                 />
 
-                {items.map(
-                  (item, index) => (
-                    <circle
-                      key={item.from}
-                      cx={x(index)}
-                      cy={y(item[series])}
-                      r={3.5}
-                      tabIndex={0}
-                      role="img"
-                      aria-label={pointLabel(
-                        item,
-                      )}
-                    >
-                      <title>
-                        {pointLabel(item)}
-                      </title>
-                    </circle>
-                  ),
-                )}
+                {items.map((item, index) => (
+                  <circle
+                    key={item.from}
+                    cx={x(index)}
+                    cy={y(item[series])}
+                    r={3.5}
+                    tabIndex={0}
+                    role="img"
+                    aria-label={pointLabel(item)}
+                  >
+                    <title>{pointLabel(item)}</title>
+                  </circle>
+                ))}
               </g>
             ))}
 
             {items.map((item, index) =>
               index === 0 ||
               index === items.length - 1 ||
-              index %
-                Math.ceil(
-                  items.length / 6,
-                ) ===
-                0 ? (
+              index % Math.ceil(items.length / 6) === 0 ? (
                 <text
                   key={item.from}
                   x={x(index)}
@@ -409,16 +336,13 @@ function TrendChart({
                   textAnchor={
                     index === 0
                       ? "start"
-                      : index ===
-                          items.length - 1
+                      : index === items.length - 1
                         ? "end"
                         : "middle"
                   }
                 >
                   {new Intl.DateTimeFormat(
-                    language === "vi"
-                      ? "vi-VN"
-                      : "en-GB",
+                    language === "vi" ? "vi-VN" : "en-GB",
                     report.unit === "month"
                       ? {
                           month: "short",
@@ -428,11 +352,7 @@ function TrendChart({
                           day: "2-digit",
                           month: "2-digit",
                         },
-                  ).format(
-                    new Date(
-                      `${item.from}T12:00:00`,
-                    ),
-                  )}
+                  ).format(new Date(`${item.from}T12:00:00`))}
                 </text>
               ) : null,
             )}
@@ -452,17 +372,11 @@ function TrendChart({
           <table className="report-table">
             <thead>
               <tr>
-                <th scope="col">
-                  {copy.interval}
-                </th>
+                <th scope="col">{copy.interval}</th>
 
-                <th scope="col">
-                  {copy.borrowed}
-                </th>
+                <th scope="col">{copy.borrowed}</th>
 
-                <th scope="col">
-                  {copy.returned}
-                </th>
+                <th scope="col">{copy.returned}</th>
               </tr>
             </thead>
 
@@ -470,15 +384,8 @@ function TrendChart({
               {items.map((item) => (
                 <tr key={item.from}>
                   <th scope="row">
-                    {formatLoanDate(
-                      item.from,
-                      language,
-                    )}{" "}
-                    –{" "}
-                    {formatLoanDate(
-                      item.to,
-                      language,
-                    )}
+                    {formatLoanDate(item.from, language)} –{" "}
+                    {formatLoanDate(item.to, language)}
                   </th>
 
                   <td>{item.borrowed}</td>
@@ -493,36 +400,24 @@ function TrendChart({
   );
 }
 
-export default function StatisticsPage({
-  onOpenLoans,
-}) {
+export default function StatisticsPage({ onOpenLoans }) {
   const { language } = useUiSettings();
 
   const copy = messages[language];
   const data = useLibraryData();
   const user = currentLibraryUser(data);
 
-  const [filters, setFilters] =
-    useState(() => reportRange());
+  const [filters, setFilters] = useState(() => reportRange());
 
-  const [preset, setPreset] =
-    useState("30");
+  const [preset, setPreset] = useState("30");
 
-  const [notice, setNotice] =
-    useState("");
+  const [notice, setNotice] = useState("");
 
-  const [overduePage, setOverduePage] =
-    useState(1);
+  const [overduePage, setOverduePage] = useState(1);
 
-  const report = libraryReport(
-    data,
-    filters,
-  );
+  const report = libraryReport(data, filters);
 
-  const canExport = hasPermission(
-    user,
-    P.REPORTS_EXPORT,
-  );
+  const canExport = hasPermission(user, P.REPORTS_EXPORT);
 
   const today = dateKey();
 
@@ -544,118 +439,76 @@ export default function StatisticsPage({
   }
 
   function exportCsv() {
-    const result = runLibraryCommand(
-      P.REPORTS_EXPORT,
-      (state) => {
-        const fresh = libraryReport(
-          state,
-          filters,
+    const result = runLibraryCommand(P.REPORTS_EXPORT, (state) => {
+      const fresh = libraryReport(state, filters);
+
+      if (!fresh.allowed || fresh.error) {
+        return {
+          ok: false,
+          error: fresh.error || "forbidden",
+        };
+      }
+
+      let url;
+
+      try {
+        url = URL.createObjectURL(
+          new Blob([reportCsv(fresh, copy)], {
+            type: "text/csv;charset=utf-8",
+          }),
         );
 
-        if (
-          !fresh.allowed ||
-          fresh.error
-        ) {
-          return {
-            ok: false,
-            error:
-              fresh.error || "forbidden",
-          };
-        }
+        const link = document.createElement("a");
 
-        let url;
+        link.href = url;
 
-        try {
-          url = URL.createObjectURL(
-            new Blob(
-              [reportCsv(fresh, copy)],
-              {
-                type: "text/csv;charset=utf-8",
-              },
-            ),
-          );
+        link.download = `cloudlibrary-report-${fresh.from}-${fresh.to}.csv`;
 
-          const link =
-            document.createElement("a");
-
-          link.href = url;
-
-          link.download =
-            `cloudlibrary-report-${fresh.from}-${fresh.to}.csv`;
-
-          document.body.appendChild(link);
-          link.click();
-          link.remove();
-        } catch {
-          return {
-            ok: false,
-            error: "exportError",
-          };
-        } finally {
-          if (url) {
-            setTimeout(
-              () =>
-                URL.revokeObjectURL(url),
-              1000,
-            );
-          }
-        }
-
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      } catch {
         return {
-          ok: true,
-          state,
-          targetId: "library",
-
-          details: {
-            operation: "reports.export",
-            from: fresh.from,
-            to: fresh.to,
-            format: "csv",
-          },
+          ok: false,
+          error: "exportError",
         };
-      },
-    );
+      } finally {
+        if (url) {
+          setTimeout(() => URL.revokeObjectURL(url), 1000);
+        }
+      }
 
-    setNotice(
-      result.ok
-        ? "exported"
-        : result.error,
-    );
+      return {
+        ok: true,
+        state,
+        targetId: "library",
+
+        details: {
+          operation: "reports.export",
+          from: fresh.from,
+          to: fresh.to,
+          format: "csv",
+        },
+      };
+    });
+
+    setNotice(result.ok ? "exported" : result.error);
   }
 
   if (!report.allowed) {
-    return (
-      <p role="alert">
-        {copy.forbidden}
-      </p>
-    );
+    return <p role="alert">{copy.forbidden}</p>;
   }
 
-  const pageCount = Math.max(
-    1,
-    Math.ceil(
-      (report.overdue?.length || 0) /
-        10,
-    ),
-  );
+  const pageCount = Math.max(1, Math.ceil((report.overdue?.length || 0) / 10));
 
-  const currentPage = Math.min(
-    overduePage,
-    pageCount,
-  );
+  const currentPage = Math.min(overduePage, pageCount);
 
   return (
-    <section
-      className="statistics-page loan-workspace"
-      aria-label={copy.title}
-    >
+    <section className="statistics-page loan-workspace" aria-label={copy.title}>
       <div className="report-heading">
         <div>
           <h2>
-            <BarChart3
-              size={25}
-              aria-hidden="true"
-            />
+            <BarChart3 size={25} aria-hidden="true" />
             {copy.title}
           </h2>
 
@@ -667,83 +520,53 @@ export default function StatisticsPage({
             type="button"
             className="loan-button is-primary"
             onClick={exportCsv}
-            disabled={Boolean(
-              report.error,
-            )}
+            disabled={Boolean(report.error)}
           >
-            <Download
-              size={17}
-              aria-hidden="true"
-            />
+            <Download size={17} aria-hidden="true" />
             {copy.export}
           </button>
         )}
       </div>
 
       <div className="report-filters">
-        <div
-          className="report-presets"
-          role="group"
-          aria-label={copy.interval}
-        >
+        <div className="report-presets" role="group" aria-label={copy.interval}>
           {[7, 30, 90].map((days) => (
             <button
               type="button"
               className="loan-button"
               key={days}
-              aria-pressed={
-                preset === String(days)
-              }
-              onClick={() =>
-                chooseRange(days)
-              }
+              aria-pressed={preset === String(days)}
+              onClick={() => chooseRange(days)}
             >
               {days} {copy.days}
             </button>
           ))}
 
-          {preset === "custom" && (
-            <span>{copy.custom}</span>
-          )}
+          {preset === "custom" && <span>{copy.custom}</span>}
         </div>
 
         {["from", "to"].map((name) => (
-          <label
-            className="report-field"
-            key={name}
-          >
+          <label className="report-field" key={name}>
             <span>{copy[name]}</span>
 
             <input
               type="date"
               max={today}
               value={filters[name]}
-              onChange={(event) =>
-                changeDate(
-                  name,
-                  event.target.value,
-                )
-              }
+              onChange={(event) => changeDate(name, event.target.value)}
             />
           </label>
         ))}
       </div>
 
       {notice && (
-        <p
-          className="report-feedback"
-          role="status"
-        >
-          {copy[notice] ||
-            copy.exportError}
+        <p className="report-feedback" role="status">
+          {copy[notice] || copy.exportError}
         </p>
       )}
 
       {report.error ? (
-        <p
-          className="report-error"
-          role="alert"
-        >
+        <p className="report-error" role="alert">
           {copy[report.error]}
         </p>
       ) : (
@@ -754,21 +577,12 @@ export default function StatisticsPage({
           </div>
 
           <div className="report-metrics">
-            {Object.entries(
-              report.period,
-            ).map(([key, value]) => (
-              <div
-                className="report-metric"
-                key={key}
-              >
+            {Object.entries(report.period).map(([key, value]) => (
+              <div className="report-metric" key={key}>
                 <span>{copy[key]}</span>
 
                 <strong>
-                  {value.toLocaleString(
-                    language === "vi"
-                      ? "vi-VN"
-                      : "en-GB",
-                  )}
+                  {value.toLocaleString(language === "vi" ? "vi-VN" : "en-GB")}
                 </strong>
               </div>
             ))}
@@ -776,8 +590,7 @@ export default function StatisticsPage({
 
           {report.missingDates > 0 && (
             <p className="report-note">
-              {report.missingDates}{" "}
-              {copy.missingDates}
+              {report.missingDates} {copy.missingDates}
             </p>
           )}
 
@@ -785,64 +598,42 @@ export default function StatisticsPage({
             <article className="report-panel">
               <h3>{copy.trendTitle}</h3>
 
-              <p className="report-muted">
-                {copy.trendHint}
-              </p>
+              <p className="report-muted">{copy.trendHint}</p>
 
-              <TrendChart
-                report={report}
-                copy={copy}
-                language={language}
-              />
+              <TrendChart report={report} copy={copy} language={language} />
             </article>
 
             <article className="report-panel">
               <h3>{copy.topTitle}</h3>
 
-              <p className="report-muted">
-                {copy.topHint}
-              </p>
+              <p className="report-muted">{copy.topHint}</p>
 
               {report.topBooks.length ? (
                 <ol className="report-ranking">
-                  {report.topBooks.map(
-                    (book) => (
-                      <li key={book.id}>
-                        <div>
-                          <strong>
-                            {book.title}
-                          </strong>
+                  {report.topBooks.map((book) => (
+                    <li key={book.id}>
+                      <div>
+                        <strong>{book.title}</strong>
 
-                          <span>
-                            {book.count}{" "}
-                            {copy.loans}
-                          </span>
-                        </div>
+                        <span>
+                          {book.count} {copy.loans}
+                        </span>
+                      </div>
 
-                        <div
-                          className="report-bar"
-                          aria-hidden="true"
-                        >
-                          <span
-                            style={{
-                              width: `${
-                                (book.count /
-                                  report
-                                    .topBooks[0]
-                                    .count) *
-                                100
-                              }%`,
-                            }}
-                          />
-                        </div>
-                      </li>
-                    ),
-                  )}
+                      <div className="report-bar" aria-hidden="true">
+                        <span
+                          style={{
+                            width: `${
+                              (book.count / report.topBooks[0].count) * 100
+                            }%`,
+                          }}
+                        />
+                      </div>
+                    </li>
+                  ))}
                 </ol>
               ) : (
-                <p className="report-empty">
-                  {copy.emptyTop}
-                </p>
+                <p className="report-empty">{copy.emptyTop}</p>
               )}
             </article>
           </div>
@@ -853,53 +644,30 @@ export default function StatisticsPage({
           </div>
 
           <div className="report-metrics is-current">
-            {[
-              "pending",
-              "approved",
-              "borrowed",
-              "overdue",
-            ].map((status) => (
+            {["pending", "approved", "borrowed", "overdue"].map((status) => (
               <button
                 type="button"
                 className="report-metric"
                 key={status}
-                onClick={() =>
-                  onOpenLoans(status)
-                }
+                onClick={() => onOpenLoans(status)}
               >
                 <span>
-                  {status === "borrowed"
-                    ? copy.onLoan
-                    : copy[status]}
+                  {status === "borrowed" ? copy.onLoan : copy[status]}
 
-                  <ArrowUpRight
-                    size={16}
-                    aria-hidden="true"
-                  />
+                  <ArrowUpRight size={16} aria-hidden="true" />
                 </span>
 
-                <strong>
-                  {
-                    report.current[
-                      status
-                    ]
-                  }
-                </strong>
+                <strong>{report.current[status]}</strong>
               </button>
             ))}
           </div>
 
           <div className="report-inventory">
-            <strong>
-              {copy.inventory}
-            </strong>
+            <strong>{copy.inventory}</strong>
 
-            {Object.entries(
-              report.stock,
-            ).map(([key, value]) => (
+            {Object.entries(report.stock).map(([key, value]) => (
               <span key={key}>
-                {copy[key]}:{" "}
-                <b>{value}</b>
+                {copy[key]}: <b>{value}</b>
               </span>
             ))}
           </div>
@@ -908,34 +676,20 @@ export default function StatisticsPage({
             <div className="report-overdue-heading">
               <div>
                 <h3>
-                  {copy.overdueTitle} (
-                  {
-                    report.overdue
-                      .length
-                  }
-                  )
+                  {copy.overdueTitle} ({report.overdue.length})
                 </h3>
 
-                <p className="report-muted">
-                  {copy.overdueHint}
-                </p>
+                <p className="report-muted">{copy.overdueHint}</p>
               </div>
 
               <button
                 className="loan-button"
                 type="button"
-                onClick={() =>
-                  onOpenLoans(
-                    "overdue",
-                  )
-                }
+                onClick={() => onOpenLoans("overdue")}
               >
                 {copy.process}
 
-                <ArrowUpRight
-                  size={16}
-                  aria-hidden="true"
-                />
+                <ArrowUpRight size={16} aria-hidden="true" />
               </button>
             </div>
 
@@ -945,24 +699,14 @@ export default function StatisticsPage({
                   className="report-table-scroll"
                   tabIndex={0}
                   role="region"
-                  aria-label={
-                    copy.overdueTitle
-                  }
+                  aria-label={copy.overdueTitle}
                 >
                   <table className="report-table">
                     <thead>
                       <tr>
-                        {[
-                          copy.book,
-                          copy.reader,
-                          copy.due,
-                          copy.late,
-                        ].map(
+                        {[copy.book, copy.reader, copy.due, copy.late].map(
                           (label) => (
-                            <th
-                              scope="col"
-                              key={label}
-                            >
+                            <th scope="col" key={label}>
                               {label}
                             </th>
                           ),
@@ -972,46 +716,21 @@ export default function StatisticsPage({
 
                     <tbody>
                       {report.overdue
-                        .slice(
-                          (currentPage -
-                            1) *
-                            10,
-                          currentPage *
-                            10,
-                        )
+                        .slice((currentPage - 1) * 10, currentPage * 10)
                         .map((row) => (
-                          <tr
-                            key={row.id}
-                          >
-                            <th scope="row">
-                              {row.title}
-                            </th>
+                          <tr key={row.id}>
+                            <th scope="row">{row.title}</th>
 
                             <td>
-                              {
-                                row.readerName
-                              }
+                              {row.readerName}
 
-                              <small>
-                                {
-                                  row.readerEmail
-                                }
-                              </small>
+                              <small>{row.readerEmail}</small>
                             </td>
 
-                            <td>
-                              {formatLoanDate(
-                                row.dueDate,
-                                language,
-                              )}
-                            </td>
+                            <td>{formatLoanDate(row.dueDate, language)}</td>
 
                             <td>
-                              <strong>
-                                {
-                                  row.daysLate
-                                }
-                              </strong>
+                              <strong>{row.daysLate}</strong>
                             </td>
                           </tr>
                         ))}
@@ -1019,63 +738,39 @@ export default function StatisticsPage({
                   </table>
                 </div>
 
-                <nav
-                  className="report-pagination"
-                  aria-label={copy.page}
-                >
+                <nav className="report-pagination" aria-label={copy.page}>
                   <button
                     className="loan-button"
                     type="button"
-                    disabled={
-                      currentPage === 1
-                    }
-                    onClick={() =>
-                      setOverduePage(
-                        currentPage - 1,
-                      )
-                    }
+                    disabled={currentPage === 1}
+                    onClick={() => setOverduePage(currentPage - 1)}
                   >
                     {copy.previous}
                   </button>
 
                   <span>
-                    {copy.page}{" "}
-                    {currentPage} /{" "}
-                    {pageCount}
+                    {copy.page} {currentPage} / {pageCount}
                   </span>
 
                   <button
                     className="loan-button"
                     type="button"
-                    disabled={
-                      currentPage ===
-                      pageCount
-                    }
-                    onClick={() =>
-                      setOverduePage(
-                        currentPage + 1,
-                      )
-                    }
+                    disabled={currentPage === pageCount}
+                    onClick={() => setOverduePage(currentPage + 1)}
                   >
                     {copy.next}
                   </button>
                 </nav>
               </>
             ) : (
-              <p className="report-empty">
-                {copy.emptyOverdue}
-              </p>
+              <p className="report-empty">{copy.emptyOverdue}</p>
             )}
           </article>
 
           <p className="report-muted">
             {copy.asOf}:{" "}
-            {new Date(
-              report.asOf,
-            ).toLocaleString(
-              language === "vi"
-                ? "vi-VN"
-                : "en-GB",
+            {new Date(report.asOf).toLocaleString(
+              language === "vi" ? "vi-VN" : "en-GB",
             )}
             . {copy.localTime}
           </p>
