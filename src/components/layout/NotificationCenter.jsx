@@ -1,11 +1,14 @@
 import { useId, useRef, useState } from "react";
 import { Bell, CheckCheck, X } from "lucide-react";
+
 import { useUiSettings } from "../../ui/settings";
 import { formatLoanDate } from "../../ui/loanMessages";
+
 import {
   markNotificationsRead,
   useReaderNotifications,
 } from "../../ui/notificationStore";
+
 import "./NotificationCenter.css";
 
 const messages = {
@@ -17,19 +20,35 @@ const messages = {
     markAll: "Đánh dấu tất cả đã đọc",
     close: "Đóng",
     more: "Xem thêm",
+
     empty: "Bạn chưa có thông báo nào.",
     caughtUp: "Bạn đã đọc hết thông báo rồi.",
-    login: "Đăng nhập để xem thông báo mượn sách của bạn.",
+
+    login:
+      "Đăng nhập để xem thông báo mượn sách của bạn.",
+
     approved: "Yêu cầu mượn đã được duyệt",
+    borrowed: "Đã nhận sách từ thư viện",
+    returned: "Thư viện đã ghi nhận trả sách",
+    cancelled: "Yêu cầu mượn đã được hủy",
     rejected: "Yêu cầu mượn bị từ chối",
+
     dueSoon: "Sách sắp đến hạn trả",
     overdue: "Sách đã quá hạn trả",
     due: "Hạn trả",
     reason: "Lý do",
     view: "Xem phiếu mượn",
-    stale: "Thông báo đã thay đổi. Vui lòng kiểm tra lại danh sách.",
-    hint: "Nhắc hạn trước 3 ngày. Trạng thái hiện tại nằm trong phiếu mượn.",
+
+    stale:
+      "Thông báo đã thay đổi. Vui lòng kiểm tra lại danh sách.",
+
+    storageFailed:
+      "Chưa lưu được trạng thái đã đọc. Giải phóng dung lượng trình duyệt rồi thử lại.",
+
+    hint:
+      "Nhắc hạn trước 3 ngày. Trạng thái hiện tại nằm trong phiếu mượn.",
   },
+
   en: {
     title: "Notifications",
     unread: "unread",
@@ -38,22 +57,40 @@ const messages = {
     markAll: "Mark all as read",
     close: "Close",
     more: "Show more",
+
     empty: "You have no notifications yet.",
     caughtUp: "You're all caught up.",
-    login: "Sign in to view your loan notifications.",
+
+    login:
+      "Sign in to view your loan notifications.",
+
     approved: "Loan request approved",
+    borrowed: "Book collected from the library",
+    returned: "Book return recorded",
+    cancelled: "Loan request cancelled",
     rejected: "Loan request rejected",
+
     dueSoon: "Book due soon",
     overdue: "Book overdue",
     due: "Due date",
     reason: "Reason",
     view: "View loan request",
-    stale: "This notification has changed. Please check the list again.",
-    hint: "Reminders start 3 days before the due date. View the request for its current status.",
+
+    stale:
+      "This notification has changed. Please check the list again.",
+
+    storageFailed:
+      "Could not save the read status. Free browser storage and retry.",
+
+    hint:
+      "Reminders start 3 days before the due date. View the request for its current status.",
   },
 };
 
-export default function NotificationCenter({ user, onOpenRequest }) {
+export default function NotificationCenter({
+  user,
+  onOpenRequest,
+}) {
   const { language } = useUiSettings();
   const copy = messages[language];
 
@@ -66,7 +103,9 @@ export default function NotificationCenter({ user, onOpenRequest }) {
   const dialog = useRef(null);
   const titleId = useId();
 
-  const filtered = onlyUnread ? items.filter((item) => !item.read) : items;
+  const filtered = onlyUnread
+    ? items.filter((item) => !item.read)
+    : items;
 
   function open() {
     setError("");
@@ -75,13 +114,32 @@ export default function NotificationCenter({ user, onOpenRequest }) {
   }
 
   function view(item) {
-    if (!markNotificationsRead(item.id).ok) {
-      setError(copy.stale);
+    const result = markNotificationsRead(item.id);
+
+    if (!result.ok) {
+      setError(
+        result.error === "storageFailed"
+          ? copy.storageFailed
+          : copy.stale,
+      );
       return;
     }
 
+    setError("");
     dialog.current.close();
     onOpenRequest(item.requestId);
+  }
+
+  function markAll() {
+    const result = markNotificationsRead();
+
+    setError(
+      result.ok
+        ? ""
+        : result.error === "storageFailed"
+          ? copy.storageFailed
+          : copy.stale,
+    );
   }
 
   return (
@@ -90,14 +148,21 @@ export default function NotificationCenter({ user, onOpenRequest }) {
         type="button"
         className="notification-bell"
         onClick={open}
-        aria-label={`${copy.title}${unread ? ` (${unread} ${copy.unread})` : ""}`}
+        aria-label={`${copy.title}${
+          unread
+            ? ` (${unread} ${copy.unread})`
+            : ""
+        }`}
         aria-haspopup="dialog"
         title={copy.title}
       >
         <Bell size={20} aria-hidden="true" />
 
         {unread > 0 && (
-          <span className="notification-badge" aria-hidden="true">
+          <span
+            className="notification-badge"
+            aria-hidden="true"
+          >
             {unread > 99 ? "99+" : unread}
           </span>
         )}
@@ -127,13 +192,20 @@ export default function NotificationCenter({ user, onOpenRequest }) {
         </div>
 
         {!user ? (
-          <p className="notification-empty">{copy.login}</p>
+          <p className="notification-empty">
+            {copy.login}
+          </p>
         ) : (
           <>
-            <p className="notification-hint">{copy.hint}</p>
+            <p className="notification-hint">
+              {copy.hint}
+            </p>
 
             <div className="notification-tools">
-              <div role="group" aria-label={copy.title}>
+              <div
+                role="group"
+                aria-label={copy.title}
+              >
                 {[false, true].map((value) => (
                   <button
                     key={String(value)}
@@ -144,7 +216,9 @@ export default function NotificationCenter({ user, onOpenRequest }) {
                       setLimit(20);
                     }}
                   >
-                    {value ? copy.onlyUnread : copy.all}
+                    {value
+                      ? copy.onlyUnread
+                      : copy.all}
                   </button>
                 ))}
               </div>
@@ -152,55 +226,93 @@ export default function NotificationCenter({ user, onOpenRequest }) {
               <button
                 type="button"
                 disabled={!unread}
-                onClick={() => markNotificationsRead()}
+                onClick={markAll}
               >
-                <CheckCheck size={16} aria-hidden="true" />
+                <CheckCheck
+                  size={16}
+                  aria-hidden="true"
+                />
                 {copy.markAll}
               </button>
             </div>
 
-            {error && <p role="alert">{error}</p>}
+            {error && (
+              <p
+                className="notification-error"
+                role="alert"
+              >
+                {error}
+              </p>
+            )}
 
             {filtered.length === 0 ? (
               <p className="notification-empty">
-                {onlyUnread ? copy.caughtUp : copy.empty}
+                {onlyUnread
+                  ? copy.caughtUp
+                  : copy.empty}
               </p>
             ) : (
               <ul className="notification-list">
-                {filtered.slice(0, limit).map((item) => (
-                  <li
-                    key={item.id}
-                    className={`${item.read ? "is-read" : "is-unread"} is-${item.type}`}
-                  >
-                    <button
-                      type="button"
-                      className="notification-entry"
-                      onClick={() => view(item)}
+                {filtered
+                  .slice(0, limit)
+                  .map((item) => (
+                    <li
+                      key={item.id}
+                      className={`${
+                        item.read
+                          ? "is-read"
+                          : "is-unread"
+                      } is-${item.type}`}
                     >
-                      <strong>{copy[item.type]}</strong>
+                      <button
+                        type="button"
+                        className="notification-entry"
+                        onClick={() => view(item)}
+                      >
+                        <strong>
+                          {copy[item.type]}
+                        </strong>
 
-                      <span className="notification-book">{item.title}</span>
-
-                      {item.type === "rejected" && item.reason && (
-                        <span>
-                          {copy.reason}: {item.reason}
+                        <span className="notification-book">
+                          {item.title}
                         </span>
-                      )}
 
-                      {["dueSoon", "overdue"].includes(item.type) && (
-                        <span>
-                          {copy.due}: {formatLoanDate(item.dueDate, language)}
+                        {item.type === "rejected" &&
+                          item.reason && (
+                            <span>
+                              {copy.reason}:{" "}
+                              {item.reason}
+                            </span>
+                          )}
+
+                        {[
+                          "borrowed",
+                          "dueSoon",
+                          "overdue",
+                        ].includes(item.type) &&
+                          item.dueDate && (
+                            <span>
+                              {copy.due}:{" "}
+                              {formatLoanDate(
+                                item.dueDate,
+                                language,
+                              )}
+                            </span>
+                          )}
+
+                        <time dateTime={item.at}>
+                          {formatLoanDate(
+                            item.at,
+                            language,
+                          )}
+                        </time>
+
+                        <span className="notification-view">
+                          {copy.view} →
                         </span>
-                      )}
-
-                      <time dateTime={item.at}>
-                        {formatLoanDate(item.at, language)}
-                      </time>
-
-                      <span className="notification-view">{copy.view} →</span>
-                    </button>
-                  </li>
-                ))}
+                      </button>
+                    </li>
+                  ))}
               </ul>
             )}
 

@@ -1,45 +1,83 @@
+import { useRef } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { t, useUiSettings } from "../../ui/settings";
+
 import "./TopicBar.css";
 
-export default function TopicBar({ categories, activeCategory, onChange }) {
+export default function TopicBar({
+  categories = [],
+  activeCategory = "all",
+  onChange,
+}) {
+  const { language } = useUiSettings();
+  const listRef = useRef(null);
+
+  const selected = categories.includes(activeCategory)
+    ? activeCategory
+    : "all";
+
+  function scroll(direction) {
+    const list = listRef.current;
+
+    if (!list) return;
+
+    list.scrollBy({
+      left: direction * list.clientWidth * 0.75,
+      behavior: window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches
+        ? "instant"
+        : "smooth",
+    });
+  }
+
   return (
-    <div className="topic-bar" role="group" aria-label="Lọc sách theo chủ đề">
+    <div
+      className="topic-strip"
+      role="group"
+      aria-label={t("Lọc sách theo chủ đề")}
+    >
       <button
         type="button"
-        className={`topic-tab ${activeCategory === "all" ? "is-active" : ""}`}
-        aria-pressed={activeCategory === "all"}
-        onClick={() => onChange("all")}
+        className="topic-strip__arrow"
+        onClick={() => scroll(-1)}
+        aria-label={
+          language === "en"
+            ? "Scroll categories left"
+            : "Cuộn thể loại sang trái"
+        }
       >
-        Tất cả
+        <ChevronLeft size={18} aria-hidden="true" />
       </button>
 
-      {categories.slice(0, 4).map((category) => (
-        <button
-          key={category}
-          type="button"
-          className={`topic-tab ${
-            activeCategory === category ? "is-active" : ""
-          }`}
-          aria-pressed={activeCategory === category}
-          onClick={() => onChange(category)}
-        >
-          {category}
-        </button>
-      ))}
-
-      <select
-        className="topic-select"
-        aria-label="Chọn thể loại sách"
-        value={activeCategory}
-        onChange={(event) => onChange(event.target.value)}
-      >
-        <option value="all">Thể loại</option>
-
-        {categories.map((category) => (
-          <option key={category} value={category}>
-            {category}
-          </option>
+      <div className="topic-strip__list" ref={listRef}>
+        {["all", ...categories].map((category) => (
+          <button
+            key={category}
+            type="button"
+            className={`topic-strip__button ${
+              selected === category ? "is-active" : ""
+            }`}
+            aria-pressed={selected === category}
+            onClick={() => onChange(category)}
+          >
+            {t(category === "all" ? "Tất cả" : category)}
+          </button>
         ))}
-      </select>
+      </div>
+
+      <button
+        type="button"
+        className="topic-strip__arrow"
+        onClick={() => scroll(1)}
+        aria-label={
+          language === "en"
+            ? "Scroll categories right"
+            : "Cuộn thể loại sang phải"
+        }
+      >
+        <ChevronRight size={18} aria-hidden="true" />
+      </button>
     </div>
   );
 }

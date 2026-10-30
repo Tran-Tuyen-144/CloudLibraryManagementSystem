@@ -1,12 +1,15 @@
 import { useContext, useState } from "react";
-
+import { useLibraryData } from "../ui/libraryStore";
+import { findCategory } from "../data/libraryCategories";
+import {
+  bookViewCount,
+  compareDiscoveryBooks,
+  discoveryCategories,
+} from "../data/bookDiscovery";
 import { BorrowContext } from "../ui/BorrowContext";
 import { ReadContext } from "../ui/ReadContext";
-
 import { t, useUiSettings } from "../ui/settings";
-
 import FavoriteButton from "../components/books/FavoriteButton";
-
 import { BookCover, BookDetails } from "../components/books/HomeSections";
 
 import "./CatalogPage.css";
@@ -33,7 +36,6 @@ export default function CatalogPage({
   onToggleFavorite,
   favoritesMode = false,
   onBrowse,
-
   remote = false,
   loading = false,
   errorMessage = "",
@@ -41,6 +43,7 @@ export default function CatalogPage({
   totalCount = null,
 }) {
   const { language } = useUiSettings();
+  const categoryRows = useLibraryData().categories || [];
 
   const onBorrow = useContext(BorrowContext);
   const onRead = useContext(ReadContext);
@@ -62,9 +65,13 @@ export default function CatalogPage({
           loaded: "Đã tải",
         };
 
-  const categories = [
-    ...new Set(allBooks.map((book) => book.category).filter(Boolean)),
-  ].sort((a, b) => a.localeCompare(b, "vi"));
+  const categories = discoveryCategories(categoryRows, allBooks);
+
+  const selectedCategory =
+    filters.category === "all"
+      ? "all"
+      : findCategory(categoryRows, filters.category)?.name ||
+        (categories.includes(filters.category) ? filters.category : "all");
 
   const keyword = normalizeSearch(searchTerm);
 
@@ -79,7 +86,9 @@ export default function CatalogPage({
           const matchesSearch = searchableText.includes(keyword);
 
           const matchesCategory =
-            filters.category === "all" || book.category === filters.category;
+            selectedCategory === "all" ||
+            (findCategory(categoryRows, book.category)?.name ||
+              book.category) === selectedCategory;
 
           const isAvailable = book.availableCopies > 0;
 
@@ -90,20 +99,7 @@ export default function CatalogPage({
 
           return matchesSearch && matchesCategory && matchesAvailability;
         })
-        .sort((a, b) => {
-          if (filters.sort === "title-desc") {
-            return b.title.localeCompare(a.title, "vi");
-          }
-
-          if (filters.sort === "author") {
-            return (
-              a.author.localeCompare(b.author, "vi") ||
-              a.title.localeCompare(b.title, "vi")
-            );
-          }
-
-          return a.title.localeCompare(b.title, "vi");
-        });
+        .sort((a, b) => compareDiscoveryBooks(a, b, filters.sort));
 
   function changeFilter(name, value) {
     onFiltersChange({
@@ -143,7 +139,7 @@ export default function CatalogPage({
           ) : (
             <select
               aria-label={t("Thể loại")}
-              value={filters.category}
+              value={selectedCategory}
               onChange={(event) => changeFilter("category", event.target.value)}
             >
               <option value="all">{t("Tất cả thể loại")}</option>
@@ -168,9 +164,7 @@ export default function CatalogPage({
             }
           >
             <option value="all">{t("Tất cả sách")}</option>
-
             <option value="available">{t("Còn sách")}</option>
-
             <option value="unavailable">{t("Hết sách")}</option>
           </select>
         </label>
@@ -188,6 +182,14 @@ export default function CatalogPage({
             <option value="title-desc">{t("Tên sách: Z → A")}</option>
 
             <option value="author">{t("Tên tác giả: A → Z")}</option>
+
+            {!remote && (
+              <option value="newest">{t("Tác phẩm mới nhất")}</option>
+            )}
+
+            {!remote && (
+              <option value="most-viewed">{t("Nhiều lượt xem nhất")}</option>
+            )}
           </select>
         </label>
 
@@ -247,6 +249,14 @@ export default function CatalogPage({
                   {book.author}
                 </span>
 
+                {!remote && (
+                  <span className="book-view-count">
+                    {t("{{0}} lượt xem", {
+                      0: bookViewCount(book),
+                    })}
+                  </span>
+                )}
+
                 <span
                   className={`catalog-availability ${
                     book.availableCopies > 0 ? "is-available" : "is-unavailable"
@@ -301,6 +311,7 @@ export default function CatalogPage({
         <BorrowContext.Provider value={remote ? null : onBorrow}>
           <ReadContext.Provider value={remote ? null : onRead}>
             <BookDetails
+              trackViews={!remote}
               book={selectedBook}
               favoriteIds={favoriteIds}
               onToggleFavorite={remote ? undefined : onToggleFavorite}

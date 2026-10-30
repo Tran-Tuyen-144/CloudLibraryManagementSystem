@@ -1,217 +1,620 @@
-.auth-page {
-  width: 100%;
-  max-width: 520px;
+.access-layout {
+  position: relative;
+  isolation: isolate;
+  min-height: 100dvh;
+  background: var(--bg-page);
+  color: var(--text-primary);
+}
+
+.galaxy-theme.access-layout::before {
+  display: none;
+}
+
+.access-page {
+  position: relative;
+  min-height: 100dvh;
+  padding: 30px clamp(22px, 4vw, 64px);
+  background:
+    radial-gradient(
+      ellipse at 7% 12%,
+      color-mix(in srgb, var(--accent) 11%, transparent),
+      transparent 45%
+    ),
+    radial-gradient(
+      ellipse at 45% 85%,
+      color-mix(in srgb, var(--accent) 7%, transparent),
+      transparent 34%
+    );
+}
+
+.access-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+.access-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   min-width: 0;
-  margin: 24px auto;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--text-primary);
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
 }
 
-.auth-card {
-  padding: 28px;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  background: linear-gradient(
-    145deg,
-    var(--surface-top),
-    var(--surface-bottom)
-  );
-  box-shadow: var(--panel-shadow);
-}
-
-.auth-logo {
+.access-brand-icon {
   display: grid;
   place-items: center;
-  width: 54px;
-  height: 54px;
-  border: 1px solid var(--accent);
-  border-radius: 14px;
-  background: var(--selected-bg);
-  color: var(--text-primary);
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #9d80ed, #7058d2);
+  color: #fff;
+  box-shadow: 0 5px 22px #7058d22b;
 }
 
-.auth-card h2 {
-  margin: 20px 0 8px;
-  color: var(--text-primary);
-  font-family: Cambria, Georgia, serif;
-  font-size: 28px;
-  line-height: 1.25;
+.access-brand strong {
+  display: block;
+  font-size: 15px;
+  letter-spacing: 0.6px;
+  overflow-wrap: anywhere;
 }
 
-.auth-subtitle {
-  margin: 0;
-  color: var(--text-secondary);
-  font-size: 13px;
+.access-brand small {
+  display: block;
+  margin-top: 3px;
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.access-topbar .ui-controls {
+  margin-left: auto;
+}
+
+.access-main {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  align-items: center;
+  gap: clamp(60px, 9vw, 150px);
+  max-width: 1160px;
+  min-height: calc(100dvh - 132px);
+  margin: 0 auto;
+  padding: 56px 0;
+}
+
+.access-story,
+.access-form-panel {
+  min-width: 0;
+}
+
+.access-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 20px;
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.65px;
   line-height: 1.6;
 }
 
-.auth-tabs {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
-  margin: 24px 0;
-}
-
-.auth-tabs button {
-  min-height: 42px;
-  padding: 10px 12px;
-  border: 1px solid var(--border);
-  border-radius: 9px;
-  background: var(--input-bg);
-  color: var(--text-secondary);
-  font: inherit;
-  font-size: 13px;
-  cursor: pointer;
-  transition:
-    background 160ms ease,
-    border-color 160ms ease;
-}
-
-.auth-tabs button.is-active {
-  border-color: var(--accent);
-  background: var(--selected-bg);
+.access-story h1 {
+  margin: 0;
   color: var(--text-primary);
+  font-family: inherit;
+  font-size: clamp(34px, 3.7vw, 52px);
+  font-weight: 500;
+  line-height: 1.22;
+  letter-spacing: -1.7px;
 }
 
-.auth-form {
+.access-story h1 span {
+  display: block;
+  margin-top: 7px;
+  color: var(--accent);
+}
+
+.access-description {
+  max-width: 400px;
+  margin: 24px 0 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+.access-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  margin-top: 34px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.access-features span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.access-features span::before {
+  content: "";
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.access-form-panel {
+  width: 100%;
+  max-width: 390px;
+  justify-self: end;
+}
+
+.access-form-panel > .access-eyebrow {
+  margin-bottom: 12px;
+}
+
+.access-form-panel h2 {
+  margin: 0;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 27px;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.8px;
+}
+
+.access-form-intro {
+  margin: 10px 0 28px;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.access-form {
   display: grid;
   gap: 18px;
 }
 
-.auth-field {
+.access-fields {
   display: grid;
+  gap: 18px;
   min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.access-field {
+  display: grid;
   gap: 8px;
+  min-width: 0;
 }
 
-.auth-field > span:first-child {
+.access-field label {
   color: var(--text-secondary);
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 500;
 }
 
-.auth-field input {
+.access-input {
+  position: relative;
+}
+
+.access-input input {
   box-sizing: border-box;
   width: 100%;
   min-width: 0;
-  min-height: 44px;
-  padding: 11px 12px;
-  border: 1px solid var(--border);
+  height: 48px;
+  padding: 0 14px 0 43px;
+  border: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
   border-radius: 9px;
-  background: var(--input-bg);
+  outline: none;
+  background: color-mix(in srgb, var(--input-bg) 60%, transparent);
   color: var(--text-primary);
   font: inherit;
   font-size: 14px;
+  transition:
+    border-color 160ms,
+    box-shadow 160ms;
 }
 
-.auth-field input::placeholder {
+.access-input input::placeholder {
   color: var(--text-muted);
-}
-
-.auth-field small {
-  color: var(--text-muted);
+  opacity: 0.8;
   font-size: 12px;
 }
 
-.auth-password-field {
-  position: relative;
-  display: block;
+.access-input input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--focus-glow);
 }
 
-.auth-password-field input {
+.access-input input[aria-invalid="true"] {
+  border-color: #cb849e;
+}
+
+.access-input input:autofill {
+  box-shadow: 0 0 0 1000px var(--input-bg) inset;
+  -webkit-text-fill-color: var(--text-primary);
+}
+
+.access-field-icon {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  color: var(--text-muted);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.access-input.has-toggle input {
   padding-right: 48px;
 }
 
-.auth-password-toggle {
+.access-password-toggle {
   position: absolute;
-  top: 50%;
+  top: 6px;
   right: 6px;
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   padding: 0;
   border: 0;
-  border-radius: 7px;
+  border-radius: 6px;
   background: transparent;
-  color: var(--text-secondary);
-  transform: translateY(-50%);
+  color: var(--text-muted);
   cursor: pointer;
 }
 
-.auth-password-toggle:hover {
+.access-password-toggle:hover {
+  color: var(--accent);
   background: var(--selected-bg);
-  color: var(--text-primary);
 }
 
-.auth-submit {
-  min-height: 44px;
-  padding: 11px 16px;
-  border: 1px solid var(--accent);
+.access-field small {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.access-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 12px 18px;
+  border: 1px solid #9c84e15c;
   border-radius: 9px;
-  background: var(--button-bg);
-  color: var(--text-primary);
+  background: linear-gradient(100deg, #7259d6, #8164da);
+  color: #fff;
   font: inherit;
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 7px 25px #7058d21f;
+  cursor: pointer;
+  transition:
+    filter 160ms,
+    transform 160ms;
+}
+
+.access-submit:hover:not(:disabled) {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.access-error {
+  margin: 0;
+  padding: 11px 13px;
+  border: 1px solid color-mix(in srgb, #cb849e 50%, transparent);
+  border-radius: 8px;
+  color: var(--text-primary);
+  background: color-mix(in srgb, #cb849e 9%, transparent);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.access-switch {
+  margin: 22px 0 0;
+  color: var(--text-muted);
+  text-align: center;
+  font-size: 12px;
+}
+
+.access-switch button {
+  border: 0;
+  padding: 4px;
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
   font-weight: 600;
   cursor: pointer;
 }
 
-.auth-submit:hover {
-  background: var(--button-hover);
-}
-
-.auth-error {
-  margin: 0;
-  padding: 11px 12px;
-  border: 1px solid var(--accent);
-  border-radius: 8px;
-  background: var(--selected-bg);
-  color: var(--text-primary);
-  font-size: 13px;
-  line-height: 1.5;
-}
-
-.auth-demo-note {
-  margin: 20px 0 0;
-  padding: 12px;
-  border-left: 3px solid var(--accent);
-  border-radius: 0 8px 8px 0;
-  background: var(--input-bg);
-  color: var(--text-secondary);
-  font-size: 12px;
-  line-height: 1.6;
-}
-
-.auth-back {
-  margin-top: 18px;
-  padding: 4px 0;
+.access-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin: 17px auto 0;
+  padding: 4px;
   border: 0;
   background: transparent;
-  color: var(--text-primary);
+  color: var(--text-muted);
   font: inherit;
-  font-size: 13px;
+  font-size: 11px;
   cursor: pointer;
 }
 
-.auth-back:hover {
-  text-decoration: underline;
+.access-back:hover,
+.access-switch button:hover {
+  color: var(--text-primary);
 }
 
-.auth-card input:focus-visible,
-.auth-card button:focus-visible {
+.access-page button:focus-visible,
+.access-page select:focus-visible {
   outline: 2px solid var(--accent);
-  outline-offset: 3px;
+  outline-offset: 4px;
 }
 
-@media (max-width: 600px) {
-  .auth-page {
-    margin: 16px auto;
+.access-page :disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.access-spinner {
+  animation: access-spin 1s linear infinite;
+}
+
+@keyframes access-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 800px) {
+  .access-main {
+    grid-template-columns: 1fr;
+    gap: 38px;
+    max-width: 440px;
+    min-height: auto;
+    padding: 46px 0 32px;
   }
 
-  .auth-card {
-    padding: 20px;
+  .access-story h1 {
+    font-size: 32px;
+    letter-spacing: -1px;
   }
 
-  .auth-card h2 {
-    font-size: 24px;
+  .access-story .access-eyebrow {
+    margin-bottom: 12px;
+  }
+
+  .access-description,
+  .access-features {
+    display: none;
+  }
+
+  .access-form-panel {
+    max-width: none;
+    justify-self: stretch;
+  }
+
+  .access-form-panel h2 {
+    font-size: 25px;
+  }
+}
+
+@media (max-width: 440px) {
+  .access-page {
+    padding: 22px 20px;
+  }
+
+  .access-topbar {
+    gap: 14px;
+  }
+
+  .access-brand small {
+    display: none;
+  }
+
+  .access-brand strong {
+    font-size: 13px;
+  }
+
+  .access-brand-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .access-story h1 {
+    font-size: 29px;
+  }
+
+  .access-input input {
+    font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .access-page *,
+  .access-page *::before {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+/* Thu gọn giao diện đăng nhập và đăng ký */
+.access-page {
+  padding: 24px clamp(20px, 4vw, 52px);
+}
+
+.access-brand-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+}
+
+.access-brand strong {
+  font-size: 14px;
+}
+
+.access-brand small {
+  font-size: 10px;
+}
+
+.access-main {
+  max-width: 1000px;
+  grid-template-columns: 1.1fr 1fr;
+  gap: clamp(40px, 6vw, 90px);
+  min-height: calc(100dvh - 112px);
+  padding: 32px 0;
+}
+
+.access-eyebrow {
+  margin-bottom: 15px;
+  font-size: 9px;
+  letter-spacing: 1.3px;
+}
+
+.access-story h1 {
+  font-size: clamp(28px, 3vw, 40px);
+  letter-spacing: -1.2px;
+}
+
+.access-description {
+  max-width: 350px;
+  margin-top: 18px;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.access-features {
+  gap: 10px 16px;
+  margin-top: 24px;
+  font-size: 11px;
+}
+
+.access-form-panel {
+  max-width: 340px;
+}
+
+.access-form-panel > .access-eyebrow {
+  margin-bottom: 9px;
+}
+
+.access-form-panel h2 {
+  font-size: 23px;
+  letter-spacing: -0.5px;
+}
+
+.access-form-intro {
+  margin: 8px 0 22px;
+  font-size: 11px;
+}
+
+.access-form {
+  gap: 14px;
+}
+
+.access-fields {
+  gap: 12px;
+}
+
+.access-field {
+  gap: 6px;
+}
+
+.access-field label {
+  font-size: 11px;
+}
+
+.access-field small {
+  font-size: 10px;
+}
+
+.access-input input {
+  height: 42px;
+  padding-left: 38px;
+  font-size: 13px;
+}
+
+.access-input input::placeholder {
+  font-size: 11px;
+}
+
+.access-field-icon {
+  left: 12px;
+  width: 15px;
+  height: 15px;
+}
+
+.access-password-toggle {
+  top: 4px;
+  right: 4px;
+  width: 34px;
+  height: 34px;
+}
+
+.access-submit {
+  min-height: 42px;
+  padding: 10px 16px;
+  font-size: 12px;
+}
+
+.access-switch {
+  margin-top: 16px;
+  font-size: 11px;
+}
+
+.access-back {
+  margin-top: 12px;
+}
+
+@media (max-width: 800px) {
+  .access-main {
+    grid-template-columns: 1fr;
+    max-width: 380px;
+    min-height: auto;
+    gap: 28px;
+    padding: 32px 0;
+  }
+
+  .access-story h1 {
+    font-size: 28px;
+  }
+
+  .access-form-panel {
+    max-width: none;
+  }
+
+  .access-form-panel h2 {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 440px) {
+  .access-page {
+    padding: 20px 18px;
+  }
+
+  .access-brand strong {
+    font-size: 13px;
+  }
+
+  .access-input input {
+    font-size: 16px;
   }
 }

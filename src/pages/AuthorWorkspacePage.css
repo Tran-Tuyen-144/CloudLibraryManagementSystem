@@ -120,3 +120,179 @@
 .author-work-list .reader-muted {
   overflow-wrap: anywhere;
 }
+
+.author-work-list .author-submit-feedback {
+  flex-basis: 100%;
+  max-width: 420px;
+  margin-top: 0;
+  overflow-wrap: anywhere;
+}
+
+.author-draft-form[hidden] {
+  display: none;
+}
+
+.author-cover-editor {
+  display: grid;
+  grid-template-columns: 100px minmax(0, 1fr);
+  align-items: start;
+  gap: 16px;
+}
+
+.author-cover-preview {
+  width: 100px;
+  aspect-ratio: 5 / 7;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--input-bg);
+}
+
+.author-cover-preview :is(.home-cover-image, .home-cover-fallback) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.author-cover-preview .home-cover-fallback {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.author-cover-preview .home-cover-fallback strong {
+  font-size: 13px;
+}
+
+.author-cover-preview .home-cover-fallback small {
+  font-size: 10px;
+}
+
+.author-chapter-editor,
+.author-chapter-list {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+
+.author-chapter-editor .reader-panel-heading {
+  margin-bottom: 0;
+}
+
+.author-chapter-card {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  margin: 0;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--input-bg);
+}
+
+.author-chapter-card legend {
+  padding: 0 6px;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.author-chapter-card .reader-field textarea {
+  min-height: 220px;
+  line-height: 1.8;
+}
+
+.author-chapter-actions,
+.author-undo {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.author-chapter-actions {
+  justify-content: flex-end;
+}
+
+.author-chapter-card .reader-muted {
+  margin-top: 0;
+  font-size: 12px;
+}
+
+.author-undo {
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.author-workspace .reader-tabs button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 500px) {
+  .author-cover-editor {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .author-chapter-card {
+    padding: 12px;
+  }
+
+  .author-chapter-actions {
+    justify-content: flex-start;
+  }
+}
+.author-workspace .author-work-list .author-work-controls {
+  display: grid;
+  flex: 0 1 460px;
+  gap: 12px;
+  min-width: 0;
+}
+
+.author-workspace .author-work-controls .author-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  margin: 0;
+}
+
+.author-workspace .author-work-controls .reader-button {
+  flex: 0 0 auto;
+}
+
+.author-workspace .author-submit-feedback {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.author-workspace .author-submit-feedback.is-error {
+  color: #fca5a5;
+}
+
+.author-workspace .author-submit-feedback.is-success {
+  color: var(--text-secondary);
+}
+
+:root[data-theme="light"] .author-workspace .author-submit-feedback.is-error,
+.galaxy-theme[data-theme="light"] .author-workspace .author-submit-feedback.is-error {
+  color: #b42318;
+}
+
+@media (max-width: 700px) {
+  .author-workspace .author-work-list .author-work-controls {
+    flex: none;
+    width: 100%;
+  }
+
+  .author-workspace .author-work-controls .author-actions {
+    justify-content: flex-start;
+  }
+}

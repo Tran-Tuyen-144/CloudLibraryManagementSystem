@@ -171,5 +171,13 @@
   "Hồ sơ đã được gửi. Vui lòng kiểm tra trạng thái.": "An application has already been submitted. Check its status.",
   "Không thể gửi hồ sơ. Kiểm tra lại tài khoản đăng nhập.": "Unable to submit your application. Check your signed-in account.",
   "Khu vực tác giả": "Author workspace",
-  "Danh mục tác giả": "Author directory"
+  "Danh mục tác giả": "Author directory",
+  "Tác giả": "Author",
+  "Đã cập nhật hồ sơ.": "Profile updated.",
+  "Nhập chủ đề yêu thích": "Enter your favorite topics",
+  "Gửi hồ sơ để admin xem xét cấp quyền tác giả.": "Submit your application for admin review.",
+  "{{0}} lượt xem": "{{0}} views",
+  "Tác phẩm mới nhất": "Newest works",
+  "Nhiều lượt xem nhất": "Most viewed",
+  "Chọn thể loại sách": "Choose a book category"
 }

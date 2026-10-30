@@ -1,42 +1,78 @@
-import { dateKey, flattenRequests, futureDate } from "../ui/borrowWorkflow.js";
+import {
+  dateKey,
+  flattenRequests,
+  futureDate,
+} from "../ui/borrowWorkflow.js";
 
 export function normalizeNotificationReads(value) {
-  if (!value || typeof value !== "object" || Array.isArray(value)) return {};
+  if (
+    !value ||
+    typeof value !== "object" ||
+    Array.isArray(value)
+  ) {
+    return {};
+  }
 
   return Object.fromEntries(
     Object.entries(value)
       .filter(([, ids]) => Array.isArray(ids))
       .map(([email, ids]) => [
         email,
-        [...new Set(ids.filter((id) => typeof id === "string"))],
+        [
+          ...new Set(
+            ids.filter((id) => typeof id === "string"),
+          ),
+        ],
       ]),
   );
 }
 
 function validDay(value) {
-  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+  if (
+    typeof value !== "string" ||
+    !/^\d{4}-\d{2}-\d{2}$/.test(value)
+  ) {
     return false;
   }
 
   const parsed = new Date(`${value}T12:00:00`);
 
-  return !Number.isNaN(parsed.getTime()) && dateKey(parsed) === value;
+  return (
+    !Number.isNaN(parsed.getTime()) &&
+    dateKey(parsed) === value
+  );
 }
 
-export function readerNotifications(data, user, now = new Date()) {
-  if (!["reader", "author"].includes(user?.role) || user.status !== "active") {
+export function readerNotifications(
+  data,
+  user,
+  now = new Date(),
+) {
+  if (
+    !["reader", "author"].includes(user?.role) ||
+    user.status !== "active"
+  ) {
     return [];
   }
 
-  const readIds = new Set(data.notificationReads?.[user.email] || []);
+  const readIds = new Set(
+    data.notificationReads?.[user.email] || [],
+  );
+
   const today = dateKey(now);
   const notifications = [];
   const seen = new Set();
 
   function add(request, type, occurrence, at) {
-    const id = JSON.stringify([request.id, type, occurrence]);
+    const id = JSON.stringify([
+      request.id,
+      type,
+      occurrence,
+    ]);
 
-    if (seen.has(id)) return;
+    if (seen.has(id)) {
+      return;
+    }
 
     seen.add(id);
 
@@ -52,29 +88,85 @@ export function readerNotifications(data, user, now = new Date()) {
     });
   }
 
+  function addEvent(request, type, value) {
+    if (typeof value !== "string") {
+      return;
+    }
+
+    const at = new Date(value);
+
+    if (
+      !Number.isNaN(at.getTime()) &&
+      at <= now
+    ) {
+      add(
+        request,
+        type,
+        at.toISOString(),
+        at.toISOString(),
+      );
+    }
+  }
+
   const rows = flattenRequests({
-    [user.email]: data.requestsByEmail?.[user.email] || [],
+    [user.email]:
+      data.requestsByEmail?.[user.email] || [],
   });
 
   for (const request of rows) {
-    const event =
-      request.status === "rejected"
-        ? ["rejected", request.rejectedAt]
-        : ["approved", "borrowed", "returned", "cancelled"].includes(
-              request.status,
-            )
-          ? ["approved", request.approvedAt]
-          : null;
-
-    if (event && typeof event[1] === "string") {
-      const at = new Date(event[1]);
-
-      if (!Number.isNaN(at.getTime()) && at <= now) {
-        add(request, event[0], at.toISOString(), at.toISOString());
-      }
+    if (
+      [
+        "approved",
+        "borrowed",
+        "returned",
+        "cancelled",
+      ].includes(request.status)
+    ) {
+      addEvent(
+        request,
+        "approved",
+        request.approvedAt,
+      );
     }
 
-    if (request.status !== "borrowed" || !validDay(request.dueDate)) {
+    if (
+      ["borrowed", "returned"].includes(request.status)
+    ) {
+      addEvent(
+        request,
+        "borrowed",
+        request.borrowedAt,
+      );
+    }
+
+    if (request.status === "returned") {
+      addEvent(
+        request,
+        "returned",
+        request.returnedAt,
+      );
+    }
+
+    if (request.status === "cancelled") {
+      addEvent(
+        request,
+        "cancelled",
+        request.cancelledAt,
+      );
+    }
+
+    if (request.status === "rejected") {
+      addEvent(
+        request,
+        "rejected",
+        request.rejectedAt,
+      );
+    }
+
+    if (
+      request.status !== "borrowed" ||
+      !validDay(request.dueDate)
+    ) {
       continue;
     }
 
@@ -83,15 +175,38 @@ export function readerNotifications(data, user, now = new Date()) {
     if (due < today) {
       const at = new Date(`${due}T12:00:00`);
 
-      add(request, "overdue", due, `${futureDate(1, at)}T00:00:00`);
+      add(
+        request,
+        "overdue",
+        due,
+        `${futureDate(1, at)}T00:00:00`,
+      );
     } else if (due <= futureDate(3, now)) {
       const at = new Date(`${due}T12:00:00`);
 
-      add(request, "dueSoon", due, `${futureDate(-3, at)}T00:00:00`);
+      add(
+        request,
+        "dueSoon",
+        due,
+        `${futureDate(-3, at)}T00:00:00`,
+      );
     }
   }
 
+  const order = {
+    approved: 0,
+    borrowed: 1,
+    dueSoon: 2,
+    overdue: 3,
+    rejected: 4,
+    cancelled: 4,
+    returned: 4,
+  };
+
   return notifications.sort(
-    (a, b) => new Date(b.at) - new Date(a.at) || a.id.localeCompare(b.id),
+    (a, b) =>
+      new Date(b.at) - new Date(a.at) ||
+      order[b.type] - order[a.type] ||
+      a.id.localeCompare(b.id),
   );
 }

@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { ArrowRight, MoreVertical } from "lucide-react";
 import { BookCover } from "./HomeSections";
 import { ReadContext } from "../../ui/ReadContext";
+import { canReadBook, readerChapters } from "../../data/readerContent";
 import { useUiSettings } from "../../ui/settings";
 import "./ReadingHistory.css";
 
@@ -15,7 +16,9 @@ const messages = {
     remove: "Xóa mốc đọc",
     more: "Tùy chọn mốc đọc",
     empty: "Chưa có mốc đọc",
-    emptyHint: "Mở tài liệu, nhập số trang và bấm lưu mốc để tiếp tục từ đây.",
+    emptyHint: "Mở tác phẩm để đọc. Vị trí đọc được lưu tự động.",
+    chapter: "Chương đang đọc",
+    text: "Đọc chữ",
     removed: "Đã xóa mốc đọc.",
     failed: "Không thể xóa mốc đọc trên trình duyệt.",
     unavailable: "Chưa kết nối trình đọc",
@@ -31,7 +34,9 @@ const messages = {
     more: "Bookmark options",
     empty: "No bookmarks yet",
     emptyHint:
-      "Open a document, enter a page number and save a bookmark to continue here.",
+      "Open a work to read. Your reading position is saved automatically.",
+    chapter: "Current chapter",
+    text: "Text",
     removed: "Bookmark cleared.",
     failed: "Could not clear this bookmark in your browser.",
     unavailable: "Reader is not connected",
@@ -74,6 +79,9 @@ function loadBookmarks(email) {
           bookId,
           page,
           timestamp,
+          mode: value.mode === "text" ? "text" : "pdf",
+          chapterId:
+            typeof value.chapterId === "string" ? value.chapterId : null,
         });
       } catch {
         continue;
@@ -86,6 +94,21 @@ function loadBookmarks(email) {
   return records.sort((a, b) => b.timestamp - a.timestamp);
 }
 
+function bookmarkPosition({ book, mode, chapterId, page }, copy) {
+  const chapters = readerChapters(book);
+
+  if (mode === "text" && chapters.length) {
+    const index = Math.max(
+      0,
+      chapters.findIndex((chapter) => chapter.id === chapterId),
+    );
+
+    return `${copy.chapter}: ${chapters[index].title || index + 1}`;
+  }
+
+  return `${copy.page}: ${page}${mode === "text" ? ` · ${copy.text}` : ""}`;
+}
+
 export default function ReadingHistory({ user, books = [] }) {
   const { language } = useUiSettings();
   const copy = messages[language];
@@ -93,7 +116,6 @@ export default function ReadingHistory({ user, books = [] }) {
   const onRead = useContext(ReadContext);
 
   const [records, setRecords] = useState(() => loadBookmarks(user?.email));
-
   const [message, setMessage] = useState("");
 
   if (!user) return null;
@@ -103,10 +125,7 @@ export default function ReadingHistory({ user, books = [] }) {
       ...record,
       book: books.find((book) => String(book.id) === record.bookId),
     }))
-    .filter(
-      (record) =>
-        typeof record.book?.pdfUrl === "string" && record.book.pdfUrl.trim(),
-    )
+    .filter((record) => canReadBook(record.book))
     .slice(0, 6);
 
   function removeBookmark(key) {
@@ -114,7 +133,6 @@ export default function ReadingHistory({ user, books = [] }) {
       localStorage.removeItem(key);
 
       setRecords((current) => current.filter((record) => record.key !== key));
-
       setMessage("removed");
     } catch {
       setMessage("failed");
@@ -138,64 +156,67 @@ export default function ReadingHistory({ user, books = [] }) {
         </div>
       ) : (
         <div className="reading-history-grid">
-          {visibleRecords.map(({ key, book, page, timestamp }) => (
-            <article className="reading-history-card" key={key}>
-              <div className="reading-history-cover">
-                <BookCover book={book} />
-              </div>
+          {visibleRecords.map(
+            ({ key, book, page, timestamp, mode, chapterId }) => (
+              <article className="reading-history-card" key={key}>
+                <div className="reading-history-cover">
+                  <BookCover book={book} />
+                </div>
 
-              <div className="reading-history-info">
-                <h3 title={book.title}>{book.title}</h3>
+                <div className="reading-history-info">
+                  <h3 title={book.title}>{book.title}</h3>
 
-                <p>{book.author}</p>
+                  <p>{book.author}</p>
 
-                <span className="reading-history-page">
-                  {copy.page}: {page}
-                </span>
+                  <span className="reading-history-page">
+                    {bookmarkPosition({ book, mode, chapterId, page }, copy)}
+                  </span>
 
-                <small>
-                  {copy.saved}:{" "}
-                  {new Date(timestamp).toLocaleDateString(
-                    language === "en" ? "en-GB" : "vi-VN",
-                  )}
-                </small>
+                  <small>
+                    {copy.saved}:{" "}
+                    {new Date(timestamp).toLocaleDateString(
+                      language === "en" ? "en-GB" : "vi-VN",
+                    )}
+                  </small>
 
-                <div className="reading-history-actions">
-                  <button
-                    type="button"
-                    className="reading-history-resume"
-                    disabled={typeof onRead !== "function"}
-                    title={
-                      typeof onRead !== "function"
-                        ? copy.unavailable
-                        : undefined
-                    }
-                    onClick={() => onRead(book.id)}
-                  >
-                    {copy.resume}
-                    <ArrowRight size={16} aria-hidden="true" />
-                  </button>
-
-                  <details className="reading-history-menu">
-                    <summary
-                      aria-label={copy.more + ": " + book.title}
-                      title={copy.more}
-                    >
-                      <MoreVertical size={20} aria-hidden="true" />
-                    </summary>
+                  <div className="reading-history-actions">
                     <button
                       type="button"
-                      className="reading-history-remove"
-                      onClick={() => removeBookmark(key)}
-                      aria-label={copy.remove + ": " + book.title}
+                      className="reading-history-resume"
+                      disabled={typeof onRead !== "function"}
+                      title={
+                        typeof onRead !== "function"
+                          ? copy.unavailable
+                          : undefined
+                      }
+                      onClick={() => onRead(book.id)}
                     >
-                      {copy.remove}
+                      {copy.resume}
+                      <ArrowRight size={16} aria-hidden="true" />
                     </button>
-                  </details>
+
+                    <details className="reading-history-menu">
+                      <summary
+                        aria-label={copy.more + ": " + book.title}
+                        title={copy.more}
+                      >
+                        <MoreVertical size={20} aria-hidden="true" />
+                      </summary>
+
+                      <button
+                        type="button"
+                        className="reading-history-remove"
+                        onClick={() => removeBookmark(key)}
+                        aria-label={copy.remove + ": " + book.title}
+                      >
+                        {copy.remove}
+                      </button>
+                    </details>
+                  </div>
                 </div>
-              </div>
-            </article>
-          ))}
+              </article>
+            ),
+          )}
         </div>
       )}
 

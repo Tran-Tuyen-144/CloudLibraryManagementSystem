@@ -221,7 +221,7 @@ export default function LibrarianPage({
         <>
           <div className="loan-hero">
             <div>
-              <span className="loan-eyebrow">CLOUD LIBRARY · {copy.demo}</span>
+              <span className="loan-eyebrow">CLOUD LIBRARY</span>
 
               <h2>{copy.staffTitle}</h2>
               <p>{copy.staffIntro}</p>
@@ -231,8 +231,6 @@ export default function LibrarianPage({
               <BookOpen size={36} strokeWidth={1.4} />
             </span>
           </div>
-
-          <p className="loan-demo-note">{copy.staffNote}</p>
         </>
       )}
 
@@ -327,8 +325,6 @@ export default function LibrarianPage({
 
             {requests.length === 0 && onCreateDemo && (
               <>
-                <p>{copy.seedHint}</p>
-
                 <button
                   type="button"
                   className="loan-button is-primary"

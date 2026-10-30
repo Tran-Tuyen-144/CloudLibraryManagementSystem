@@ -546,8 +546,6 @@ export default function HistoryPage({ kind }) {
         </span>
       </div>
 
-      <p className="history-muted">{copy.intro}</p>
-
       <div className="history-stats">
         {[
           [copy.matches, view.rows.length],

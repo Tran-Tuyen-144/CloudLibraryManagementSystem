@@ -1,0 +1,63 @@
+.categories-page .manage-toolbar {
+  align-items: end;
+}
+
+.categories-name {
+  flex: 1 1 260px;
+}
+
+.categories-page input,
+.categories-page select {
+  padding: 11px 12px;
+}
+
+.categories-search {
+  margin: 20px 0;
+  max-width: 420px;
+}
+
+.categories-list {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.categories-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-panel);
+}
+
+.categories-list strong {
+  overflow-wrap: anywhere;
+}
+
+.categories-list small {
+  display: block;
+  margin-top: 6px;
+  color: var(--text-secondary);
+}
+
+.categories-delete {
+  display: grid;
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid var(--accent);
+  border-radius: 14px;
+  background: var(--bg-panel);
+}
+
+.categories-delete h3,
+.categories-delete p {
+  margin: 0;
+  color: var(--text-primary);
+  overflow-wrap: anywhere;
+}

@@ -159,8 +159,8 @@ export default function AuthorDirectoryPage({
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder={label(
-            "Ví dụ: An Mộc, Những ngày trời trong…",
-            "For example: a pen name or book title…",
+            "Nhập bút danh hoặc tên tác phẩm…",
+            "Enter a pen name or work title…",
           )}
         />
       </label>

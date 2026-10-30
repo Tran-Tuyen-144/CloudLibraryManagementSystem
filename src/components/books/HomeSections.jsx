@@ -2,10 +2,22 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import FavoriteButton from "./FavoriteButton";
 import TopicBar from "./TopicBar";
+import useBookView from "../../hooks/useBookView";
+import { currentLibraryUser } from "../../data/libraryData";
+import { findCategory } from "../../data/libraryCategories";
+import {
+  bookViewCount,
+  compareDiscoveryBooks,
+  discoveryCategories,
+  recommendDiscoveryBooks,
+} from "../../data/bookDiscovery";
+import { canReadBook } from "../../data/readerContent";
+import { useLibraryData } from "../../ui/libraryStore";
 import { BorrowContext } from "../../ui/BorrowContext";
 import { ReadContext } from "../../ui/ReadContext";
 import { borrowMessages } from "../../ui/borrowMessages";
 import { t, useUiSettings } from "../../ui/settings";
+
 import "./HomeSections.css";
 import "../../pages/BorrowFlow.css";
 
@@ -18,7 +30,11 @@ const homeMessages = {
     viewAll: "Xem tất cả",
     books: "cuốn sách",
     recommended: "Có thể bạn sẽ thích",
-    recommendationHint: "Ưu tiên thể loại bạn đã lưu và sách còn sẵn",
+    recommendationHint:
+      "Gợi ý theo thể loại yêu thích, tác phẩm đã xem và lượt xem.",
+    latest: "Tác phẩm mới cập nhật",
+    latestHint: "Các tác phẩm mới được thêm vào thư viện.",
+    emptyTopic: "Chưa có tác phẩm thuộc thể loại này.",
     topics: "Khám phá theo chủ đề",
     topicHint: "Chọn một chủ đề để xem những cuốn sách phù hợp.",
     allTopics: "Tất cả chủ đề",
@@ -35,7 +51,11 @@ const homeMessages = {
     viewAll: "View all",
     books: "books",
     recommended: "You might also like",
-    recommendationHint: "Based on your favorite categories and available books",
+    recommendationHint:
+      "Based on favorite categories, recently viewed works and popularity.",
+    latest: "Recently added works",
+    latestHint: "The latest additions to the library.",
+    emptyTopic: "No works in this category yet.",
     topics: "Explore by topic",
     topicHint: "Choose a topic to find books you enjoy.",
     allTopics: "All topics",
@@ -74,12 +94,13 @@ export function BookDetails({
   onClose,
   favoriteIds = [],
   onToggleFavorite,
+  trackViews = true,
 }) {
   const dialogRef = useRef(null);
+  const viewCount = useBookView(book.id, trackViews);
 
   const onBorrow = useContext(BorrowContext);
   const onRead = useContext(ReadContext);
-
   const { language } = useUiSettings();
 
   const copy = borrowMessages[language];
@@ -87,8 +108,7 @@ export function BookDetails({
 
   const isFavorite = favoriteIds.includes(book.id);
 
-  const canRead =
-    typeof book.pdfUrl === "string" && Boolean(book.pdfUrl.trim());
+  const canRead = canReadBook(book);
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -136,18 +156,27 @@ export function BookDetails({
 
           <p className="home-author">{book.author}</p>
 
-          <p className="home-category">{t(book.category || "Khác")}</p>
+          <p className="home-category">
+            {t(book.category || "Khác")}
+          </p>
 
           <p className="book-modal-isbn">
             <strong>ISBN:</strong> {book.isbn || "—"}
           </p>
+
+          {trackViews && (
+            <p className="book-view-count">
+              {t("{{0}} lượt xem", { 0: viewCount })}
+            </p>
+          )}
 
           <p className="home-description">
             {book.description || copy.noDescription}
           </p>
 
           <p className="borrow-availability">
-            {copy.copies}: <strong>{book.availableCopies || 0}</strong>
+            {copy.copies}:{" "}
+            <strong>{book.availableCopies || 0}</strong>
           </p>
 
           {onToggleFavorite && (
@@ -158,7 +187,11 @@ export function BookDetails({
                 onToggleFavorite={onToggleFavorite}
               />
 
-              <span>{isFavorite ? copy.savedFavorite : copy.saveFavorite}</span>
+              <span>
+                {isFavorite
+                  ? copy.savedFavorite
+                  : copy.saveFavorite}
+              </span>
             </div>
           )}
 
@@ -170,7 +203,9 @@ export function BookDetails({
                 disabled={!(book.availableCopies > 0)}
                 onClick={handleBorrow}
               >
-                {book.availableCopies > 0 ? copy.borrow : copy.outOfStock}
+                {book.availableCopies > 0
+                  ? copy.borrow
+                  : copy.outOfStock}
               </button>
             )}
 
@@ -181,7 +216,9 @@ export function BookDetails({
                 disabled={!canRead}
                 onClick={handleRead}
               >
-                {canRead ? readCopy.read : readCopy.unavailable}
+                {canRead
+                  ? readCopy.read
+                  : readCopy.unavailable}
               </button>
             )}
           </div>
@@ -191,7 +228,12 @@ export function BookDetails({
   );
 }
 
-function BookTile({ book, favoriteIds = [], onToggleFavorite, onOpenBook }) {
+function BookTile({
+  book,
+  favoriteIds = [],
+  onToggleFavorite,
+  onOpenBook,
+}) {
   const { language } = useUiSettings();
   const copy = homeMessages[language];
 
@@ -207,12 +249,24 @@ function BookTile({ book, favoriteIds = [], onToggleFavorite, onOpenBook }) {
           <BookCover book={book} />
         </span>
 
-        <strong className="book-tile-title" title={book.title}>
+        <strong
+          className="book-tile-title"
+          title={book.title}
+        >
           {book.title}
         </strong>
 
-        <span className="book-tile-author" title={book.author}>
+        <span
+          className="book-tile-author"
+          title={book.author}
+        >
           {book.author}
+        </span>
+
+        <span className="book-view-count">
+          {t("{{0}} lượt xem", {
+            0: bookViewCount(book),
+          })}
         </span>
       </button>
 
@@ -228,25 +282,33 @@ function BookTile({ book, favoriteIds = [], onToggleFavorite, onOpenBook }) {
   );
 }
 
-function BookShelf({ title, subtitle, books = [], onViewAll, ...tileProps }) {
+function BookShelf({
+  title,
+  subtitle,
+  books = [],
+  onViewAll,
+  ...tileProps
+}) {
   const { language } = useUiSettings();
   const copy = homeMessages[language];
   const shelfRef = useRef(null);
 
   function scrollShelf(direction) {
     const shelf = shelfRef.current;
-    if (shelf)
-      shelf.scrollBy({
-        left: direction * shelf.clientWidth * 0.8,
-        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
-          ? "instant"
-          : "smooth",
-      });
+
+    if (!shelf) return;
+
+    shelf.scrollBy({
+      left: direction * shelf.clientWidth * 0.8,
+      behavior: window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches
+        ? "instant"
+        : "smooth",
+    });
   }
 
-  if (books.length === 0) {
-    return null;
-  }
+  if (books.length === 0) return null;
 
   return (
     <section className="home-panel shelf-panel">
@@ -254,7 +316,9 @@ function BookShelf({ title, subtitle, books = [], onViewAll, ...tileProps }) {
         <div>
           <h2>{title}</h2>
 
-          {subtitle && <p className="section-subtitle">{subtitle}</p>}
+          {subtitle && (
+            <p className="section-subtitle">{subtitle}</p>
+          )}
         </div>
 
         <div className="shelf-controls">
@@ -267,6 +331,7 @@ function BookShelf({ title, subtitle, books = [], onViewAll, ...tileProps }) {
               {copy.viewAll}
             </button>
           )}
+
           <button
             type="button"
             aria-label={t("Sách trước")}
@@ -274,6 +339,7 @@ function BookShelf({ title, subtitle, books = [], onViewAll, ...tileProps }) {
           >
             <ChevronLeft size={20} aria-hidden="true" />
           </button>
+
           <button
             type="button"
             aria-label={t("Sách tiếp theo")}
@@ -286,10 +352,63 @@ function BookShelf({ title, subtitle, books = [], onViewAll, ...tileProps }) {
 
       <div className="book-shelf" ref={shelfRef}>
         {books.map((book) => (
-          <BookTile key={book.id} book={book} {...tileProps} />
+          <BookTile
+            key={book.id}
+            book={book}
+            {...tileProps}
+          />
         ))}
       </div>
     </section>
+  );
+}
+
+export function LatestBooks({
+  books = [],
+  favoriteIds = [],
+  onToggleFavorite,
+  onBrowseCategory,
+}) {
+  const { language } = useUiSettings();
+  const copy = homeMessages[language];
+
+  const [selectedId, setSelectedId] = useState(null);
+
+  const selectedBook = books.find(
+    (book) => book.id === selectedId,
+  );
+
+  const latestBooks = [...books]
+    .sort((a, b) =>
+      compareDiscoveryBooks(a, b, "newest"),
+    )
+    .slice(0, 8);
+
+  return (
+    <div className="latest-books">
+      <BookShelf
+        title={copy.latest}
+        subtitle={copy.latestHint}
+        books={latestBooks}
+        favoriteIds={favoriteIds}
+        onToggleFavorite={onToggleFavorite}
+        onOpenBook={(book) => setSelectedId(book.id)}
+        onViewAll={
+          onBrowseCategory
+            ? () => onBrowseCategory("all", "newest")
+            : undefined
+        }
+      />
+
+      {selectedBook && (
+        <BookDetails
+          book={selectedBook}
+          favoriteIds={favoriteIds}
+          onToggleFavorite={onToggleFavorite}
+          onClose={() => setSelectedId(null)}
+        />
+      )}
+    </div>
   );
 }
 
@@ -300,60 +419,106 @@ export default function HomeSections({
   onBrowseCategory,
 }) {
   const { language } = useUiSettings();
+  const data = useLibraryData();
   const copy = homeMessages[language];
 
-  const [selectedBook, setSelectedBook] = useState(null);
+  const [selectedBookId, setSelectedBookId] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("all");
 
-  if (books.length === 0) {
-    return null;
-  }
-
-  const categories = [...new Set(books.map((book) => book.category || "Khác"))];
-
-  const topicBooks =
-    selectedCategory === "all"
-      ? books
-      : books.filter((book) => (book.category || "Khác") === selectedCategory);
-
-  const favoriteCategories = new Set(
-    books
-      .filter((book) => favoriteIds.includes(book.id))
-      .map((book) => book.category),
+  const selectedBook = books.find(
+    (book) => book.id === selectedBookId,
   );
 
-  const unsavedBooks = books.filter((book) => !favoriteIds.includes(book.id));
+  const categories = discoveryCategories(
+    data.categories,
+    books,
+  );
 
-  function recommendationScore(book) {
-    return (
-      (favoriteCategories.has(book.category) ? 2 : 0) +
-      (book.availableCopies > 0 ? 1 : 0)
-    );
-  }
+  const currentCategory =
+    findCategory(data.categories, selectedCategory)?.name ||
+    (categories.includes(selectedCategory)
+      ? selectedCategory
+      : "all");
 
-  const recommendedBooks = [...(unsavedBooks.length > 0 ? unsavedBooks : books)]
-    .sort((a, b) => recommendationScore(b) - recommendationScore(a))
-    .slice(0, 6);
+  const topicBooks =
+    currentCategory === "all"
+      ? books
+      : books.filter(
+          (book) =>
+            (findCategory(data.categories, book.category)?.name ||
+              book.category) === currentCategory,
+        );
 
-  function openBook(book) {
-    setSelectedBook(book);
-  }
+  const user = currentLibraryUser(data);
+
+  const viewerKey = user
+    ? `account:${user.email}`
+    : "guest";
+
+  const latestBooks = [...books]
+    .sort((a, b) =>
+      compareDiscoveryBooks(a, b, "newest"),
+    )
+    .slice(0, 8);
+
+  const popularBooks = [...books]
+    .filter((book) => bookViewCount(book) > 0)
+    .sort((a, b) =>
+      compareDiscoveryBooks(a, b, "most-viewed"),
+    )
+    .slice(0, 8);
+
+  const recommendedBooks = recommendDiscoveryBooks(
+    books,
+    favoriteIds,
+    data.bookViewHistory?.[viewerKey],
+    data.categories,
+  );
 
   const tileProps = {
     favoriteIds,
     onToggleFavorite,
-    onOpenBook: openBook,
+    onOpenBook: (book) => setSelectedBookId(book.id),
   };
 
   return (
     <div className="discovery-page">
-      <BookShelf title={copy.featured} books={books} {...tileProps} />
+      <BookShelf
+        title={copy.latest}
+        subtitle={copy.latestHint}
+        books={latestBooks}
+        onViewAll={
+          onBrowseCategory
+            ? () => onBrowseCategory("all", "newest")
+            : undefined
+        }
+        {...tileProps}
+      />
+
+      <BookShelf
+        title={
+          language === "en"
+            ? "Most viewed"
+            : "Được xem nhiều"
+        }
+        books={popularBooks}
+        onViewAll={
+          onBrowseCategory
+            ? () => onBrowseCategory("all", "most-viewed")
+            : undefined
+        }
+        {...tileProps}
+      />
 
       <BookShelf
         title={copy.recommended}
         subtitle={copy.recommendationHint}
         books={recommendedBooks}
-        onViewAll={onBrowseCategory ? () => onBrowseCategory("all") : undefined}
+        onViewAll={
+          onBrowseCategory
+            ? () => onBrowseCategory("all")
+            : undefined
+        }
         {...tileProps}
       />
 
@@ -365,23 +530,31 @@ export default function HomeSections({
 
         <TopicBar
           categories={categories}
-          activeCategory={selectedCategory}
+          activeCategory={currentCategory}
           onChange={setSelectedCategory}
         />
 
         <BookShelf
           title={
-            selectedCategory === "all" ? copy.allTopics : t(selectedCategory)
+            currentCategory === "all"
+              ? copy.allTopics
+              : t(currentCategory)
           }
           subtitle={topicBooks.length + " " + copy.books}
           books={topicBooks}
           onViewAll={
             onBrowseCategory
-              ? () => onBrowseCategory(selectedCategory)
+              ? () => onBrowseCategory(currentCategory)
               : undefined
           }
           {...tileProps}
         />
+
+        {topicBooks.length === 0 && (
+          <p className="topic-empty" role="status">
+            {copy.emptyTopic}
+          </p>
+        )}
       </div>
 
       {selectedBook && (
@@ -389,7 +562,7 @@ export default function HomeSections({
           book={selectedBook}
           favoriteIds={favoriteIds}
           onToggleFavorite={onToggleFavorite}
-          onClose={() => setSelectedBook(null)}
+          onClose={() => setSelectedBookId(null)}
         />
       )}
     </div>

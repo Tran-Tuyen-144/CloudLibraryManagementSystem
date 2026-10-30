@@ -1,5 +1,6 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { Plus, Search, X } from "lucide-react";
+import CategoryInput from "../components/books/CategoryInput";
 import { createDemoCredential } from "../data/demoCredentials";
 import { currentLibraryUser } from "../data/libraryData";
 import { hasPermission, PERMISSIONS as P } from "../data/libraryPermissions";
@@ -17,6 +18,7 @@ import {
 } from "../ui/libraryStore";
 import { formatLoanDate, loanMessages } from "../ui/loanMessages";
 import { useUiSettings } from "../ui/settings";
+
 import "./ManagementModules.css";
 
 const messages = {
@@ -43,6 +45,8 @@ const messages = {
     title: "Tên sách",
     author: "Tác giả",
     category: "Thể loại",
+    categoryMissing:
+      "Chọn thể loại có sẵn hoặc bấm Thêm thể loại trước khi lưu.",
     isbn: "ISBN",
     cover: "URL ảnh bìa",
     description: "Mô tả",
@@ -99,7 +103,6 @@ const messages = {
       "Không thể tạo mã băm mật khẩu. Hãy mở bằng localhost hoặc HTTPS.",
     failure: "Chưa lưu được. Hãy thử lại.",
   },
-
   en: {
     books: "Book inventory",
     readers: "Readers",
@@ -123,6 +126,8 @@ const messages = {
     title: "Title",
     author: "Author",
     category: "Category",
+    categoryMissing:
+      "Choose an existing category or select Add category before saving.",
     isbn: "ISBN",
     cover: "Cover image URL",
     description: "Description",
@@ -245,7 +250,6 @@ function Editor({ kind, item, copy, onClose, onSave }) {
     if (pending.current) return;
 
     const values = Object.fromEntries(new FormData(event.currentTarget));
-
     const controller = new AbortController();
     pending.current = controller;
 
@@ -311,7 +315,12 @@ function Editor({ kind, item, copy, onClose, onSave }) {
             <>
               {field("title", "text", true, 200)}
               {field("author", "text", true, 150)}
-              {field("category")}
+
+              <CategoryInput
+                className="manage-field"
+                defaultValue={item?.category || ""}
+              />
+
               {field("isbn", "text", false, 32)}
               {field("availableCopies", "number")}
               {field("cover", "url", false, 2000)}
@@ -369,19 +378,25 @@ function Editor({ kind, item, copy, onClose, onSave }) {
 
               {creating && (
                 <label className="manage-field manage-wide">
-                  <span>{copy.password}</span>
+  <span>
+    {creating ? copy.password : copy.newPassword}
+  </span>
 
-                  <input
-                    name="password"
-                    type="password"
-                    required
-                    minLength={8}
-                    maxLength={128}
-                    autoComplete="new-password"
-                  />
+  <input
+    name="password"
+    type="password"
+    required={creating}
+    minLength={8}
+    maxLength={128}
+    autoComplete="new-password"
+  />
 
-                  <small>{copy.passwordHint}</small>
-                </label>
+  <small>
+    {creating
+      ? copy.passwordHint
+      : copy.newPasswordHint}
+  </small>
+</label>
               )}
             </>
           )}
@@ -480,39 +495,65 @@ export default function ManagementModules({ kind }) {
   }
 
   async function save(input, signal) {
+  if (signal.aborted) {
+    return { ok: false, error: "cancelled" };
+  }
+
+  let credential;
+
+  if (!bookMode && (input.create || input.password)) {
+    const actorEmail = user?.email;
+
+    const targetBefore = getLibrarySnapshot().accounts.find(
+      (account) => account.email === input.email,
+    );
+
+    try {
+      credential = await createDemoCredential(input.password);
+    } catch (error) {
+      return {
+        ok: false,
+        error: error.message,
+      };
+    }
+
     if (signal.aborted) {
       return { ok: false, error: "cancelled" };
     }
 
-    let credential;
-
-    if (!bookMode && input.create) {
-      const actorEmail = user?.email;
-
-      try {
-        credential = await createDemoCredential(input.password);
-      } catch (error) {
-        return { ok: false, error: error.message };
-      }
-
-      if (signal.aborted) {
-        return { ok: false, error: "cancelled" };
-      }
-
-      if (currentLibraryUser(getLibrarySnapshot())?.email !== actorEmail) {
-        return { ok: false, error: "accountChanged" };
-      }
+    if (
+      currentLibraryUser(getLibrarySnapshot())?.email !==
+      actorEmail
+    ) {
+      return { ok: false, error: "accountChanged" };
     }
 
-    return feedback(
-      runLibraryCommand(permission, (state) =>
-        bookMode
-          ? saveManagedBook(state, input)
-          : saveManagedAccount(state, input, kind, credential),
-      ),
-      !bookMode && input.create ? "created" : "saved",
+    const targetAfter = getLibrarySnapshot().accounts.find(
+      (account) => account.email === input.email,
     );
+
+    if (
+      JSON.stringify(targetBefore) !==
+      JSON.stringify(targetAfter)
+    ) {
+      return { ok: false, error: "accountChanged" };
+    }
   }
+
+  return feedback(
+    runLibraryCommand(permission, (state) =>
+      bookMode
+        ? saveManagedBook(state, input)
+        : saveManagedAccount(
+            state,
+            input,
+            kind,
+            credential,
+          ),
+    ),
+    !bookMode && input.create ? "created" : "saved",
+  );
+}
 
   const selectedAccount =
     dialog?.type === "loans" &&

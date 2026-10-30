@@ -71,7 +71,7 @@ const words = {
     noOnline:
       "Những cuốn vừa gợi ý chưa có bản đọc online trong dữ liệu hiện tại. Bạn có thể hỏi “Tìm tất cả tài liệu đọc online” để xem các tài liệu khác.",
     limited:
-      "Trong bản demo này, mình mới tra cứu được danh mục sách, chưa trả lời tự do bằng mô hình AI. Bạn thử hỏi tên sách, tác giả, chủ đề, tình trạng sách hoặc bản đọc online nhé.",
+      "Mình có thể hỗ trợ tra cứu sách trong thư viện. Bạn hãy cho mình biết tên sách, tác giả hoặc chủ đề muốn tìm nhé.",
   },
 
   en: {
@@ -125,7 +125,7 @@ const words = {
     noOnline:
       "The books just suggested do not have online editions in the current data. Ask “Find all online documents” to explore other documents.",
     limited:
-      "This demo can search the book catalog, but it is not connected to a conversational AI model yet. Try a title, author, topic, availability question or online edition request.",
+      "I can help you search the library catalog. Tell me a book title, author or topic you would like to find.",
   },
 };
 
@@ -531,8 +531,6 @@ export default function AssistantPage({
                 ))
               )}
             </div>
-
-            <small className="assistant-history-note">{copy.saved}</small>
           </aside>
         </>
       )}
@@ -551,10 +549,6 @@ export default function AssistantPage({
 
             <Sparkles size={19} />
             <strong>{copy.title}</strong>
-
-            <span className="assistant-mode">
-              {connected ? copy.live : copy.demo}
-            </span>
           </div>
 
           <div className="assistant-toolbar-actions">
@@ -781,10 +775,6 @@ export default function AssistantPage({
             <small>{copy.hint}</small>
             <small>{draft.length}/2000</small>
           </div>
-
-          <p className="assistant-disclaimer">
-            {connected ? copy.liveNote : copy.demoNote}
-          </p>
 
           <p className="assistant-notice" role="status">
             {notice}

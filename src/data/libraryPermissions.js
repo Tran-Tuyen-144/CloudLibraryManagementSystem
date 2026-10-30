@@ -27,6 +27,8 @@ export const PERMISSIONS = Object.freeze({
   AUTHORS_REVIEW: "authors.review",
   AUTHOR_WORKSPACE: "author.workspace",
   MANUSCRIPTS_REVIEW: "manuscripts.review",
+  CATEGORIES_CREATE: "categories.create",
+  CATEGORIES_MANAGE: "categories.manage",
 });
 
 const P = PERMISSIONS;
@@ -45,6 +47,7 @@ export const ROLE_PERMISSIONS = Object.freeze({
     P.LOAN_CANCEL,
     P.PROFILE_OWN,
     P.AUTHOR_WORKSPACE,
+    P.CATEGORIES_CREATE,
   ]),
 
   librarian: Object.freeze([

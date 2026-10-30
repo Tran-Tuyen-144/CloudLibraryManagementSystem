@@ -1,6 +1,11 @@
 import { authenticateDemoAccount } from "../data/demoAccounts";
-import { createLibraryLog, currentLibraryUser } from "../data/libraryData";
+import {
+  createLibraryLog,
+  currentLibraryUser,
+} from "../data/libraryData";
+
 import { PERMISSIONS as P } from "../data/libraryPermissions";
+
 import {
   getLibrarySnapshot,
   runLibraryCommand,
@@ -9,7 +14,11 @@ import {
 } from "../ui/libraryStore";
 
 export function profileStorageKey(email) {
-  return "cloudlibrary:demo-profile:" + email.toLowerCase() + ":v1";
+  return (
+    "cloudlibrary:demo-profile:" +
+    email.toLowerCase() +
+    ":v1"
+  );
 }
 
 export default function useDemoAuth() {
@@ -50,14 +59,27 @@ export default function useDemoAuth() {
       return { ok: false, error: "accountChanged" };
     }
 
+    if (
+      JSON.stringify(current.session) !==
+      JSON.stringify(getLibrarySnapshot().session)
+    ) {
+      return { ok: false, error: "accountChanged" };
+    }
+
     if (!result.ok) {
       updateLibrary((state) => ({
         ...state,
         accessLogs: [
-          createLibraryLog(null, "login.failed", "session", "failed", {
-            attemptedEmail: normalized,
-            error: result.error,
-          }),
+          createLibraryLog(
+            null,
+            "login.failed",
+            "session",
+            "failed",
+            {
+              attemptedEmail: normalized,
+              error: result.error,
+            },
+          ),
           ...state.accessLogs,
         ],
       }));
@@ -69,13 +91,19 @@ export default function useDemoAuth() {
     let savedProfile = {};
 
     try {
-      const saved = JSON.parse(localStorage.getItem(key) || "{}");
+      const saved = JSON.parse(
+        localStorage.getItem(key) || "{}",
+      );
 
-      if (saved && typeof saved === "object" && !Array.isArray(saved)) {
+      if (
+        saved &&
+        typeof saved === "object" &&
+        !Array.isArray(saved)
+      ) {
         savedProfile = saved;
       }
     } catch {
-      // Keep a usable profile if old storage is invalid.
+      // Dùng hồ sơ hiện tại nếu dữ liệu cũ không đọc được.
     }
 
     const savedName =
@@ -99,23 +127,39 @@ export default function useDemoAuth() {
       fullName: nextUser.fullName,
       role: nextUser.role,
       status: nextUser.status,
+      ...(result.credential
+        ? { credential: result.credential }
+        : {}),
     };
 
-    updateLibrary((state) => ({
-      ...state,
-      accounts: [
-        ...state.accounts.filter((item) => item.email !== account.email),
-        account,
-      ],
-      session: {
-        email: account.email,
-        sessionVersion: 2,
-      },
-      accessLogs: [
-        createLibraryLog(account, "login.success", "session"),
-        ...state.accessLogs,
-      ],
-    }));
+    const saved = updateLibrary(
+      (state) => ({
+        ...state,
+        accounts: [
+          ...state.accounts.filter(
+            (item) => item.email !== account.email,
+          ),
+          account,
+        ],
+        session: {
+          email: account.email,
+          sessionVersion: 2,
+        },
+        accessLogs: [
+          createLibraryLog(
+            account,
+            "login.success",
+            "session",
+          ),
+          ...state.accessLogs,
+        ],
+      }),
+      { requirePersistence: true },
+    );
+
+    if (!saved) {
+      return { ok: false, error: "storageFailed" };
+    }
 
     try {
       localStorage.setItem(
@@ -141,34 +185,42 @@ export default function useDemoAuth() {
         ...state,
         session: null,
         accessLogs: actor
-          ? [createLibraryLog(actor, "logout", "session"), ...state.accessLogs]
+          ? [
+              createLibraryLog(actor, "logout", "session"),
+              ...state.accessLogs,
+            ]
           : state.accessLogs,
       };
     });
   }
 
   function updateDemoProfile({ fullName }) {
-    return runLibraryCommand(P.PROFILE_OWN, (state, actor) => ({
-      ok: true,
-      targetId: actor.email,
-      details: {
-        before: { fullName: actor.fullName },
-        after: {
-          fullName: fullName.trim().slice(0, 100),
+    return runLibraryCommand(
+      P.PROFILE_OWN,
+      (state, actor) => ({
+        ok: true,
+        targetId: actor.email,
+        details: {
+          before: {
+            fullName: actor.fullName,
+          },
+          after: {
+            fullName: fullName.trim().slice(0, 100),
+          },
         },
-      },
-      state: {
-        ...state,
-        accounts: state.accounts.map((account) =>
-          account.email === actor.email
-            ? {
-                ...account,
-                fullName: fullName.trim().slice(0, 100),
-              }
-            : account,
-        ),
-      },
-    }));
+        state: {
+          ...state,
+          accounts: state.accounts.map((account) =>
+            account.email === actor.email
+              ? {
+                  ...account,
+                  fullName: fullName.trim().slice(0, 100),
+                }
+              : account,
+          ),
+        },
+      }),
+    );
   }
 
   return {

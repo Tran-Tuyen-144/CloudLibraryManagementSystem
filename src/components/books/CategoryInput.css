@@ -1,0 +1,45 @@
+.category-control {
+  position: relative;
+  min-width: 0;
+}
+
+.category-control > label {
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.category-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.category-suggestions button,
+.category-add {
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--selected-bg);
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+
+.category-suggestions button:hover,
+.category-add:hover {
+  border-color: var(--accent);
+}
+
+.category-add {
+  align-self: start;
+  border-color: var(--accent);
+}
+
+.category-control button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}

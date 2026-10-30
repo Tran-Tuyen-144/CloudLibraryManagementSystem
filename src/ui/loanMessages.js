@@ -96,9 +96,14 @@ export const loanMessages = {
 
     limit:
       "Đã đạt giới hạn phiếu đang xử lý hoặc đang mượn tại thời điểm thực hiện.",
+
+      storageFailed:
+  "Chưa lưu được thao tác mượn–trả. Giải phóng dung lượng trình duyệt rồi thử lại.",
   },
 
   en: {
+    storageFailed:
+  "The borrowing action could not be saved. Free browser storage and retry.",
     forbidden: "You do not have permission to perform this action.",
     staffRequired:
       "Sign in with an administrator or librarian account to process requests.",

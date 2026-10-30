@@ -20,7 +20,7 @@ export const authMessages = {
     hidePassword: "Ẩn mật khẩu",
     passwordHint: "Ít nhất 8 ký tự",
     accountLocked: "Tài khoản đang bị khóa. Vui lòng liên hệ quản trị viên.",
-    accountExists: "Email này đã có tài khoản demo. Hãy đăng nhập.",
+    accountExists: "Email này đã có tài khoản. Hãy đăng nhập.",
     invalidCredentials: "Email hoặc mật khẩu không đúng.",
     reservedAccount:
       "Email này dành cho tài khoản quản trị được cấp sẵn. Vui lòng đăng nhập hoặc dùng email khác để đăng ký bạn đọc.",
@@ -32,6 +32,12 @@ export const authMessages = {
     profileNote: "Hồ sơ demo được lưu trên trình duyệt theo email.",
     back: "Quay lại khám phá",
   },
+
+  passwordNotConfigured:
+  "Tài khoản dùng thử cũ chưa có mật khẩu được lưu. Nhờ admin vào Độc giả → Sửa tài khoản để cấp mật khẩu; dữ liệu hiện có vẫn được giữ.",
+
+storageFailed:
+  "Chưa lưu được tài khoản hoặc phiên đăng nhập. Giải phóng dung lượng trình duyệt rồi thử lại.",
 
   en: {
     signingIn: "Working…",
@@ -54,7 +60,7 @@ export const authMessages = {
     hidePassword: "Hide password",
     passwordHint: "At least 8 characters",
     accountLocked: "This account is locked. Contact an administrator.",
-    accountExists: "This email already has a demo account. Please sign in.",
+    accountExists: "This email already has an account. Please sign in.",
     invalidCredentials: "Incorrect email or password.",
     reservedAccount:
       "This email belongs to a preconfigured management account. Sign in or use another email to register as a reader.",
@@ -65,5 +71,10 @@ export const authMessages = {
       "Frontend demo: new staff passwords are verified against a browser-stored hash; readers remain trial sessions. Server authentication is not connected.",
     profileNote: "Your demo profile is saved in this browser for your email.",
     back: "Back to discovery",
+    passwordNotConfigured:
+  "This older trial account has no saved password. Ask an admin to set one under Readers → Edit account. Existing data is preserved.",
+
+storageFailed:
+  "The account or session could not be saved. Free browser storage and retry.",
   },
 };

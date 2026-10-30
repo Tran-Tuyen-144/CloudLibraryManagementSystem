@@ -1,7 +1,10 @@
-import { verifyDemoCredential } from "./demoCredentials.js";
+import {
+  createDemoCredential,
+  verifyDemoCredential,
+} from "./demoCredentials.js";
+
 import { isManagementUser } from "./libraryPermissions.js";
 
-// Public sample credentials for the frontend prototype.
 const accounts = [
   {
     email: "admin@cloudlibrary.demo",
@@ -37,16 +40,25 @@ export function authenticateDemoAccount(
 
   if (
     !["login", "register"].includes(mode) ||
-    !normalizedEmail ||
+    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail) ||
+    normalizedEmail.length > 254 ||
     password.length < 8 ||
     password.length > 128
   ) {
     return { ok: false, error: "invalidCredentials" };
   }
 
-  const account = accounts.find((item) => item.email === normalizedEmail);
+  const account = accounts.find(
+    (item) => item.email === normalizedEmail,
+  );
 
-  const profile = registry.find((item) => item.email === normalizedEmail);
+  const profile = registry.find(
+    (item) => item.email === normalizedEmail,
+  );
+
+  if (mode === "login" && !profile && !account) {
+    return { ok: false, error: "invalidCredentials" };
+  }
 
   if (profile?.status === "locked") {
     return { ok: false, error: "accountLocked" };
@@ -59,7 +71,11 @@ export function authenticateDemoAccount(
     return { ok: false, error: "reservedAccount" };
   }
 
-  if (!profile?.credential && account && account.password !== password) {
+  if (
+    !profile?.credential &&
+    account &&
+    account.password !== password
+  ) {
     return { ok: false, error: "invalidCredentials" };
   }
 
@@ -71,8 +87,18 @@ export function authenticateDemoAccount(
   ) {
     return { ok: false, error: "invalidCredentials" };
   }
+
   if (profile && !account && mode === "register") {
     return { ok: false, error: "accountExists" };
+  }
+
+  if (
+    mode === "login" &&
+    profile &&
+    !account &&
+    !profile.credential
+  ) {
+    return { ok: false, error: "passwordNotConfigured" };
   }
 
   const success = {
@@ -87,10 +113,24 @@ export function authenticateDemoAccount(
     },
   };
 
+  if (mode === "register") {
+    return createDemoCredential(password)
+      .then((credential) => ({
+        ...success,
+        credential,
+      }))
+      .catch(() => ({
+        ok: false,
+        error: "cryptoUnavailable",
+      }));
+  }
+
   if (profile?.credential) {
     return verifyDemoCredential(password, profile.credential)
       .then((valid) =>
-        valid ? success : { ok: false, error: "invalidCredentials" },
+        valid
+          ? success
+          : { ok: false, error: "invalidCredentials" },
       )
       .catch(() => ({
         ok: false,
@@ -111,7 +151,9 @@ export function restoreDemoSession(session) {
     return null;
   }
 
-  const account = accounts.find((item) => item.email === session.email);
+  const account = accounts.find(
+    (item) => item.email === session.email,
+  );
 
   if (session.role !== (account?.role || "reader")) {
     return null;

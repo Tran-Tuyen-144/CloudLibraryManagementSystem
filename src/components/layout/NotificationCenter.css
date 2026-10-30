@@ -189,3 +189,13 @@
     padding: 16px;
   }
 }
+.notification-dialog .notification-error {
+  color: #fca5a5;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+:root[data-theme="light"] .notification-dialog .notification-error,
+.galaxy-theme[data-theme="light"] .notification-dialog .notification-error {
+  color: #b42318;
+}

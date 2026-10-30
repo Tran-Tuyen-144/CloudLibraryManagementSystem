@@ -1129,3 +1129,242 @@ body {
     inset 3px 0 var(--accent),
     0 6px 16px var(--lift-shadow);
 }
+/* Đồng bộ bảng màu dark */
+
+:root[data-theme="dark"],
+.galaxy-theme[data-theme="dark"] {
+  --eclipse-violet: #19162a;
+  --onyx-purple: #121020;
+  --midnight-velvet: #251a33;
+  --nebula-night: #2a2440;
+  --indigo-dusk: #493d60;
+  --twilight-plum: #9876ab;
+  --shadow-lavender: #ad9dbf;
+  --amethyst-mist: #dfcff2;
+  --aurora-berry: #c5a3f4;
+  --lunar-dusk: #bdafce;
+
+  --bg-page: #121122;
+  --bg-panel: #1a172b;
+  --surface-top: #232039;
+  --surface-bottom: #161526;
+
+  --text-primary: #eee3fc;
+  --text-secondary: #c4b6d6;
+  --text-muted: #b0a0c3;
+
+  --border: #5e5078;
+  --accent: #c5a3f4;
+  --input-bg: #1b172e;
+  --selected-bg: #372c4c;
+  --button-bg: #382d4e;
+  --button-hover: #4b3965;
+
+  --primary-bg: #c8a8f7;
+  --primary-hover: #dcc5ff;
+  --primary-text: #281637;
+
+  --panel-shadow: #0c081a55;
+  --focus-glow: #b58af12e;
+
+  --cover-bg: linear-gradient(
+    145deg,
+    #493d60,
+    #251a33,
+    #76527f
+  );
+  --cover-text: #f3e9ff;
+
+  --galaxy-indigo: #4933a34d;
+  --galaxy-mauve: #7c468126;
+  --galaxy-violet: #3a2c802b;
+
+  --star-color: #dec9ff;
+  --star-opacity: 0.34;
+
+  color-scheme: dark;
+}
+
+/* Đồng bộ bảng màu light */
+
+:root[data-theme="light"],
+.galaxy-theme[data-theme="light"] {
+  --eclipse-violet: #ffffff;
+  --onyx-purple: #f8f5fc;
+  --midnight-velvet: #f1e9f8;
+  --nebula-night: #eee6f6;
+  --indigo-dusk: #d6c6e6;
+  --twilight-plum: #86629d;
+  --shadow-lavender: #796585;
+  --amethyst-mist: #6e4c89;
+  --aurora-berry: #81569e;
+  --lunar-dusk: #6b5878;
+
+  --bg-page: #f5f2f9;
+  --bg-panel: #ffffff;
+  --surface-top: #fcfaff;
+  --surface-bottom: #f3edf9;
+
+  --text-primary: #39244c;
+  --text-secondary: #655273;
+  --text-muted: #776381;
+
+  --border: #c9b9d8;
+  --accent: #80529f;
+  --input-bg: #fbf8ff;
+  --selected-bg: #ece0f7;
+  --button-bg: #eee3f8;
+  --button-hover: #dfcdef;
+
+  --primary-bg: #75458f;
+  --primary-hover: #603578;
+  --primary-text: #ffffff;
+
+  --panel-shadow: #45235c12;
+  --focus-glow: #9e72c526;
+
+  --cover-bg: linear-gradient(
+    145deg,
+    #f1e9f8,
+    #e2d5ed
+  );
+  --cover-text: #39244c;
+
+  --galaxy-indigo: #dad0fa33;
+  --galaxy-mauve: #e8c9ed26;
+  --galaxy-violet: #e6d7fa2b;
+
+  --star-color: #9973b1;
+  --star-opacity: 0.14;
+
+  color-scheme: light;
+}
+
+/* Nền và màu chữ chung */
+
+.galaxy-theme[data-theme] {
+  color: var(--text-primary);
+}
+
+.app-layout.galaxy-theme[data-theme] {
+  background: var(--bg-page);
+}
+
+.galaxy-theme[data-theme]::before {
+  background:
+    radial-gradient(
+      ellipse at 61% 18%,
+      var(--galaxy-indigo),
+      transparent 43%
+    ),
+    radial-gradient(
+      ellipse at 25% 35%,
+      var(--galaxy-mauve),
+      transparent 36%
+    ),
+    radial-gradient(
+      ellipse at 91% 10%,
+      var(--galaxy-violet),
+      transparent 48%
+    );
+}
+
+/* Chữ chính trong chế độ sáng */
+
+.app-layout.galaxy-theme[data-theme="light"] .header-title,
+.app-layout.galaxy-theme[data-theme="light"]
+  .sidebar-brand-text strong,
+.app-layout.galaxy-theme[data-theme="light"]
+  .sidebar-button.is-active,
+.app-layout.galaxy-theme[data-theme="light"]
+  .carousel-details h2,
+.app-layout.galaxy-theme[data-theme="light"]
+  .reading-history-heading h2,
+.app-layout.galaxy-theme[data-theme="light"]
+  .reading-history-empty h3 {
+  color: var(--text-primary);
+}
+
+/* Chữ phụ trong chế độ sáng */
+
+.app-layout.galaxy-theme[data-theme="light"] .sidebar-button,
+.app-layout.galaxy-theme[data-theme="light"]
+  .sidebar-brand-text small,
+.app-layout.galaxy-theme[data-theme="light"]
+  .carousel-details > p,
+.app-layout.galaxy-theme[data-theme="light"]
+  .reading-history-heading p,
+.app-layout.galaxy-theme[data-theme="light"]
+  .reading-history-empty p {
+  color: var(--text-secondary);
+}
+
+/* Nút và ngôn ngữ trong chế độ sáng */
+
+.app-layout.galaxy-theme[data-theme="light"]
+  .header .ui-theme-button,
+.app-layout.galaxy-theme[data-theme="light"]
+  .header .ui-language-control,
+.app-layout.galaxy-theme[data-theme="light"]
+  .header .ui-language-control select,
+.app-layout.galaxy-theme[data-theme="light"]
+  .header .header-account-button,
+.app-layout.galaxy-theme[data-theme="light"]
+  .header .header-login-button,
+.app-layout.galaxy-theme[data-theme="light"]
+  .header .header-logout-button {
+  color: var(--text-primary);
+}
+:root[data-theme="dark"],
+.galaxy-theme[data-theme="dark"] {
+  --bg-page: #121122;
+  --bg-panel: #1a172b;
+  --surface-top: #232039;
+  --surface-bottom: #161526;
+
+  --text-primary: #eee3fc;
+  --text-secondary: #c4b6d6;
+  --text-muted: #b0a0c3;
+
+  --border: #5e5078;
+  --accent: #c5a3f4;
+  --input-bg: #1b172e;
+  --selected-bg: #372c4c;
+
+  --galaxy-indigo: #4933a3b3;
+  --galaxy-mauve: #7c46817d;
+  --galaxy-violet: #3a2c806e;
+  --star-opacity: 0.52;
+
+  color-scheme: dark;
+}
+
+.app-layout.galaxy-theme[data-theme="dark"] {
+  background: var(--bg-page);
+}
+
+.app-layout.galaxy-theme[data-theme="dark"]::before {
+  background:
+    radial-gradient(
+      ellipse at 61% 24%,
+      var(--galaxy-indigo),
+      transparent 43%
+    ),
+    radial-gradient(
+      ellipse at 25% 41%,
+      var(--galaxy-mauve),
+      transparent 36%
+    ),
+    radial-gradient(
+      ellipse at 91% 10%,
+      var(--galaxy-violet),
+      transparent 48%
+    );
+
+  filter: none;
+  opacity: 1;
+}
+
+.app-layout.galaxy-theme[data-theme="dark"]::after {
+  opacity: var(--star-opacity);
+}

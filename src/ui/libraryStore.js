@@ -68,14 +68,21 @@ function load() {
 let snapshot = load();
 const listeners = new Set();
 
-function persist() {
+function persist(value = snapshot) {
   try {
-    localStorage.setItem(LIBRARY_STORAGE_KEY, JSON.stringify(snapshot));
-
-    localStorage.removeItem(LEGACY_SESSION_KEY);
+    localStorage.setItem(LIBRARY_STORAGE_KEY, JSON.stringify(value));
   } catch (error) {
     console.warn("Không thể lưu dữ liệu thư viện demo:", error);
+    return false;
   }
+
+  try {
+    localStorage.removeItem(LEGACY_SESSION_KEY);
+  } catch {
+    // Dữ liệu chính đã được lưu; việc dọn khóa cũ có thể thực hiện sau.
+  }
+
+  return true;
 }
 
 if (typeof localStorage !== "undefined") persist();
@@ -84,22 +91,32 @@ export function getLibrarySnapshot() {
   return snapshot;
 }
 
-export function updateLibrary(updater) {
+export function updateLibrary(
+  updater,
+  { requirePersistence = false } = {},
+) {
   const next = updater(snapshot);
 
-  if (next === snapshot) return;
+  if (next === snapshot) return true;
 
   const account = next.accounts.find(
     (item) => item.email === next.session?.email,
   );
 
-  snapshot =
+  const candidate =
     next.session && account?.status !== "active"
       ? { ...next, session: null }
       : next;
 
-  persist();
+  const persisted = persist(candidate);
+
+  if (requirePersistence && !persisted) return false;
+
+  snapshot = candidate;
+
   listeners.forEach((listener) => listener());
+
+  return true;
 }
 
 function subscribe(listener) {
@@ -123,7 +140,6 @@ export function runLibraryCommand(permission, transform) {
   if (!hasPermission(actor, permission)) {
     updateLibrary((current) => ({
       ...current,
-
       accessLogs: [
         createLibraryLog(actor, "access.denied", permission, "denied"),
         ...current.accessLogs,
@@ -141,7 +157,6 @@ export function runLibraryCommand(permission, transform) {
   if (!result.ok) {
     updateLibrary((current) => ({
       ...current,
-
       auditLogs: [
         createLibraryLog(
           actor,
@@ -157,22 +172,26 @@ export function runLibraryCommand(permission, transform) {
     return result;
   }
 
-  updateLibrary(() => ({
-    ...result.state,
+  const saved = updateLibrary(
+    () => ({
+      ...result.state,
+      auditLogs: [
+        createLibraryLog(
+          actor,
+          permission,
+          result.targetId || "library",
+          "success",
+          result.details || {},
+        ),
+        ...result.state.auditLogs,
+      ],
+    }),
+    { requirePersistence: true },
+  );
 
-    auditLogs: [
-      createLibraryLog(
-        actor,
-        permission,
-        result.targetId || "library",
-        "success",
-        result.details || {},
-      ),
-      ...result.state.auditLogs,
-    ],
-  }));
-
-  return { ok: true };
+  return saved
+    ? { ok: true }
+    : { ok: false, error: "storageFailed" };
 }
 
 if (typeof window !== "undefined") {

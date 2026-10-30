@@ -104,8 +104,6 @@ export default function LoansPage({
       className="reader-page borrow-page loan-workspace"
       aria-label={copy.page}
     >
-      <p className="reader-note">{copy.readerNote}</p>
-
       <LibraryInfo />
 
       <div className="reader-stats">

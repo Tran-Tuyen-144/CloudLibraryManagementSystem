@@ -1,5 +1,6 @@
+import { findCategory } from "./libraryCategories.js";
 import { currentLibraryUser } from "./libraryData.js";
-
+import { manuscriptContent } from "./manuscriptContent.js";
 import { hasPermission, PERMISSIONS as P } from "./libraryPermissions.js";
 
 export function getAuthorWorkspace(state) {
@@ -43,10 +44,10 @@ export function saveAuthorDraft(state, input) {
   const drafts = state.authorManuscripts || [];
   const editing = input.id != null;
 
-  const before = editing ? drafts.find((item) => item.id === input.id) : null;
+  const before = editing
+    ? drafts.find((item) => item.id === input.id)
+    : null;
 
-  // Chỉ được sửa bản nháp của chính tài khoản đang đăng nhập.
-  // revision giúp phát hiện bản thảo đã được sửa ở tab khác.
   if (
     editing &&
     (!before ||
@@ -58,9 +59,22 @@ export function saveAuthorDraft(state, input) {
   }
 
   const title = String(input.title || "").trim();
-  const category = String(input.category || "").trim();
+  const selectedCategory = findCategory(state.categories, input.category);
+
+  if (!selectedCategory) {
+    return { ok: false, error: "categoryMissing" };
+  }
+
+  const category = selectedCategory.name;
   const description = String(input.description || "").trim();
-  const pdfUrl = String(input.pdfUrl || "").trim();
+
+  const content = manuscriptContent({
+    ...input,
+    cover: Object.hasOwn(input, "cover") ? input.cover : before?.cover || "",
+    chapters: Object.hasOwn(input, "chapters")
+      ? input.chapters
+      : before?.chapters || [],
+  });
 
   if (
     title.length < 2 ||
@@ -72,39 +86,21 @@ export function saveAuthorDraft(state, input) {
     return { ok: false, error: "invalidDraft" };
   }
 
-  if (pdfUrl) {
-    try {
-      const url = new URL(pdfUrl);
-
-      if (
-        url.protocol !== "https:" ||
-        url.username ||
-        url.password ||
-        pdfUrl.length > 1000
-      ) {
-        throw new Error("invalidUrl");
-      }
-    } catch {
-      return { ok: false, error: "invalidUrl" };
-    }
-  }
+  if (!content.ok) return content;
 
   const now = new Date().toISOString();
 
   const after = {
     ...before,
-
     id: before?.id || crypto.randomUUID(),
-
-    // Chủ sở hữu lấy từ phiên đăng nhập và hồ sơ đã duyệt.
     authorEmail: workspace.user.email,
     authorName: workspace.profile.penName,
-
     title,
     category,
     description,
-    pdfUrl,
-
+    pdfUrl: content.pdfUrl,
+    cover: content.cover,
+    chapters: content.chapters,
     status: "draft",
     createdAt: before?.createdAt || now,
     updatedAt: now,
@@ -117,9 +113,9 @@ export function saveAuthorDraft(state, input) {
 
     details: {
       operation: editing ? "author.draft.update" : "author.draft.create",
-
-      before: before ? { title: before.title, status: before.status } : null,
-
+      before: before
+        ? { title: before.title, status: before.status }
+        : null,
       after: {
         title: after.title,
         status: after.status,
@@ -128,7 +124,6 @@ export function saveAuthorDraft(state, input) {
 
     state: {
       ...state,
-
       authorManuscripts: editing
         ? drafts.map((item) => (item.id === after.id ? after : item))
         : [after, ...drafts],

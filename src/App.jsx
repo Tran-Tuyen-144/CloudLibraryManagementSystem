@@ -1,5 +1,6 @@
 import { useState } from "react";
-
+import "./components/layout/BotanicalTheme.css";
+import { canReadBook } from "./data/readerContent";
 import Sidebar from "./components/layout/Sidebar";
 import Header from "./components/layout/Header";
 import BookCarousel from "./components/books/BookCarousel";
@@ -25,7 +26,10 @@ import { t, useUiSettings } from "./ui/settings";
 import { authMessages } from "./ui/authMessages";
 import { readerMessages } from "./ui/readerMessages";
 import { isManagementUser } from "./data/demoAccounts";
-
+import "./App.css";
+import "./pages/ReaderPages.css";
+import "./GalaxyTheme.css";
+import "./components/layout/BotanicalTheme.css";
 import "./App.css";
 import "./GalaxyTheme.css";
 import "./components/layout/BotanicalTheme.css";
@@ -123,7 +127,7 @@ export default function App() {
     setActivePage(page);
   }
 
-  function handleBrowseCategory(category = "all") {
+  function handleBrowseCategory(category = "all", sort = "title-asc") {
     setBorrowBookId(null);
     setReadingBookId(null);
     setPendingPage(null);
@@ -133,6 +137,7 @@ export default function App() {
     setFilters({
       ...initialFilters,
       category,
+      sort,
     });
 
     setActivePage("catalog");
@@ -177,24 +182,24 @@ export default function App() {
   }
 
   function handleReadBook(bookId) {
-    const book = books.find((item) => item.id === bookId);
+  const book = books.find((item) => item.id === bookId);
 
-    if (typeof book?.pdfUrl !== "string" || !book.pdfUrl.trim()) {
-      return;
-    }
-
-    setReadingBookId(bookId);
-    setBorrowBookId(null);
-    setPendingFavoriteId(null);
-
-    if (!user) {
-      openAuth("reader");
-      return;
-    }
-
-    setPendingPage(null);
-    setActivePage("reader");
+  if (!canReadBook(book)) {
+    return;
   }
+
+  setReadingBookId(bookId);
+  setBorrowBookId(null);
+  setPendingFavoriteId(null);
+
+  if (!user) {
+    openAuth("reader");
+    return;
+  }
+
+  setPendingPage(null);
+  setActivePage("reader");
+}
 
   async function handleAuthenticated(values) {
     const result = await signInDemo(values);
@@ -287,6 +292,20 @@ export default function App() {
       />
     );
   }
+  if (activePage === "auth" || needsAuth) {
+    return (
+      <div
+        className="galaxy-theme access-layout"
+        data-theme={theme}
+        lang={language}
+      >
+        <AuthPage
+          onAuthenticate={handleAuthenticated}
+          onBack={() => handleNavigate("discover")}
+        />
+      </div>
+    );
+  }
 
   return (
     <BorrowContext.Provider value={handleBorrowBook}>
@@ -317,36 +336,28 @@ export default function App() {
               onOpenRequest={handleOpenRequest}
             />
 
-            {(activePage === "auth" || needsAuth) && (
-              <AuthPage
-                onAuthenticate={handleAuthenticated}
-                onBack={() => handleNavigate("discover")}
-              />
-            )}
+           {activePage === "discover" && (
+  <>
+    <BookCarousel
+      books={books}
+      favoriteIds={favoriteIds}
+      onToggleFavorite={handleToggleFavorite}
+    />
 
-            {activePage === "discover" && (
-              <>
-                <BookCarousel
-                  books={books}
-                  favoriteIds={favoriteIds}
-                  onToggleFavorite={handleToggleFavorite}
-                  onBrowseCategory={handleBrowseCategory}
-                />
+    <ReadingHistory
+      key={user?.email || "guest"}
+      user={user}
+      books={books}
+    />
 
-                <ReadingHistory
-                  key={user?.email || "guest"}
-                  user={user}
-                  books={books}
-                />
-
-                <HomeSections
-                  books={books}
-                  favoriteIds={favoriteIds}
-                  onToggleFavorite={handleToggleFavorite}
-                  onBrowseCategory={handleBrowseCategory}
-                />
-              </>
-            )}
+    <HomeSections
+      books={books}
+      favoriteIds={favoriteIds}
+      onToggleFavorite={handleToggleFavorite}
+      onBrowseCategory={handleBrowseCategory}
+    />
+  </>
+)}
             {activePage === "authors" && (
               <AuthorDirectoryPage
                 books={books}
@@ -392,13 +403,13 @@ export default function App() {
             )}
 
             {activePage === "reader" && user && readingBook && (
-              <ReaderPage
-                key={user.email + ":" + readingBook.id}
-                book={readingBook}
-                user={user}
-                onBack={() => handleBrowseCategory()}
-              />
-            )}
+  <ReaderPage
+    key={user.email + ":" + readingBook.id}
+    book={readingBook}
+    user={user}
+    onBack={() => handleBrowseCategory()}
+  />
+)}
 
             {activePage === "ai" && user && (
               <AssistantPage

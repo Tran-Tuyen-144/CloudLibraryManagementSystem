@@ -1,14 +1,12 @@
 import { currentLibraryUser } from "./libraryData.js";
-
 import { hasPermission, PERMISSIONS as P } from "./libraryPermissions.js";
-
 import { getAuthorWorkspace } from "./authorWorkspace.js";
+import { manuscriptContent } from "./manuscriptContent.js";
 
 function manuscriptError(item) {
   const title = String(item.title || "").trim();
   const category = String(item.category || "").trim();
   const description = String(item.description || "").trim();
-  const pdfUrl = String(item.pdfUrl || "").trim();
 
   if (
     title.length < 2 ||
@@ -16,28 +14,14 @@ function manuscriptError(item) {
     !category ||
     category.length > 80 ||
     description.length < 30 ||
-    description.length > 3000 ||
-    !pdfUrl
+    description.length > 3000
   ) {
     return "incompleteManuscript";
   }
 
-  try {
-    const url = new URL(pdfUrl);
+  const content = manuscriptContent(item, { publishing: true });
 
-    if (
-      url.protocol !== "https:" ||
-      url.username ||
-      url.password ||
-      pdfUrl.length > 1000
-    ) {
-      return "invalidUrl";
-    }
-  } catch {
-    return "invalidUrl";
-  }
-
-  return "";
+  return content.ok ? "" : content.error;
 }
 
 export function submitAuthorManuscript(state, input) {
@@ -48,7 +32,6 @@ export function submitAuthorManuscript(state, input) {
   }
 
   const items = state.authorManuscripts || [];
-
   const before = items.find((item) => item.id === input.id);
 
   if (
@@ -63,9 +46,7 @@ export function submitAuthorManuscript(state, input) {
 
   const error = manuscriptError(before);
 
-  if (error) {
-    return { ok: false, error };
-  }
+  if (error) return { ok: false, error };
 
   const now = new Date().toISOString();
 
@@ -83,24 +64,19 @@ export function submitAuthorManuscript(state, input) {
   return {
     ok: true,
     targetId: before.id,
-
     details: {
       operation: "author.manuscript.submit",
-
       before: {
         title: before.title,
         status: before.status,
       },
-
       after: {
         title: after.title,
         status: after.status,
       },
     },
-
     state: {
       ...state,
-
       authorManuscripts: items.map((item) =>
         item.id === before.id ? after : item,
       ),
@@ -122,7 +98,6 @@ export function reviewAuthorManuscript(state, input) {
   }
 
   const items = state.authorManuscripts || [];
-
   const before = items.find((item) => item.id === id);
 
   if (
@@ -150,7 +125,8 @@ export function reviewAuthorManuscript(state, input) {
 
     const approved = (state.authorApplications || []).some(
       (item) =>
-        item.readerEmail === before.authorEmail && item.status === "approved",
+        item.readerEmail === before.authorEmail &&
+        item.status === "approved",
     );
 
     if (
@@ -163,20 +139,14 @@ export function reviewAuthorManuscript(state, input) {
 
     const error = manuscriptError(before);
 
-    if (error) {
-      return { ok: false, error };
-    }
+    if (error) return { ok: false, error };
 
-    // Không tạo thêm sách nếu bản thảo đã được liên kết.
     if (
       state.books.some(
         (book) => book.id === bookId || book.manuscriptId === before.id,
       )
     ) {
-      return {
-        ok: false,
-        error: "duplicatePublication",
-      };
+      return { ok: false, error: "duplicatePublication" };
     }
   }
 
@@ -204,12 +174,10 @@ export function reviewAuthorManuscript(state, input) {
         category: before.category,
         description: before.description,
         pdfUrl: before.pdfUrl,
-        cover: "",
+        cover: before.cover || "",
+        chapters: manuscriptContent(before, { publishing: true }).chapters,
         isbn: "",
-
-        // Chỉ xuất bản sách đọc online ở bước này.
         availableCopies: 0,
-
         archived: false,
         publishedAt: now,
       }
@@ -218,27 +186,23 @@ export function reviewAuthorManuscript(state, input) {
   return {
     ok: true,
     targetId: before.id,
-
     details: {
       operation: `author.manuscript.${decision}`,
-
       before: {
         title: before.title,
         status: before.status,
       },
-
       after: {
         title: after.title,
         status: after.status,
         rejectionReason: after.rejectionReason,
       },
     },
-
     state: {
       ...state,
-
-      authorManuscripts: items.map((item) => (item.id === id ? after : item)),
-
+      authorManuscripts: items.map((item) =>
+        item.id === id ? after : item,
+      ),
       books: publishing ? [...state.books, book] : state.books,
     },
   };

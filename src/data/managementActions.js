@@ -3,7 +3,7 @@ import {
   publicAccount,
   changeLibraryAccount,
 } from "./libraryData.js";
-
+import { findCategory } from "./libraryCategories.js";
 import { isDemoCredential } from "./demoCredentials.js";
 import { hasPermission, PERMISSIONS as P } from "./libraryPermissions.js";
 import { flattenRequests } from "../ui/borrowWorkflow.js";
@@ -57,6 +57,12 @@ export function saveManagedBook(state, input) {
     return fail("invalidBook");
   }
 
+  const category = findCategory(state.categories, fields.category);
+
+  if (!category) return fail("categoryMissing");
+
+  fields.category = category.name;
+
   if (!safeUrl(fields.cover)) return fail("invalidUrl");
 
   if (
@@ -84,16 +90,22 @@ export function saveManagedBook(state, input) {
     ...fields,
     id: before?.id || crypto.randomUUID(),
     archived: before?.archived === true,
+
+    addedAt: before
+      ? before.addedAt || before.publishedAt || before.createdAt || null
+      : new Date().toISOString(),
   };
 
   return {
     ok: true,
     targetId: after.id,
+
     details: {
       operation: before ? "book.update" : "book.create",
       before: before || null,
       after,
     },
+
     state: {
       ...state,
       books: before
@@ -119,11 +131,13 @@ export function archiveManagedBook(state, id, archived) {
   return {
     ok: true,
     targetId: id,
+
     details: {
       operation: archived ? "book.archive" : "book.restore",
       before,
       after,
     },
+
     state: {
       ...state,
       books: state.books.map((book) => (book.id === id ? after : book)),
@@ -131,8 +145,16 @@ export function archiveManagedBook(state, id, archived) {
   };
 }
 
-export function saveManagedAccount(state, input, kind, credential) {
-  const permission = kind === "readers" ? P.READERS_MANAGE : P.ACCOUNTS_MANAGE;
+export function saveManagedAccount(
+  state,
+  input,
+  kind,
+  credential,
+) {
+  const permission =
+    kind === "readers"
+      ? P.READERS_MANAGE
+      : P.ACCOUNTS_MANAGE;
 
   if (!hasPermission(currentLibraryUser(state), permission)) {
     return fail("forbidden");
@@ -144,10 +166,14 @@ export function saveManagedAccount(state, input, kind, credential) {
 
   const email = text(input.email, 254).toLowerCase();
   const fullName = text(input.fullName, 100);
+
   const role =
     kind === "readers"
-      ? state.accounts.find((account) => account.email === email)?.role
+      ? state.accounts.find(
+          (account) => account.email === email,
+        )?.role
       : input.role;
+
   const status = input.status;
 
   if (
@@ -161,11 +187,15 @@ export function saveManagedAccount(state, input, kind, credential) {
     return fail("invalidAccount");
   }
 
-  const before = state.accounts.find((account) => account.email === email);
+  const before = state.accounts.find(
+    (account) => account.email === email,
+  );
 
   if (input.create) {
     if (kind !== "staff" || before) {
-      return fail(before ? "accountExists" : "invalidAccount");
+      return fail(
+        before ? "accountExists" : "invalidAccount",
+      );
     }
 
     if (!isDemoCredential(credential)) {
@@ -198,9 +228,17 @@ export function saveManagedAccount(state, input, kind, credential) {
 
   if (
     !before ||
-    (kind === "readers") !== ["reader", "author"].includes(before.role)
+    (kind === "readers") !==
+      ["reader", "author"].includes(before.role)
   ) {
     return fail("invalidAccount");
+  }
+
+  if (
+    credential !== undefined &&
+    !isDemoCredential(credential)
+  ) {
+    return fail("invalidPassword");
   }
 
   const result = changeLibraryAccount(state, email, {
@@ -209,7 +247,9 @@ export function saveManagedAccount(state, input, kind, credential) {
     status,
   });
 
-  if (!result.ok) return result;
+  if (!result.ok) {
+    return result;
+  }
 
   const after = result.state.accounts.find(
     (account) => account.email === email,
@@ -220,11 +260,28 @@ export function saveManagedAccount(state, input, kind, credential) {
     targetId: email,
     details: {
       operation: "account.update",
+      passwordChanged: credential !== undefined,
       before: publicAccount(before),
       after: publicAccount(after),
     },
     state: {
       ...result.state,
+
+      accounts:
+        credential === undefined
+          ? result.state.accounts
+          : result.state.accounts.map((account) =>
+              account.email === email
+                ? { ...account, credential }
+                : account,
+            ),
+
+      session:
+        credential !== undefined &&
+        result.state.session?.email === email
+          ? null
+          : result.state.session,
+
       auditLogs: state.auditLogs,
     },
   };

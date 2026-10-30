@@ -1,14 +1,12 @@
 import { useState } from "react";
 import {
   ArrowRight,
-  BookOpen,
   ChevronLeft,
   ChevronRight,
-  Grid2X2,
 } from "lucide-react";
-
 import { BookDetails } from "./HomeSections";
-import { t, useUiSettings } from "../../ui/settings";
+import { t } from "../../ui/settings";
+
 import "./BookCarousel.css";
 
 function CarouselCover({ book }) {
@@ -38,12 +36,11 @@ export default function BookCarousel({
   books = [],
   favoriteIds = [],
   onToggleFavorite,
-  onBrowseCategory,
 }) {
-  const { language } = useUiSettings();
-
   const [activeIndex, setActiveIndex] = useState(() => {
-    const index = books.findIndex((book) => book.id === "pride");
+    const index = books.findIndex(
+      (book) => book.id === "pride",
+    );
 
     return index >= 0 ? index : Math.floor(books.length / 2);
   });
@@ -54,43 +51,33 @@ export default function BookCarousel({
 
   const currentIndex = activeIndex % books.length;
   const activeBook = books[currentIndex];
-
   const visibleCount = Math.min(7, books.length);
   const middle = Math.floor(visibleCount / 2);
 
-  const categories = [
-    ...new Set(books.map((book) => book.category).filter(Boolean)),
-  ];
+  const slides = Array.from(
+    { length: visibleCount },
+    (_, position) => {
+      const offset = position - middle;
+      const index =
+        (currentIndex + offset + books.length) % books.length;
+      const distance = Math.abs(offset);
 
-  const slides = Array.from({ length: visibleCount }, (_, position) => {
-    const offset = position - middle;
-
-    const index = (currentIndex + offset + books.length) % books.length;
-
-    const distance = Math.abs(offset);
-
-    return {
-      book: books[index],
-      index,
-      offset,
-      scale: 1 - distance * 0.13,
-      opacity: 1 - distance * 0.17,
-      depth: visibleCount - distance,
-    };
-  });
+      return {
+        book: books[index],
+        index,
+        offset,
+        scale: 1 - distance * 0.13,
+        opacity: 1 - distance * 0.17,
+        depth: visibleCount - distance,
+      };
+    },
+  );
 
   function move(direction) {
     setActiveIndex(
-      (current) => (current + direction + books.length) % books.length,
+      (current) =>
+        (current + direction + books.length) % books.length,
     );
-  }
-
-  function categoryLabel(category) {
-    if (category === "Tài liệu mẫu" && language === "en") {
-      return "Sample document";
-    }
-
-    return t(category);
   }
 
   return (
@@ -103,7 +90,8 @@ export default function BookCarousel({
             key={slide.book.id}
             type="button"
             className={
-              "carousel-card" + (slide.offset === 0 ? " is-current" : "")
+              "carousel-card" +
+              (slide.offset === 0 ? " is-current" : "")
             }
             style={{
               "--offset": slide.offset,
@@ -142,7 +130,6 @@ export default function BookCarousel({
 
       <div className="carousel-details">
         <h2>{activeBook.title}</h2>
-
         <p>{activeBook.author}</p>
 
         <button
@@ -154,35 +141,6 @@ export default function BookCarousel({
           <ArrowRight size={16} aria-hidden="true" />
         </button>
       </div>
-
-      {onBrowseCategory && (
-        <div
-          className="carousel-topics"
-          role="group"
-          aria-label={t("Lọc sách theo chủ đề")}
-        >
-          <button
-            type="button"
-            className="carousel-topic is-active"
-            onClick={() => onBrowseCategory("all")}
-          >
-            <Grid2X2 size={15} aria-hidden="true" />
-            {t("Tất cả")}
-          </button>
-
-          {categories.slice(0, 4).map((category) => (
-            <button
-              key={category}
-              type="button"
-              className="carousel-topic"
-              onClick={() => onBrowseCategory(category)}
-            >
-              <BookOpen size={15} aria-hidden="true" />
-              {categoryLabel(category)}
-            </button>
-          ))}
-        </div>
-      )}
 
       <p
         className="carousel-announcement"

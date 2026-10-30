@@ -20,6 +20,7 @@ export const MANAGEMENT_PAGES = Object.freeze({
   settings: P.SETTINGS_MANAGE,
   authors: P.AUTHORS_REVIEW,
   manuscripts: P.MANUSCRIPTS_REVIEW,
+  categories: P.CATEGORIES_MANAGE,
 });
 
 export function managementVisit(state, page) {

@@ -37,18 +37,9 @@ export function getPublicAuthors(state, catalogBooks = state.books) {
       const books = state.books
         .filter((book) => !book.archived && book.authorEmail === account.email)
         .map((book) => ({
-          id: book.id,
-          title: book.title,
-          author: book.author,
-          category: book.category,
-          cover: book.cover,
-          isbn: book.isbn,
-          description: book.description,
-          pdfUrl: book.pdfUrl,
-          pageCount: book.pageCount,
-
-          availableCopies: stock.get(book.id) ?? book.availableCopies,
-        }));
+  ...book,
+  availableCopies: stock.get(book.id) ?? book.availableCopies,
+}));
 
       if (!books.length) {
         return null;

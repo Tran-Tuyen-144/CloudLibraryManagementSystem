@@ -20,7 +20,7 @@ const messages = {
   vi: {
     title: "Thống kê thư viện",
 
-    intro: "Theo dõi số liệu từ các phiếu mượn trả đang lưu trong trình duyệt.",
+    intro: "Theo dõi tình hình mượn trả và hoạt động thư viện.",
 
     from: "Từ ngày",
     to: "Đến ngày",
@@ -123,7 +123,7 @@ const messages = {
   en: {
     title: "Library statistics",
 
-    intro: "Explore figures from loan records saved in this browser.",
+    intro: "Track borrowing activity and library operations.",
 
     from: "From date",
     to: "To date",

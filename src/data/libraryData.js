@@ -1,14 +1,13 @@
+import { normalizeCategories, findCategory } from "./libraryCategories.js";
 import { normalizeLibrarySettings } from "./librarySettings.js";
 import { isDemoCredential } from "./demoCredentials.js";
-
 import { getDemoAccountProfiles, restoreDemoSession } from "./demoAccounts.js";
-
 import {
   hasPermission,
   PERMISSIONS as P,
   ROLE_PERMISSIONS,
 } from "./libraryPermissions.js";
-
+import { bookViewCount, normalizeBookViewHistory } from "./bookDiscovery.js";
 import { flattenRequests } from "../ui/borrowWorkflow.js";
 
 export const LIBRARY_STORAGE_KEY = "cloudlibrary:demo-library:v3";
@@ -60,10 +59,8 @@ export function createLibraryData(saved, legacy, catalogBooks) {
     accounts.set(email, {
       id: `account:${email}`,
       email,
-
       fullName:
         typeof item.fullName === "string" ? item.fullName : email.split("@")[0],
-
       role: item.role,
       status: item.status === "locked" ? "locked" : "active",
 
@@ -103,24 +100,22 @@ export function createLibraryData(saved, legacy, catalogBooks) {
     accounts.set(email, {
       id: `account:${email}`,
       email,
-
       fullName:
         typeof candidateName === "string" && candidateName.trim()
           ? candidateName.trim()
           : email.split("@")[0],
-
       role: "reader",
       status: "active",
     });
   }
 
   const accountList = [...accounts.values()];
-
   const session = source ? rawSession : restoreDemoSession(rawSession);
 
-  return {
+  const data = {
     schemaVersion: 3,
     accounts: accountList,
+
     authorApplications: Array.isArray(source?.authorApplications)
       ? source.authorApplications.filter(
           (item) =>
@@ -158,13 +153,15 @@ export function createLibraryData(saved, legacy, catalogBooks) {
           typeof book.author === "string",
       )
       .map((book) => ({
-        ...book,
-
-        availableCopies: Math.max(
-          0,
-          Math.floor(Number(book.availableCopies) || 0),
-        ),
-      })),
+  ...book,
+  cover: typeof book.cover === "string" ? book.cover : "",
+  chapters: Array.isArray(book.chapters) ? book.chapters : [],
+  viewCount: bookViewCount(book),
+  availableCopies: Math.max(
+    0,
+    Math.floor(Number(book.availableCopies) || 0),
+  ),
+})),
 
     authorManuscripts: Array.isArray(source?.authorManuscripts)
       ? source.authorManuscripts.filter(
@@ -187,13 +184,34 @@ export function createLibraryData(saved, legacy, catalogBooks) {
       : [],
 
     requestsByEmail,
-
+    bookViewHistory: normalizeBookViewHistory(source?.bookViewHistory),
     settings: normalizeLibrarySettings(source?.settings),
-
     auditLogs: Array.isArray(source?.auditLogs) ? source.auditLogs : [],
-
     accessLogs: Array.isArray(source?.accessLogs) ? source.accessLogs : [],
   };
+
+  const categories = normalizeCategories(
+    source?.categories,
+    data.books,
+    data.authorManuscripts,
+  );
+
+  const canonical = (item) => ({
+    ...item,
+    category: findCategory(categories, item.category)?.name ?? item.category,
+  });
+
+  return {
+    ...data,
+    categories,
+    books: data.books.map(canonical),
+authorManuscripts: data.authorManuscripts.map((item) =>
+  canonical({
+    ...item,
+    cover: typeof item.cover === "string" ? item.cover : "",
+    chapters: Array.isArray(item.chapters) ? item.chapters : [],
+  }),
+),  };
 }
 
 export function publicAccount(account) {
@@ -232,16 +250,13 @@ export function createLibraryLog(
 ) {
   return {
     ...details,
-
     id: crypto.randomUUID(),
     at: new Date().toISOString(),
     action,
     targetId,
-
     actorEmail: actor?.email || null,
     actorName: actor?.fullName || "",
     actorRole: actor?.role || "",
-
     result,
   };
 }

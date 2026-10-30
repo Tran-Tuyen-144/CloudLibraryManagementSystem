@@ -1,8 +1,7 @@
 import { useState } from "react";
 import useStoredState from "../hooks/useStoredState";
 import { profileStorageKey } from "../hooks/useDemoAuth";
-import { t, useUiSettings } from "../ui/settings";
-import { authMessages } from "../ui/authMessages";
+import { t } from "../ui/settings";
 import "./ReaderPages.css";
 
 export default function ProfilePage({
@@ -11,8 +10,6 @@ export default function ProfilePage({
   onBrowseFavorites,
   onUpdateProfile,
 }) {
-  const { language } = useUiSettings();
-
   const [profile, setProfile] = useStoredState(profileStorageKey(user.email), {
     fullName: user.fullName,
     email: user.email,
@@ -58,7 +55,7 @@ export default function ProfilePage({
     onUpdateProfile({ fullName });
 
     setMessage({
-      key: "Đã cập nhật hồ sơ demo trên trình duyệt.",
+      key: "Đã cập nhật hồ sơ.",
     });
   }
 
@@ -72,8 +69,6 @@ export default function ProfilePage({
 
   return (
     <section className="reader-page" aria-label={t("Hồ sơ của tôi")}>
-      <p className="reader-note">{authMessages[language].profileNote}</p>
-
       <div className="reader-profile-layout">
         <aside className="reader-panel reader-profile-summary">
           <span className="reader-avatar" aria-hidden="true">
@@ -84,7 +79,9 @@ export default function ProfilePage({
 
           <p>{user.email}</p>
 
-          <span className="reader-badge">{t("Hồ sơ demo")}</span>
+          <span className="reader-badge">
+            {t(user.role === "author" ? "Tác giả" : "Bạn đọc")}
+          </span>
 
           <button
             className="reader-button reader-button-secondary"
@@ -140,7 +137,7 @@ export default function ProfilePage({
                 name="interest"
                 value={draft.interest}
                 onChange={changeField}
-                placeholder={t("Tiểu thuyết, kỹ năng sống...")}
+                placeholder={t("Nhập chủ đề yêu thích")}
                 maxLength={150}
               />
             </label>

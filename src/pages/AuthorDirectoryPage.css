@@ -14,37 +14,40 @@
 
 .author-directory-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
-  gap: 20px;
+  grid-template-columns:
+    repeat(auto-fill, minmax(min(100%, 230px), 1fr));
+  align-items: stretch;
+  gap: 16px;
 }
 
 .author-directory-card {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 14px;
+  gap: 12px;
   min-width: 0;
-  padding: 24px;
+  padding: 18px;
   border: 1px solid var(--border);
-  border-radius: 18px;
+  border-radius: 14px;
   background: var(--bg-panel);
 }
 
 .author-directory-card h3 {
+  margin: 0;
   overflow-wrap: anywhere;
 }
 
 .author-directory-avatar {
   display: grid;
   place-items: center;
-  width: 64px;
-  height: 64px;
+  width: 48px;
+  height: 48px;
   flex-shrink: 0;
   border-radius: 50%;
   background: var(--selected-bg);
   color: var(--text-primary);
   border: 1px solid var(--border);
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 600;
 }
 
@@ -64,7 +67,16 @@
 }
 
 .author-directory-card > button {
+  width: 100%;
   margin-top: auto;
+}
+
+.author-directory-card .reader-muted {
+  margin: 0;
+}
+
+.author-directory > .reader-panel > .reader-muted {
+  max-width: 680px;
 }
 
 .author-directory .reader-panel {

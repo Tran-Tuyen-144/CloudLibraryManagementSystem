@@ -138,9 +138,7 @@ export default function AuthorRegistrationPage({ user }) {
   return (
     <section className="reader-page" aria-label={t("Đăng ký tác giả")}>
       <p className="reader-note">
-        {t(
-          "Gửi hồ sơ để admin xem xét cấp quyền tác giả. Bản demo lưu hồ sơ trong trình duyệt này.",
-        )}
+        {t("Gửi hồ sơ để admin xem xét cấp quyền tác giả.")}
       </p>
 
       <div className="reader-panel">

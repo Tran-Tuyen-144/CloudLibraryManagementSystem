@@ -1,5 +1,9 @@
 import { useState } from "react";
-
+import { manuscriptPreviewBook } from "../data/manuscriptContent";
+import { canReadBook } from "../data/readerContent";
+import { authorErrors } from "../ui/authorMessages";
+import { BookCover } from "../components/books/HomeSections";
+import ReaderPage from "./ReaderPage";
 import { currentLibraryUser } from "../data/libraryData";
 
 import { hasPermission, PERMISSIONS as P } from "../data/libraryPermissions";
@@ -46,6 +50,17 @@ const errors = {
   ],
 };
 
+Object.assign(errors, {
+  incompleteManuscript: authorErrors.incompleteManuscript,
+  invalidCover: authorErrors.invalidCover,
+  invalidChapters: authorErrors.invalidChapters,
+  incompleteChapters: authorErrors.incompleteChapters,
+  storageFailed: [
+    "Trình duyệt chưa lưu được kết quả duyệt. Bản thảo chưa đổi trạng thái; giải phóng dung lượng và thử lại.",
+    "The review could not be saved. The manuscript status is unchanged; free browser storage and retry.",
+  ],
+});
+
 function safePdf(value) {
   try {
     const url = new URL(value);
@@ -66,6 +81,7 @@ export default function ManuscriptReviewPage() {
 
   const [filter, setFilter] = useState("pending");
   const [notice, setNotice] = useState(null);
+  const [previewId, setPreviewId] = useState(null);
 
   const label = (vi, en) => (language === "en" ? en : vi);
 
@@ -80,6 +96,23 @@ export default function ManuscriptReviewPage() {
   if (!hasPermission(user, P.MANUSCRIPTS_REVIEW)) {
     return <p role="alert">{label(...errors.forbidden)}</p>;
   }
+  const preview = (data.authorManuscripts || []).find(
+  (item) =>
+    item.id === previewId &&
+    Object.hasOwn(statuses, item.status),
+);
+
+if (preview) {
+  return (
+    <ReaderPage
+      key={`${preview.id}:${preview.revision}`}
+      preview
+      book={manuscriptPreviewBook(preview)}
+      user={user}
+      onBack={() => setPreviewId(null)}
+    />
+  );
+}
 
   // Chỉ hiện những bản thảo đã được gửi xét duyệt.
   const rows = (data.authorManuscripts || [])
@@ -120,11 +153,11 @@ export default function ManuscriptReviewPage() {
           </h2>
 
           <p>
-            {label(
-              "Mở PDF để kiểm tra nội dung trước khi xuất bản. Sách mới được thêm dưới dạng đọc online, chưa có bản giấy.",
-              "Open the PDF and review its content before publishing. New books are added for online reading with no physical copies.",
-            )}
-          </p>
+  {label(
+    "Xem trước các chương hoặc PDF trước khi xuất bản. Sách mới được thêm dưới dạng đọc online, chưa có bản giấy.",
+    "Preview the chapters or PDF before publishing. New books are added for online reading with no physical copies.",
+  )}
+</p>
         </div>
       </div>
 
@@ -216,15 +249,17 @@ export default function ManuscriptReviewPage() {
                 <dd>{item.description}</dd>
 
                 <dt>PDF</dt>
-                <dd>
-                  {pdf ? (
-                    <a href={pdf} target="_blank" rel="noopener noreferrer">
-                      {label("Mở PDF để kiểm tra", "Open PDF for review")}
-                    </a>
-                  ) : (
-                    label("Liên kết không hợp lệ", "Invalid link")
-                  )}
-                </dd>
+<dd>
+  {pdf ? (
+    <a href={pdf} target="_blank" rel="noopener noreferrer">
+      {label("Mở PDF để kiểm tra", "Open PDF for review")}
+    </a>
+  ) : item.pdfUrl ? (
+    label("Liên kết không hợp lệ", "Invalid link")
+  ) : (
+    label("Không cung cấp PDF", "No PDF provided")
+  )}
+</dd>
 
                 {item.reviewedBy && (
                   <>
@@ -239,7 +274,28 @@ export default function ManuscriptReviewPage() {
                     <dd>{item.rejectionReason}</dd>
                   </>
                 )}
+                <dt>{label("Ảnh bìa", "Cover")}</dt>
+<dd>
+  <div className="author-review-cover">
+    <BookCover book={manuscriptPreviewBook(item)} />
+  </div>
+</dd>
+
+<dt>{label("Nội dung chương", "Chapters")}</dt>
+<dd>
+  {item.chapters?.length || 0} {label("chương", "chapters")}
+</dd>
               </dl>
+              <div className="manage-dialog-actions">
+  <button
+    type="button"
+    className="loan-button"
+    disabled={!canReadBook(manuscriptPreviewBook(item))}
+    onClick={() => setPreviewId(item.id)}
+  >
+    {label("Xem trước nội dung", "Preview content")}
+  </button>
+</div>
 
               {item.status === "pending" && (
                 <form onSubmit={(event) => handleReview(event, item)}>
