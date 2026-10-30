@@ -71,6 +71,9 @@ const messages = {
     close: "Đóng",
     working: "Đang lưu…",
     password: "Mật khẩu đăng nhập",
+    newPassword: "Cấp mật khẩu mới (không bắt buộc)",
+    newPasswordHint:
+      "Để trống để giữ mật khẩu hiện tại. Nhập 8–128 ký tự để cấp lại mật khẩu cho tài khoản này.",
     passwordHint:
       "8–128 ký tự. Ghi lại và cung cấp cho nhân sự; hệ thống không hiển thị lại mật khẩu.",
     stockHint:
@@ -152,6 +155,9 @@ const messages = {
     close: "Close",
     working: "Saving…",
     password: "Sign-in password",
+    newPassword: "Set a new password (optional)",
+    newPasswordHint:
+      "Leave blank to keep the current password. Enter 8–128 characters to set a new password for this account.",
     passwordHint:
       "8–128 characters. Give this password to the staff member; it cannot be displayed again.",
     stockHint:
@@ -376,28 +382,22 @@ function Editor({ kind, item, copy, onClose, onSave }) {
                 </select>
               </label>
 
-              {creating && (
-                <label className="manage-field manage-wide">
-  <span>
-    {creating ? copy.password : copy.newPassword}
-  </span>
+              <label className="manage-field manage-wide">
+                <span>{creating ? copy.password : copy.newPassword}</span>
 
-  <input
-    name="password"
-    type="password"
-    required={creating}
-    minLength={8}
-    maxLength={128}
-    autoComplete="new-password"
-  />
+                <input
+                  name="password"
+                  type="password"
+                  required={creating}
+                  minLength={8}
+                  maxLength={128}
+                  autoComplete="new-password"
+                />
 
-  <small>
-    {creating
-      ? copy.passwordHint
-      : copy.newPasswordHint}
-  </small>
-</label>
-              )}
+                <small>
+                  {creating ? copy.passwordHint : copy.newPasswordHint}
+                </small>
+              </label>
             </>
           )}
         </fieldset>
