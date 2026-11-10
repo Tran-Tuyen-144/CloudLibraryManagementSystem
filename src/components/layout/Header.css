@@ -1,0 +1,102 @@
+.header-user-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.header-actions .header-account-button,
+.header-actions .header-login-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: auto;
+  min-width: 0;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--input-bg);
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.header-account-name {
+  max-width: 110px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.header-actions .header-logout-button {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--input-bg);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.header-notifications {
+  position: relative;
+}
+
+.header-notifications > summary {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--input-bg);
+  color: var(--text-primary);
+  list-style: none;
+  cursor: pointer;
+}
+
+.header-notifications > summary::-webkit-details-marker {
+  display: none;
+}
+
+.header-notification-panel {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  z-index: 50;
+  box-sizing: border-box;
+  width: min(260px, 70vw);
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-panel);
+  color: var(--text-primary);
+  box-shadow: var(--panel-shadow);
+}
+
+.header-notification-panel p {
+  margin: 8px 0 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.header-actions .header-account-button:hover,
+.header-actions .header-login-button:hover,
+.header-actions .header-logout-button:hover {
+  background: var(--selected-bg);
+}
+
+.header-user-controls button:focus-visible,
+.header-login-button:focus-visible,
+.header-notifications > summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}

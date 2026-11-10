@@ -1,0 +1,340 @@
+import { useEffect, useRef, useState } from "react";
+import { Star, X } from "lucide-react";
+import FavoriteButton from "./FavoriteButton";
+import "./HomeSections.css";
+import TopicBar from "./TopicBar";
+export function BookCover({ book }) {
+  const [failedCover, setFailedCover] = useState(null);
+
+  if (!book.cover || failedCover === book.cover) {
+    return (
+      <span className="home-cover-fallback">
+        <strong>{book.title}</strong>
+        <small>{book.author}</small>
+      </span>
+    );
+  }
+
+  return (
+    <img
+      className="home-cover-image"
+      src={book.cover}
+      alt={`Bìa sách ${book.title}`}
+      draggable={false}
+      onError={() => setFailedCover(book.cover)}
+    />
+  );
+}
+
+export function BookDetails({
+  book,
+  onClose,
+  favoriteIds = [],
+  onToggleFavorite,
+}) {
+  const dialogRef = useRef(null);
+  const isFavorite = favoriteIds.includes(book.id);
+
+  useEffect(() => {
+    if (!dialogRef.current.open) {
+      dialogRef.current.showModal();
+    }
+  }, []);
+
+  return (
+    <dialog
+      ref={dialogRef}
+      className="book-modal"
+      aria-labelledby="book-modal-title"
+      onClose={onClose}
+    >
+      <button
+        type="button"
+        className="book-modal-close"
+        aria-label="Đóng chi tiết sách"
+        onClick={() => dialogRef.current.close()}
+      >
+        <X size={22} aria-hidden="true" />
+      </button>
+
+      <div className="book-modal-content">
+        <div className="book-modal-cover">
+          <BookCover book={book} />
+        </div>
+
+        <div>
+          <p className="home-eyebrow">Chi tiết sách</p>
+          <h2 id="book-modal-title">{book.title}</h2>
+          <p className="home-author">{book.author}</p>
+          <p className="home-category">{book.category}</p>
+
+          <p className="book-modal-isbn">
+            <strong>ISBN:</strong> {book.isbn}
+          </p>
+
+          <p className="home-description">
+            {book.description || "Chưa có mô tả cho cuốn sách này."}
+          </p>
+
+          {onToggleFavorite && (
+            <div className="book-modal-actions">
+              <FavoriteButton
+                book={book}
+                isFavorite={isFavorite}
+                onToggleFavorite={onToggleFavorite}
+              />
+              <span>
+                {isFavorite ? "Đã lưu vào yêu thích" : "Lưu vào yêu thích"}
+              </span>
+            </div>
+          )}
+        </div>
+      </div>
+    </dialog>
+  );
+}
+
+function BookTile({ book, favoriteIds, onToggleFavorite, onOpenBook }) {
+  return (
+    <article className="book-tile">
+      <button
+        type="button"
+        className="book-tile-button"
+        aria-label={`Xem chi tiết ${book.title}`}
+        onClick={() => onOpenBook(book)}
+      >
+        <span className="book-tile-cover">
+          <BookCover book={book} />
+        </span>
+
+        <strong className="book-tile-title" title={book.title}>
+          {book.title}
+        </strong>
+
+        <span className="book-tile-author" title={book.author}>
+          {book.author}
+        </span>
+      </button>
+
+      {onToggleFavorite && (
+        <FavoriteButton
+          book={book}
+          isFavorite={favoriteIds.includes(book.id)}
+          onToggleFavorite={onToggleFavorite}
+          className="tile-favorite"
+        />
+      )}
+    </article>
+  );
+}
+
+function BookShelf({ title, subtitle, books, onViewAll, ...tileProps }) {
+  if (books.length === 0) return null;
+
+  return (
+    <section className="home-panel shelf-panel">
+      <div className="home-panel-header">
+        <div>
+          <h2>{title}</h2>
+          {subtitle && <p className="section-subtitle">{subtitle}</p>}
+        </div>
+
+        {onViewAll && (
+          <button
+            type="button"
+            className="section-view-all"
+            onClick={onViewAll}
+          >
+            Xem tất cả
+          </button>
+        )}
+      </div>
+
+      <div className="book-shelf">
+        {books.map((book) => (
+          <BookTile key={book.id} book={book} {...tileProps} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+export default function HomeSections({
+  books,
+  favoriteIds = [],
+  onToggleFavorite,
+  onBrowseCategory,
+}) {
+  const [selectedBook, setSelectedBook] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  if (books.length === 0) return null;
+
+  const sourceBook = books.find((book) => book.id === "midnight") || books[0];
+
+  const featuredBook = {
+    ...sourceBook,
+    rating: sourceBook.rating ?? 4.8,
+  };
+
+  const popularBooks = (
+    books.length > 1
+      ? books.filter((book) => book.id !== featuredBook.id)
+      : books
+  ).slice(0, 6);
+
+  const categories = [...new Set(books.map((book) => book.category || "Khác"))];
+  const topicBooks =
+    selectedCategory === "all"
+      ? books
+      : books.filter((book) => (book.category || "Khác") === selectedCategory);
+
+  const favoriteCategories = new Set(
+    books
+      .filter((book) => favoriteIds.includes(book.id))
+      .map((book) => book.category),
+  );
+
+  const unsavedBooks = books.filter((book) => !favoriteIds.includes(book.id));
+
+  function recommendationScore(book) {
+    return (
+      (favoriteCategories.has(book.category) ? 2 : 0) +
+      (book.availableCopies > 0 ? 1 : 0)
+    );
+  }
+
+  const recommendedBooks = [...(unsavedBooks.length > 0 ? unsavedBooks : books)]
+    .sort((a, b) => recommendationScore(b) - recommendationScore(a))
+    .slice(0, 6);
+
+  function openBook(book) {
+    setSelectedBook(book.id === featuredBook.id ? featuredBook : book);
+  }
+
+  const tileProps = {
+    favoriteIds,
+    onToggleFavorite,
+    onOpenBook: openBook,
+  };
+
+  return (
+    <div className="discovery-page">
+      <div className="home-sections">
+        <section className="home-panel featured-panel">
+          <div className="home-panel-header">
+            <h2>Sách nổi bật</h2>
+            <span>Tuần này</span>
+          </div>
+
+          <div className="featured-content">
+            <div className="featured-cover">
+              <BookCover book={featuredBook} />
+            </div>
+
+            <div className="featured-info">
+              <h3>{featuredBook.title}</h3>
+              <p className="home-author">{featuredBook.author}</p>
+              <p className="home-category">{featuredBook.category}</p>
+
+              <div className="home-rating">
+                <span aria-hidden="true">
+                  {Array.from({ length: 5 }, (_, index) => (
+                    <Star
+                      key={index}
+                      size={15}
+                      fill={
+                        index < Math.round(featuredBook.rating)
+                          ? "currentColor"
+                          : "none"
+                      }
+                    />
+                  ))}
+                </span>
+                <small>{featuredBook.rating}/5</small>
+              </div>
+
+              <p className="home-description featured-description">
+                {featuredBook.description || "Chưa có mô tả cho cuốn sách này."}
+              </p>
+
+              <div className="featured-actions">
+                <button
+                  type="button"
+                  className="home-detail-button"
+                  onClick={() => openBook(featuredBook)}
+                >
+                  Xem chi tiết
+                </button>
+
+                {onToggleFavorite && (
+                  <FavoriteButton
+                    book={featuredBook}
+                    isFavorite={favoriteIds.includes(featuredBook.id)}
+                    onToggleFavorite={onToggleFavorite}
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="home-panel popular-panel">
+          <div className="home-panel-header">
+            <h2>Sách phổ biến</h2>
+            <span>{popularBooks.length} cuốn sách</span>
+          </div>
+
+          <div className="popular-grid">
+            {popularBooks.map((book) => (
+              <BookTile key={book.id} book={book} {...tileProps} />
+            ))}
+          </div>
+        </section>
+      </div>
+
+      <BookShelf
+        title="Có thể bạn sẽ thích"
+        subtitle="Ưu tiên thể loại bạn đã lưu và sách còn sẵn"
+        books={recommendedBooks}
+        onViewAll={onBrowseCategory ? () => onBrowseCategory("all") : undefined}
+        {...tileProps}
+      />
+
+      <div className="topic-sections">
+        <div className="home-section-heading">
+          <h2>Khám phá theo chủ đề</h2>
+          <p>Chọn một chủ đề để xem những cuốn sách phù hợp.</p>
+        </div>
+
+        <TopicBar
+          categories={categories}
+          activeCategory={selectedCategory}
+          onChange={setSelectedCategory}
+        />
+
+        <BookShelf
+          title={
+            selectedCategory === "all" ? "Tất cả chủ đề" : selectedCategory
+          }
+          subtitle={`${topicBooks.length} cuốn sách`}
+          books={topicBooks}
+          onViewAll={
+            onBrowseCategory
+              ? () => onBrowseCategory(selectedCategory)
+              : undefined
+          }
+          {...tileProps}
+        />
+      </div>
+
+      {selectedBook && (
+        <BookDetails
+          book={selectedBook}
+          favoriteIds={favoriteIds}
+          onToggleFavorite={onToggleFavorite}
+          onClose={() => setSelectedBook(null)}
+        />
+      )}
+    </div>
+  );
+}

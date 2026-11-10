@@ -1,0 +1,99 @@
+import { useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import "./BookCarousel.css";
+
+function BookCover({ book }) {
+  const [hasError, setHasError] = useState(false);
+
+  if (hasError) {
+    return (
+      <span className="carousel-cover-fallback">
+        <strong>{book.title}</strong>
+        <small>{book.author}</small>
+      </span>
+    );
+  }
+
+  return (
+    <img
+      src={book.cover}
+      alt={`Bìa sách ${book.title}`}
+      draggable={false}
+      onError={() => setHasError(true)}
+    />
+  );
+}
+
+export default function BookCarousel({ books }) {
+  const [activeIndex, setActiveIndex] = useState(Math.floor(books.length / 2));
+
+  if (books.length === 0) return null;
+
+  const visibleCount = Math.min(7, books.length);
+  const middle = Math.floor(visibleCount / 2);
+  const activeBook = books[activeIndex % books.length];
+
+  function moveSlide(direction) {
+    setActiveIndex(
+      (current) => (current + direction + books.length) % books.length,
+    );
+  }
+
+  return (
+    <section className="book-carousel" aria-label="Sách nổi bật">
+      <button
+        type="button"
+        className="carousel-arrow carousel-arrow-prev"
+        aria-label="Cuốn sách trước"
+        disabled={books.length < 2}
+        onClick={() => moveSlide(-1)}
+      >
+        <ChevronLeft size={22} aria-hidden="true" />
+      </button>
+
+      <div className="carousel-stage">
+        {Array.from({ length: visibleCount }, (_, position) => {
+          const offset = position - middle;
+          const index = (activeIndex + offset + books.length) % books.length;
+          const book = books[index];
+          const distance = Math.abs(offset);
+
+          return (
+            <button
+              key={book.id}
+              type="button"
+              className={`carousel-book ${offset === 0 ? "is-current" : ""}`}
+              style={{
+                "--offset": offset,
+                "--scale": 1 - distance * 0.15,
+                "--opacity": 1 - distance * 0.2,
+                zIndex: 10 - distance,
+              }}
+              aria-label={`Chọn sách ${book.title}`}
+              aria-pressed={offset === 0}
+              tabIndex={offset === 0 ? 0 : -1}
+              title={`${book.title} — ${book.author}`}
+              onClick={() => setActiveIndex(index)}
+            >
+              <BookCover book={book} />
+            </button>
+          );
+        })}
+      </div>
+
+      <button
+        type="button"
+        className="carousel-arrow carousel-arrow-next"
+        aria-label="Cuốn sách tiếp theo"
+        disabled={books.length < 2}
+        onClick={() => moveSlide(1)}
+      >
+        <ChevronRight size={22} aria-hidden="true" />
+      </button>
+
+      <p className="carousel-status" aria-live="polite" aria-atomic="true">
+        Sách đang chọn: {activeBook.title}, {activeBook.author}.
+      </p>
+    </section>
+  );
+}

@@ -1,0 +1,780 @@
+.management-app {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  min-height: 100dvh;
+  background: var(--bg-page);
+  color: var(--text-primary);
+}
+
+.management-app *,
+.management-app *::before,
+.management-app *::after {
+  box-sizing: border-box;
+}
+
+.management-app :is(h1, h2, h3) {
+  color: var(--text-primary);
+}
+
+.management-brand > div {
+  min-width: 0;
+}
+
+.management-sidebar {
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  padding: 28px 18px 20px;
+  border-right: 1px solid var(--border);
+  background: var(--bg-panel);
+}
+
+.management-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.management-brand > span {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: var(--selected-bg);
+  color: var(--accent);
+}
+
+.management-brand strong {
+  font: 600 19px Cambria, serif;
+  white-space: nowrap;
+}
+
+.management-brand small {
+  display: block;
+  margin-top: 5px;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+}
+
+.management-nav {
+  display: grid;
+  gap: 8px;
+}
+
+.management-nav button,
+.management-account button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 11px 12px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.management-nav button svg {
+  flex-shrink: 0;
+}
+
+.management-nav button:hover,
+.management-account button:hover {
+  background: var(--input-bg);
+  color: var(--text-primary);
+}
+
+.management-nav button[aria-current="page"] {
+  background: var(--selected-bg);
+  border-color: var(--border);
+  color: var(--text-primary);
+  box-shadow: inset 3px 0 var(--accent);
+}
+
+.management-account {
+  display: grid;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  overflow-wrap: anywhere;
+}
+
+.management-account > span {
+  color: var(--accent);
+  font-size: 11px;
+}
+
+.management-account > strong {
+  font-size: 14px;
+}
+
+.management-account > small {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.management-account button {
+  margin-top: 8px;
+  border-color: var(--border);
+  justify-content: center;
+}
+
+.management-body {
+  min-width: 0;
+}
+
+.management-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 100px;
+  padding: 22px 32px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-panel);
+}
+
+.management-header small {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+}
+
+.management-header h1 {
+  margin: 4px 0 0;
+  font: 400 28px Cambria, serif;
+}
+
+.management-header .ui-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.management-header .ui-theme-button,
+.management-header .ui-language-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 38px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--input-bg);
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 12px;
+}
+
+.management-header .ui-theme-button {
+  cursor: pointer;
+}
+
+.management-header .ui-language-control select {
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text-primary);
+  font: inherit;
+  cursor: pointer;
+}
+
+.management-header .ui-language-control select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.management-main {
+  width: 100%;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 24px 32px;
+}
+
+.management-demo {
+  margin: 0 0 22px;
+  padding: 11px 14px;
+  border: 1px dashed var(--border);
+  border-radius: 9px;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.management-overview {
+  display: grid;
+  gap: 20px;
+}
+
+.management-welcome {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: linear-gradient(
+    120deg,
+    var(--selected-bg),
+    var(--surface-bottom)
+  );
+}
+
+.management-welcome > svg {
+  flex-shrink: 0;
+  color: var(--accent);
+}
+
+.management-welcome span {
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.management-welcome h2 {
+  margin: 8px 0;
+  font: 400 30px Cambria, serif;
+}
+
+.management-welcome p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.management-overview .loan-stat {
+  position: relative;
+}
+
+.management-stat-link {
+  position: absolute;
+  bottom: 17px;
+  right: 16px;
+  color: var(--text-muted);
+}
+
+.management-totals {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.management-totals > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 17px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-panel);
+}
+
+.management-totals span {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.management-totals strong {
+  font-size: 23px;
+  font-weight: 500;
+}
+
+.management-overview .loan-panel-heading h2 {
+  margin: 0;
+  font: 400 23px Cambria, serif;
+}
+
+.management-overview .loan-button {
+  gap: 6px;
+}
+
+.management-recent {
+  display: grid;
+}
+
+.management-recent-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto 90px;
+  align-items: center;
+  gap: 18px;
+  padding: 17px 0;
+  border-top: 1px solid var(--border);
+}
+
+.management-recent-row > div {
+  min-width: 0;
+}
+
+.management-recent-row strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.management-recent-row small {
+  display: block;
+  margin-top: 5px;
+  color: var(--text-muted);
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+
+.management-recent-row time {
+  color: var(--text-muted);
+  font-size: 11px;
+  text-align: right;
+}
+
+.management-app button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+@media (max-width: 1100px) {
+  .management-totals {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 800px) {
+  .management-app {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .management-sidebar {
+    position: static;
+    height: auto;
+    padding: 16px;
+    gap: 16px;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .management-nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .management-nav button {
+    font-size: 12px;
+  }
+
+  .management-account {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 4px 10px;
+    padding-top: 12px;
+  }
+
+  .management-account > span,
+  .management-account > strong {
+    grid-column: 1;
+  }
+
+  .management-account > small {
+    display: none;
+  }
+
+  .management-account button {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    margin: 0;
+  }
+
+  .management-header {
+    padding: 16px;
+    flex-wrap: wrap;
+    min-height: 0;
+  }
+
+  .management-header h1 {
+    font-size: 25px;
+  }
+
+  .management-main {
+    padding: 18px 16px;
+  }
+
+  .management-welcome {
+    padding: 20px;
+  }
+
+  .management-welcome h2 {
+    font-size: 26px;
+  }
+
+  .management-welcome > svg {
+    display: none;
+  }
+
+  .management-recent-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
+  }
+
+  .management-recent-row > div {
+    grid-column: 1 / -1;
+  }
+
+  .management-recent-row .loan-status {
+    justify-self: start;
+  }
+}
+
+/* ===== BẢNG MÀU QUẢN LÝ ===== */
+
+.management-app[data-theme="dark"] {
+  --bg-page: #090f2d;
+  --bg-panel: #111c42;
+
+  --surface-top: #192953;
+  --surface-bottom: #111a39;
+
+  --input-bg: #0d1735;
+  --selected-bg: #253d70;
+
+  --button-bg: #23345f;
+  --button-hover: #30477a;
+
+  --border: #40598a;
+
+  --text-primary: #f0f5ff;
+  --text-secondary: #c4d2ef;
+  --text-muted: #a8bcdf;
+
+  --accent: #91e3ff;
+
+  --primary-bg: #a2ceff;
+  --primary-hover: #c3dfff;
+  --primary-text: #111a38;
+
+  --panel-shadow: #03092044;
+  --focus-glow: #91e3ff33;
+
+  --cover-bg: linear-gradient(
+    145deg,
+    #244c82,
+    #513575,
+    #8254a5
+  );
+
+  --cover-text: #f2f6ff;
+
+  --management-blue-glow: #367cff38;
+  --management-violet-glow: #8547d92e;
+  --management-pink-glow: #df79db1c;
+
+  --management-sidebar: linear-gradient(
+    180deg,
+    #101d44,
+    #191735
+  );
+
+  --management-header: linear-gradient(
+    110deg,
+    #122148,
+    #241e46
+  );
+
+  --management-primary: linear-gradient(
+    115deg,
+    #92e5ff,
+    #b5b8ff
+  );
+
+  --management-primary-hover: linear-gradient(
+    115deg,
+    #b0efff,
+    #d0c6ff
+  );
+
+  --management-note: #112044b3;
+  --management-star: #d8edff;
+  --management-star-opacity: 0.12;
+
+  --management-shadow:
+    0 12px 32px #03092030;
+
+  color-scheme: dark;
+}
+
+.management-app[data-theme="light"] {
+  --bg-page: #f1f5ff;
+  --bg-panel: #ffffff;
+
+  --surface-top: #f7faff;
+  --surface-bottom: #eef2ff;
+
+  --input-bg: #f7f9ff;
+  --selected-bg: #e3eaff;
+
+  --button-bg: #e9eeff;
+  --button-hover: #d9e4ff;
+
+  --border: #c1cfee;
+
+  --text-primary: #1c2b51;
+  --text-secondary: #465b82;
+  --text-muted: #5b7095;
+
+  --accent: #345db9;
+
+  --primary-bg: #4266ce;
+  --primary-hover: #3454b6;
+  --primary-text: #ffffff;
+
+  --panel-shadow: #28458112;
+  --focus-glow: #597fe52b;
+
+  --cover-bg: linear-gradient(
+    145deg,
+    #dceaff,
+    #e8ddff,
+    #f4dffa
+  );
+
+  --cover-text: #283963;
+
+  --management-blue-glow: #9edcff52;
+  --management-violet-glow: #c5b7ff40;
+  --management-pink-glow: #efbaff33;
+
+  --management-sidebar: linear-gradient(
+    180deg,
+    #f6faff,
+    #f4efff
+  );
+
+  --management-header: linear-gradient(
+    110deg,
+    #f8fcff,
+    #f4efff
+  );
+
+  --management-primary: linear-gradient(
+    115deg,
+    #365fcb,
+    #7850bd
+  );
+
+  --management-primary-hover: linear-gradient(
+    115deg,
+    #294eaf,
+    #653da6
+  );
+
+  --management-note: #ffffffb3;
+  --management-star: #587cc1;
+  --management-star-opacity: 0.07;
+
+  --management-shadow:
+    0 10px 28px #2845810d;
+
+  color-scheme: light;
+}
+
+/* Nền xanh–tím với vùng sáng nhẹ. */
+
+.management-app[data-theme] {
+  position: relative;
+  isolation: isolate;
+
+  background:
+    radial-gradient(
+      ellipse at 95% 5%,
+      var(--management-blue-glow),
+      transparent 42%
+    ),
+    radial-gradient(
+      ellipse at 8% 42%,
+      var(--management-violet-glow),
+      transparent 43%
+    ),
+    radial-gradient(
+      ellipse at 85% 92%,
+      var(--management-pink-glow),
+      transparent 45%
+    ),
+    var(--bg-page);
+
+  color: var(--text-primary);
+}
+
+/* Sao nhỏ phía sau nội dung. */
+
+.management-app[data-theme]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  background-image:
+    radial-gradient(
+      circle,
+      var(--management-star) 0.6px,
+      transparent 1.2px
+    ),
+    radial-gradient(
+      circle,
+      var(--management-star) 0.8px,
+      transparent 1.5px
+    );
+
+  background-size:
+    173px 191px,
+    269px 251px;
+
+  background-position:
+    31px 41px,
+    109px 79px;
+
+  opacity: var(--management-star-opacity);
+}
+
+/* Sidebar và header. */
+
+.management-app[data-theme] .management-sidebar {
+  background: var(--management-sidebar);
+  border-color: var(--border);
+}
+
+.management-app[data-theme] .management-header {
+  background: var(--management-header);
+  border-color: var(--border);
+}
+
+.management-app[data-theme] .management-brand > span {
+  background: var(--selected-bg);
+  color: var(--accent);
+  border: 1px solid var(--border);
+}
+
+.management-app[data-theme]
+  .management-nav
+  button[aria-current="page"] {
+  color: var(--text-primary);
+  background: var(--selected-bg);
+  border-color: var(--border);
+
+  box-shadow:
+    inset 3px 0 var(--accent),
+    0 4px 16px var(--panel-shadow);
+}
+
+.management-app[data-theme] .management-demo {
+  background: var(--management-note);
+  border-color: var(--border);
+  color: var(--text-secondary);
+}
+
+/* Các thẻ, bảng và bộ lọc. */
+
+.management-app[data-theme] :is(
+  .report-panel,
+  .report-metric,
+  .report-filters,
+  .report-inventory,
+  .history-stats > div,
+  .history-filters,
+  .history-table-scroll,
+  .manage-toolbar,
+  .manage-table-scroll,
+  .management-permissions,
+  .loan-panel
+) {
+  box-shadow: var(--management-shadow);
+}
+
+/* Nút chính và khoảng ngày đang chọn. */
+
+.management-app[data-theme] :is(
+  .loan-button.is-primary,
+  .report-presets button[aria-pressed="true"]
+) {
+  color: var(--primary-text);
+  background: var(--management-primary);
+  border-color: var(--primary-bg);
+  box-shadow: 0 4px 14px var(--focus-glow);
+}
+
+.management-app[data-theme] :is(
+  .loan-button.is-primary,
+  .report-presets button[aria-pressed="true"]
+):hover:not(:disabled) {
+  background: var(--management-primary-hover);
+}
+
+/* Ô nhập và danh sách chọn. */
+
+.management-app[data-theme]
+  :is(input, textarea)::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+}
+
+.management-app[data-theme] select option {
+  color: var(--text-primary);
+  background: var(--input-bg);
+}
+
+.management-app[data-theme] :focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Hộp thoại quản lý và mượn trả. */
+
+.management-app[data-theme] :is(
+  .manage-dialog,
+  .history-dialog,
+  .loan-dialog
+) {
+  background: var(--bg-panel);
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+.management-app[data-theme] dialog::backdrop {
+  background: #07102cb3;
+  backdrop-filter: blur(6px);
+}
+
+/* Màu trạng thái. */
+
+.management-app[data-theme="dark"] .loan-workspace {
+  --loan-warning: #ffd59b;
+  --loan-success: #9ce9d5;
+}
+
+.management-app[data-theme="light"] .loan-workspace {
+  --loan-warning: #8a4c13;
+  --loan-success: #1b6a57;
+}
+
+/* Màu biểu đồ thống kê. */
+
+.management-app[data-theme="dark"] .statistics-page {
+  --report-borrow: #91e3ff;
+  --report-return: #e9a5ed;
+}
+
+.management-app[data-theme="light"] .statistics-page {
+  --report-borrow: #345db9;
+  --report-return: #9c428b;
+}

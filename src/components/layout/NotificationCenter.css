@@ -1,0 +1,182 @@
+.notification-center {
+  flex-shrink: 0;
+}
+
+.app-layout.galaxy-theme .header .notification-center button {
+  font: inherit;
+  color: var(--text-primary);
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--input-bg);
+  border-radius: 10px;
+  width: auto;
+  height: auto;
+  padding: 8px 10px;
+}
+
+.app-layout.galaxy-theme .header .notification-center .notification-bell {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -6px;
+  right: -7px;
+  min-width: 18px;
+  padding: 2px 4px;
+  box-sizing: border-box;
+  border-radius: 20px;
+  background: var(--accent);
+  color: var(--bg-main, #fff);
+  font: 700 10px/1.3 system-ui, sans-serif;
+}
+
+.notification-dialog {
+  width: min(520px, calc(100vw - 24px));
+  max-height: min(760px, calc(100dvh - 32px));
+  box-sizing: border-box;
+  padding: 22px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--bg-panel);
+  color: var(--text-primary);
+  box-shadow: var(--panel-shadow);
+  text-align: left;
+}
+
+.notification-dialog::backdrop {
+  background: rgb(8 12 24 / 60%);
+}
+
+.notification-heading,
+.notification-tools,
+.notification-tools > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.notification-heading h2 {
+  margin: 0;
+  font-size: 23px;
+}
+
+.notification-heading p,
+.notification-hint {
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.notification-heading p {
+  margin: 6px 0 0;
+}
+
+.notification-hint {
+  margin: 16px 0;
+}
+
+.notification-tools {
+  flex-wrap: wrap;
+  margin: 16px 0;
+}
+
+.app-layout.galaxy-theme .header .notification-center .notification-tools button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}
+
+.app-layout.galaxy-theme .header .notification-center button[aria-pressed="true"],
+.app-layout.galaxy-theme .header .notification-center button:hover {
+  background: var(--selected-bg);
+}
+
+.app-layout.galaxy-theme .header .notification-center button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.notification-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.app-layout.galaxy-theme .header .notification-center .notification-entry {
+  display: grid;
+  width: 100%;
+  gap: 7px;
+  padding: 15px;
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.5;
+  font-size: 13px;
+}
+
+.notification-list .is-unread .notification-entry {
+  border-left: 4px solid var(--accent) !important;
+}
+
+.notification-entry > strong {
+  color: var(--accent);
+}
+
+.notification-entry > span,
+.notification-entry time {
+  color: var(--text-secondary);
+}
+
+.notification-entry .notification-book {
+  color: var(--text-primary);
+  font-size: 15px;
+}
+
+.notification-entry time {
+  font-size: 11px;
+}
+
+.notification-entry .notification-view {
+  color: var(--accent);
+  font-size: 12px;
+}
+
+.notification-list .is-overdue .notification-entry > strong {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.notification-empty {
+  color: var(--text-secondary);
+  padding: 24px 0;
+  line-height: 1.6;
+}
+
+.notification-more {
+  margin-top: 15px;
+}
+
+.loan-notification-target {
+  scroll-margin-top: 24px;
+  border-radius: 16px;
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+@media (max-width: 600px) {
+  .notification-dialog {
+    padding: 16px;
+  }
+}

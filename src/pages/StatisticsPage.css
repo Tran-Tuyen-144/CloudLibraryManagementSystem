@@ -1,0 +1,472 @@
+.statistics-page {
+  --report-borrow: var(--accent);
+  --report-return: #e3adce;
+  min-width: 0;
+}
+
+[data-theme="light"] .statistics-page {
+  --report-return: #955075;
+}
+
+.report-heading,
+.report-filters,
+.report-presets,
+.report-overdue-heading,
+.report-pagination {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.report-heading,
+.report-overdue-heading {
+  justify-content: space-between;
+}
+
+.report-heading > div,
+.report-overdue-heading > div {
+  flex: 1 1 300px;
+  min-width: 0;
+}
+
+.report-heading h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 10px;
+  font-size: 25px;
+}
+
+.report-heading p,
+.report-section-heading p,
+.report-muted,
+.report-note {
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.report-heading p {
+  margin: 0;
+}
+
+.report-filters {
+  padding: 18px;
+  margin: 24px 0;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--bg-panel);
+}
+
+.report-presets {
+  flex: 1 1 240px;
+}
+
+.report-presets button[aria-pressed="true"] {
+  background: var(--primary-bg);
+  color: var(--primary-text);
+}
+
+.report-presets > span {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.report-field {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+  flex: 0 1 175px;
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.report-field input {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 10px;
+  min-height: 42px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--input-bg);
+  color: var(--text-primary);
+  font: inherit;
+}
+
+.report-section-heading {
+  margin: 24px 0 14px;
+}
+
+.report-section-heading h3,
+.report-panel h3 {
+  margin: 0 0 8px;
+  color: var(--text-primary);
+  font-size: 17px;
+}
+
+.report-section-heading p {
+  margin: 0;
+}
+
+.report-metrics {
+  display: grid;
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.report-metric {
+  display: grid;
+  gap: 14px;
+  padding: 20px;
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--bg-panel);
+  color: var(--text-primary);
+  text-align: left;
+  font: inherit;
+}
+
+.report-metric > span {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.report-metric > span svg {
+  flex-shrink: 0;
+}
+
+.report-metric strong {
+  font-size: 31px;
+  font-weight: 600;
+}
+
+button.report-metric {
+  cursor: pointer;
+}
+
+button.report-metric:hover {
+  background: var(--selected-bg);
+}
+
+.report-charts {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.report-panel {
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--bg-panel);
+  min-width: 0;
+}
+
+.report-panel > .report-muted {
+  margin-top: 0;
+}
+
+.report-legend {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 20px 0 8px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.report-legend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.report-legend > small {
+  margin-left: auto;
+}
+
+.report-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--report-borrow);
+}
+
+.report-dot.is-returned {
+  background: var(--report-return);
+  border-radius: 1px;
+}
+
+.report-chart-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.report-chart {
+  min-width: 520px;
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  margin: 12px 0;
+}
+
+.report-chart text {
+  fill: var(--text-secondary);
+  font-size: 12px;
+}
+
+.report-gridline {
+  stroke: var(--border);
+  stroke-dasharray: 4 4;
+}
+
+.report-series polyline {
+  fill: none;
+  stroke: var(--report-borrow);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.report-series circle {
+  fill: var(--bg-panel);
+  stroke: var(--report-borrow);
+  stroke-width: 2;
+}
+
+.report-series.is-returned polyline {
+  stroke: var(--report-return);
+  stroke-dasharray: 6 5;
+}
+
+.report-series.is-returned circle {
+  stroke: var(--report-return);
+}
+
+.report-chart-data summary {
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text-primary);
+  padding: 10px 0;
+}
+
+.report-ranking {
+  display: grid;
+  gap: 22px;
+  margin: 22px 0 0;
+  padding-left: 22px;
+  color: var(--text-secondary);
+}
+
+.report-ranking li {
+  padding-left: 3px;
+  font-size: 13px;
+}
+
+.report-ranking li > div:first-child {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.report-ranking strong {
+  font-weight: 500;
+  color: var(--text-primary);
+  overflow-wrap: anywhere;
+}
+
+.report-ranking li span {
+  white-space: nowrap;
+  font-size: 12px;
+}
+
+.report-bar {
+  height: 7px;
+  margin-top: 9px;
+  border-radius: 99px;
+  background: var(--selected-bg);
+  overflow: hidden;
+}
+
+.report-bar > span {
+  display: block;
+  height: 100%;
+  background: var(--report-borrow);
+  border-radius: inherit;
+}
+
+.report-inventory {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  margin: 18px 0 24px;
+  padding: 16px 20px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--bg-panel);
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.report-inventory strong,
+.report-inventory b {
+  color: var(--text-primary);
+}
+
+.report-overdue-heading {
+  margin-bottom: 18px;
+}
+
+.report-overdue-heading p {
+  margin: 0;
+}
+
+.report-table-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.report-table {
+  width: 100%;
+  min-width: 520px;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+.report-table th,
+.report-table td {
+  padding: 14px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  max-width: 300px;
+  overflow-wrap: anywhere;
+}
+
+.report-table thead th {
+  background: var(--selected-bg);
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.report-table tbody th {
+  font-weight: 500;
+}
+
+.report-table tbody tr:last-child > * {
+  border-bottom: 0;
+}
+
+.report-table small {
+  display: block;
+  margin-top: 6px;
+  color: var(--text-secondary);
+}
+
+.report-pagination {
+  justify-content: flex-end;
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.report-empty {
+  padding: 30px 12px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.report-feedback,
+.report-error {
+  color: var(--text-primary);
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+.report-error,
+.report-note {
+  border-left: 3px solid var(--accent);
+  padding: 10px 14px;
+}
+
+.statistics-page :focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+@media (max-width: 1100px) {
+  .report-charts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 800px) {
+  .report-metrics {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .report-presets {
+    flex-basis: 100%;
+  }
+
+  .report-field {
+    flex: 1 1 100%;
+  }
+
+  .report-panel {
+    padding: 16px;
+  }
+
+  .report-metric {
+    padding: 16px;
+  }
+
+  .report-metric strong {
+    font-size: 27px;
+  }
+
+  .report-heading h2 {
+    font-size: 22px;
+  }
+
+  .report-metrics {
+    gap: 10px;
+  }
+
+  .report-legend > small {
+    margin-left: 0;
+  }
+
+  .report-pagination {
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .report-bar > span {
+    transition: width 180ms ease;
+  }
+}

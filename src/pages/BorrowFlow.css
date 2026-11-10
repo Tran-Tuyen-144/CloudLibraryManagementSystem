@@ -1,0 +1,134 @@
+.borrow-form {
+  display: grid;
+  gap: 18px;
+}
+
+.borrow-selection {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--input-bg);
+}
+
+.borrow-selection > div:last-child {
+  min-width: 0;
+}
+
+.borrow-selection p {
+  margin-top: 6px;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.borrow-selection h3,
+.borrow-request-note {
+  overflow-wrap: anywhere;
+}
+
+.borrow-selection .reader-small-cover {
+  width: 58px;
+}
+
+.borrow-submit-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.borrow-submit-row > span {
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.borrow-button {
+  min-height: 42px;
+  padding: 10px 16px;
+  border: 1px solid var(--accent);
+  border-radius: 9px;
+  background: var(--button-bg);
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.borrow-button:hover:not(:disabled) {
+  background: var(--button-hover);
+}
+
+.borrow-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.borrow-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.borrow-availability {
+  margin: 16px 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.borrow-availability strong {
+  color: var(--text-primary);
+}
+
+.borrow-detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.borrow-page .reader-note {
+  background: var(--input-bg);
+  border-color: var(--accent);
+}
+
+.borrow-page .reader-panel,
+.borrow-page .reader-stat {
+  border-color: var(--border);
+  background: linear-gradient(
+    145deg,
+    var(--surface-top),
+    var(--surface-bottom)
+  );
+}
+
+.borrow-page .reader-field select,
+.borrow-page .reader-field textarea,
+.borrow-page .reader-request {
+  box-sizing: border-box;
+  background: var(--input-bg);
+  color: var(--text-primary);
+}
+
+.borrow-page .reader-field textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.borrow-page .reader-badge {
+  background: var(--selected-bg);
+  color: var(--text-primary);
+}
+
+@media (max-width: 600px) {
+  .borrow-submit-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .borrow-submit-row .borrow-button {
+    width: 100%;
+  }
+}
