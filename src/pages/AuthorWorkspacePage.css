@@ -296,3 +296,9 @@
     justify-content: flex-start;
   }
 }
+/* 8R: non-destructive cover framing, with pointer and keyboard controls. */
+.author-cover-preview.is-editable { cursor: grab; touch-action: none; user-select: none; }
+.author-cover-preview.is-editable:active { cursor: grabbing; }
+.author-cover-framing { display: grid; gap: 8px; margin: 10px 0; }
+.author-cover-framing input[type="range"] { width: 100%; accent-color: var(--accent); padding: 0; min-height: 28px; }
+

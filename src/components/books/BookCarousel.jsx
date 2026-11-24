@@ -1,3 +1,4 @@
+import { coverFramingStyle } from "../../data/coverFraming.js";
 import { useState } from "react";
 import {
   ArrowRight,
@@ -12,8 +13,12 @@ import "./BookCarousel.css";
 function CarouselCover({ book }) {
   const [failedCover, setFailedCover] = useState(null);
 
-  if (!book.cover || failedCover === book.cover) {
-    return (
+if (
+  !book.cover ||
+  book.cover.includes("/b/isbn/-L.jpg") ||
+  failedCover === book.cover
+) {
+      return (
       <span className="carousel-cover-fallback">
         <strong>{book.title}</strong>
         <small>{book.author}</small>
@@ -25,6 +30,7 @@ function CarouselCover({ book }) {
     <img
       className="carousel-cover-image"
       src={book.cover}
+      style={coverFramingStyle(book.coverFraming)}
       alt={t("Bìa sách {{0}}", { 0: book.title })}
       draggable={false}
       onError={() => setFailedCover(book.cover)}

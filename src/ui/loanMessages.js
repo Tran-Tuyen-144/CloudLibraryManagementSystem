@@ -65,7 +65,7 @@ export const loanMessages = {
     returnHint:
       "Xác nhận khi bạn đã nhận lại cuốn sách từ độc giả. Một bản sách sẽ được đưa về danh mục còn sẵn.",
 
-    invalidDueDate: "Chọn ngày hợp lệ từ hôm nay đến 60 ngày tới.",
+    invalidDueDate: "Chọn ngày hợp lệ từ ngày mai đến 60 ngày tới.",
 
     staleRequest:
       "Phiếu đã đổi trạng thái hoặc không còn tồn tại. Hãy kiểm tra lại danh sách.",
@@ -168,7 +168,7 @@ export const loanMessages = {
     returnHint:
       "Confirm once you have received the book from the reader. One copy will become available again.",
 
-    invalidDueDate: "Choose a valid date between today and 60 days from now.",
+    invalidDueDate: "Choose a valid date between tomorrow and 60 days from now.",
 
     staleRequest:
       "This record changed or no longer exists. Check the list again.",
@@ -207,9 +207,11 @@ export function formatLoanDate(value, language) {
 
   const date = new Date(value.length === 10 ? `${value}T12:00:00` : value);
 
-  return Number.isNaN(date.getTime())
-    ? "—"
-    : date.toLocaleDateString(language === "en" ? "en-GB" : "vi-VN");
+  if (Number.isNaN(date.getTime())) return "—";
+  const year = String(date.getFullYear()).padStart(4, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return language === "en" ? `${year}/${month}/${day}` : `${day}/${month}/${year}`;
 }
 
 export function getLoanMessages(language, settings) {

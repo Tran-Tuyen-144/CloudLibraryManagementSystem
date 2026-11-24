@@ -1,7 +1,10 @@
+
 import { useLibrarySettings } from "../ui/librarySettingsStore";
 import { LibraryInfo } from "./LibrarySettingsPage";
 import { useEffect, useRef, useState } from "react";
 import LoanRecord from "../components/books/LoanRecord";
+import ReservationQueuePanel from "./ReservationQueuePanel";
+import LoanExtrasPanel from "./LoanExtrasPanel";
 import { ACTIVE_STATUSES, isOverdue } from "../ui/borrowWorkflow";
 import { getLoanMessages } from "../ui/loanMessages";
 import { BookCover } from "../components/books/HomeSections";
@@ -32,28 +35,23 @@ export default function LoansPage({
   const [selectedId, setSelectedId] = useState(
     initialBookId === null ? "" : String(initialBookId),
   );
-
   const [note, setNote] = useState("");
   const [activeTab, setActiveTab] = useState(
     initialRequestId ? "all" : "pending",
   );
   const [message, setMessage] = useState("");
-
   const target = useRef(null);
 
   useEffect(() => {
     if (!initialRequestId || !target.current) return;
-
     target.current.focus({ preventScroll: true });
     target.current.scrollIntoView({ block: "center" });
   }, [initialRequestId]);
 
   const pending = requests.filter((request) => request.status === "pending");
-
   const active = requests.filter((request) =>
     ACTIVE_STATUSES.includes(request.status),
   );
-
   const borrowed = requests.filter((request) => request.status === "borrowed");
 
   const selectableBooks = books.filter(
@@ -62,11 +60,9 @@ export default function LoansPage({
       book.availableCopies > 0 &&
       !active.some((request) => request.bookId === book.id),
   );
-
   const selectedBook = selectableBooks.find(
     (book) => String(book.id) === selectedId,
   );
-
   const visibleRequests = requests.filter(
     (request) =>
       activeTab === "all" ||
@@ -79,14 +75,11 @@ export default function LoansPage({
 
   function submitRequest(event) {
     event.preventDefault();
-
     const result = onCreateRequest(selectedBook, note);
-
     if (!result.ok) {
       setMessage(result.error);
       return;
     }
-
     setSelectedId("");
     setNote("");
     setActiveTab("pending");
@@ -95,15 +88,11 @@ export default function LoansPage({
 
   function handleCancel(requestId) {
     const result = onCancelRequest(requestId);
-
     setMessage(result.ok ? "cancelSuccess" : result.error);
   }
 
   return (
-    <section
-      className="reader-page borrow-page loan-workspace"
-      aria-label={copy.page}
-    >
+    <section className="reader-page borrow-page loan-workspace" aria-label={copy.page}>
       <LibraryInfo />
 
       <div className="reader-stats">
@@ -111,37 +100,26 @@ export default function LoansPage({
           <span>{copy.active}</span>
           <strong>{active.length}</strong>
         </div>
-
         <div className="reader-stat">
           <span>{copy.borrowed}</span>
           <strong>{borrowed.length}</strong>
         </div>
-
         <div className="reader-stat">
           <span>{borrowMessages[language].available}</span>
-
-          <strong>
-            {
-              books.filter((book) => !book.archived && book.availableCopies > 0)
-                .length
-            }
-          </strong>
+          <strong>{books.filter((book) => !book.archived && book.availableCopies > 0).length}</strong>
         </div>
       </div>
 
       <div className="reader-panel">
         <div className="reader-panel-heading">
           <h2>{copy.heading}</h2>
-
           <button className="reader-link" type="button" onClick={onBrowse}>
             {copy.browse}
           </button>
         </div>
-
         <form className="borrow-form" onSubmit={submitRequest}>
           <label className="reader-field">
             <span>{copy.choose}</span>
-
             <select
               value={selectedId}
               onChange={(event) => {
@@ -151,7 +129,6 @@ export default function LoansPage({
               required
             >
               <option value="">{copy.placeholder}</option>
-
               {selectableBooks.map((book) => (
                 <option key={book.id} value={String(book.id)}>
                   {book.title} — {book.author}
@@ -159,27 +136,18 @@ export default function LoansPage({
               ))}
             </select>
           </label>
-
           {selectedBook && (
             <div className="borrow-selection">
-              <div className="reader-small-cover">
-                <BookCover book={selectedBook} />
-              </div>
-
+              <div className="reader-small-cover"><BookCover book={selectedBook} /></div>
               <div>
                 <h3>{selectedBook.title}</h3>
                 <p>{selectedBook.author}</p>
-
-                <p>
-                  {copy.copies}: {selectedBook.availableCopies}
-                </p>
+                <p>{copy.copies}: {selectedBook.availableCopies}</p>
               </div>
             </div>
           )}
-
           <label className="reader-field">
             <span>{copy.requestNote}</span>
-
             <textarea
               value={note}
               onChange={(event) => setNote(event.target.value)}
@@ -188,61 +156,53 @@ export default function LoansPage({
               rows={3}
             />
           </label>
-
           <div className="borrow-submit-row">
             <button
               className="borrow-button"
               type="submit"
-              disabled={
-                !selectedBook || active.length >= settings.maxActiveLoans
-              }
+              disabled={!selectedBook || active.length >= settings.maxActiveLoans}
             >
               {copy.submit}
             </button>
-
             <span>{copy.limitHint}</span>
           </div>
         </form>
-
         {active.length >= settings.maxActiveLoans && (
           <p className="reader-muted">{copy.limit}</p>
         )}
-
         {selectableBooks.length === 0 && (
           <p className="reader-muted">{copy.noBooks}</p>
         )}
-
         <p className="reader-status" role="status">
           {message ? copy[message] : ""}
         </p>
       </div>
 
+      {/* Bước 1–2: giữ nguyên giao diện đặt trước của độc giả. */}
+      <ReservationQueuePanel books={books} requests={requests} />
+
+      {/* Bước 3: gia hạn và xem tiền phạt, lấy dữ liệu từ cùng kho phiếu mượn. */}
+      <LoanExtrasPanel />
+
       <div className="loan-panel">
         <div className="loan-panel-heading">
           <h2>{copy.readerHistory}</h2>
-
-          <span>
-            {visibleRequests.length} / {requests.length} {copy.results}
-          </span>
+          <span>{visibleRequests.length} / {requests.length} {copy.results}</span>
         </div>
-
         <div className="loan-tabs" role="group" aria-label={copy.filter}>
-          {["pending", "approved", "borrowed", "overdue", "history", "all"].map(
-            (status) => (
-              <button
-                type="button"
-                key={status}
-                className={activeTab === status ? "is-active" : ""}
-                aria-pressed={activeTab === status}
-                onClick={() => setActiveTab(status)}
-              >
-                {copy[status]}
-                {status === "pending" ? ` (${pending.length})` : ""}
-              </button>
-            ),
-          )}
+          {["pending", "approved", "borrowed", "overdue", "history", "all"].map((status) => (
+            <button
+              type="button"
+              key={status}
+              className={activeTab === status ? "is-active" : ""}
+              aria-pressed={activeTab === status}
+              onClick={() => setActiveTab(status)}
+            >
+              {copy[status]}
+              {status === "pending" ? ` (${pending.length})` : ""}
+            </button>
+          ))}
         </div>
-
         {visibleRequests.length === 0 ? (
           <div className="loan-empty">
             <h3>{copy.empty}</h3>
@@ -256,11 +216,7 @@ export default function LoansPage({
                 data-request-id={request.id}
                 ref={request.id === initialRequestId ? target : null}
                 tabIndex={request.id === initialRequestId ? -1 : undefined}
-                className={
-                  request.id === initialRequestId
-                    ? "loan-notification-target"
-                    : undefined
-                }
+                className={request.id === initialRequestId ? "loan-notification-target" : undefined}
               >
                 <LoanRecord
                   request={request}

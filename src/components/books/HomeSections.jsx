@@ -1,3 +1,4 @@
+import { coverFramingStyle } from "../../data/coverFraming.js";
 import { useContext, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import FavoriteButton from "./FavoriteButton";
@@ -69,7 +70,11 @@ export function BookCover({ book }) {
   const { language } = useUiSettings();
   const [failedCover, setFailedCover] = useState(null);
 
-  if (!book.cover || failedCover === book.cover) {
+  if (
+  !book.cover ||
+  book.cover.includes("/b/isbn/-L.jpg") ||
+  failedCover === book.cover
+) {
     return (
       <span className="home-cover-fallback">
         <strong>{book.title}</strong>
@@ -82,6 +87,7 @@ export function BookCover({ book }) {
     <img
       className="home-cover-image"
       src={book.cover}
+      style={coverFramingStyle(book.coverFraming)}
       alt={(language === "en" ? "Book cover: " : "Bìa sách: ") + book.title}
       draggable={false}
       onError={() => setFailedCover(book.cover)}

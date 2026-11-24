@@ -618,3 +618,12 @@
     font-size: 16px;
   }
 }
+
+/* 8R: scoped verification layout. Login and registration stay untouched. */
+.access-recovery .access-recovery-main { grid-template-columns: minmax(0, 440px); justify-content: center; gap: 0; padding: 32px 0; }
+.access-recovery .access-form-panel { width: 100%; box-sizing: border-box; }
+.access-recovery .access-form-panel h2 { font-family: Arial, "Segoe UI", sans-serif; line-height: 1.4; letter-spacing: normal; overflow-wrap: anywhere; text-align: center; }
+.access-recovery-description { color: var(--text-secondary); font-size: 13px; line-height: 1.6; text-align: center; }
+.access-recovery .access-form { display: grid; gap: 16px; }
+@media (max-width: 560px) { .access-page.access-recovery { padding: 20px 16px; } .access-recovery .access-recovery-main { min-height: auto; } }
+

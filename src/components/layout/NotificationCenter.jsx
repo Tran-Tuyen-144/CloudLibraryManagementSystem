@@ -1,8 +1,23 @@
-import { useId, useRef, useState } from "react";
-import { Bell, CheckCheck, X } from "lucide-react";
 
-import { useUiSettings } from "../../ui/settings";
-import { formatLoanDate } from "../../ui/loanMessages";
+import {
+  useId,
+  useRef,
+  useState,
+} from "react";
+
+import {
+  Bell,
+  CheckCheck,
+  X,
+} from "lucide-react";
+
+import {
+  useUiSettings,
+} from "../../ui/settings";
+
+import {
+  formatLoanDate,
+} from "../../ui/loanMessages";
 
 import {
   markNotificationsRead,
@@ -23,30 +38,57 @@ const messages = {
 
     empty: "Bạn chưa có thông báo nào.",
     caughtUp: "Bạn đã đọc hết thông báo rồi.",
-
-    login:
-      "Đăng nhập để xem thông báo mượn sách của bạn.",
+    login: "Đăng nhập để xem thông báo của bạn.",
 
     approved: "Yêu cầu mượn đã được duyệt",
     borrowed: "Đã nhận sách từ thư viện",
     returned: "Thư viện đã ghi nhận trả sách",
     cancelled: "Yêu cầu mượn đã được hủy",
     rejected: "Yêu cầu mượn bị từ chối",
-
-    dueSoon: "Sách sắp đến hạn trả",
+    dueInFive: "Sách sắp đến hạn trả (trong 5 ngày)",
+    dueTomorrow: "Ngày mai đến hạn trả sách",
+    dueToday: "Sách đến hạn trả hôm nay",
     overdue: "Sách đã quá hạn trả",
+
+    reservationReady:
+      "Sách đặt trước đã sẵn sàng nhận",
+    reservationExpiring:
+      "Sắp hết thời gian giữ sách",
+    reservationExpired:
+      "Yêu cầu giữ sách đã hết hạn",
+    reservationCancelled:
+      "Đã hủy đặt trước",
+    reservationCollected:
+      "Đã xác nhận nhận sách đặt trước",
+
+    renewalRequested:
+      "Đã gửi yêu cầu gia hạn",
+    renewalApproved:
+      "Gia hạn mượn sách được duyệt",
+    renewalRejected:
+      "Yêu cầu gia hạn bị từ chối",
+
+    fineDue:
+      "Có tiền phạt sau khi trả sách",
+    finePaid:
+      "Đã ghi nhận thu tiền phạt",
+
     due: "Hạn trả",
+    expiry: "Hạn giữ sách",
+    amount: "Tiền phạt",
     reason: "Lý do",
+
     view: "Xem phiếu mượn",
+    viewReservation: "Xem đặt trước",
 
     stale:
       "Thông báo đã thay đổi. Vui lòng kiểm tra lại danh sách.",
 
     storageFailed:
-      "Chưa lưu được trạng thái đã đọc. Giải phóng dung lượng trình duyệt rồi thử lại.",
+      "Chưa lưu được trạng thái đã đọc. Kiểm tra dung lượng trình duyệt.",
 
     hint:
-      "Nhắc hạn trước 3 ngày. Trạng thái hiện tại nằm trong phiếu mượn.",
+      "Thông báo trong ứng dụng được tổng hợp từ dữ liệu demo; không phải email, SMS hoặc thông báo đẩy AWS.",
   },
 
   en: {
@@ -60,45 +102,98 @@ const messages = {
 
     empty: "You have no notifications yet.",
     caughtUp: "You're all caught up.",
-
-    login:
-      "Sign in to view your loan notifications.",
+    login: "Sign in to view your notifications.",
 
     approved: "Loan request approved",
-    borrowed: "Book collected from the library",
+    borrowed: "Book collected from library",
     returned: "Book return recorded",
     cancelled: "Loan request cancelled",
     rejected: "Loan request rejected",
-
-    dueSoon: "Book due soon",
+    dueInFive: "Book due within 5 days",
+    dueTomorrow: "Book due tomorrow",
+    dueToday: "Book due today",
     overdue: "Book overdue",
+
+    reservationReady:
+      "Reserved book is ready for pickup",
+    reservationExpiring:
+      "Reservation hold is about to expire",
+    reservationExpired:
+      "Reservation hold has expired",
+    reservationCancelled:
+      "Book reservation cancelled",
+    reservationCollected:
+      "Reserved book collection recorded",
+
+    renewalRequested:
+      "Renewal request submitted",
+    renewalApproved:
+      "Loan renewal approved",
+    renewalRejected:
+      "Loan renewal rejected",
+
+    fineDue:
+      "Fine due after return",
+    finePaid:
+      "Fine payment recorded",
+
     due: "Due date",
+    expiry: "Hold expires",
+    amount: "Fine amount",
     reason: "Reason",
-    view: "View loan request",
+
+    view: "View loan",
+    viewReservation: "View reservation",
 
     stale:
-      "This notification has changed. Please check the list again.",
+      "Notification has changed. Please check the list again.",
 
     storageFailed:
-      "Could not save the read status. Free browser storage and retry.",
+      "Could not save read status. Check browser storage.",
 
     hint:
-      "Reminders start 3 days before the due date. View the request for its current status.",
+      "In-app demo notifications are derived from library records; no AWS push, email or SMS is sent.",
   },
 };
+
+function formatExpiry(value, language) {
+  if (!value) return "—";
+
+  const date = new Date(value);
+
+  return Number.isNaN(date.getTime())
+    ? "—"
+    : date.toLocaleString(
+        language === "en" ? "en-US" : "vi-VN",
+        {
+          timeZone: "Asia/Ho_Chi_Minh",
+          dateStyle: "short",
+          timeStyle: "short",
+        },
+      );
+}
 
 export default function NotificationCenter({
   user,
   onOpenRequest,
 }) {
   const { language } = useUiSettings();
-  const copy = messages[language];
+  const copy =
+    messages[language] || messages.vi;
 
-  const { items, unread } = useReaderNotifications();
+  const {
+    items,
+    unread,
+  } = useReaderNotifications();
 
-  const [onlyUnread, setOnlyUnread] = useState(false);
-  const [limit, setLimit] = useState(20);
-  const [error, setError] = useState("");
+  const [onlyUnread, setOnlyUnread] =
+    useState(false);
+
+  const [limit, setLimit] =
+    useState(20);
+
+  const [error, setError] =
+    useState("");
 
   const dialog = useRef(null);
   const titleId = useId();
@@ -110,11 +205,16 @@ export default function NotificationCenter({
   function open() {
     setError("");
     setLimit(20);
-    dialog.current.showModal();
+
+    dialog.current?.showModal();
   }
 
   function view(item) {
-    const result = markNotificationsRead(item.id);
+    const result =
+      markNotificationsRead(
+        item.id,
+        items,
+      );
 
     if (!result.ok) {
       setError(
@@ -122,16 +222,29 @@ export default function NotificationCenter({
           ? copy.storageFailed
           : copy.stale,
       );
+
       return;
     }
 
     setError("");
-    dialog.current.close();
-    onOpenRequest(item.requestId);
+    dialog.current?.close();
+
+    // Đặt trước cũng nằm trên trang
+    // Sách đang mượn từ bước 1–2.
+    // null = mở trang, không chọn phiếu cụ thể.
+    onOpenRequest?.(
+      item.target === "reservations"
+        ? null
+        : item.requestId,
+    );
   }
 
   function markAll() {
-    const result = markNotificationsRead();
+    const result =
+      markNotificationsRead(
+        null,
+        items,
+      );
 
     setError(
       result.ok
@@ -156,7 +269,10 @@ export default function NotificationCenter({
         aria-haspopup="dialog"
         title={copy.title}
       >
-        <Bell size={20} aria-hidden="true" />
+        <Bell
+          size={20}
+          aria-hidden="true"
+        />
 
         {unread > 0 && (
           <span
@@ -175,7 +291,9 @@ export default function NotificationCenter({
       >
         <div className="notification-heading">
           <div>
-            <h2 id={titleId}>{copy.title}</h2>
+            <h2 id={titleId}>
+              {copy.title}
+            </h2>
 
             <p role="status">
               {unread} {copy.unread}
@@ -184,10 +302,15 @@ export default function NotificationCenter({
 
           <button
             type="button"
-            onClick={() => dialog.current.close()}
+            onClick={() =>
+              dialog.current?.close()
+            }
             aria-label={copy.close}
           >
-            <X size={20} aria-hidden="true" />
+            <X
+              size={20}
+              aria-hidden="true"
+            />
           </button>
         </div>
 
@@ -206,11 +329,16 @@ export default function NotificationCenter({
                 role="group"
                 aria-label={copy.title}
               >
-                {[false, true].map((value) => (
+                {[
+                  false,
+                  true,
+                ].map((value) => (
                   <button
                     key={String(value)}
                     type="button"
-                    aria-pressed={onlyUnread === value}
+                    aria-pressed={
+                      onlyUnread === value
+                    }
                     onClick={() => {
                       setOnlyUnread(value);
                       setLimit(20);
@@ -231,7 +359,7 @@ export default function NotificationCenter({
                 <CheckCheck
                   size={16}
                   aria-hidden="true"
-                />
+                />{" "}
                 {copy.markAll}
               </button>
             </div>
@@ -267,36 +395,77 @@ export default function NotificationCenter({
                       <button
                         type="button"
                         className="notification-entry"
-                        onClick={() => view(item)}
+                        onClick={() =>
+                          view(item)
+                        }
                       >
                         <strong>
-                          {copy[item.type]}
+                          {copy[item.type] ||
+                            item.type}
                         </strong>
 
                         <span className="notification-book">
                           {item.title}
                         </span>
 
-                        {item.type === "rejected" &&
-                          item.reason && (
+                        {item.reason &&
+                          [
+                            "rejected",
+                            "renewalRejected",
+                          ].includes(item.type) && (
                             <span>
                               {copy.reason}:{" "}
                               {item.reason}
                             </span>
                           )}
 
-                        {[
-                          "borrowed",
-                          "dueSoon",
-                          "overdue",
-                        ].includes(item.type) &&
-                          item.dueDate && (
+                        {item.dueDate &&
+                          [
+                            "borrowed",
+                            "dueInFive",
+                            "dueTomorrow",
+                            "dueToday",
+                            "overdue",
+                            "renewalApproved",
+                          ].includes(item.type) && (
                             <span>
                               {copy.due}:{" "}
                               {formatLoanDate(
                                 item.dueDate,
                                 language,
                               )}
+                            </span>
+                          )}
+
+                        {item.expiresAt &&
+                          [
+                            "reservationReady",
+                            "reservationExpiring",
+                          ].includes(item.type) && (
+                            <span>
+                              {copy.expiry}:{" "}
+                              {formatExpiry(
+                                item.expiresAt,
+                                language,
+                              )}
+                            </span>
+                          )}
+
+                        {Number(item.amount) > 0 &&
+                          [
+                            "fineDue",
+                            "finePaid",
+                          ].includes(item.type) && (
+                            <span>
+                              {copy.amount}:{" "}
+                              {Number(
+                                item.amount,
+                              ).toLocaleString(
+                                language === "en"
+                                  ? "en-US"
+                                  : "vi-VN",
+                              )}{" "}
+                              đ
                             </span>
                           )}
 
@@ -308,7 +477,11 @@ export default function NotificationCenter({
                         </time>
 
                         <span className="notification-view">
-                          {copy.view} →
+                          {item.target ===
+                          "reservations"
+                            ? copy.viewReservation
+                            : copy.view}{" "}
+                          →
                         </span>
                       </button>
                     </li>
@@ -320,7 +493,11 @@ export default function NotificationCenter({
               <button
                 type="button"
                 className="notification-more"
-                onClick={() => setLimit(limit + 20)}
+                onClick={() =>
+                  setLimit(
+                    (value) => value + 20,
+                  )
+                }
               >
                 {copy.more}
               </button>

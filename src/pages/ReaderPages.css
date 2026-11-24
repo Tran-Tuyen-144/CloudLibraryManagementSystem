@@ -381,3 +381,23 @@
     height: 68dvh;
   }
 }
+/* 8R: align the actual controls, not the labels above them. */
+.online-reader-toolbar,
+.online-reader-navigation { align-items: flex-end; }
+.online-reader-toolbar .online-reader-button,
+.online-reader-navigation .online-reader-button,
+.online-reader-toolbar select,
+.online-reader-navigation select,
+.online-reader-navigation input { box-sizing: border-box; min-height: 38px; height: 38px; }
+.online-reader-jump { align-items: flex-end; }
+.online-reader-jump > span { padding: 0; height: 38px; display: flex; align-items: center; }
+.online-reader-settings-grid .online-reader-field { align-self: end; }
+.online-reader-settings-grid input[type="range"] { min-height: 36px; margin: 0; }
+.online-reader-text { font-synthesis: weight style; letter-spacing: normal; }
+.online-reader .online-reader-book h2 { font-family: Arial, "Segoe UI", sans-serif; line-height: 1.4; letter-spacing: normal; }
+@media (max-width: 560px) {
+  .online-reader-turning { flex: 1 1 150px; margin-left: 0; min-width: 0; }
+  .online-reader-chapters { flex-basis: 100%; max-width: none; }
+  .online-reader-jump { min-width: 0; }
+  .online-reader-settings-grid { grid-template-columns: repeat(auto-fit, minmax(min(140px, 100%), 1fr)); }
+}

@@ -57,7 +57,6 @@ export default function PermissionPage({ user }) {
       aria-label={vi ? "Quyền tài khoản" : "Account permissions"}
     >
       <div className="management-permission-heading">
-        <h2>{vi ? "Quyền tài khoản" : "Account permissions"}</h2>
 
         <p>
           {user.email} ·{" "}

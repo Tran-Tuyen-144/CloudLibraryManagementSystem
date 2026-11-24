@@ -1022,3 +1022,10 @@ body {
     position: static;
   }
 }
+
+/* 8R: page titles only (including author registration). */
+.app-layout.galaxy-theme .header > .header-title {
+  font-family: Arial, "Segoe UI", sans-serif;
+  line-height: 1.4;
+  letter-spacing: normal;
+}

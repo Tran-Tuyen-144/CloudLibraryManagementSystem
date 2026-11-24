@@ -1,3 +1,5 @@
+import { normalizeCoverFraming } from "./coverFraming.js";
+
 export const CHAPTER_LIMITS = Object.freeze({
   count: 100,
   title: 160,
@@ -100,7 +102,7 @@ export function manuscriptContent(input, { publishing = false } = {}) {
     return { ok: false, error: "incompleteManuscript" };
   }
 
-  return { ok: true, cover, pdfUrl, chapters };
+  return { ok: true, cover, coverFraming: normalizeCoverFraming(input.coverFraming), pdfUrl, chapters };
 }
 
 export function moveManuscriptChapter(chapters, id, direction) {
@@ -131,6 +133,7 @@ export function manuscriptPreviewBook(item) {
     category: item.category || "",
     description: item.description || "",
     cover: safeCoverUrl(item.cover),
+    coverFraming: normalizeCoverFraming(item.coverFraming),
     pdfUrl: item.pdfUrl || "",
     chapters: Array.isArray(item.chapters) ? item.chapters : [],
     availableCopies: 0,

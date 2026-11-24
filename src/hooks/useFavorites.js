@@ -10,11 +10,13 @@ export default function useFavorites() {
     : [];
 
   function toggleFavorite(bookId, ensureSaved = false) {
-    updateLibrary((state) => {
+    let error = "";
+    const saved = updateLibrary((state) => {
       // Lấy tài khoản hiện tại ngay lúc thao tác.
       const actor = currentLibraryUser(state);
 
       if (!["reader", "author"].includes(actor?.role)) {
+        error = "forbidden";
         return state;
       }
       const current = state.favoriteIdsByEmail?.[actor.email] || [];
@@ -27,6 +29,7 @@ export default function useFavorites() {
         !isFavorite &&
         !state.books.some((book) => book.id === bookId && !book.archived)
       ) {
+        error = "invalidBook";
         return state;
       }
 
@@ -41,7 +44,8 @@ export default function useFavorites() {
             : [...current, bookId],
         },
       };
-    });
+    }, { requirePersistence: true });
+    return error ? { ok: false, error } : saved ? { ok: true } : { ok: false, error: "storageFailed" };
   }
 
   return { favoriteIds, toggleFavorite };

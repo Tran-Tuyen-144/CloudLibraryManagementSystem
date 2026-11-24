@@ -95,13 +95,9 @@ export default function AuthorApplicationsPage() {
   }
 
   return (
-    <section className="manage-module author-review">
+    <section className="manage-module author-review" aria-label={label("Duyệt tác giả", "Author applications")}>
       <div className="manage-module-heading">
         <div>
-          <h2>
-            {label("Duyệt đăng ký tác giả", "Review author applications")}
-          </h2>
-
           <p>
             {label(
               "Xem hồ sơ và minh chứng trước khi cấp quyền tác giả.",

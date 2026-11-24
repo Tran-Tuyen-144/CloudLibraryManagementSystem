@@ -1,4 +1,14 @@
-export const ACTIVE_STATUSES = ["pending", "approved", "borrowed"];
+
+import {
+  maintenanceSlots,
+  nextAvailableCopySlot,
+} from "./bookCopyInventory.js";
+
+export const ACTIVE_STATUSES = [
+  "pending",
+  "approved",
+  "borrowed",
+];
 
 export const LOAN_STATUSES = [
   ...ACTIVE_STATUSES,
@@ -7,23 +17,34 @@ export const LOAN_STATUSES = [
   "cancelled",
 ];
 
-export function dateKey(date = new Date()) {
-  const pad = (value) => String(value).padStart(2, "0");
+export function dateKey(
+  date = new Date(),
+) {
+  const pad = (value) =>
+    String(value).padStart(2, "0");
 
   return `${date.getFullYear()}-${pad(
     date.getMonth() + 1,
   )}-${pad(date.getDate())}`;
 }
 
-export function futureDate(days, now = new Date()) {
+export function futureDate(
+  days,
+  now = new Date(),
+) {
   const date = new Date(now);
 
-  date.setDate(date.getDate() + days);
+  date.setDate(
+    date.getDate() + days,
+  );
 
   return dateKey(date);
 }
 
-export function isOverdue(request, today = dateKey()) {
+export function isOverdue(
+  request,
+  today = dateKey(),
+) {
   return (
     request.status === "borrowed" &&
     Boolean(request.dueDate) &&
@@ -40,66 +61,129 @@ export function flattenRequests(state) {
               (item) =>
                 item &&
                 typeof item.id === "string" &&
-                typeof item.bookId === "string" &&
-                LOAN_STATUSES.includes(item.status),
+                typeof item.bookId ===
+                  "string" &&
+                LOAN_STATUSES.includes(
+                  item.status,
+                ),
             )
-            .map((item) => ({ ...item, readerEmail }))
+            .map((item) => ({
+              ...item,
+              readerEmail,
+            }))
         : [],
     )
     .sort((a, b) =>
-      String(b.createdAt || "").localeCompare(String(a.createdAt || "")),
+      String(
+        b.createdAt || "",
+      ).localeCompare(
+        String(
+          a.createdAt || "",
+        ),
+      ),
     );
 }
 
-export function availableBooks(books, requests) {
+export function availableBooks(
+  books,
+  requests,
+) {
   return books.map((book) => {
     const held = requests.filter(
       (request) =>
         request.bookId === book.id &&
-        ["approved", "borrowed"].includes(request.status),
+        [
+          "approved",
+          "borrowed",
+        ].includes(
+          request.status,
+        ),
     ).length;
+
+    const maintenance =
+      maintenanceSlots(book).size;
 
     return {
       ...book,
-      availableCopies: Math.max(0, Number(book.availableCopies || 0) - held),
+
+      availableCopies: Math.max(
+        0,
+        Number(
+          book.availableCopies || 0,
+        ) -
+          held -
+          maintenance,
+      ),
     };
   });
 }
 
-export function requestError(requests, email, book, maxActiveLoans = 3) {
-  if (!email) return "loginRequired";
+export function requestError(
+  requests,
+  email,
+  book,
+  maxActiveLoans = 3,
+) {
+  if (!email) {
+    return "loginRequired";
+  }
 
-  // Không cho tạo phiếu mới với sách đã bị ẩn.
-  if (!book || book.archived) return "invalidBook";
+  if (!book || book.archived) {
+    return "invalidBook";
+  }
 
-  if (!(book.availableCopies > 0)) return "unavailable";
+  if (!(book.availableCopies > 0)) {
+    return "unavailable";
+  }
 
   const active = requests.filter(
     (request) =>
-      request.readerEmail === email && ACTIVE_STATUSES.includes(request.status),
+      request.readerEmail === email &&
+      ACTIVE_STATUSES.includes(
+        request.status,
+      ),
   );
 
-  if (active.some((request) => request.bookId === book.id)) {
+  if (
+    active.some(
+      (request) =>
+        request.bookId === book.id,
+    )
+  ) {
     return "duplicate";
   }
 
-  return active.length >= maxActiveLoans ? "limit" : "";
+  return active.length >= maxActiveLoans
+    ? "limit"
+    : "";
 }
 
 export function transitionRequest(
   state,
   books,
-  { readerEmail, id, action, reason = "", dueDate = "" },
+  {
+    readerEmail,
+    id,
+    action,
+    reason = "",
+    dueDate = "",
+  },
   now = new Date(),
 ) {
-  const requests = flattenRequests(state);
+  const requests =
+    flattenRequests(state);
 
   const request = requests.find(
-    (item) => item.readerEmail === readerEmail && item.id === id,
+    (item) =>
+      item.readerEmail === readerEmail &&
+      item.id === id,
   );
 
   if (!request) {
-    return { ok: false, error: "staleRequest" };
+    return {
+      ok: false,
+      error: "staleRequest",
+    };
   }
 
   const allowed = {
@@ -107,38 +191,97 @@ export function transitionRequest(
     reject: ["pending"],
     handover: ["approved"],
     return: ["borrowed"],
-    cancel: ["pending", "approved"],
+    cancel: [
+      "pending",
+      "approved",
+    ],
   };
 
-  if (!allowed[action]?.includes(request.status)) {
-    return { ok: false, error: "staleRequest" };
+  if (
+    !allowed[action]?.includes(
+      request.status,
+    )
+  ) {
+    return {
+      ok: false,
+      error: "staleRequest",
+    };
   }
 
+  let approvedSlot = null;
+
   if (action === "approve") {
-    const book = availableBooks(books, requests).find(
-      (item) => item.id === request.bookId,
+    const book = books.find(
+      (item) =>
+        item.id === request.bookId,
     );
 
-    if (!book || book.archived || book.availableCopies < 1) {
-      return { ok: false, error: "unavailable" };
+    const available = availableBooks(
+      books,
+      requests,
+    ).find(
+      (item) =>
+        item.id === request.bookId,
+    );
+
+    if (
+      !book ||
+      book.archived ||
+      !available ||
+      available.availableCopies < 1
+    ) {
+      return {
+        ok: false,
+        error: "unavailable",
+      };
+    }
+
+    // Bước 7:
+    // Gắn phiếu với một bản demo cụ thể.
+    approvedSlot =
+      nextAvailableCopySlot(
+        book,
+        requests,
+      );
+
+    if (approvedSlot === null) {
+      return {
+        ok: false,
+        error: "unavailable",
+      };
     }
   }
 
-  if (action === "reject" && !reason.trim()) {
-    return { ok: false, error: "reasonRequired" };
+  if (
+    action === "reject" &&
+    !reason.trim()
+  ) {
+    return {
+      ok: false,
+      error: "reasonRequired",
+    };
   }
 
   if (action === "handover") {
-    const parsed = new Date(`${dueDate}T12:00:00`);
+    const parsed = new Date(
+      `${dueDate}T12:00:00`,
+    );
 
     if (
-      !/^\d{4}-\d{2}-\d{2}$/.test(dueDate) ||
-      Number.isNaN(parsed.getTime()) ||
+      !/^\d{4}-\d{2}-\d{2}$/.test(
+        dueDate,
+      ) ||
+      Number.isNaN(
+        parsed.getTime(),
+      ) ||
       dateKey(parsed) !== dueDate ||
-      dueDate < dateKey(now) ||
+      dueDate <= dateKey(now) ||
       dueDate > futureDate(60, now)
     ) {
-      return { ok: false, error: "invalidDueDate" };
+      return {
+        ok: false,
+        error: "invalidDueDate",
+      };
     }
   }
 
@@ -148,12 +291,15 @@ export function transitionRequest(
     approve: {
       status: "approved",
       approvedAt: at,
+      copySlot: approvedSlot,
     },
 
     reject: {
       status: "rejected",
       rejectedAt: at,
-      rejectionReason: reason.trim().slice(0, 300),
+      rejectionReason: reason
+        .trim()
+        .slice(0, 300),
     },
 
     handover: {
@@ -175,10 +321,19 @@ export function transitionRequest(
 
   return {
     ok: true,
+
     state: {
       ...state,
-      [readerEmail]: state[readerEmail].map((item) =>
-        item.id === id ? { ...item, ...changes[action] } : item,
+
+      [readerEmail]: state[
+        readerEmail
+      ].map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              ...changes[action],
+            }
+          : item,
       ),
     },
   };

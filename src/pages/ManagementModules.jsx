@@ -51,8 +51,7 @@ const messages = {
     cover: "URL ảnh bìa",
     description: "Mô tả",
     availableCopies: "Tổng số bản",
-    held: "Giữ chỗ / đang mượn",
-    available: "Còn sẵn",
+held: "Không sẵn có (mượn / bảo trì)",    available: "Còn sẵn",
     name: "Họ và tên",
     email: "Email",
     role: "Vai trò",
@@ -135,7 +134,7 @@ const messages = {
     cover: "Cover image URL",
     description: "Description",
     availableCopies: "Total copies",
-    held: "Reserved / on loan",
+    held: "Unavailable (loans / maintenance)",
     available: "Available",
     name: "Full name",
     email: "Email",
@@ -578,8 +577,6 @@ export default function ManagementModules({ kind }) {
     <section className="manage-module loan-workspace" aria-label={copy[kind]}>
       <div className="manage-module-heading">
         <div>
-          <h2>{copy[kind]}</h2>
-
           <p>
             {
               copy[

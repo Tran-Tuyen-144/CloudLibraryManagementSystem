@@ -108,11 +108,9 @@ export default function CategoriesManagementPage() {
   }
 
   return (
-    <section className="manage-module categories-page">
+    <section className="manage-module categories-page" aria-label={label("Thể loại", "Categories")}>
       <div className="manage-module-heading">
         <div>
-          <h2>{label("Quản lý thể loại", "Manage categories")}</h2>
-
           <p>
             {label(
               "Danh sách thể loại dùng chung cho sách và bản thảo.",

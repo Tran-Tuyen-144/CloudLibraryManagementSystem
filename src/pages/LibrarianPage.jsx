@@ -11,9 +11,9 @@ import {
 
 import LoanRecord from "../components/books/LoanRecord";
 
-import { dateKey, futureDate, isOverdue } from "../ui/borrowWorkflow";
+import { futureDate, isOverdue } from "../ui/borrowWorkflow";
 
-import { getLoanMessages } from "../ui/loanMessages";
+import { formatLoanDate, getLoanMessages } from "../ui/loanMessages";
 import { useLibrarySettings } from "../ui/librarySettingsStore";
 import { useUiSettings } from "../ui/settings";
 
@@ -50,6 +50,11 @@ function ActionDialog({ request, action, onProcess, onClose }) {
 
   function submit(event) {
     event.preventDefault();
+
+    if (action === "handover" && (dueDate < futureDate(1) || dueDate > futureDate(60))) {
+      setError("invalidDueDate");
+      return;
+    }
 
     const result = onProcess({
       readerEmail: request.readerEmail,
@@ -113,14 +118,17 @@ function ActionDialog({ request, action, onProcess, onClose }) {
             <label className="reader-field">
               <span>{copy.dueDate}</span>
 
-              <input
-                type="date"
+              <select
                 value={dueDate}
                 onChange={(event) => setDueDate(event.target.value)}
-                min={dateKey()}
-                max={futureDate(60)}
                 required
-              />
+              >
+                {(dueDate < futureDate(1) || dueDate > futureDate(60)) && <option value={dueDate} disabled>{formatLoanDate(dueDate, language)}</option>}
+                {Array.from({ length: 60 }, (_, index) => {
+                  const day = futureDate(index + 1);
+                  return <option key={day} value={day}>{formatLoanDate(day, language)}</option>;
+                })}
+              </select>
             </label>
           </>
         )}

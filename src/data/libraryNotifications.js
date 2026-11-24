@@ -172,31 +172,31 @@ export function readerNotifications(
 
     const due = request.dueDate;
 
+    const dueAt = new Date(`${due}T12:00:00`);
+    const startAt = new Date(request.renewalApprovedAt || request.borrowedAt || "");
+    const startDay = Number.isNaN(startAt.getTime()) ? "" : dateKey(startAt);
+
+    // Each milestone has a stable ID tied to the current due date.
+    // Only the latest relevant reminder is displayed; catch up if the app was closed.
     if (due < today) {
-      const at = new Date(`${due}T12:00:00`);
-
-      add(
-        request,
-        "overdue",
-        due,
-        `${futureDate(1, at)}T00:00:00`,
-      );
-    } else if (due <= futureDate(3, now)) {
-      const at = new Date(`${due}T12:00:00`);
-
-      add(
-        request,
-        "dueSoon",
-        due,
-        `${futureDate(-3, at)}T00:00:00`,
-      );
+      add(request, "overdue", due, `${futureDate(1, dueAt)}T00:00:00`);
+    } else {
+      for (const [days, type] of [[0, "dueToday"], [1, "dueTomorrow"], [5, "dueInFive"]]) {
+        const day = futureDate(-days, dueAt);
+        if (day <= today && (!startDay || day >= startDay)) {
+          add(request, type, due, `${day}T00:00:00`);
+          break;
+        }
+      }
     }
   }
 
   const order = {
     approved: 0,
     borrowed: 1,
-    dueSoon: 2,
+    dueInFive: 2,
+    dueTomorrow: 2,
+    dueToday: 2,
     overdue: 3,
     rejected: 4,
     cancelled: 4,

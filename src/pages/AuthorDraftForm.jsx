@@ -1,3 +1,4 @@
+import { normalizeCoverFraming } from "../data/coverFraming.js";
 import { useId, useRef, useState } from "react";
 import CategoryInput from "../components/books/CategoryInput";
 import { BookCover } from "../components/books/HomeSections";
@@ -25,6 +26,24 @@ export default function AuthorDraftForm({
   const id = useId();
 
   const [cover, setCover] = useState(draft.cover || "");
+  const [coverFraming, setCoverFraming] = useState(() => normalizeCoverFraming(draft.coverFraming));
+  const drag = useRef(null);
+
+  function changeCover(value) {
+    setCover(value);
+    setCoverFraming(normalizeCoverFraming());
+    setError("");
+  }
+
+  function moveCover(event) {
+    const start = drag.current;
+    if (!start || start.pointerId !== event.pointerId) return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    setCoverFraming(normalizeCoverFraming({ ...start.frame,
+      x: start.frame.x - (event.clientX - start.x) / Math.max(rect.width, 1) * 100,
+      y: start.frame.y - (event.clientY - start.y) / Math.max(rect.height, 1) * 100,
+    }));
+  }
 
   const [chapters, setChapters] = useState(() =>
     (Array.isArray(draft.chapters) ? draft.chapters : []).map((row, index) => {
@@ -54,6 +73,7 @@ export default function AuthorDraftForm({
     return {
       ...Object.fromEntries(new FormData(form.current)),
       cover,
+      coverFraming,
       chapters,
       id: draft.id,
       expectedRevision: draft.revision,
@@ -174,12 +194,23 @@ export default function AuthorDraftForm({
         </label>
 
         <div className="author-cover-editor">
-          <div className="author-cover-preview">
+          <div className={`author-cover-preview ${safeCoverUrl(cover) ? "is-editable" : ""}`}
+            onPointerDown={(event) => {
+              if (!safeCoverUrl(cover) || event.button !== 0) return;
+              event.currentTarget.setPointerCapture(event.pointerId);
+              drag.current = { pointerId: event.pointerId, x: event.clientX, y: event.clientY, frame: coverFraming };
+            }}
+            onPointerMove={moveCover}
+            onPointerUp={() => { drag.current = null; }}
+            onPointerCancel={() => { drag.current = null; }}
+            onLostPointerCapture={() => { drag.current = null; }}
+          >
             <BookCover
               book={{
                 title: draft.title || label("Ảnh bìa", "Cover"),
                 author: authorName,
                 cover: safeCoverUrl(cover),
+                coverFraming,
               }}
             />
           </div>
@@ -193,10 +224,7 @@ export default function AuthorDraftForm({
                 value={cover}
                 maxLength={2000}
                 placeholder="https://..."
-                onChange={(event) => {
-                  setCover(event.target.value);
-                  setError("");
-                }}
+                onChange={(event) => changeCover(event.target.value)}
               />
             </label>
 
@@ -207,11 +235,24 @@ export default function AuthorDraftForm({
               )}
             </p>
 
+            {safeCoverUrl(cover) && (
+              <div className="author-cover-framing">
+                <p className="reader-muted">{label("Kéo ảnh trong khung xem trước hoặc dùng thanh điều chỉnh.", "Drag the preview or use the sliders.")}</p>
+                {[["x", label("Trái / phải", "Left / right"), 0, 100, 1], ["y", label("Lên / xuống", "Up / down"), 0, 100, 1], ["zoom", label("Thu phóng", "Zoom"), 1, 2.5, 0.05]].map(([key, name, min, max, step]) => (
+                  <label className="reader-field" key={key}>
+                    <span>{name}: {coverFraming[key]}{key === "zoom" ? "×" : "%"}</span>
+                    <input type="range" min={min} max={max} step={step} value={coverFraming[key]}
+                      onChange={(event) => setCoverFraming((frame) => normalizeCoverFraming({ ...frame, [key]: Number(event.target.value) }))} />
+                  </label>
+                ))}
+                <button type="button" className="reader-link" onClick={() => setCoverFraming(normalizeCoverFraming())}>{label("Đặt lại khung ảnh", "Reset framing")}</button>
+              </div>
+            )}
             {cover && (
               <button
                 type="button"
                 className="reader-link"
-                onClick={() => setCover("")}
+                onClick={() => changeCover("")}
               >
                 {label("Bỏ ảnh bìa", "Remove cover")}
               </button>

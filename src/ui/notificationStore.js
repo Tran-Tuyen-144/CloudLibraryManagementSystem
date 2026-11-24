@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 
 import {
@@ -9,17 +10,35 @@ import {
 } from "../data/libraryNotifications.js";
 
 import {
+  readerActivityNotifications,
+} from "../data/readerActivityNotifications.js";
+
+import {
+  useReservations,
+} from "../services/reservationService.js";
+
+import {
   getLibrarySnapshot,
   updateLibrary,
   useLibraryData,
 } from "./libraryStore.js";
 
-export function markNotificationsRead(id = null) {
+// Danh sách items được cung cấp từ hook đã
+// giới hạn theo tài khoản đang đăng nhập.
+//
+// Không truyền items vẫn hỗ trợ thông báo
+// mượn–trả cũ để giữ tương thích.
+export function markNotificationsRead(
+  id = null,
+  items = null,
+) {
   const data = getLibrarySnapshot();
   const user = currentLibraryUser(data);
 
   if (
-    !["reader", "author"].includes(user?.role)
+    !["reader", "author"].includes(
+      user?.role,
+    )
   ) {
     return {
       ok: false,
@@ -27,21 +46,32 @@ export function markNotificationsRead(id = null) {
     };
   }
 
-  const items = readerNotifications(data, user);
+  const available = Array.isArray(items)
+    ? items
+    : readerNotifications(data, user);
 
   const selected =
     id === null
-      ? items
-      : items.filter((item) => item.id === id);
+      ? available
+      : available.filter(
+          (item) => item.id === id,
+        );
 
-  if (id !== null && selected.length === 0) {
+  if (
+    id !== null &&
+    selected.length === 0
+  ) {
     return {
       ok: false,
       error: "staleNotification",
     };
   }
 
-  if (selected.every((item) => item.read)) {
+  if (
+    selected.every(
+      (item) => item.read,
+    )
+  ) {
     return { ok: true };
   }
 
@@ -49,17 +79,23 @@ export function markNotificationsRead(id = null) {
     data.notificationReads?.[user.email] || [],
   );
 
-  selected.forEach((item) => ids.add(item.id));
+  selected.forEach(
+    (item) => ids.add(item.id),
+  );
 
   const saved = updateLibrary(
     (state) => ({
       ...state,
+
       notificationReads: {
         ...state.notificationReads,
         [user.email]: [...ids],
       },
     }),
-    { requirePersistence: true },
+
+    {
+      requirePersistence: true,
+    },
   );
 
   return saved
@@ -72,18 +108,31 @@ export function markNotificationsRead(id = null) {
 
 export function useReaderNotifications() {
   const data = useLibraryData();
-  const [, refreshClock] = useState(0);
+  const user = currentLibraryUser(data);
+
+  const {
+    rows: reservations,
+  } = useReservations({
+    readerEmail: user?.email || "",
+  });
+
+  const [now, setNow] = useState(
+    () => new Date(),
+  );
 
   useEffect(() => {
     const refresh = () =>
-      refreshClock((value) => value + 1);
+      setNow(new Date());
 
-    const timer = window.setInterval(
+    const interval = window.setInterval(
       refresh,
       60000,
     );
 
-    window.addEventListener("focus", refresh);
+    window.addEventListener(
+      "focus",
+      refresh,
+    );
 
     document.addEventListener(
       "visibilitychange",
@@ -91,7 +140,7 @@ export function useReaderNotifications() {
     );
 
     return () => {
-      window.clearInterval(timer);
+      window.clearInterval(interval);
 
       window.removeEventListener(
         "focus",
@@ -105,13 +154,18 @@ export function useReaderNotifications() {
     };
   }, []);
 
-  const items = readerNotifications(
-    data,
-    currentLibraryUser(data),
-  );
+  const items =
+    readerActivityNotifications(
+      data,
+      user,
+      reservations,
+      now,
+    );
 
   return {
     items,
-    unread: items.filter((item) => !item.read).length,
+    unread: items.filter(
+      (item) => !item.read,
+    ).length,
   };
 }

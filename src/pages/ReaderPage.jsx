@@ -21,6 +21,8 @@ import {
 import { useUiSettings } from "../ui/settings";
 import { readerMessages } from "../ui/readerMessages";
 import { ReaderFlow, SwipeReader } from "./ReaderNavigation";
+import ReaderAudioPlayer from "./ReaderAudioPlayer";
+import { nextAudioUnit, isAudioTarget } from "./readerAudioAdvance";
 import "./ReaderPage.css";
 
 function useReaderRecord(key, persistent = true) {
@@ -376,16 +378,16 @@ function TextPage({
         "--reading-size": `${settings.fontSize}px`,
         "--reading-leading": settings.lineHeight,
         "--reading-font": {
-          serif: 'Georgia, "Times New Roman", serif',
-          sans: '"Segoe UI", Arial, sans-serif',
-          mono: "Consolas, monospace",
+          serif: '"Times New Roman", "Noto Serif", Georgia, serif',
+          sans: 'Arial, "Segoe UI", "Noto Sans", sans-serif',
+          mono: 'Consolas, "Courier New", monospace',
         }[settings.font],
         "--reading-width":
           settings.width === "wide" ? "900px" : "680px",
       }}
     >
       <article>
-        <h3>{heading}</h3>
+        <h3>{heading.normalize("NFC")}</h3>
 
         {extracted && (
           <p className="online-reader-source">
@@ -395,7 +397,7 @@ function TextPage({
 
         {paragraphs.length ? (
           paragraphs.map((text, index) => (
-            <p key={index}>{text}</p>
+            <p key={index}>{text.normalize("NFC")}</p>
           ))
         ) : (
           <p>{copy.noText}</p>
@@ -584,6 +586,7 @@ export default function ReaderPage({
   const [attempt, setAttempt] = useState(0);
   const [notice, setNotice] = useState("");
   const [jump, setJump] = useState(null);
+  const [audioRequest, setAudioRequest] = useState(null);
 
   const bookmarkPaused = useRef(false);
 
@@ -708,7 +711,7 @@ export default function ReaderPage({
     },
     [persist, chapters, pdfUrl, pdf.doc],
   );
-
+const readingMode = bookmark.mode === "text" ? "text" : "pdf";
   const saveFlow = useCallback(
     (number, ratio) => {
       if (bookmarkPaused.current) return;
@@ -720,9 +723,9 @@ export default function ReaderPage({
           Boolean(pdfUrl),
         );
 
-        if (current.mode !== bookmark.mode) {
-          return previous;
-        }
+        if (current.mode !== readingMode) {
+  return previous;
+}
 
         const next = chapterMode
           ? {
@@ -758,15 +761,16 @@ export default function ReaderPage({
       });
     },
     [
-      persist,
-      chapters,
-      pdfUrl,
-      bookmark.mode,
-      chapterMode,
-    ],
+  persist,
+  chapters,
+  pdfUrl,
+  readingMode,
+  chapterMode,
+],
   );
 
   function navigate(number) {
+    setAudioRequest(null);
     if (
       !Number.isInteger(number) ||
       number < 1 ||
@@ -802,7 +806,15 @@ export default function ReaderPage({
     }));
   }
 
+  function advanceAudio() {
+    const next = nextAudioUnit(position, total, settings.turning);
+    if (next === null) return;
+    navigate(next);
+    setAudioRequest({ bookId: book.id, mode: bookmark.mode, turning: settings.turning, position: next });
+  }
+
   function changeMode(mode) {
+    setAudioRequest(null);
     bookmarkPaused.current = false;
     setNotice("");
 
@@ -817,6 +829,7 @@ export default function ReaderPage({
   }
 
   function changeSetting(name, value) {
+    if (name === "turning") setAudioRequest(null);
     const ok = writeSettings({
       ...settings,
       [name]: value,
@@ -880,6 +893,18 @@ export default function ReaderPage({
         </div>
       </header>
 
+      <ReaderAudioPlayer
+        key={`${book.id}:${bookmark.mode}:${settings.turning}:${chapterMode ? `chapter-${chapter?.id}` : `pdf-${page}`}`}
+        pdfDoc={pdf.doc}
+        pdfError={pdf.error}
+        autoPlay={isAudioTarget(audioRequest, book.id, bookmark.mode, settings.turning, position)}
+        onAutoPlayConsumed={() => setAudioRequest(null)}
+        onComplete={advanceAudio}
+        continuous={settings.turning !== "scroll"}
+        chapter={chapterMode ? chapter : null}
+        page={page}
+        language={language}
+      />
       <div className="online-reader-toolbar">
         <div
           className="online-reader-modes"

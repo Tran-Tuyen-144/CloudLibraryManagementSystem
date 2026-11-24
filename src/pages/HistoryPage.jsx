@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from "react";
 
-import { Clock3, Search, X } from "lucide-react";
+import { Search, X } from "lucide-react";
 
 import { historyChanges, libraryHistory } from "../data/libraryHistory";
 
@@ -533,11 +533,6 @@ export default function HistoryPage({ kind }) {
     <section className="history-page loan-workspace" aria-label={copy[kind]}>
       <div className="history-heading">
         <div>
-          <h2>
-            <Clock3 size={23} aria-hidden="true" />
-            {copy[kind]}
-          </h2>
-
           <p>{copy[kind === "audit" ? "auditHint" : "accessHint"]}</p>
         </div>
 

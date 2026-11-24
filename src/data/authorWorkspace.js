@@ -71,6 +71,7 @@ export function saveAuthorDraft(state, input) {
   const content = manuscriptContent({
     ...input,
     cover: Object.hasOwn(input, "cover") ? input.cover : before?.cover || "",
+    coverFraming: input.coverFraming ?? before?.coverFraming,
     chapters: Object.hasOwn(input, "chapters")
       ? input.chapters
       : before?.chapters || [],
@@ -100,6 +101,7 @@ export function saveAuthorDraft(state, input) {
     description,
     pdfUrl: content.pdfUrl,
     cover: content.cover,
+    coverFraming: content.coverFraming,
     chapters: content.chapters,
     status: "draft",
     createdAt: before?.createdAt || now,

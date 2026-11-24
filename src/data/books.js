@@ -106,5 +106,9 @@ const bookMetadata = {
 export const books = sampleBooks.map((book) => ({
   ...book,
   ...bookMetadata[book.id],
-  cover: `https://covers.openlibrary.org/b/isbn/${book.isbn}-L.jpg?default=false`,
+  cover:
+  book.cover ||
+  (book.isbn?.trim()
+    ? `https://covers.openlibrary.org/b/isbn/${book.isbn}-L.jpg?default=false`
+    : ""),
 }));

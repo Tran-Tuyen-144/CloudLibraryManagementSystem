@@ -1,0 +1,43 @@
+/* Isolated audio player: does not change the existing Cloud Library theme. */
+.reader-audio {
+  display: grid;
+  gap: 13px;
+  min-width: 0;
+  padding: 16px 18px;
+  border: 1px solid var(--border, #383240);
+  border-radius: 17px;
+  background: #14131a;
+  color: #f8f5fc;
+  box-shadow: 0 9px 28px #0002;
+  font: inherit;
+}
+.reader-audio button, .reader-audio select, .reader-audio input { font: inherit; }
+.reader-audio button { cursor: pointer; }
+.reader-audio button:disabled, .reader-audio select:disabled, .reader-audio input:disabled { opacity: .4; cursor: not-allowed; }
+.reader-audio :is(button, input, select):focus-visible { outline: 2px solid #d5b3ff; outline-offset: 3px; }
+.reader-audio-top, .reader-audio-track, .reader-audio-controls, .reader-audio-transport, .reader-audio-settings { display: flex; align-items: center; gap: 10px; }
+.reader-audio-top { justify-content: space-between; flex-wrap: wrap; }
+.reader-audio-heading { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 650; }
+.reader-audio-note { color: #c4bfce; font-size: 11px; }
+.reader-audio-track { gap: 12px; }
+.reader-audio-track label, .reader-audio-track span { color: #d3ccdb; font-size: 11px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.reader-audio-track input[type="range"] { width: 100%; min-width: 25px; flex: 1; accent-color: #d4b5ff; cursor: pointer; }
+.reader-audio-controls { justify-content: space-between; flex-wrap: wrap; column-gap: 16px; }
+.reader-audio-transport { flex: 1 1 auto; justify-content: center; gap: 9px; }
+.reader-audio-transport button { display: inline-grid; place-items: center; width: 34px; height: 34px; padding: 0; border: none; border-radius: 50%; background: transparent; color: #fff; }
+.reader-audio-transport button:hover:not(:disabled) { background: #ffffff1e; }
+.reader-audio-transport .reader-audio-play { width: 50px; height: 50px; background: #f6f3fc; color: #17121e; }
+.reader-audio-transport .reader-audio-play:hover:not(:disabled) { background: #e0c8ff; }
+.reader-audio-settings { flex-wrap: wrap; justify-content: flex-end; gap: 10px 12px; }
+.reader-audio-settings label { display: inline-flex; align-items: center; gap: 7px; min-width: 0; }
+.reader-audio-settings label > span { font-size: 11px; color: #e0d9e7; white-space: nowrap; }
+.reader-audio-settings select { max-width: 180px; min-height: 32px; border: 1px solid #494454; border-radius: 7px; padding: 5px 7px; background: #262331; color: #fff; font-size: 11px; }
+.reader-audio-volume span { display: inline-flex; align-items: center; gap: 4px; }
+.reader-audio-volume input { width: 75px; accent-color: #d4b5ff; }
+@media (max-width: 690px) {
+  .reader-audio { padding: 13px 11px; }
+  .reader-audio-controls { flex-direction: column; align-items: stretch; }
+  .reader-audio-settings { justify-content: center; }
+  .reader-audio-settings select { max-width: 135px; }
+  .reader-audio-top { align-items: flex-start; }
+}

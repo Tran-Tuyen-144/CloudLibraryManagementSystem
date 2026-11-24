@@ -219,10 +219,6 @@ export default function LibrarySettingsPage() {
       aria-label={copy.title}
     >
       <div className="library-settings-heading">
-        <h2>
-          <Building2 size={24} aria-hidden="true" />
-          {copy.title}
-        </h2>
         <p>{copy.intro}</p>
       </div>
 

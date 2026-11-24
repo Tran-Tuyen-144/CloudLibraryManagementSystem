@@ -175,6 +175,7 @@ export function reviewAuthorManuscript(state, input) {
         description: before.description,
         pdfUrl: before.pdfUrl,
         cover: before.cover || "",
+        coverFraming: manuscriptContent(before, { publishing: true }).coverFraming,
         chapters: manuscriptContent(before, { publishing: true }).chapters,
         isbn: "",
         availableCopies: 0,

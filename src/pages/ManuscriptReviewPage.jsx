@@ -145,13 +145,9 @@ if (preview) {
   }
 
   return (
-    <section className="manage-module author-review">
+    <section className="manage-module author-review" aria-label={label("Duyệt tác phẩm", "Review manuscripts")}>
       <div className="manage-module-heading">
         <div>
-          <h2>
-            {label("Duyệt xuất bản tác phẩm", "Review manuscript publication")}
-          </h2>
-
           <p>
   {label(
     "Xem trước các chương hoặc PDF trước khi xuất bản. Sách mới được thêm dưới dạng đọc online, chưa có bản giấy.",

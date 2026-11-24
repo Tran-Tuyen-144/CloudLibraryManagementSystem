@@ -285,6 +285,7 @@ export default function AssistantPage({
   onToggleFavorite,
   user,
   onSendMessage,
+  initialQuestion = "",
 }) {
   const { language } = useUiSettings();
   const copy = words[language];
@@ -300,7 +301,7 @@ export default function AssistantPage({
   const [historyOpen, setHistoryOpen] = useState(
     () => window.matchMedia("(min-width: 1001px)").matches,
   );
-  const [draft, setDraft] = useState("");
+  const [draft, setDraft] = useState(initialQuestion);
   const [sending, setSending] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);
   const [notice, setNotice] = useState("");
