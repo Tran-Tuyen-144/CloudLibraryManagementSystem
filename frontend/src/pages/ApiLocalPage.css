@@ -1,0 +1,7 @@
+.local-account { border: 1px solid var(--border); border-radius: 14px; background: var(--bg-panel); padding: 16px; margin: 16px 0; color: var(--text-primary); }
+.local-account h2, .local-account h3 { margin: 8px 0; }
+.local-account p { margin: 8px 0; overflow-wrap: anywhere; }
+.local-account-form, .local-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; }
+.local-account-form label { display: grid; gap: 4px; flex: 1 1 180px; }
+.local-account-form input { border: 1px solid var(--border); background: var(--bg-panel); color: var(--text-primary); padding: 8px 10px; border-radius: 8px; min-width: 0; }
+.local-loan-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border); }

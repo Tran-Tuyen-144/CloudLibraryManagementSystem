@@ -1,0 +1,1973 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Transform": "AWS::Serverless-2016-10-31",
+  "Description": "Cloud Library: DynamoDB, Cognito, private S3/CloudFront, Lambda HTTP API, Bedrock, reminders and audio.",
+  "Parameters": {
+    "ApplicationOrigin": {
+      "Type": "String",
+      "Default": "https://example.invalid",
+      "Description": "Set to the CloudFront HTTPS origin after initial infrastructure creation."
+    },
+    "BedrockModelId": {
+      "Type": "String",
+      "Default": "",
+      "Description": "A tested Converse model ID or inference profile in the selected region."
+    },
+    "BedrockModelArn": {
+      "Type": "String",
+      "Default": "",
+      "Description": "IAM ARN for the selected model/inference profile; verify regional invocation permissions."
+    },
+    "EnableKnowledgeBase": {
+      "Type": "String",
+      "Default": "false",
+      "AllowedValues": [
+        "true",
+        "false"
+      ]
+    },
+    "SenderEmail": {
+      "Type": "String",
+      "Default": "",
+      "Description": "An SES-verified sender email address."
+    },
+    "VietnameseSpeechSecretArn": {
+      "Type": "String",
+      "Default": "",
+      "Description": "Optional Secrets Manager ARN containing Azure Speech key and region."
+    }
+  },
+  "Conditions": {
+    "KnowledgeEnabled": {
+      "Fn::Equals": [
+        {
+          "Ref": "EnableKnowledgeBase"
+        },
+        "true"
+      ]
+    },
+    "ModelEnabled": {
+      "Fn::Not": [
+        {
+          "Fn::Equals": [
+            {
+              "Ref": "BedrockModelId"
+            },
+            ""
+          ]
+        }
+      ]
+    },
+    "EmailEnabled": {
+      "Fn::Not": [
+        {
+          "Fn::Equals": [
+            {
+              "Ref": "SenderEmail"
+            },
+            ""
+          ]
+        }
+      ]
+    },
+    "VietnameseSpeechEnabled": {
+      "Fn::Not": [
+        {
+          "Fn::Equals": [
+            {
+              "Ref": "VietnameseSpeechSecretArn"
+            },
+            ""
+          ]
+        }
+      ]
+    }
+  },
+  "Resources": {
+    "LibraryTable": {
+      "Type": "AWS::DynamoDB::Table",
+      "DeletionPolicy": "Retain",
+      "UpdateReplacePolicy": "Retain",
+      "Properties": {
+        "BillingMode": "PAY_PER_REQUEST",
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "PK",
+            "AttributeType": "S"
+          },
+          {
+            "AttributeName": "SK",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "PK",
+            "KeyType": "HASH"
+          },
+          {
+            "AttributeName": "SK",
+            "KeyType": "RANGE"
+          }
+        ],
+        "SSESpecification": {
+          "SSEEnabled": true
+        },
+        "PointInTimeRecoverySpecification": {
+          "PointInTimeRecoveryEnabled": true
+        },
+        "TimeToLiveSpecification": {
+          "AttributeName": "expiresAt",
+          "Enabled": true
+        }
+      }
+    },
+    "FrontendBucket": {
+      "Type": "AWS::S3::Bucket",
+      "DeletionPolicy": "Retain",
+      "UpdateReplacePolicy": "Retain",
+      "Properties": {
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true
+        },
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256"
+              }
+            }
+          ]
+        },
+        "VersioningConfiguration": {
+          "Status": "Enabled"
+        }
+      }
+    },
+    "ContentBucket": {
+      "Type": "AWS::S3::Bucket",
+      "DeletionPolicy": "Retain",
+      "UpdateReplacePolicy": "Retain",
+      "Properties": {
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true
+        },
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256"
+              }
+            }
+          ]
+        },
+        "VersioningConfiguration": {
+          "Status": "Enabled"
+        },
+        "CorsConfiguration": {
+          "CorsRules": [
+            {
+              "AllowedHeaders": [
+                "*"
+              ],
+              "AllowedMethods": [
+                "GET",
+                "HEAD",
+                "PUT"
+              ],
+              "AllowedOrigins": [
+                {
+                  "Ref": "ApplicationOrigin"
+                }
+              ],
+              "ExposedHeaders": [
+                "ETag",
+                "Content-Range",
+                "Accept-Ranges"
+              ],
+              "MaxAge": 300
+            }
+          ]
+        },
+        "LifecycleConfiguration": {
+          "Rules": [
+            {
+              "Id": "abort-incomplete-uploads",
+              "Status": "Enabled",
+              "AbortIncompleteMultipartUpload": {
+                "DaysAfterInitiation": 1
+              }
+            },
+            {
+              "Id": "expire-audio-input",
+              "Status": "Enabled",
+              "Prefix": "audio/input/",
+              "ExpirationInDays": 7
+            }
+          ]
+        }
+      }
+    },
+    "FrontendOAC": {
+      "Type": "AWS::CloudFront::OriginAccessControl",
+      "Properties": {
+        "OriginAccessControlConfig": {
+          "Name": {
+            "Fn::Sub": "${AWS::StackName}-frontend"
+          },
+          "OriginAccessControlOriginType": "s3",
+          "SigningBehavior": "always",
+          "SigningProtocol": "sigv4"
+        }
+      }
+    },
+    "Distribution": {
+      "Type": "AWS::CloudFront::Distribution",
+      "Properties": {
+        "DistributionConfig": {
+          "Enabled": true,
+          "DefaultRootObject": "index.html",
+          "HttpVersion": "http2and3",
+          "PriceClass": "PriceClass_200",
+          "Origins": [
+            {
+              "Id": "frontend",
+              "DomainName": {
+                "Fn::GetAtt": [
+                  "FrontendBucket",
+                  "RegionalDomainName"
+                ]
+              },
+              "OriginAccessControlId": {
+                "Ref": "FrontendOAC"
+              },
+              "S3OriginConfig": {
+                "OriginAccessIdentity": ""
+              }
+            },
+            {
+              "Id": "api",
+              "DomainName": {
+                "Fn::Sub": "${LibraryApi}.execute-api.${AWS::Region}.amazonaws.com"
+              },
+              "CustomOriginConfig": {
+                "OriginProtocolPolicy": "https-only",
+                "HTTPSPort": 443,
+                "OriginSSLProtocols": [
+                  "TLSv1.2"
+                ]
+              }
+            }
+          ],
+          "DefaultCacheBehavior": {
+            "TargetOriginId": "frontend",
+            "ViewerProtocolPolicy": "redirect-to-https",
+            "AllowedMethods": [
+              "GET",
+              "HEAD",
+              "OPTIONS"
+            ],
+            "CachedMethods": [
+              "GET",
+              "HEAD"
+            ],
+            "Compress": true,
+            "CachePolicyId": {
+              "Ref": "StaticCachePolicy"
+            },
+            "FunctionAssociations": [
+              {
+                "EventType": "viewer-request",
+                "FunctionARN": {
+                  "Fn::GetAtt": [
+                    "SpaRouter",
+                    "FunctionARN"
+                  ]
+                }
+              }
+            ]
+          },
+          "CacheBehaviors": [
+            {
+              "PathPattern": "/api/*",
+              "TargetOriginId": "api",
+              "ViewerProtocolPolicy": "https-only",
+              "AllowedMethods": [
+                "GET",
+                "HEAD",
+                "OPTIONS",
+                "PUT",
+                "PATCH",
+                "POST",
+                "DELETE"
+              ],
+              "CachedMethods": [
+                "GET",
+                "HEAD"
+              ],
+              "CachePolicyId": {
+                "Ref": "ApiCachePolicy"
+              },
+              "OriginRequestPolicyId": {
+                "Ref": "ApiOriginPolicy"
+              }
+            }
+          ],
+          "ViewerCertificate": {
+            "CloudFrontDefaultCertificate": true,
+            "MinimumProtocolVersion": "TLSv1.2_2021"
+          }
+        }
+      }
+    },
+    "StaticCachePolicy": {
+      "Type": "AWS::CloudFront::CachePolicy",
+      "Properties": {
+        "CachePolicyConfig": {
+          "Name": {
+            "Fn::Sub": "${AWS::StackName}-static"
+          },
+          "DefaultTTL": 300,
+          "MinTTL": 0,
+          "MaxTTL": 86400,
+          "ParametersInCacheKeyAndForwardedToOrigin": {
+            "EnableAcceptEncodingGzip": true,
+            "EnableAcceptEncodingBrotli": true,
+            "CookiesConfig": {
+              "CookieBehavior": "none"
+            },
+            "HeadersConfig": {
+              "HeaderBehavior": "none"
+            },
+            "QueryStringsConfig": {
+              "QueryStringBehavior": "none"
+            }
+          }
+        }
+      }
+    },
+    "ApiCachePolicy": {
+      "Type": "AWS::CloudFront::CachePolicy",
+      "Properties": {
+        "CachePolicyConfig": {
+          "Name": {
+            "Fn::Sub": "${AWS::StackName}-api-no-cache"
+          },
+          "DefaultTTL": 0,
+          "MinTTL": 0,
+          "MaxTTL": 0,
+          "ParametersInCacheKeyAndForwardedToOrigin": {
+            "EnableAcceptEncodingGzip": false,
+            "CookiesConfig": {
+              "CookieBehavior": "none"
+            },
+            "HeadersConfig": {
+              "HeaderBehavior": "none"
+            },
+            "QueryStringsConfig": {
+              "QueryStringBehavior": "none"
+            }
+          }
+        }
+      }
+    },
+    "ApiOriginPolicy": {
+      "Type": "AWS::CloudFront::OriginRequestPolicy",
+      "Properties": {
+        "OriginRequestPolicyConfig": {
+          "Name": {
+            "Fn::Sub": "${AWS::StackName}-api-forward"
+          },
+          "HeadersConfig": {
+            "HeaderBehavior": "allExcept",
+            "Headers": [
+              "host"
+            ]
+          },
+          "CookiesConfig": {
+            "CookieBehavior": "all"
+          },
+          "QueryStringsConfig": {
+            "QueryStringBehavior": "all"
+          }
+        }
+      }
+    },
+    "FrontendPolicy": {
+      "Type": "AWS::S3::BucketPolicy",
+      "Properties": {
+        "Bucket": {
+          "Ref": "FrontendBucket"
+        },
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": "s3:GetObject",
+              "Resource": {
+                "Fn::Sub": "${FrontendBucket.Arn}/*"
+              },
+              "Principal": {
+                "Service": "cloudfront.amazonaws.com"
+              },
+              "Condition": {
+                "StringEquals": {
+                  "AWS:SourceArn": {
+                    "Fn::Sub": "arn:${AWS::Partition}:cloudfront::${AWS::AccountId}:distribution/${Distribution}"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "ContentTlsPolicy": {
+      "Type": "AWS::S3::BucketPolicy",
+      "Properties": {
+        "Bucket": {
+          "Ref": "ContentBucket"
+        },
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Deny",
+              "Principal": "*",
+              "Action": "s3:*",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "ContentBucket",
+                    "Arn"
+                  ]
+                },
+                {
+                  "Fn::Sub": "${ContentBucket.Arn}/*"
+                }
+              ],
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": "false"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "UserPool": {
+      "Type": "AWS::Cognito::UserPool",
+      "DeletionPolicy": "Retain",
+      "UpdateReplacePolicy": "Retain",
+      "Properties": {
+        "UserPoolName": {
+          "Fn::Sub": "${AWS::StackName}-users"
+        },
+        "UsernameAttributes": [
+          "email"
+        ],
+        "AutoVerifiedAttributes": [
+          "email"
+        ],
+        "AccountRecoverySetting": {
+          "RecoveryMechanisms": [
+            {
+              "Name": "verified_email",
+              "Priority": 1
+            }
+          ]
+        },
+        "Policies": {
+          "PasswordPolicy": {
+            "MinimumLength": 10,
+            "RequireLowercase": true,
+            "RequireUppercase": true,
+            "RequireNumbers": true,
+            "RequireSymbols": true
+          }
+        },
+        "Schema": [
+          {
+            "Name": "email",
+            "AttributeDataType": "String",
+            "Required": true,
+            "Mutable": true
+          },
+          {
+            "Name": "name",
+            "AttributeDataType": "String",
+            "Mutable": true
+          }
+        ]
+      }
+    },
+    "UserPoolClient": {
+      "Type": "AWS::Cognito::UserPoolClient",
+      "Properties": {
+        "UserPoolId": {
+          "Ref": "UserPool"
+        },
+        "GenerateSecret": false,
+        "SupportedIdentityProviders": [
+          "COGNITO"
+        ],
+        "AllowedOAuthFlowsUserPoolClient": true,
+        "AllowedOAuthFlows": [
+          "code"
+        ],
+        "AllowedOAuthScopes": [
+          "openid",
+          "email",
+          "profile",
+          "aws.cognito.signin.user.admin"
+        ],
+        "CallbackURLs": [
+          {
+            "Fn::Sub": "${ApplicationOrigin}/"
+          }
+        ],
+        "LogoutURLs": [
+          {
+            "Fn::Sub": "${ApplicationOrigin}/"
+          }
+        ],
+        "ExplicitAuthFlows": [
+          "ALLOW_USER_PASSWORD_AUTH",
+          "ALLOW_REFRESH_TOKEN_AUTH",
+          "ALLOW_USER_SRP_AUTH"
+        ],
+        "PreventUserExistenceErrors": "ENABLED",
+        "EnableTokenRevocation": true,
+        "AccessTokenValidity": 60,
+        "IdTokenValidity": 60,
+        "RefreshTokenValidity": 30,
+        "TokenValidityUnits": {
+          "AccessToken": "minutes",
+          "IdToken": "minutes",
+          "RefreshToken": "days"
+        }
+      }
+    },
+    "ApiLogs": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "RetentionInDays": 30
+      }
+    },
+    "LibraryApi": {
+      "Type": "AWS::Serverless::HttpApi",
+      "Properties": {
+        "StageName": "$default",
+        "Auth": {
+          "DefaultAuthorizer": "CognitoJwt",
+          "Authorizers": {
+            "CognitoJwt": {
+              "IdentitySource": "$request.header.Authorization",
+              "JwtConfiguration": {
+                "issuer": {
+                  "Fn::Sub": "https://cognito-idp.${AWS::Region}.amazonaws.com/${UserPool}"
+                },
+                "audience": [
+                  {
+                    "Ref": "UserPoolClient"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "CorsConfiguration": {
+          "AllowOrigins": [
+            {
+              "Ref": "ApplicationOrigin"
+            }
+          ],
+          "AllowHeaders": [
+            "Authorization",
+            "Content-Type",
+            "Idempotency-Key"
+          ],
+          "AllowMethods": [
+            "GET",
+            "POST",
+            "PUT",
+            "PATCH",
+            "DELETE",
+            "OPTIONS"
+          ],
+          "AllowCredentials": true
+        },
+        "DefaultRouteSettings": {
+          "ThrottlingBurstLimit": 30,
+          "ThrottlingRateLimit": 20
+        },
+        "AccessLogSettings": {
+          "DestinationArn": {
+            "Fn::GetAtt": [
+              "ApiLogs",
+              "Arn"
+            ]
+          },
+          "Format": "{\"requestId\":\"$context.requestId\",\"status\":\"$context.status\",\"route\":\"$context.routeKey\",\"latency\":\"$context.responseLatency\"}"
+        }
+      }
+    },
+    "ApiFunction": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "CodeUri": "../.local/lambda/",
+        "Handler": "index.handler",
+        "Runtime": "nodejs24.x",
+        "Architectures": [
+          "arm64"
+        ],
+        "Timeout": 29,
+        "MemorySize": 1024,
+        "Environment": {
+          "Variables": {
+            "APP_MODE": "aws",
+            "APP_ORIGIN": {
+              "Ref": "ApplicationOrigin"
+            },
+            "DYNAMODB_TABLE": {
+              "Ref": "LibraryTable"
+            },
+            "CONTENT_BUCKET": {
+              "Ref": "ContentBucket"
+            },
+            "COGNITO_USER_POOL_ID": {
+              "Ref": "UserPool"
+            },
+            "COGNITO_CLIENT_ID": {
+              "Ref": "UserPoolClient"
+            },
+            "COGNITO_DOMAIN": {
+              "Fn::Sub": "https://${UserPoolDomain}.auth.${AWS::Region}.amazoncognito.com"
+            },
+            "BEDROCK_MODEL_ID": {
+              "Ref": "BedrockModelId"
+            },
+            "BEDROCK_KNOWLEDGE_BASE_ID": {
+              "Fn::If": [
+                "KnowledgeEnabled",
+                {
+                  "Ref": "KnowledgeBase"
+                },
+                ""
+              ]
+            },
+            "BEDROCK_DATA_SOURCE_ID": {
+              "Fn::If": [
+                "KnowledgeEnabled",
+                {
+                  "Fn::GetAtt": [
+                    "KnowledgeDataSource",
+                    "DataSourceId"
+                  ]
+                },
+                ""
+              ]
+            },
+            "SES_FROM_EMAIL": {
+              "Ref": "SenderEmail"
+            },
+            "AZURE_SPEECH_SECRET_ARN": {
+              "Ref": "VietnameseSpeechSecretArn"
+            }
+          }
+        },
+        "Policies": [
+          {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "dynamodb:GetItem",
+                  "dynamodb:PutItem",
+                  "dynamodb:UpdateItem",
+                  "dynamodb:DeleteItem",
+                  "dynamodb:Query",
+                  "dynamodb:TransactWriteItems"
+                ],
+                "Resource": {
+                  "Fn::GetAtt": [
+                    "LibraryTable",
+                    "Arn"
+                  ]
+                }
+              },
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "s3:GetObject",
+                  "s3:PutObject"
+                ],
+                "Resource": {
+                  "Fn::Sub": "${ContentBucket.Arn}/*"
+                }
+              },
+              {
+                "Fn::If": [
+                  "ModelEnabled",
+                  {
+                    "Effect": "Allow",
+                    "Action": [
+                      "bedrock:InvokeModel",
+                      "bedrock:InvokeModelWithResponseStream"
+                    ],
+                    "Resource": {
+                      "Ref": "BedrockModelArn"
+                    }
+                  },
+                  {
+                    "Ref": "AWS::NoValue"
+                  }
+                ]
+              },
+              {
+                "Fn::If": [
+                  "KnowledgeEnabled",
+                  {
+                    "Effect": "Allow",
+                    "Action": [
+                      "bedrock:Retrieve",
+                      "bedrock:StartIngestionJob",
+                      "bedrock:GetIngestionJob"
+                    ],
+                    "Resource": {
+                      "Fn::GetAtt": [
+                        "KnowledgeBase",
+                        "KnowledgeBaseArn"
+                      ]
+                    }
+                  },
+                  {
+                    "Ref": "AWS::NoValue"
+                  }
+                ]
+              },
+              {
+                "Fn::If": [
+                  "VietnameseSpeechEnabled",
+                  {
+                    "Effect": "Allow",
+                    "Action": "secretsmanager:GetSecretValue",
+                    "Resource": {
+                      "Ref": "VietnameseSpeechSecretArn"
+                    }
+                  },
+                  {
+                    "Ref": "AWS::NoValue"
+                  }
+                ]
+              },
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "cognito-idp:AdminCreateUser",
+                  "cognito-idp:AdminSetUserPassword",
+                  "cognito-idp:AdminListGroupsForUser",
+                  "cognito-idp:AdminAddUserToGroup",
+                  "cognito-idp:AdminRemoveUserFromGroup"
+                ],
+                "Resource": {
+                  "Fn::GetAtt": [
+                    "UserPool",
+                    "Arn"
+                  ]
+                }
+              },
+              {
+                "Effect": "Allow",
+                "Action": "transcribe:StartTranscriptionJob",
+                "Resource": {
+                  "Fn::Sub": "arn:${AWS::Partition}:transcribe:${AWS::Region}:${AWS::AccountId}:transcription-job/cloudlibrary-*"
+                }
+              },
+              {
+                "Effect": "Allow",
+                "Action": "transcribe:GetTranscriptionJob",
+                "Resource": {
+                  "Fn::Sub": "arn:${AWS::Partition}:transcribe:${AWS::Region}:${AWS::AccountId}:transcription-job/cloudlibrary-*"
+                }
+              },
+              {
+                "Effect": "Allow",
+                "Action": "polly:SynthesizeSpeech",
+                "Resource": "*"
+              }
+            ]
+          }
+        ],
+        "Events": {
+          "AllPrivate": {
+            "Type": "HttpApi",
+            "Properties": {
+              "ApiId": {
+                "Ref": "LibraryApi"
+              },
+              "Path": "/api/v1/{proxy+}",
+              "Method": "ANY"
+            }
+          },
+          "Auth": {
+            "Type": "HttpApi",
+            "Properties": {
+              "ApiId": {
+                "Ref": "LibraryApi"
+              },
+              "Path": "/api/v1/auth/{proxy+}",
+              "Method": "ANY",
+              "Auth": {
+                "Authorizer": "NONE"
+              }
+            }
+          },
+          "Snapshot": {
+            "Type": "HttpApi",
+            "Properties": {
+              "ApiId": {
+                "Ref": "LibraryApi"
+              },
+              "Path": "/api/v1/snapshot",
+              "Method": "GET",
+              "Auth": {
+                "Authorizer": "NONE"
+              }
+            }
+          },
+          "Books": {
+            "Type": "HttpApi",
+            "Properties": {
+              "ApiId": {
+                "Ref": "LibraryApi"
+              },
+              "Path": "/api/v1/books",
+              "Method": "GET",
+              "Auth": {
+                "Authorizer": "NONE"
+              }
+            }
+          },
+          "Book": {
+            "Type": "HttpApi",
+            "Properties": {
+              "ApiId": {
+                "Ref": "LibraryApi"
+              },
+              "Path": "/api/v1/books/{id}",
+              "Method": "GET",
+              "Auth": {
+                "Authorizer": "NONE"
+              }
+            }
+          },
+          "Categories": {
+            "Type": "HttpApi",
+            "Properties": {
+              "ApiId": {
+                "Ref": "LibraryApi"
+              },
+              "Path": "/api/v1/categories",
+              "Method": "GET",
+              "Auth": {
+                "Authorizer": "NONE"
+              }
+            }
+          },
+          "Views": {
+            "Type": "HttpApi",
+            "Properties": {
+              "ApiId": {
+                "Ref": "LibraryApi"
+              },
+              "Path": "/api/v1/books/{id}/views",
+              "Method": "POST",
+              "Auth": {
+                "Authorizer": "NONE"
+              }
+            }
+          },
+          "Health": {
+            "Type": "HttpApi",
+            "Properties": {
+              "ApiId": {
+                "Ref": "LibraryApi"
+              },
+              "Path": "/api/v1/health",
+              "Method": "GET",
+              "Auth": {
+                "Authorizer": "NONE"
+              }
+            }
+          },
+          "Files": {
+            "Type": "HttpApi",
+            "Properties": {
+              "ApiId": {
+                "Ref": "LibraryApi"
+              },
+              "Path": "/api/v1/files/{id}",
+              "Method": "GET",
+              "Auth": {
+                "Authorizer": "NONE"
+              }
+            }
+          }
+        },
+        "LoggingConfig": {
+          "LogFormat": "JSON",
+          "ApplicationLogLevel": "INFO",
+          "SystemLogLevel": "INFO"
+        }
+      }
+    },
+    "ReminderFunction": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "CodeUri": "../.local/lambda/",
+        "Handler": "index.reminders",
+        "Runtime": "nodejs24.x",
+        "Architectures": [
+          "arm64"
+        ],
+        "Timeout": 120,
+        "MemorySize": 512,
+        "Environment": {
+          "Variables": {
+            "APP_MODE": "aws",
+            "APP_ORIGIN": {
+              "Ref": "ApplicationOrigin"
+            },
+            "DYNAMODB_TABLE": {
+              "Ref": "LibraryTable"
+            },
+            "CONTENT_BUCKET": {
+              "Ref": "ContentBucket"
+            },
+            "COGNITO_USER_POOL_ID": {
+              "Ref": "UserPool"
+            },
+            "COGNITO_CLIENT_ID": {
+              "Ref": "UserPoolClient"
+            },
+            "COGNITO_DOMAIN": {
+              "Fn::Sub": "https://${UserPoolDomain}.auth.${AWS::Region}.amazoncognito.com"
+            },
+            "BEDROCK_MODEL_ID": {
+              "Ref": "BedrockModelId"
+            },
+            "BEDROCK_KNOWLEDGE_BASE_ID": {
+              "Fn::If": [
+                "KnowledgeEnabled",
+                {
+                  "Ref": "KnowledgeBase"
+                },
+                ""
+              ]
+            },
+            "BEDROCK_DATA_SOURCE_ID": {
+              "Fn::If": [
+                "KnowledgeEnabled",
+                {
+                  "Fn::GetAtt": [
+                    "KnowledgeDataSource",
+                    "DataSourceId"
+                  ]
+                },
+                ""
+              ]
+            },
+            "SES_FROM_EMAIL": {
+              "Ref": "SenderEmail"
+            },
+            "AZURE_SPEECH_SECRET_ARN": {
+              "Ref": "VietnameseSpeechSecretArn"
+            }
+          }
+        },
+        "Policies": [
+          {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "dynamodb:GetItem",
+                  "dynamodb:PutItem",
+                  "dynamodb:UpdateItem",
+                  "dynamodb:DeleteItem",
+                  "dynamodb:Query",
+                  "dynamodb:TransactWriteItems"
+                ],
+                "Resource": {
+                  "Fn::GetAtt": [
+                    "LibraryTable",
+                    "Arn"
+                  ]
+                }
+              },
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "s3:GetObject",
+                  "s3:PutObject"
+                ],
+                "Resource": {
+                  "Fn::Sub": "${ContentBucket.Arn}/*"
+                }
+              },
+              {
+                "Fn::If": [
+                  "EmailEnabled",
+                  {
+                    "Effect": "Allow",
+                    "Action": "ses:SendEmail",
+                    "Resource": {
+                      "Fn::Sub": "arn:${AWS::Partition}:ses:${AWS::Region}:${AWS::AccountId}:identity/${SenderEmail}"
+                    }
+                  },
+                  {
+                    "Ref": "AWS::NoValue"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "AudioFunction": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "CodeUri": "../.local/lambda/",
+        "Handler": "index.audioWorker",
+        "Runtime": "nodejs24.x",
+        "Architectures": [
+          "arm64"
+        ],
+        "Timeout": 120,
+        "MemorySize": 1024,
+        "Environment": {
+          "Variables": {
+            "APP_MODE": "aws",
+            "APP_ORIGIN": {
+              "Ref": "ApplicationOrigin"
+            },
+            "DYNAMODB_TABLE": {
+              "Ref": "LibraryTable"
+            },
+            "CONTENT_BUCKET": {
+              "Ref": "ContentBucket"
+            },
+            "COGNITO_USER_POOL_ID": {
+              "Ref": "UserPool"
+            },
+            "COGNITO_CLIENT_ID": {
+              "Ref": "UserPoolClient"
+            },
+            "COGNITO_DOMAIN": {
+              "Fn::Sub": "https://${UserPoolDomain}.auth.${AWS::Region}.amazoncognito.com"
+            },
+            "BEDROCK_MODEL_ID": {
+              "Ref": "BedrockModelId"
+            },
+            "BEDROCK_KNOWLEDGE_BASE_ID": {
+              "Fn::If": [
+                "KnowledgeEnabled",
+                {
+                  "Ref": "KnowledgeBase"
+                },
+                ""
+              ]
+            },
+            "BEDROCK_DATA_SOURCE_ID": {
+              "Fn::If": [
+                "KnowledgeEnabled",
+                {
+                  "Fn::GetAtt": [
+                    "KnowledgeDataSource",
+                    "DataSourceId"
+                  ]
+                },
+                ""
+              ]
+            },
+            "SES_FROM_EMAIL": {
+              "Ref": "SenderEmail"
+            },
+            "AZURE_SPEECH_SECRET_ARN": {
+              "Ref": "VietnameseSpeechSecretArn"
+            }
+          }
+        },
+        "Policies": [
+          {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "dynamodb:GetItem",
+                  "dynamodb:PutItem",
+                  "dynamodb:UpdateItem",
+                  "dynamodb:DeleteItem",
+                  "dynamodb:Query",
+                  "dynamodb:TransactWriteItems"
+                ],
+                "Resource": {
+                  "Fn::GetAtt": [
+                    "LibraryTable",
+                    "Arn"
+                  ]
+                }
+              },
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "s3:GetObject",
+                  "s3:PutObject"
+                ],
+                "Resource": {
+                  "Fn::Sub": "${ContentBucket.Arn}/*"
+                }
+              },
+              {
+                "Fn::If": [
+                  "ModelEnabled",
+                  {
+                    "Effect": "Allow",
+                    "Action": [
+                      "bedrock:InvokeModel",
+                      "bedrock:InvokeModelWithResponseStream"
+                    ],
+                    "Resource": {
+                      "Ref": "BedrockModelArn"
+                    }
+                  },
+                  {
+                    "Ref": "AWS::NoValue"
+                  }
+                ]
+              },
+              {
+                "Fn::If": [
+                  "KnowledgeEnabled",
+                  {
+                    "Effect": "Allow",
+                    "Action": [
+                      "bedrock:Retrieve",
+                      "bedrock:StartIngestionJob",
+                      "bedrock:GetIngestionJob"
+                    ],
+                    "Resource": {
+                      "Fn::GetAtt": [
+                        "KnowledgeBase",
+                        "KnowledgeBaseArn"
+                      ]
+                    }
+                  },
+                  {
+                    "Ref": "AWS::NoValue"
+                  }
+                ]
+              },
+              {
+                "Fn::If": [
+                  "VietnameseSpeechEnabled",
+                  {
+                    "Effect": "Allow",
+                    "Action": "secretsmanager:GetSecretValue",
+                    "Resource": {
+                      "Ref": "VietnameseSpeechSecretArn"
+                    }
+                  },
+                  {
+                    "Ref": "AWS::NoValue"
+                  }
+                ]
+              },
+              {
+                "Effect": "Allow",
+                "Action": "transcribe:GetTranscriptionJob",
+                "Resource": {
+                  "Fn::Sub": "arn:${AWS::Partition}:transcribe:${AWS::Region}:${AWS::AccountId}:transcription-job/cloudlibrary-*"
+                }
+              },
+              {
+                "Effect": "Allow",
+                "Action": "polly:SynthesizeSpeech",
+                "Resource": "*"
+              }
+            ]
+          }
+        ],
+        "Events": {
+          "RecoverAudio": {
+            "Type": "Schedule",
+            "Properties": {
+              "Schedule": "rate(5 minutes)",
+              "Description": "Recover an unfinished audio job after missed events or an expired worker lease."
+            }
+          },
+          "TranscriptionEvent": {
+            "Type": "EventBridgeRule",
+            "Properties": {
+              "Pattern": {
+                "source": [
+                  "aws.transcribe"
+                ],
+                "detail-type": [
+                  "Transcribe Job State Change"
+                ],
+                "detail": {
+                  "TranscriptionJobStatus": [
+                    "COMPLETED",
+                    "FAILED"
+                  ],
+                  "TranscriptionJobName": [
+                    {
+                      "prefix": "cloudlibrary-"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "BootstrapFunction": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "CodeUri": "../.local/lambda/",
+        "Handler": "index.initialize",
+        "Runtime": "nodejs24.x",
+        "Architectures": [
+          "arm64"
+        ],
+        "Timeout": 120,
+        "MemorySize": 512,
+        "Environment": {
+          "Variables": {
+            "APP_MODE": "aws",
+            "APP_ORIGIN": {
+              "Ref": "ApplicationOrigin"
+            },
+            "DYNAMODB_TABLE": {
+              "Ref": "LibraryTable"
+            },
+            "CONTENT_BUCKET": {
+              "Ref": "ContentBucket"
+            },
+            "COGNITO_USER_POOL_ID": {
+              "Ref": "UserPool"
+            },
+            "COGNITO_CLIENT_ID": {
+              "Ref": "UserPoolClient"
+            },
+            "COGNITO_DOMAIN": {
+              "Fn::Sub": "https://${UserPoolDomain}.auth.${AWS::Region}.amazoncognito.com"
+            },
+            "BEDROCK_MODEL_ID": {
+              "Ref": "BedrockModelId"
+            },
+            "BEDROCK_KNOWLEDGE_BASE_ID": {
+              "Fn::If": [
+                "KnowledgeEnabled",
+                {
+                  "Ref": "KnowledgeBase"
+                },
+                ""
+              ]
+            },
+            "BEDROCK_DATA_SOURCE_ID": {
+              "Fn::If": [
+                "KnowledgeEnabled",
+                {
+                  "Fn::GetAtt": [
+                    "KnowledgeDataSource",
+                    "DataSourceId"
+                  ]
+                },
+                ""
+              ]
+            },
+            "SES_FROM_EMAIL": {
+              "Ref": "SenderEmail"
+            },
+            "AZURE_SPEECH_SECRET_ARN": {
+              "Ref": "VietnameseSpeechSecretArn"
+            }
+          }
+        },
+        "Policies": [
+          {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "dynamodb:GetItem",
+                  "dynamodb:PutItem",
+                  "dynamodb:UpdateItem",
+                  "dynamodb:DeleteItem",
+                  "dynamodb:Query",
+                  "dynamodb:TransactWriteItems"
+                ],
+                "Resource": {
+                  "Fn::GetAtt": [
+                    "LibraryTable",
+                    "Arn"
+                  ]
+                }
+              },
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "s3:GetObject",
+                  "s3:PutObject"
+                ],
+                "Resource": {
+                  "Fn::Sub": "${ContentBucket.Arn}/*"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "SchedulerRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": "sts:AssumeRole",
+              "Principal": {
+                "Service": "scheduler.amazonaws.com"
+              }
+            }
+          ]
+        },
+        "Policies": [
+          {
+            "PolicyName": "invoke-reminders",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": "lambda:InvokeFunction",
+                  "Resource": {
+                    "Fn::GetAtt": [
+                      "ReminderFunction",
+                      "Arn"
+                    ]
+                  }
+                },
+                {
+                  "Fn::If": [
+                    "KnowledgeEnabled",
+                    {
+                      "Effect": "Allow",
+                      "Action": "lambda:InvokeFunction",
+                      "Resource": {
+                        "Fn::GetAtt": [
+                          "KnowledgeSyncFunction",
+                          "Arn"
+                        ]
+                      }
+                    },
+                    {
+                      "Ref": "AWS::NoValue"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "ReminderSchedule": {
+      "Type": "AWS::Scheduler::Schedule",
+      "Properties": {
+        "ScheduleExpression": "cron(0/15 * * * ? *)",
+        "ScheduleExpressionTimezone": "Asia/Ho_Chi_Minh",
+        "FlexibleTimeWindow": {
+          "Mode": "OFF"
+        },
+        "Target": {
+          "Arn": {
+            "Fn::GetAtt": [
+              "ReminderFunction",
+              "Arn"
+            ]
+          },
+          "RoleArn": {
+            "Fn::GetAtt": [
+              "SchedulerRole",
+              "Arn"
+            ]
+          },
+          "Input": "{}",
+          "RetryPolicy": {
+            "MaximumEventAgeInSeconds": 900,
+            "MaximumRetryAttempts": 2
+          }
+        }
+      }
+    },
+    "ApiErrorsAlarm": {
+      "Type": "AWS::CloudWatch::Alarm",
+      "Properties": {
+        "AlarmDescription": "Cloud Library API Lambda errors",
+        "Namespace": "AWS/Lambda",
+        "MetricName": "Errors",
+        "Dimensions": [
+          {
+            "Name": "FunctionName",
+            "Value": {
+              "Ref": "ApiFunction"
+            }
+          }
+        ],
+        "Statistic": "Sum",
+        "Period": 300,
+        "EvaluationPeriods": 1,
+        "Threshold": 3,
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "TreatMissingData": "notBreaching"
+      }
+    },
+    "VectorBucket": {
+      "Type": "AWS::S3Vectors::VectorBucket",
+      "Condition": "KnowledgeEnabled",
+      "DeletionPolicy": "Retain",
+      "UpdateReplacePolicy": "Retain",
+      "Properties": {}
+    },
+    "VectorIndex": {
+      "Type": "AWS::S3Vectors::Index",
+      "Condition": "KnowledgeEnabled",
+      "DeletionPolicy": "Retain",
+      "UpdateReplacePolicy": "Retain",
+      "Properties": {
+        "VectorBucketArn": {
+          "Ref": "VectorBucket"
+        },
+        "IndexName": "cloud-library-knowledge",
+        "DataType": "float32",
+        "Dimension": 1024,
+        "DistanceMetric": "cosine",
+        "MetadataConfiguration": {
+          "NonFilterableMetadataKeys": [
+            "AMAZON_BEDROCK_TEXT",
+            "AMAZON_BEDROCK_METADATA"
+          ]
+        }
+      }
+    },
+    "KnowledgeRole": {
+      "Type": "AWS::IAM::Role",
+      "Condition": "KnowledgeEnabled",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": "sts:AssumeRole",
+              "Principal": {
+                "Service": "bedrock.amazonaws.com"
+              },
+              "Condition": {
+                "StringEquals": {
+                  "aws:SourceAccount": {
+                    "Ref": "AWS::AccountId"
+                  }
+                },
+                "ArnLike": {
+                  "aws:SourceArn": {
+                    "Fn::Sub": "arn:${AWS::Partition}:bedrock:${AWS::Region}:${AWS::AccountId}:knowledge-base/*"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "Policies": [
+          {
+            "PolicyName": "knowledge-resources",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": "s3:ListBucket",
+                  "Resource": {
+                    "Fn::GetAtt": [
+                      "ContentBucket",
+                      "Arn"
+                    ]
+                  },
+                  "Condition": {
+                    "StringLike": {
+                      "s3:prefix": [
+                        "knowledge/*"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": "s3:GetObject",
+                  "Resource": {
+                    "Fn::Sub": "${ContentBucket.Arn}/knowledge/*"
+                  }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": "bedrock:InvokeModel",
+                  "Resource": {
+                    "Fn::Sub": "arn:${AWS::Partition}:bedrock:${AWS::Region}::foundation-model/amazon.titan-embed-text-v2:0"
+                  }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "s3vectors:GetIndex",
+                    "s3vectors:PutVectors",
+                    "s3vectors:GetVectors",
+                    "s3vectors:DeleteVectors",
+                    "s3vectors:QueryVectors",
+                    "s3vectors:ListVectors"
+                  ],
+                  "Resource": {
+                    "Ref": "VectorIndex"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "KnowledgeBase": {
+      "Type": "AWS::Bedrock::KnowledgeBase",
+      "Condition": "KnowledgeEnabled",
+      "Properties": {
+        "Name": {
+          "Fn::Sub": "${AWS::StackName}-knowledge"
+        },
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "KnowledgeRole",
+            "Arn"
+          ]
+        },
+        "KnowledgeBaseConfiguration": {
+          "Type": "VECTOR",
+          "VectorKnowledgeBaseConfiguration": {
+            "EmbeddingModelArn": {
+              "Fn::Sub": "arn:${AWS::Partition}:bedrock:${AWS::Region}::foundation-model/amazon.titan-embed-text-v2:0"
+            },
+            "EmbeddingModelConfiguration": {
+              "BedrockEmbeddingModelConfiguration": {
+                "Dimensions": 1024
+              }
+            }
+          }
+        },
+        "StorageConfiguration": {
+          "Type": "S3_VECTORS",
+          "S3VectorsConfiguration": {
+            "IndexArn": {
+              "Ref": "VectorIndex"
+            }
+          }
+        }
+      }
+    },
+    "KnowledgeDataSource": {
+      "Type": "AWS::Bedrock::DataSource",
+      "Condition": "KnowledgeEnabled",
+      "Properties": {
+        "KnowledgeBaseId": {
+          "Ref": "KnowledgeBase"
+        },
+        "Name": "approved-library-sources",
+        "DataSourceConfiguration": {
+          "Type": "S3",
+          "S3Configuration": {
+            "BucketArn": {
+              "Fn::GetAtt": [
+                "ContentBucket",
+                "Arn"
+              ]
+            },
+            "InclusionPrefixes": [
+              "knowledge/"
+            ]
+          }
+        },
+        "VectorIngestionConfiguration": {
+          "ChunkingConfiguration": {
+            "ChunkingStrategy": "FIXED_SIZE",
+            "FixedSizeChunkingConfiguration": {
+              "MaxTokens": 400,
+              "OverlapPercentage": 15
+            }
+          }
+        },
+        "DataDeletionPolicy": "DELETE"
+      }
+    },
+    "UserPoolDomain": {
+      "Type": "AWS::Cognito::UserPoolDomain",
+      "Properties": {
+        "Domain": {
+          "Fn::Sub": "${AWS::StackName}-${AWS::AccountId}"
+        },
+        "UserPoolId": {
+          "Ref": "UserPool"
+        }
+      }
+    },
+    "readerGroup": {
+      "Type": "AWS::Cognito::UserPoolGroup",
+      "Properties": {
+        "UserPoolId": {
+          "Ref": "UserPool"
+        },
+        "GroupName": "reader",
+        "Description": "Cloud Library reader"
+      }
+    },
+    "authorGroup": {
+      "Type": "AWS::Cognito::UserPoolGroup",
+      "Properties": {
+        "UserPoolId": {
+          "Ref": "UserPool"
+        },
+        "GroupName": "author",
+        "Description": "Cloud Library author"
+      }
+    },
+    "librarianGroup": {
+      "Type": "AWS::Cognito::UserPoolGroup",
+      "Properties": {
+        "UserPoolId": {
+          "Ref": "UserPool"
+        },
+        "GroupName": "librarian",
+        "Description": "Cloud Library librarian"
+      }
+    },
+    "adminGroup": {
+      "Type": "AWS::Cognito::UserPoolGroup",
+      "Properties": {
+        "UserPoolId": {
+          "Ref": "UserPool"
+        },
+        "GroupName": "admin",
+        "Description": "Cloud Library admin"
+      }
+    },
+    "KnowledgeSyncFunction": {
+      "Type": "AWS::Serverless::Function",
+      "Condition": "KnowledgeEnabled",
+      "Properties": {
+        "CodeUri": "../.local/lambda/",
+        "Handler": "index.knowledgeSync",
+        "Runtime": "nodejs24.x",
+        "Architectures": [
+          "arm64"
+        ],
+        "Timeout": 120,
+        "MemorySize": 512,
+        "Environment": {
+          "Variables": {
+            "APP_MODE": "aws",
+            "APP_ORIGIN": {
+              "Ref": "ApplicationOrigin"
+            },
+            "DYNAMODB_TABLE": {
+              "Ref": "LibraryTable"
+            },
+            "CONTENT_BUCKET": {
+              "Ref": "ContentBucket"
+            },
+            "COGNITO_USER_POOL_ID": {
+              "Ref": "UserPool"
+            },
+            "COGNITO_CLIENT_ID": {
+              "Ref": "UserPoolClient"
+            },
+            "COGNITO_DOMAIN": {
+              "Fn::Sub": "https://${UserPoolDomain}.auth.${AWS::Region}.amazoncognito.com"
+            },
+            "BEDROCK_MODEL_ID": {
+              "Ref": "BedrockModelId"
+            },
+            "BEDROCK_KNOWLEDGE_BASE_ID": {
+              "Fn::If": [
+                "KnowledgeEnabled",
+                {
+                  "Ref": "KnowledgeBase"
+                },
+                ""
+              ]
+            },
+            "BEDROCK_DATA_SOURCE_ID": {
+              "Fn::If": [
+                "KnowledgeEnabled",
+                {
+                  "Fn::GetAtt": [
+                    "KnowledgeDataSource",
+                    "DataSourceId"
+                  ]
+                },
+                ""
+              ]
+            },
+            "SES_FROM_EMAIL": {
+              "Ref": "SenderEmail"
+            },
+            "AZURE_SPEECH_SECRET_ARN": {
+              "Ref": "VietnameseSpeechSecretArn"
+            }
+          }
+        },
+        "Policies": [
+          {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "dynamodb:GetItem",
+                  "dynamodb:PutItem",
+                  "dynamodb:UpdateItem",
+                  "dynamodb:DeleteItem",
+                  "dynamodb:Query",
+                  "dynamodb:TransactWriteItems"
+                ],
+                "Resource": {
+                  "Fn::GetAtt": [
+                    "LibraryTable",
+                    "Arn"
+                  ]
+                }
+              },
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "s3:GetObject",
+                  "s3:PutObject"
+                ],
+                "Resource": {
+                  "Fn::Sub": "${ContentBucket.Arn}/*"
+                }
+              },
+              {
+                "Fn::If": [
+                  "KnowledgeEnabled",
+                  {
+                    "Effect": "Allow",
+                    "Action": [
+                      "bedrock:Retrieve",
+                      "bedrock:StartIngestionJob",
+                      "bedrock:GetIngestionJob"
+                    ],
+                    "Resource": {
+                      "Fn::GetAtt": [
+                        "KnowledgeBase",
+                        "KnowledgeBaseArn"
+                      ]
+                    }
+                  },
+                  {
+                    "Ref": "AWS::NoValue"
+                  }
+                ]
+              },
+              {
+                "Effect": "Allow",
+                "Action": "s3:DeleteObject",
+                "Resource": {
+                  "Fn::Sub": "${ContentBucket.Arn}/knowledge/*"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "KnowledgeSchedule": {
+      "Type": "AWS::Scheduler::Schedule",
+      "Condition": "KnowledgeEnabled",
+      "Properties": {
+        "ScheduleExpression": "rate(15 minutes)",
+        "FlexibleTimeWindow": {
+          "Mode": "OFF"
+        },
+        "Target": {
+          "Arn": {
+            "Fn::GetAtt": [
+              "KnowledgeSyncFunction",
+              "Arn"
+            ]
+          },
+          "RoleArn": {
+            "Fn::GetAtt": [
+              "SchedulerRole",
+              "Arn"
+            ]
+          },
+          "Input": "{}",
+          "RetryPolicy": {
+            "MaximumEventAgeInSeconds": 900,
+            "MaximumRetryAttempts": 2
+          }
+        }
+      }
+    },
+    "ApiFunctionLogs": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Sub": "/aws/lambda/${ApiFunction}"
+        },
+        "RetentionInDays": 30
+      }
+    },
+    "ReminderFunctionLogs": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Sub": "/aws/lambda/${ReminderFunction}"
+        },
+        "RetentionInDays": 30
+      }
+    },
+    "AudioFunctionLogs": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Sub": "/aws/lambda/${AudioFunction}"
+        },
+        "RetentionInDays": 30
+      }
+    },
+    "BootstrapFunctionLogs": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Sub": "/aws/lambda/${BootstrapFunction}"
+        },
+        "RetentionInDays": 30
+      }
+    },
+    "KnowledgeSyncFunctionLogs": {
+      "Type": "AWS::Logs::LogGroup",
+      "Condition": "KnowledgeEnabled",
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Sub": "/aws/lambda/${KnowledgeSyncFunction}"
+        },
+        "RetentionInDays": 30
+      }
+    },
+    "SpaRouter": {
+      "Type": "AWS::CloudFront::Function",
+      "Properties": {
+        "Name": {
+          "Fn::Sub": "${AWS::StackName}-spa-router"
+        },
+        "AutoPublish": true,
+        "FunctionConfig": {
+          "Comment": "Cloud Library SPA route handling",
+          "Runtime": "cloudfront-js-2.0"
+        },
+        "FunctionCode": "function handler(event) { var request = event.request; if (!request.uri.startsWith(\"/api/\") && !request.uri.split(\"/\").pop().includes(\".\")) request.uri = \"/index.html\"; return request; }"
+      }
+    }
+  },
+  "Outputs": {
+    "WebsiteUrl": {
+      "Value": {
+        "Fn::Sub": "https://${Distribution.DomainName}"
+      }
+    },
+    "ApiUrl": {
+      "Value": {
+        "Fn::Sub": "https://${LibraryApi}.execute-api.${AWS::Region}.amazonaws.com"
+      }
+    },
+    "FrontendBucketName": {
+      "Value": {
+        "Ref": "FrontendBucket"
+      }
+    },
+    "ContentBucketName": {
+      "Value": {
+        "Ref": "ContentBucket"
+      }
+    },
+    "TableName": {
+      "Value": {
+        "Ref": "LibraryTable"
+      }
+    },
+    "UserPoolId": {
+      "Value": {
+        "Ref": "UserPool"
+      }
+    },
+    "UserPoolClientId": {
+      "Value": {
+        "Ref": "UserPoolClient"
+      }
+    },
+    "CognitoDomain": {
+      "Value": {
+        "Fn::Sub": "https://${UserPoolDomain}.auth.${AWS::Region}.amazoncognito.com"
+      }
+    },
+    "DistributionId": {
+      "Value": {
+        "Ref": "Distribution"
+      }
+    },
+    "BootstrapFunctionName": {
+      "Value": {
+        "Ref": "BootstrapFunction"
+      }
+    },
+    "KnowledgeSyncFunctionName": {
+      "Condition": "KnowledgeEnabled",
+      "Value": {
+        "Ref": "KnowledgeSyncFunction"
+      }
+    },
+    "KnowledgeBaseId": {
+      "Condition": "KnowledgeEnabled",
+      "Value": {
+        "Ref": "KnowledgeBase"
+      }
+    }
+  }
+}

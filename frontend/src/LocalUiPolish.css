@@ -1,0 +1,99 @@
+/* Local integration: presentation only. Preserve existing theme tokens. */
+[data-live="true"] .local-refresh-button {
+  flex-shrink: 0;
+  gap: 7px;
+}
+[data-live="true"] .local-refresh-button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+.management-app[data-live="true"] .management-header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+}
+.management-app[data-live="true"] .management-header-actions .local-refresh-button {
+  min-height: 38px;
+  padding: 8px 12px;
+}
+.management-app[data-live="true"] .management-main > [role="alert"] {
+  margin: 0 0 16px;
+  overflow-wrap: anywhere;
+}
+.management-app[data-live="true"] .report-heading .loan-button,
+.management-app[data-live="true"] .report-overdue-heading .loan-button,
+.management-app[data-live="true"] .report-pagination .loan-button {
+  gap: 8px;
+}
+.management-app[data-live="true"] .report-filters {
+  align-items: flex-end;
+}
+.management-app[data-live="true"] .report-presets .loan-button,
+.management-app[data-live="true"] .report-field input {
+  min-height: 42px;
+  box-sizing: border-box;
+}
+.management-app[data-live="true"] .report-heading > div,
+.management-app[data-live="true"] .report-overdue-heading > div {
+  flex-basis: min(300px, 100%);
+}
+.app-layout.galaxy-theme[data-live="true"] .header .local-refresh-button {
+  display: inline-grid;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--input-bg);
+  color: var(--text-primary);
+  cursor: pointer;
+  box-sizing: border-box;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+}
+.app-layout.galaxy-theme[data-live="true"] .online-reader-actions .online-reader-button {
+  gap: 7px;
+  box-sizing: border-box;
+}
+.app-layout.galaxy-theme[data-live="true"] .header .local-refresh-button:hover:not(:disabled) {
+  background: var(--selected-bg);
+}
+.app-layout.galaxy-theme[data-live="true"] .header .local-refresh-button:disabled {
+  cursor: not-allowed;
+}
+@media (max-width: 1250px) {
+  .app-layout.galaxy-theme[data-live="true"] .botanical-main > .header {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "title actions" "search search";
+    gap: 14px;
+  }
+  .app-layout.galaxy-theme[data-live="true"] .header > .header-actions {
+    flex-wrap: wrap;
+  }
+}
+@media (max-width: 900px) {
+  .app-layout.galaxy-theme[data-live="true"] .botanical-main > .header {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "title" "actions" "search";
+    gap: 12px;
+  }
+  .app-layout.galaxy-theme[data-live="true"] .header > .header-actions {
+    justify-self: start;
+    justify-content: flex-start;
+  }
+}
+@media (max-width: 800px) {
+  .management-app[data-live="true"] .management-header-actions {
+    justify-content: flex-start;
+  }
+}
+@media (max-width: 600px) {
+  .management-app[data-live="true"] .report-presets {
+    gap: 8px;
+  }
+  .management-app[data-live="true"] .report-presets .loan-button {
+    flex: 1 1 auto;
+  }
+}

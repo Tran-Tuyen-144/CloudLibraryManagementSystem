@@ -1,0 +1,13 @@
+{
+  "stackName": "cloud-library",
+  "region": "ap-southeast-1",
+  "profile": "",
+  "artifactBucket": "",
+  "parameters": {
+    "BedrockModelId": "",
+    "BedrockModelArn": "",
+    "EnableKnowledgeBase": "false",
+    "SenderEmail": "",
+    "VietnameseSpeechSecretArn": ""
+  }
+}
