@@ -1,0 +1,8 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {"label":"Cloud Library: Chạy website","type":"npm","script":"dev","isBackground":true,"problemMatcher":[],"presentation":{"reveal":"always","panel":"dedicated"}},
+    {"label":"Cloud Library: Kiểm tra dự án","type":"npm","script":"check","problemMatcher":[]},
+    {"label":"Cloud Library: Kiểm thử giao diện","type":"npm","script":"test:e2e","problemMatcher":[]}
+  ]
+}

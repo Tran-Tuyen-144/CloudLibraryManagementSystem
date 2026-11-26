@@ -1,0 +1,2243 @@
+{
+  "packagedAt": "2026-11-21T15:59:16.962458+00:00",
+  "edition": "Consolidated source handoff",
+  "readingSource": "Standard Ebooks — 12 full-text editions",
+  "includedChanges": [
+    "on-site full-text reading",
+    "source catalog and covers",
+    "plain-text book descriptions",
+    "independent read-only books API test mode without a database"
+  ],
+  "files": [
+    {
+      "path": "CloudLibrary.code-workspace",
+      "bytes": 364,
+      "sha256": "0242aa300e78768e495464a8f02c2cc675c7e17e7c11b51835eaf32cfd9b0024"
+    },
+    {
+      "path": "README.md",
+      "bytes": 6250,
+      "sha256": "d95901e6d7a8e896b38540094878aadee82aceaa328cdefaecab56d4e9938a8b"
+    },
+    {
+      "path": "app/.env.example",
+      "bytes": 730,
+      "sha256": "e5bbb7a569bf577e3e75e492664f389926acf562a5fbabc7460a45d4a1d51e92"
+    },
+    {
+      "path": "app/.github/workflows/check.yml",
+      "bytes": 1124,
+      "sha256": "53fc605664b6e14e18f42e3a19546dbfc8cdd7af55e16fa605871d3d21b2254f"
+    },
+    {
+      "path": "app/.gitignore",
+      "bytes": 447,
+      "sha256": "3b04e24ae96b6107c595ab5816ad2ca662ecbf1660a2ff35903bb19bd4633423"
+    },
+    {
+      "path": "app/.local/content/chapters/0c6b9fd06686a27f03f5821cc498a3d1a547268800fa2e2dbf665edaeb08761b.json",
+      "bytes": 159,
+      "sha256": "0c6b9fd06686a27f03f5821cc498a3d1a547268800fa2e2dbf665edaeb08761b"
+    },
+    {
+      "path": "app/.local/content/chapters/0dbc283cddfa2f955015757d0db64f2505cac2d283fc3efc5bf421deca3eea93.json",
+      "bytes": 608752,
+      "sha256": "0dbc283cddfa2f955015757d0db64f2505cac2d283fc3efc5bf421deca3eea93"
+    },
+    {
+      "path": "app/.local/content/chapters/21ad8553663a2d183bf768e3012cde14e6e036509d1770e2fb2023764c99ce9a.json",
+      "bytes": 159,
+      "sha256": "21ad8553663a2d183bf768e3012cde14e6e036509d1770e2fb2023764c99ce9a"
+    },
+    {
+      "path": "app/.local/content/chapters/2ac2dfa0842994d32e6fdea381a04f8b0fe0b2efe0d3852bb3b844f3327811ac.json",
+      "bytes": 159,
+      "sha256": "2ac2dfa0842994d32e6fdea381a04f8b0fe0b2efe0d3852bb3b844f3327811ac"
+    },
+    {
+      "path": "app/.local/content/chapters/52ccac985c59013307e7b80597c144505e2217197536891419560bc5f9aaa6d4.json",
+      "bytes": 1366,
+      "sha256": "52ccac985c59013307e7b80597c144505e2217197536891419560bc5f9aaa6d4"
+    },
+    {
+      "path": "app/.local/content/chapters/75fca75be269d3bd8d07bd2e874441226a55c1a081dc243e913b8a91badb55d5.json",
+      "bytes": 159,
+      "sha256": "75fca75be269d3bd8d07bd2e874441226a55c1a081dc243e913b8a91badb55d5"
+    },
+    {
+      "path": "app/.local/content/chapters/90178c36e7fc5cd006264ffcc3236c79670cc47ce8430a5b8711236d31d1124a.json",
+      "bytes": 1100,
+      "sha256": "90178c36e7fc5cd006264ffcc3236c79670cc47ce8430a5b8711236d31d1124a"
+    },
+    {
+      "path": "app/.local/content/chapters/997ab1a440000107c1841c54020a92deb8704b51a810475312ac5b60f35f17c7.json",
+      "bytes": 159,
+      "sha256": "997ab1a440000107c1841c54020a92deb8704b51a810475312ac5b60f35f17c7"
+    },
+    {
+      "path": "app/.local/content/chapters/9eb2a5629bb2f4789f4789ddf76220a741f5e9deb2365d8105e08d9fb22090ee.json",
+      "bytes": 694,
+      "sha256": "9eb2a5629bb2f4789f4789ddf76220a741f5e9deb2365d8105e08d9fb22090ee"
+    },
+    {
+      "path": "app/.local/content/chapters/ae59fc9950dd291a129d1a18b86f7c87e4bdd6050ea62ab223ee02c398c4a1e7.json",
+      "bytes": 159,
+      "sha256": "ae59fc9950dd291a129d1a18b86f7c87e4bdd6050ea62ab223ee02c398c4a1e7"
+    },
+    {
+      "path": "app/.local/content/chapters/b1aa35b4aa01cbf2b26c3f1842402333696f9417dda9945049ae66696cea7ccf.json",
+      "bytes": 159,
+      "sha256": "b1aa35b4aa01cbf2b26c3f1842402333696f9417dda9945049ae66696cea7ccf"
+    },
+    {
+      "path": "app/.local/content/chapters/f5b419e880ce4ec1bf0b3cca157ad949beb009a477b68761ac7dce13e0f7945f.json",
+      "bytes": 159,
+      "sha256": "f5b419e880ce4ec1bf0b3cca157ad949beb009a477b68761ac7dce13e0f7945f"
+    },
+    {
+      "path": "app/.local/content/legacy-pdfs/be99cdf8c6cbd593eef80a079bc71313c8944ef0a6cb3d8315072ce09839fcd5.pdf",
+      "bytes": 14914,
+      "sha256": "be99cdf8c6cbd593eef80a079bc71313c8944ef0a6cb3d8315072ce09839fcd5"
+    },
+    {
+      "path": "app/.local/content/seed/cloud-library-guide.pdf",
+      "bytes": 48634,
+      "sha256": "d675144ce8db603baf37fbadf352a154b4d3a4f36c59ab64a495b6fb9782fd83"
+    },
+    {
+      "path": "app/.local/dynamodb/shared-local-instance.db",
+      "bytes": 3144704,
+      "sha256": "7bd4e76473d43689ff729ab1a992284828c810d2fdc0c5f2c64ae2c8af384441"
+    },
+    {
+      "path": "app/.vscode/launch.json",
+      "bytes": 436,
+      "sha256": "772270b5f25f6bf410cf6445240d485a08a71bc7a910c5a35a74d0c205856422"
+    },
+    {
+      "path": "app/.vscode/tasks.json",
+      "bytes": 424,
+      "sha256": "532cefd2a1f24ab570617bee8b6fd646182b38e9ae7c0a39b10e81688ecebcfe"
+    },
+    {
+      "path": "app/README.md",
+      "bytes": 7710,
+      "sha256": "5b20ebc0b4770540c651a1ab4234e073760347738cc49c6c0050f85b337d40ad"
+    },
+    {
+      "path": "app/docs/API_DYNAMODB.md",
+      "bytes": 4504,
+      "sha256": "12b7784532c6e93b96112bc7328f86f401d11b11fbeddd378b9cf7b1f27b2dd4"
+    },
+    {
+      "path": "app/docs/AWS_DEPLOYMENT.md",
+      "bytes": 7304,
+      "sha256": "6c26934f4296530b3855aee7ec1ff0a0bda564d4fb8891f01c79d82ba5909d6d"
+    },
+    {
+      "path": "app/docs/BOOK_COVERS_UPDATE.md",
+      "bytes": 455,
+      "sha256": "1f261279a8e8a4f708dfb4934818bd4f124ff7812a713e29eba16c4fe6985dda"
+    },
+    {
+      "path": "app/docs/DOI_CHIEU_HOAN_THIEN.md",
+      "bytes": 6399,
+      "sha256": "bce06a7777da96010dc06a39ee916add33bc4ab2227ce39f8f0cf502ec8fc749"
+    },
+    {
+      "path": "app/docs/KET_QUA_KIEM_TRA.md",
+      "bytes": 2474,
+      "sha256": "bba64367da67b0a54db27ed14e30739dba3d8b96b890c1b3b3487d980c84483c"
+    },
+    {
+      "path": "app/docs/RA_SOAT_CHUC_NANG_20261120.md",
+      "bytes": 7575,
+      "sha256": "6daeb765993fbad0f7299f76bfe581d31bcea3427f32273940c676fd22bd327f"
+    },
+    {
+      "path": "app/docs/STANDARD_EBOOKS.md",
+      "bytes": 3968,
+      "sha256": "a9a7ed9a8df3dd36e2e6207dfd32137418647dbcb237c0a26567a80420a07bdf"
+    },
+    {
+      "path": "app/docs/STANDARD_EBOOKS_VERIFICATION.md",
+      "bytes": 5649,
+      "sha256": "23e713b4249cfc055397b7700445e768bc826aeae051acba6d155dcb47d96f02"
+    },
+    {
+      "path": "app/dynamodb-local-metadata.json",
+      "bytes": 83,
+      "sha256": "1935190caf46e684cd2eef8f552490c9c2b39d6e9111cc7a4c764b4c9c4d1f08"
+    },
+    {
+      "path": "app/eslint.config.js",
+      "bytes": 1314,
+      "sha256": "b7df38d7546203f1e298eab3212f9278b59947fa4fc42073c2ec03d77736a910"
+    },
+    {
+      "path": "app/index.html",
+      "bytes": 300,
+      "sha256": "412a9d3c12590819790c7eaf4790f7d3dbf99018ee2af12bc1f552838e9f4afc"
+    },
+    {
+      "path": "app/infra/deploy.example.json",
+      "bytes": 277,
+      "sha256": "9c88368b557bdfdb5f34900428696a7be1b1dba1eafdbd42fc23fac1652d2d5c"
+    },
+    {
+      "path": "app/infra/template.json",
+      "bytes": 53986,
+      "sha256": "995e2bb9e2769b9d59ca1e5db9763136cff7f61c89e16576d69f7f724489efae"
+    },
+    {
+      "path": "app/infra/template.mjs",
+      "bytes": 28117,
+      "sha256": "ff85303512858f3eed64fc1e84b519c859494ab095fb0ff0ca3e1edd46840d90"
+    },
+    {
+      "path": "app/output/screenshots/aws-signin.png",
+      "bytes": 457038,
+      "sha256": "062d64459bcb3bc6ef5d59db0624a92b80b6b4a7f9ff0fa7b1ebcbe3d799c8e1"
+    },
+    {
+      "path": "app/output/screenshots/legacy-catalog.png",
+      "bytes": 485204,
+      "sha256": "80ca73fe623ae738d556c6afde6330ea55cf4a670cfda33b66a85b7f39e8956e"
+    },
+    {
+      "path": "app/output/screenshots/mobile-home.png",
+      "bytes": 335832,
+      "sha256": "41ea5c58a9479577f134601e5afcacf4a8c248f4c3a9491c417b30234b545a96"
+    },
+    {
+      "path": "app/output/screenshots/reader-desktop.png",
+      "bytes": 284477,
+      "sha256": "56a9c65198c8d3a20cb6bf494af288aeae26ee4a16cea7ed356615ef41ba65ba"
+    },
+    {
+      "path": "app/package-lock.json",
+      "bytes": 179333,
+      "sha256": "18054f73478bda371045f4778889ea542d0692cf856b066c042c16212f820d28"
+    },
+    {
+      "path": "app/package.json",
+      "bytes": 2094,
+      "sha256": "8e2b6fb91f88c0c8e1a1f4b32171e9001d09d749d1b2b401ec1cc1dccee6ed85"
+    },
+    {
+      "path": "app/playwright.config.mjs",
+      "bytes": 486,
+      "sha256": "c21e1c2e9e0bc90ed4854156ec6e894bbbe5105550dd9a70c4a4a07e34698f7e"
+    },
+    {
+      "path": "app/public/covers/gutendex/100.jpg",
+      "bytes": 518360,
+      "sha256": "313e7d46c93baf7464604f49b61d8b569d5fb3a086351792891ef53371ccb38a"
+    },
+    {
+      "path": "app/public/covers/gutendex/11.jpg",
+      "bytes": 102933,
+      "sha256": "564bb7bfd78effc8793378a55ebb18500fcd959829441682286a11da748bd40e"
+    },
+    {
+      "path": "app/public/covers/gutendex/1184.jpg",
+      "bytes": 233199,
+      "sha256": "10c178e7a5286aa45053bb93a5a133c96aee07687d5b9e890e891d463c069d34"
+    },
+    {
+      "path": "app/public/covers/gutendex/1232.jpg",
+      "bytes": 256792,
+      "sha256": "f3a55802bc490da53318e515a1cdb03c06170ab86158b10ee7ae433a4004f1a9"
+    },
+    {
+      "path": "app/public/covers/gutendex/1259.jpg",
+      "bytes": 255982,
+      "sha256": "f6e14bcadc9db8b02e7acfbe81f477b3b09c8a326c890b555dbe3e68d38d7aa7"
+    },
+    {
+      "path": "app/public/covers/gutendex/1260.jpg",
+      "bytes": 260642,
+      "sha256": "ead950279aae126e72abeb450a7e2a3d440cc3cd54e36479fe9c138bf02b74aa"
+    },
+    {
+      "path": "app/public/covers/gutendex/1342.jpg",
+      "bytes": 244462,
+      "sha256": "ddb46ed5452e70e573c480ec584686455b80d272830dda3c68e7edfc2d2075e1"
+    },
+    {
+      "path": "app/public/covers/gutendex/145.jpg",
+      "bytes": 261409,
+      "sha256": "09421db758121c0f7ead76df7613bb7ac1f5498d55d740b786fad2303a366aba"
+    },
+    {
+      "path": "app/public/covers/gutendex/1513.jpg",
+      "bytes": 260178,
+      "sha256": "e911fa207edaf4acc30c528d008b038633e7ee72a986c42608066ceb7fba24eb"
+    },
+    {
+      "path": "app/public/covers/gutendex/1661.jpg",
+      "bytes": 131261,
+      "sha256": "32349c5c4e6869586fd8e632cce60e64e3eb316a97d42a4acf5759037c2ff659"
+    },
+    {
+      "path": "app/public/covers/gutendex/1727.jpg",
+      "bytes": 286444,
+      "sha256": "c74dd2b86e5b019a7401677cd1ccef733659f7de334b43e9aac199ecda3d3a6d"
+    },
+    {
+      "path": "app/public/covers/gutendex/174.jpg",
+      "bytes": 251863,
+      "sha256": "5888158d67f65f18268557834d9c27724ebe0f91a12dfc0bec6b44cafdd8bc37"
+    },
+    {
+      "path": "app/public/covers/gutendex/1952.jpg",
+      "bytes": 413171,
+      "sha256": "2658a94fbf651726099560d8b0cd4b129c8969ecc6aff123d910dde4924c4fb7"
+    },
+    {
+      "path": "app/public/covers/gutendex/2160.jpg",
+      "bytes": 260320,
+      "sha256": "6421280e7888a0d11a13e9a000688c9e587e0d64aef5c945c8d9cce4844c290e"
+    },
+    {
+      "path": "app/public/covers/gutendex/2554.jpg",
+      "bytes": 255908,
+      "sha256": "01cfc41e209d3941150134f41e2d762853b74fbf71fd0c060a99dc35b2a1b0e1"
+    },
+    {
+      "path": "app/public/covers/gutendex/2600.jpg",
+      "bytes": 305761,
+      "sha256": "ce289d5908a1bd3bdde1d2e012451c74a7504667411f5af62c0da1f7426d8c9c"
+    },
+    {
+      "path": "app/public/covers/gutendex/2641.jpg",
+      "bytes": 254730,
+      "sha256": "42073589ea3ba42dc17049578b35b6463973093953d4ce143e8101fe29f19921"
+    },
+    {
+      "path": "app/public/covers/gutendex/2680.jpg",
+      "bytes": 259571,
+      "sha256": "7863cb0c64a8e58c89dd13bfe443897693567efccc1d6c25b5441b473be28a51"
+    },
+    {
+      "path": "app/public/covers/gutendex/2701.jpg",
+      "bytes": 253516,
+      "sha256": "6849346c25b3c8a7538e5b098e94deb5c949b0a6f0957fb28a0747da229adbec"
+    },
+    {
+      "path": "app/public/covers/gutendex/345.jpg",
+      "bytes": 384479,
+      "sha256": "e5be35b1889f4c614c786bd8c630c40aa6591e9a5d0eedc7ae7668b94d68e5bd"
+    },
+    {
+      "path": "app/public/covers/gutendex/37106.png",
+      "bytes": 90724,
+      "sha256": "65347e09cd6c9507e5527420aa6172ad431f64255fef6cb994f3ef64b8464949"
+    },
+    {
+      "path": "app/public/covers/gutendex/37683.jpg",
+      "bytes": 389003,
+      "sha256": "11391cbd9c826fb99b1a122065a49479cbe2ecbfd980dce0a8a18b34d091c87a"
+    },
+    {
+      "path": "app/public/covers/gutendex/394.jpg",
+      "bytes": 261855,
+      "sha256": "a5ac6a42c49f95dd16496397103f466e7b35ea777f56af98dc3e54fb47122e60"
+    },
+    {
+      "path": "app/public/covers/gutendex/43.jpg",
+      "bytes": 209766,
+      "sha256": "f4dff74de3a7314405e2762db4246e8a6d7fd8012e3971bf69bf35ffc9527775"
+    },
+    {
+      "path": "app/public/covers/gutendex/49297.jpg",
+      "bytes": 257657,
+      "sha256": "0283bfe225ee845fcb3a2fdd678295b31fe52a84681fce338845947ca0a744c9"
+    },
+    {
+      "path": "app/public/covers/gutendex/62383.jpg",
+      "bytes": 59830,
+      "sha256": "2e33c7daf039f2478d4d3bf2b4b51d35bc8d684f2ce8c47bcf8bd2543e2fc392"
+    },
+    {
+      "path": "app/public/covers/gutendex/64317.jpg",
+      "bytes": 782885,
+      "sha256": "2bd20bae9f2ac8e79e3f08ac7f49f9a09a6d714fd410744fe814511b80172e5a"
+    },
+    {
+      "path": "app/public/covers/gutendex/65238.jpg",
+      "bytes": 257960,
+      "sha256": "9393f332b746bd9285e2252b916c53c2928b531512ee798f7b9f75e69b5e7d28"
+    },
+    {
+      "path": "app/public/covers/gutendex/67979.jpg",
+      "bytes": 261575,
+      "sha256": "834a17188e5e02aa7bae4a8153bfdfbd502edcf110dbd99c67839b99af43f5f5"
+    },
+    {
+      "path": "app/public/covers/gutendex/78027.jpg",
+      "bytes": 200556,
+      "sha256": "b7a06ad4f0ab1331e9461e67cd5eb6a7567396e7f32bcc59a6f51906298a79f7"
+    },
+    {
+      "path": "app/public/covers/gutendex/84.jpg",
+      "bytes": 212404,
+      "sha256": "064b6c733ecf4485ee19b42cb4973c8e959033178614d4905ff5e0db93c9575e"
+    },
+    {
+      "path": "app/public/covers/gutendex/98.jpg",
+      "bytes": 389000,
+      "sha256": "f1a6f496e47967d0315ae3b9ee311736e59e5e21e1b079a94cd392401ab94d9f"
+    },
+    {
+      "path": "app/public/covers/standard-ebooks/arthur-conan-doyle_the-adventures-of-sherlock-holmes.jpg",
+      "bytes": 1239398,
+      "sha256": "6f3991d8d1568dcc22e790275f3971f8c0f9dbf7aad9b8847ba15cfe6d5613bf"
+    },
+    {
+      "path": "app/public/covers/standard-ebooks/bram-stoker_dracula.jpg",
+      "bytes": 182968,
+      "sha256": "a491fa12468736005f4a00de0cc598dc8b8d94c44edc517759fd1fcd53e361de"
+    },
+    {
+      "path": "app/public/covers/standard-ebooks/charlotte-bronte_jane-eyre.jpg",
+      "bytes": 379969,
+      "sha256": "e29b0ea914fa6a69ff3e76c5145df9d07ae105caa7890284fc208e96e1329388"
+    },
+    {
+      "path": "app/public/covers/standard-ebooks/h-g-wells_the-time-machine.jpg",
+      "bytes": 426620,
+      "sha256": "e31c5ffc56476a4161635686670ecadb75abadc8b174541a73edbd78e14b5052"
+    },
+    {
+      "path": "app/public/covers/standard-ebooks/h-g-wells_the-war-of-the-worlds.jpg",
+      "bytes": 637904,
+      "sha256": "093438d3c6041f7386cbe51b3ff0045b88815415ed659186a45d75c94fe5faad"
+    },
+    {
+      "path": "app/public/covers/standard-ebooks/jane-austen_emma.jpg",
+      "bytes": 756128,
+      "sha256": "182cc39cb0fbaf4dc287c1e2d24384bca96c02b1d6d981aaa0605a5f1f2fb784"
+    },
+    {
+      "path": "app/public/covers/standard-ebooks/jane-austen_persuasion.jpg",
+      "bytes": 942637,
+      "sha256": "dcfbcb9af0be87891c6e77034845792fdd9be8a377580350acf8ecdf17acf13d"
+    },
+    {
+      "path": "app/public/covers/standard-ebooks/jane-austen_pride-and-prejudice.jpg",
+      "bytes": 463470,
+      "sha256": "49f0a949bc6f30b223f7ce597d6f29496f9c75f4c188bc05a65fe4247706735c"
+    },
+    {
+      "path": "app/public/covers/standard-ebooks/jane-austen_sense-and-sensibility.jpg",
+      "bytes": 422694,
+      "sha256": "0776a994b9282164b17fe9fa3eb4897b98be6f273a95930848d3d05d8dfa21f6"
+    },
+    {
+      "path": "app/public/covers/standard-ebooks/mary-shelley_frankenstein.jpg",
+      "bytes": 458438,
+      "sha256": "415c868ece504e9eb1f1f2e04dacb9f813fdd3ad6a1c63a07143294fda39095e"
+    },
+    {
+      "path": "app/public/covers/standard-ebooks/oscar-wilde_the-picture-of-dorian-gray.jpg",
+      "bytes": 382467,
+      "sha256": "b1f5e9b048a287efa23c74a610f1bc3107fb98381c4ae79bde93daf2b93fb49b"
+    },
+    {
+      "path": "app/public/covers/standard-ebooks/robert-louis-stevenson_treasure-island.jpg",
+      "bytes": 568462,
+      "sha256": "99c1ec43ec97d69390bdfc9b9a03d15160060d973a60bfad4302140884d6cd3e"
+    },
+    {
+      "path": "app/public/favicon.svg",
+      "bytes": 9522,
+      "sha256": "61bc9a161de58248288e6905425d7180f0624c2865007b97d763fdac12043a66"
+    },
+    {
+      "path": "app/public/icons.svg",
+      "bytes": 5031,
+      "sha256": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a"
+    },
+    {
+      "path": "app/scripts/books-api.mjs",
+      "bytes": 5575,
+      "sha256": "43241cc1bf3c0b89b4934176649d9486eac5e36a7a06c44d1a703787c2977710"
+    },
+    {
+      "path": "app/scripts/books-preview.html",
+      "bytes": 8502,
+      "sha256": "8b337d1ba16e2c0b1a173e0886ef17da42bc3ee31a6217fca4ba9af3e53fb32d"
+    },
+    {
+      "path": "app/scripts/build-lambda.mjs",
+      "bytes": 649,
+      "sha256": "687f48edf9b07319f19e53deaba2cb989707953ff4a4f83cc6c99e2e391d527d"
+    },
+    {
+      "path": "app/scripts/deploy-aws.mjs",
+      "bytes": 7648,
+      "sha256": "3eff9f98b8f9ad68cec060e3bd7669b0e48c06a9893720d26bc65f7469a8fc71"
+    },
+    {
+      "path": "app/scripts/dev.mjs",
+      "bytes": 2108,
+      "sha256": "1f05d6c518a6788fe8f9280757241e0d96f05d4ca068b9c1952bf0b21d80d49b"
+    },
+    {
+      "path": "app/scripts/import-standard-ebooks.py",
+      "bytes": 5821,
+      "sha256": "6bab9143f11b9c8aa7793b37f995f24ba45181a18e04d180424f552575e71403"
+    },
+    {
+      "path": "app/scripts/localize-ui.cjs",
+      "bytes": 7557,
+      "sha256": "6cc45c8774915c56498e857d631440b058e423af47e8adc69c0e4e7c857374a3"
+    },
+    {
+      "path": "app/scripts/promote-admin.mjs",
+      "bytes": 1589,
+      "sha256": "c673788fd11101739b27219964298227c640f96bf55d237203863ff01750c8aa"
+    },
+    {
+      "path": "app/scripts/seed.mjs",
+      "bytes": 308,
+      "sha256": "53d6234fad7b9bb1ad8c05cfdb2f5221957bafa089b72f08a2062f917c5633b5"
+    },
+    {
+      "path": "app/scripts/setup-local.mjs",
+      "bytes": 1071,
+      "sha256": "34813a64b0608dcbb138ed14e7b70ff90b1119238c5f224dff408787f78a0ad8"
+    },
+    {
+      "path": "app/server/ai.mjs",
+      "bytes": 9102,
+      "sha256": "0e45fcdf8ed616923d4d7940b30d34958cfe47b6b62ad667d67582578697cb4d"
+    },
+    {
+      "path": "app/server/app.mjs",
+      "bytes": 37899,
+      "sha256": "0a7d12ef9a9dfae0321c71aa95a537948ec512897f6060bb1e130d9c4f3c84ba"
+    },
+    {
+      "path": "app/server/audio.mjs",
+      "bytes": 9333,
+      "sha256": "d2432ccdc6058b6c8521565b4fc39b1f64b91db58ed86b95969b511fb2c44040"
+    },
+    {
+      "path": "app/server/auth.mjs",
+      "bytes": 17631,
+      "sha256": "9ec8ca309b064ba25c69ab44556d5ae9fbee0230c8826aa336521c4c79149692"
+    },
+    {
+      "path": "app/server/config.mjs",
+      "bytes": 1851,
+      "sha256": "4e4e3f9e3e01c410dcd0b993312a61c8913fdd120e4dc8a8ec6202b4601664fa"
+    },
+    {
+      "path": "app/server/data/standard-ebooks/arthur-conan-doyle_the-adventures-of-sherlock-holmes.LICENSE.md",
+      "bytes": 560,
+      "sha256": "d43a48ec63e94be9703699b5725bf301d8890c72f3b2038142a55b834837fb19"
+    },
+    {
+      "path": "app/server/data/standard-ebooks/arthur-conan-doyle_the-adventures-of-sherlock-holmes.json",
+      "bytes": 587117,
+      "sha256": "3669bc52037aa1279eb82309ae1fec48c737a8ced9fb3927a2234be853e8f814"
+    },
+    {
+      "path": "app/server/data/standard-ebooks/books.mjs",
+      "bytes": 1114,
+      "sha256": "066f3fcadf8f4730050224fb80924840a5f3758098f4f16d20bc8bb7cbd894e7"
+    },
+    {
+      "path": "app/server/data/standard-ebooks/bram-stoker_dracula.LICENSE.md",
+      "bytes": 560,
+      "sha256": "d43a48ec63e94be9703699b5725bf301d8890c72f3b2038142a55b834837fb19"
+    },
+    {
+      "path": "app/server/data/standard-ebooks/bram-stoker_dracula.json",
+      "bytes": 861326,
+      "sha256": "08d9b56ec45f41a6d42e6bf21bdc62ff21a0e53308d9e6d67a70d05c555488df"
+    },
+    {
+      "path": "app/server/data/standard-ebooks/charlotte-bronte_jane-eyre.LICENSE.md",
+      "bytes": 560,
+      "sha256": "d43a48ec63e94be9703699b5725bf301d8890c72f3b2038142a55b834837fb19"
+    },
+    {
+      "path": "app/server/data/standard-ebooks/charlotte-bronte_jane-eyre.json",
+      "bytes": 1066269,
+      "sha256": "ccf157a5eec8051930ebebad220291f64a2f1fe07fb0c07850e9fb775e184ccf"
+    },
+    {
+      "path": "app/server/data/standard-ebooks/h-g-wells_the-time-machine.LICENSE.md",
+      "bytes": 560,
+      "sha256": "d43a48ec63e94be9703699b5725bf301d8890c72f3b2038142a55b834837fb19"
+    },
+    {
+      "path": "app/server/data/standard-ebooks/h-g-wells_the-time-machine.json",
+      "bytes": 187058,
+      "sha256": "406c8c663da7967f01cc4e535d7f2dc29f7e4d33c3b4e5ce55d870d9ae3a0e92"
+    },
+    {
+      "path": "app/server/data/standard-ebooks/h-g-wells_the-war-of-the-worlds.LICENSE.md",
+      "bytes": 560,
+      "sha256": "d43a48ec63e94be9703699b5725bf301d8890c72f3b2038142a55b834837fb19"
+    },
+    {
+      "path": "app/server/data/standard-ebooks/h-g-wells_the-war-of-the-worlds.json",
+      "bytes": 349984,
+      "sha256": "22284497a2d92166c492fec5fa5d8016eb45f80cc89c2562d7758167afffe453"
+    },
+    {
+      "path": "app/server/data/standard-ebooks/jane-austen_emma.LICENSE.md",
+      "bytes": 560,
+      "sha256": "d43a48ec63e94be9703699b5725bf301d8890c72f3b2038142a55b834837fb19"
+    },
+    {
+      "path": "app/server/data/standard-ebooks/jane-austen_emma.json",
+      "bytes": 918068,
+      "sha256": "261b4097266b379715935cb9dbbd7ed7e27fdd11b1cf942c7c5f440110a99fac"
+    },
+    {
+      "path": "app/server/data/standard-ebooks/jane-austen_persuasion.LICENSE.md",
+      "bytes": 560,
+      "sha256": "d43a48ec63e94be9703699b5725bf301d8890c72f3b2038142a55b834837fb19"
+    },
+    {
+      "path": "app/server/data/standard-ebooks/jane-austen_persuasion.json",
+      "bytes": 477923,
+      "sha256": "20acd4bd1867c18773795d77e1534cfb920349b596b380ec23a5e23adba01ba9"
+    },
+    {
+      "path": "app/server/data/standard-ebooks/jane-austen_pride-and-prejudice.LICENSE.md",
+      "bytes": 560,
+      "sha256": "d43a48ec63e94be9703699b5725bf301d8890c72f3b2038142a55b834837fb19"
+    },
+    {
+      "path": "app/server/data/standard-ebooks/jane-austen_pride-and-prejudice.json",
+      "bytes": 707888,
+      "sha256": "2c0e87600aae9fd12e5c61a44a36554b6bc13573ae6d852728f6ec287a6a1edc"
+    },
+    {
+      "path": "app/server/data/standard-ebooks/jane-austen_sense-and-sensibility.LICENSE.md",
+      "bytes": 560,
+      "sha256": "d43a48ec63e94be9703699b5725bf301d8890c72f3b2038142a55b834837fb19"
+    },
+    {
+      "path": "app/server/data/standard-ebooks/jane-austen_sense-and-sensibility.json",
+      "bytes": 692107,
+      "sha256": "dc52886ed6fcecaa1a0a2c684ea3ec3b5a7c16b3996706bce3a4a03a713a7e17"
+    },
+    {
+      "path": "app/server/data/standard-ebooks/manifest.json",
+      "bytes": 95222,
+      "sha256": "b81d65f1667219bcc9caa68d7a4221cf563945c0b6271de3d5796fe0b365c01e"
+    },
+    {
+      "path": "app/server/data/standard-ebooks/mary-shelley_frankenstein.LICENSE.md",
+      "bytes": 560,
+      "sha256": "d43a48ec63e94be9703699b5725bf301d8890c72f3b2038142a55b834837fb19"
+    },
+    {
+      "path": "app/server/data/standard-ebooks/mary-shelley_frankenstein.json",
+      "bytes": 448905,
+      "sha256": "a5e8cbede9ca4e4f3dbd2ea612c7f440c76a12eb10714103716d4ef8eafc3002"
+    },
+    {
+      "path": "app/server/data/standard-ebooks/oscar-wilde_the-picture-of-dorian-gray.LICENSE.md",
+      "bytes": 560,
+      "sha256": "d43a48ec63e94be9703699b5725bf301d8890c72f3b2038142a55b834837fb19"
+    },
+    {
+      "path": "app/server/data/standard-ebooks/oscar-wilde_the-picture-of-dorian-gray.json",
+      "bytes": 446858,
+      "sha256": "9002462aa3b82d3f27aa3850d82c1b3493280328e3484e7dca7fa737fe1a96eb"
+    },
+    {
+      "path": "app/server/data/standard-ebooks/robert-louis-stevenson_treasure-island.LICENSE.md",
+      "bytes": 560,
+      "sha256": "d43a48ec63e94be9703699b5725bf301d8890c72f3b2038142a55b834837fb19"
+    },
+    {
+      "path": "app/server/data/standard-ebooks/robert-louis-stevenson_treasure-island.json",
+      "bytes": 383076,
+      "sha256": "29ef53d81290bb27c6c7018bccfdb73c6e025fafb638de12b247b48b95ceb67d"
+    },
+    {
+      "path": "app/server/errors.mjs",
+      "bytes": 1378,
+      "sha256": "59d28e9bf22a2359af73cee8e0c9659c8f78d60e00ef15d22933c62f4173d573"
+    },
+    {
+      "path": "app/server/fixtures/cloud-library-guide.pdf",
+      "bytes": 48634,
+      "sha256": "d675144ce8db603baf37fbadf352a154b4d3a4f36c59ab64a495b6fb9782fd83"
+    },
+    {
+      "path": "app/server/index.mjs",
+      "bytes": 1263,
+      "sha256": "f1572f64659f5c3f4b68e83281ff9a71d417e24c1fb09a0786143fbc27d36f9b"
+    },
+    {
+      "path": "app/server/knowledge.mjs",
+      "bytes": 4029,
+      "sha256": "b07e2ffae65f91107e9187d2b7e15b89db1e3dfb90c597fcd515d86b06b1690d"
+    },
+    {
+      "path": "app/server/lambda.mjs",
+      "bytes": 1393,
+      "sha256": "b4a2f02a570d58aac5bd274a440704466d5bca893552ee749d46df2df923f7c0"
+    },
+    {
+      "path": "app/server/legacy-source.mjs",
+      "bytes": 7668,
+      "sha256": "5228ed5c1b349ee0922c6b9f26bc965f66021ed15de23ce38ca5a4b36d530321"
+    },
+    {
+      "path": "app/server/library.mjs",
+      "bytes": 35418,
+      "sha256": "5c0f5e9a0a42bb8e80151d85722d48d0fb0dae7a26309255c098778d86c381ae"
+    },
+    {
+      "path": "app/server/repository.mjs",
+      "bytes": 11513,
+      "sha256": "62770175ef624884fa43dbd30e11662662747131d7eefad39a216628d791d77c"
+    },
+    {
+      "path": "app/server/rest.mjs",
+      "bytes": 8172,
+      "sha256": "bc2ec9856718e6dfc3f3062288735b16582a344f191b0c9d6546c372190e889d"
+    },
+    {
+      "path": "app/server/seed.mjs",
+      "bytes": 9418,
+      "sha256": "0db814ac9f5460e2ccff62beeaffefa76fd50556d74767eda5f568b00be9491e"
+    },
+    {
+      "path": "app/server/standard-ebooks.mjs",
+      "bytes": 4765,
+      "sha256": "a5014e5e0e46ef03b8adce8b84924d2a907045594ea2aea28050bf488ba53b7e"
+    },
+    {
+      "path": "app/server/storage.mjs",
+      "bytes": 4570,
+      "sha256": "094d814a3db37695a41b1493c92e6133f7c9a8afc0e2423f0ed0aa80756b2b66"
+    },
+    {
+      "path": "app/server/uploads.mjs",
+      "bytes": 2065,
+      "sha256": "7739f113a6ff93bb762ff105689b2aa160fbfd2161dedc720b5e60ad5cc954ba"
+    },
+    {
+      "path": "app/server/workers.mjs",
+      "bytes": 6313,
+      "sha256": "4857e2f8dcd097e5e295b1c3226a716983f8e4f8aff018c2669752745948eeb9"
+    },
+    {
+      "path": "app/src/App.css",
+      "bytes": 352,
+      "sha256": "28b3cc9793c300f596318b2d966557847e03d1a79dfa943fae97797e2badc616"
+    },
+    {
+      "path": "app/src/App.jsx",
+      "bytes": 13989,
+      "sha256": "628b489393b9658adcac92657858f4574fe4b2e645399c9901352e0926a75aa8"
+    },
+    {
+      "path": "app/src/GalaxyTheme.css",
+      "bytes": 23777,
+      "sha256": "1244f575ac59c4be4643b045b6bac6e564bf92efac325eb6086e78f0224039b5"
+    },
+    {
+      "path": "app/src/LibraryRoot.jsx",
+      "bytes": 1630,
+      "sha256": "4bb4819980a0f62edb00ae81e3d26c7e805745e14974163502db50a389351daa"
+    },
+    {
+      "path": "app/src/api/catalog.js",
+      "bytes": 3521,
+      "sha256": "7c4efc336c9cb0c0e13d03844a1ed8880bd78324f5ecfa3c75c865511fdb88a5"
+    },
+    {
+      "path": "app/src/api/client.js",
+      "bytes": 6447,
+      "sha256": "0573b2611bbb141fa4bf60543f51af2e87a7ce78024158b6aa11be7949951708"
+    },
+    {
+      "path": "app/src/api/cognito.js",
+      "bytes": 2495,
+      "sha256": "2a77c97744972384c7c3521239ae0d547ee28c5fbce35968bb994a84665ac898"
+    },
+    {
+      "path": "app/src/api/libraryApi.js",
+      "bytes": 5363,
+      "sha256": "5f7fff05314042b70fc81827dbd7a9d5a69f0cf646364d46b10e2b7ae764c1ee"
+    },
+    {
+      "path": "app/src/api/runtime.js",
+      "bytes": 3928,
+      "sha256": "2e937de2c194d1a10d3a9dd99df4c1872764169054c0dc33639e3ac14130f0f6"
+    },
+    {
+      "path": "app/src/assets/decor/purple-butterflies.png",
+      "bytes": 1572354,
+      "sha256": "27b2f26b7fb3e312dbe42b3ca86edc51a1f8698dc4af2e38a143cbd7562a1289"
+    },
+    {
+      "path": "app/src/assets/decor/violet-corner.png",
+      "bytes": 926639,
+      "sha256": "8e2b9503e76198c46bb93c68434047c5dd0e43e99ab43f343e915357b6654d5f"
+    },
+    {
+      "path": "app/src/assets/hero.png",
+      "bytes": 13057,
+      "sha256": "881ffbcaafc212e49addad08846a5b82761355fa20624253af3477ba33262c5c"
+    },
+    {
+      "path": "app/src/assets/react.svg",
+      "bytes": 4126,
+      "sha256": "35ef61ed53b323ae94a16a8ec659b3d0af3880698791133f23b084085ab1c2e5"
+    },
+    {
+      "path": "app/src/assets/vite.svg",
+      "bytes": 8709,
+      "sha256": "5be21acd42eb7b896e517f4e0f0f11eb5c5d9e54fbbcebe9453f033008fcca6f"
+    },
+    {
+      "path": "app/src/components/books/ApiBookDiscovery.css",
+      "bytes": 2625,
+      "sha256": "6960ae6006d5211c2042d3dc9e1177b1a8fe91b574b4224e9c2c331f5d13d486"
+    },
+    {
+      "path": "app/src/components/books/ApiBookDiscovery.jsx",
+      "bytes": 9648,
+      "sha256": "3a6542f3d42bdba4ecc902d1fdb46ad8210368ca9f358c8d2e64fe8ebe23ebb5"
+    },
+    {
+      "path": "app/src/components/books/BookCarousel.css",
+      "bytes": 3623,
+      "sha256": "1c27540c9ddc20b19b887b8fc3e8fdc932f4f4f93cee5b60f8088f81378fd3c7"
+    },
+    {
+      "path": "app/src/components/books/BookCarousel.jsx",
+      "bytes": 4271,
+      "sha256": "538906c8232ad375bf8a570f9b71ca9c5fddf8a8731a1ed1a3371732a22f2774"
+    },
+    {
+      "path": "app/src/components/books/CategoryInput.css",
+      "bytes": 796,
+      "sha256": "857aadb537b96a453feb238d2b18aa91e60314b886a1bd7949435b661ff2ea95"
+    },
+    {
+      "path": "app/src/components/books/CategoryInput.jsx",
+      "bytes": 3950,
+      "sha256": "88d24d72bf2a08998854f4db4830521c63f4833784f5f1b161d30c1c268bc3fa"
+    },
+    {
+      "path": "app/src/components/books/FavoriteButton.css",
+      "bytes": 1171,
+      "sha256": "5750592cd919845b4bba38afbc4dc7b603364bf06f70d95d0abb647744d3d301"
+    },
+    {
+      "path": "app/src/components/books/FavoriteButton.jsx",
+      "bytes": 776,
+      "sha256": "0bdccb69e0ebb6829a639990814357395108038faa8c9706a527e8cbb0cc1de4"
+    },
+    {
+      "path": "app/src/components/books/HomeSections.css",
+      "bytes": 9881,
+      "sha256": "28399defb22ec6d4606cc937835bc90266729a72cb916aee6f8793a8b376f85d"
+    },
+    {
+      "path": "app/src/components/books/HomeSections.jsx",
+      "bytes": 14351,
+      "sha256": "2f7cdeab96d36d3262de8ccd7194c47cca5e7aa5ed9757f336ced05094623559"
+    },
+    {
+      "path": "app/src/components/books/LoanRecord.jsx",
+      "bytes": 2373,
+      "sha256": "c579e720eac295e01ba82132438c11f4abde71f6c13cce005eb221f07089e136"
+    },
+    {
+      "path": "app/src/components/books/ReadingHistory.css",
+      "bytes": 3776,
+      "sha256": "737825952c2ce2ee43c8a7c161cea845c9012250b9dce122f299a7f215b15b9f"
+    },
+    {
+      "path": "app/src/components/books/ReadingHistory.jsx",
+      "bytes": 6331,
+      "sha256": "8c915cce3eabcdfdd37519561435359a57c5c10806866165e575320828ad4b13"
+    },
+    {
+      "path": "app/src/components/books/TopicBar.css",
+      "bytes": 1772,
+      "sha256": "e526620fbcaaccec947d499092a5e3b7f283b80053a2d22a18cf6ee08909a793"
+    },
+    {
+      "path": "app/src/components/books/TopicBar.jsx",
+      "bytes": 2063,
+      "sha256": "ef79b98aebf5442761bbc74ce939a00de3dd5f858e202588f8bf5f030a2793b0"
+    },
+    {
+      "path": "app/src/components/layout/BotanicalDecor.jsx",
+      "bytes": 845,
+      "sha256": "4169c299ef17b88a96d11075ff7264404ab82b7671986dd8931c73d4a7f94d60"
+    },
+    {
+      "path": "app/src/components/layout/BotanicalTheme.css",
+      "bytes": 30809,
+      "sha256": "664733f3f92615290902bbfb2b11c608da58da70ae7fdde4800652fe7a070e9f"
+    },
+    {
+      "path": "app/src/components/layout/Header.css",
+      "bytes": 2106,
+      "sha256": "b9b61d9c8fca68160f7c68ad3a5b5368caddfdbd894476aab70cfb995ff3e182"
+    },
+    {
+      "path": "app/src/components/layout/Header.jsx",
+      "bytes": 2550,
+      "sha256": "2b6517d62f8280975e929272f5a7a34e421b3ceff031c15b60882ca2d9d900fc"
+    },
+    {
+      "path": "app/src/components/layout/NotificationCenter.css",
+      "bytes": 3783,
+      "sha256": "fc14ce9c28ade6136725dbaa40fd43b36ea5f8b64afde9a3deaad0f6f777f09e"
+    },
+    {
+      "path": "app/src/components/layout/NotificationCenter.jsx",
+      "bytes": 7833,
+      "sha256": "1822925c3adf8468d82b9635ffc219b601be8ebfe5e49d0af6c512dc26f327c4"
+    },
+    {
+      "path": "app/src/components/layout/Sidebar.css",
+      "bytes": 2230,
+      "sha256": "3eae0c84dab597780dedce7f73afe03ccc7c434341273cbdf1bfd4ff28d9b7f7"
+    },
+    {
+      "path": "app/src/components/layout/Sidebar.jsx",
+      "bytes": 3333,
+      "sha256": "2dda2eb42c8ba91516e3e12fd02dce93d0476d48dcc2c310562ebba4e0c61bb0"
+    },
+    {
+      "path": "app/src/components/layout/UiControls.jsx",
+      "bytes": 1249,
+      "sha256": "68abbb79503b47cae80147053ff0c5e3864de5a4a75e15dfefceae33fc5555f6"
+    },
+    {
+      "path": "app/src/data/authorActions.js",
+      "bytes": 2390,
+      "sha256": "8faf6b2ad0b2a5efd5fbd1236344ff8c1350908f620e4e4060c7eb83068c54e9"
+    },
+    {
+      "path": "app/src/data/authorWorkspace.js",
+      "bytes": 3451,
+      "sha256": "635eaeba8fe5736a2baf53a9f9e7cef6c4db7a7f11913e433c33f1fd1d8d8fc3"
+    },
+    {
+      "path": "app/src/data/bookDescription.js",
+      "bytes": 1437,
+      "sha256": "d663059fcccdb275bb893f3114c642e7894490bd9eef6803610d89fd04b49e0b"
+    },
+    {
+      "path": "app/src/data/bookDiscovery.js",
+      "bytes": 4284,
+      "sha256": "cd083cc82c08652ffc6095d8c0cb246ac4fa30595b7071985d4591f5cd087ed0"
+    },
+    {
+      "path": "app/src/data/books.js",
+      "bytes": 3216,
+      "sha256": "7bb5fbd095cbc347ffd4899fd10b8a0ab8ec09f2e8b0b2ae23e75613cfba81f0"
+    },
+    {
+      "path": "app/src/data/categoryActions.js",
+      "bytes": 4200,
+      "sha256": "1dd6fb4985f73be5006100c2451dab441523b4f3c62810a2886cef26c5f4cf49"
+    },
+    {
+      "path": "app/src/data/demoAccounts.js",
+      "bytes": 3639,
+      "sha256": "ba0bec3eae9dcbcde5390199cd92f75db68c3eae93a7ae85babcd49d0d913159"
+    },
+    {
+      "path": "app/src/data/demoCredentials.js",
+      "bytes": 1642,
+      "sha256": "ed7d4dfbd954826dd924e9716d60090e55b79107b9b48f5a88856e4b9e11a032"
+    },
+    {
+      "path": "app/src/data/libraryCategories.js",
+      "bytes": 2297,
+      "sha256": "8f7005b81f71cf9e825f8128c7c0a36eae1f8ff2e0636c275fc672a330d4558c"
+    },
+    {
+      "path": "app/src/data/libraryData.js",
+      "bytes": 9393,
+      "sha256": "0b0213587478a57ef5c923be110abc62be562d510b9c965b0173ae517acfc028"
+    },
+    {
+      "path": "app/src/data/libraryFavorites.js",
+      "bytes": 1024,
+      "sha256": "e1431b5424a9007cf17d126c4fccd8d07fdb68728902181136a1899bcbdd1b3f"
+    },
+    {
+      "path": "app/src/data/libraryHistory.js",
+      "bytes": 5882,
+      "sha256": "326dfb1952383110f07feb2f57ab53aad06b0f9326918aabec79960bd7551a9a"
+    },
+    {
+      "path": "app/src/data/libraryNotifications.js",
+      "bytes": 3547,
+      "sha256": "8539d34595d3dad23cbb2b600c2ec6783eda2566cf7f540fda88f9c9092803a2"
+    },
+    {
+      "path": "app/src/data/libraryPermissions.js",
+      "bytes": 1981,
+      "sha256": "2fcb5239516ba971f4a5b4cc5863cbc8fa99675261cbbb3d59d8fc5ffc70c9e7"
+    },
+    {
+      "path": "app/src/data/libraryReports.js",
+      "bytes": 7021,
+      "sha256": "3075997ac975c82a3607c2eda96248683d6707bbdfbcfa1b23529d82358bda0f"
+    },
+    {
+      "path": "app/src/data/librarySettings.js",
+      "bytes": 2806,
+      "sha256": "daee0ca083ea33ed6d13e55f0cdf48dc28175674548a87f8661af66150c40cd9"
+    },
+    {
+      "path": "app/src/data/managementActions.js",
+      "bytes": 7196,
+      "sha256": "df3be8fd9a15f6df2b2e19fe19a47e03d504b6a3e8a6d94ee15147385b6222b6"
+    },
+    {
+      "path": "app/src/data/manuscriptContent.js",
+      "bytes": 3402,
+      "sha256": "c8cd3b1e892dbe7447cff14a244586e4aaaf875cce88be40fcef4be42a6af79b"
+    },
+    {
+      "path": "app/src/data/manuscriptWorkflow.js",
+      "bytes": 7060,
+      "sha256": "fdc7d97bc1c777019fcf3dee4a0812be59ebe2edead5a6ecdafbcbea23b74214"
+    },
+    {
+      "path": "app/src/data/publicAuthors.js",
+      "bytes": 2152,
+      "sha256": "c3e5ef106feaaee170ace05c44a75e4acf2b781eb23ac73d8d51229c0daf0689"
+    },
+    {
+      "path": "app/src/data/readerContent.js",
+      "bytes": 4178,
+      "sha256": "0655c85211d6306e0898fd83cdce507ac70fce8217b79fc1b91113fb9eb190e9"
+    },
+    {
+      "path": "app/src/hooks/useApiCatalog.js",
+      "bytes": 3741,
+      "sha256": "6b0fb0e9d1c5fd13b9c9db8cbc60275de28380f49a91bb91dbcf2d9fe9750fa2"
+    },
+    {
+      "path": "app/src/hooks/useBookView.js",
+      "bytes": 609,
+      "sha256": "e54dbf7a371b0acb15248acbb2ef025398b9cf4d3214ac0f5af59b647604076c"
+    },
+    {
+      "path": "app/src/hooks/useBorrowRequests.js",
+      "bytes": 1103,
+      "sha256": "4e8ceb7a0e71368496f71e06d555347b1d4632d4e6075421ac23b7ce9f28e114"
+    },
+    {
+      "path": "app/src/hooks/useDemoAuth.js",
+      "bytes": 500,
+      "sha256": "5e0e9307b64ba5f3955f50371d88deebfce3afc3b0cad53119f797fdd3d45af4"
+    },
+    {
+      "path": "app/src/hooks/useFavorites.js",
+      "bytes": 444,
+      "sha256": "50cfff865f5ac87e9b88c5c6a1e0f5d290e051366b038042586db6eabe66fc2d"
+    },
+    {
+      "path": "app/src/hooks/useServerChats.js",
+      "bytes": 517,
+      "sha256": "9431e7d9594b2393910c1f5571ecaa759087f77647995430f2a2b97af3dceb6c"
+    },
+    {
+      "path": "app/src/hooks/useStoredState.js",
+      "bytes": 855,
+      "sha256": "19b8d63b316d4d2e9fba681dd5f46c7b4bc91b74632c2514ae64956b4cb41756"
+    },
+    {
+      "path": "app/src/index.css",
+      "bytes": 3213,
+      "sha256": "bad0818942b94c67af62b7a8fa8afc9d506aab1bf062c45c17134480851e443d"
+    },
+    {
+      "path": "app/src/main.jsx",
+      "bytes": 242,
+      "sha256": "cdf6c0952878ae4fc60890de89d1bc653a0eff56203d064f29c94f81e0c2a6ff"
+    },
+    {
+      "path": "app/src/pages/AccountRecovery.jsx",
+      "bytes": 5161,
+      "sha256": "828977d6a0d395f1f1d0de7f0cdf1e17ac06249f157b2132c64490b27aca4c9f"
+    },
+    {
+      "path": "app/src/pages/ApiCatalogPage.css",
+      "bytes": 1311,
+      "sha256": "90842bb0de0a6c34218d50b40ff49b8affe6b832ef8eba5204ac6a0d0481621f"
+    },
+    {
+      "path": "app/src/pages/ApiCatalogPage.jsx",
+      "bytes": 4328,
+      "sha256": "327cc306ba7f26d8d1efbc773aca2de229ab6209d92dd6105b438a3a72cd50e9"
+    },
+    {
+      "path": "app/src/pages/AssistantPage.css",
+      "bytes": 13551,
+      "sha256": "6ecae80a1eb324e3feb759dbf788fa8b979a8881b01947702ec9fd6bcb7d9f0d"
+    },
+    {
+      "path": "app/src/pages/AssistantPage.jsx",
+      "bytes": 27124,
+      "sha256": "4128e4defabf5148ec13d7894e7db46c39714812627de1ccb51aa3c23c79dbd3"
+    },
+    {
+      "path": "app/src/pages/AuthPage.css",
+      "bytes": 10008,
+      "sha256": "e8c9ccd3bbcdf38ec33c27cf8c31809b5e68033486e7e5e513d47e11d3583fd8"
+    },
+    {
+      "path": "app/src/pages/AuthPage.jsx",
+      "bytes": 12250,
+      "sha256": "b915d63b8395341364574f60f679094078f88562a479c62cbbaed83d3477ccab"
+    },
+    {
+      "path": "app/src/pages/AuthorApplicationsPage.css",
+      "bytes": 1752,
+      "sha256": "f26214541ad8b673eaf77553bc73acf7d4fca0c9ed14068869c79a7403cbb684"
+    },
+    {
+      "path": "app/src/pages/AuthorApplicationsPage.jsx",
+      "bytes": 8928,
+      "sha256": "4578516dec6792aad1b2f6cc5af4f52c99adfb868f8bc20da2522b4a4cbb273b"
+    },
+    {
+      "path": "app/src/pages/AuthorDirectoryPage.css",
+      "bytes": 1782,
+      "sha256": "ebb04d1275ee0c9b9fc9de7f804bca729ecf42fe4019cb088b971c9f53aa5d8b"
+    },
+    {
+      "path": "app/src/pages/AuthorDirectoryPage.jsx",
+      "bytes": 7070,
+      "sha256": "537c183087430e163c2b9908ab5e0ec5d769549ff97aff34a5556f1aab194d96"
+    },
+    {
+      "path": "app/src/pages/AuthorDraftForm.jsx",
+      "bytes": 14715,
+      "sha256": "b10e46903d48f7fb186be6ff585d1240741d424c88b8f11ed1b2f8e069c1bcf9"
+    },
+    {
+      "path": "app/src/pages/AuthorProfileEditor.jsx",
+      "bytes": 1396,
+      "sha256": "24a1e10e74b077c22e58fae31539dda4935321dba7e9e2615d4f5c7d238707c1"
+    },
+    {
+      "path": "app/src/pages/AuthorRegistrationPage.jsx",
+      "bytes": 8470,
+      "sha256": "9ac36e1ffd4d83d0553c80643ced06b4b7c7f9c6107c12a77e752a81f15d5f20"
+    },
+    {
+      "path": "app/src/pages/AuthorWorkspacePage.css",
+      "bytes": 5253,
+      "sha256": "92d8faea66ad31feffac6a55053294590334a198b2096491c0495ff9a995c52c"
+    },
+    {
+      "path": "app/src/pages/AuthorWorkspacePage.jsx",
+      "bytes": 18318,
+      "sha256": "b81eee40cb98ff7cebf6ef23e98ba566113ad6d8bbb18e2b29643fab295495f9"
+    },
+    {
+      "path": "app/src/pages/BorrowFlow.css",
+      "bytes": 2296,
+      "sha256": "207d4b26e388a663d3270f1af46cfa9080f776d8392b78c8654cd4eb7d9eb6b7"
+    },
+    {
+      "path": "app/src/pages/CatalogPage.css",
+      "bytes": 5782,
+      "sha256": "53c41d8320792ac2ac75493fd39d5037bd80ee00d28f905791e028e3d8dada6a"
+    },
+    {
+      "path": "app/src/pages/CatalogPage.jsx",
+      "bytes": 11057,
+      "sha256": "cdf9ca9f750a9293954ee6b8e74582cc0b19b4bff6db6611fb098174146aee58"
+    },
+    {
+      "path": "app/src/pages/CategoriesManagementPage.css",
+      "bytes": 1003,
+      "sha256": "e3aca8a1f1fefc7ee81374926feaeed52d285fda604ecda3f84dd067ec92d4f1"
+    },
+    {
+      "path": "app/src/pages/CategoriesManagementPage.jsx",
+      "bytes": 8357,
+      "sha256": "651bbb586516a265b06937de64950ed417cee31aa3b81a0a7215d018c47a8ebb"
+    },
+    {
+      "path": "app/src/pages/HistoryPage.css",
+      "bytes": 6041,
+      "sha256": "3849b541e55b8ac477efd9b7b30b57f0416d47a3226e2dce689ae1aa23141124"
+    },
+    {
+      "path": "app/src/pages/HistoryPage.jsx",
+      "bytes": 22673,
+      "sha256": "ac6ff1c3f8eb9b2eabe9ac0f9abc7452927a3f35cd0f3feabffe415fcc7daf19"
+    },
+    {
+      "path": "app/src/pages/LibrarianPage.jsx",
+      "bytes": 11685,
+      "sha256": "7076858bc04c5dec2c8f259ac07366ab8aedef499b9d5fabdd1eb63cc194b1c0"
+    },
+    {
+      "path": "app/src/pages/LibrarySettingsPage.css",
+      "bytes": 3753,
+      "sha256": "cf44a7d269b960bc5b2370ab2f57ec7c9230c918c67a0c24d74ee88fe0a8c010"
+    },
+    {
+      "path": "app/src/pages/LibrarySettingsPage.jsx",
+      "bytes": 11520,
+      "sha256": "eb7a4a512db7c1144be27e0588dfa2e83333eaa9faaedd5d21c2b0b3975ea397"
+    },
+    {
+      "path": "app/src/pages/LoanWorkspace.css",
+      "bytes": 10897,
+      "sha256": "5629454a86e3a5ed152a4b7b0fde8f95478fc62c57b2df06e0d3b95bc72d7a00"
+    },
+    {
+      "path": "app/src/pages/LoansPage.jsx",
+      "bytes": 8226,
+      "sha256": "5237ae1bffa5cc53e30b0194518fa37f7b979fefd95b1b942c650049d7db0938"
+    },
+    {
+      "path": "app/src/pages/ManagementModules.css",
+      "bytes": 5585,
+      "sha256": "6ac2d1aa9ea627191f41a426db0d0c72b9bba72e6f20a9ecb011102117af5f2a"
+    },
+    {
+      "path": "app/src/pages/ManagementModules.jsx",
+      "bytes": 25699,
+      "sha256": "b2d48cabfe5d56ca7ecc49f431a4c9571805723bdc57ab20d2ae4d9432552611"
+    },
+    {
+      "path": "app/src/pages/ManagementPage.css",
+      "bytes": 13886,
+      "sha256": "98e946ae6df44bce90760a56163b6bf4976d6e7bb8f86e380bc1ff3aca7ab55e"
+    },
+    {
+      "path": "app/src/pages/ManagementPage.jsx",
+      "bytes": 8720,
+      "sha256": "2764f8edb8997fd94fcdf6ba4c01eaf6fb24a6e8ca4f74635849104dbd68db49"
+    },
+    {
+      "path": "app/src/pages/ManuscriptReviewPage.jsx",
+      "bytes": 11462,
+      "sha256": "6b70e4f9c15d2d2a7fa93ecf337161b4ba1a6c788c6339a83a67b350e14a3037"
+    },
+    {
+      "path": "app/src/pages/OperationsPage.css",
+      "bytes": 4882,
+      "sha256": "c9496d0062cbc5b03c4c835fe67f536762cac40c4ab61f46660d87d813bf5e7c"
+    },
+    {
+      "path": "app/src/pages/OperationsPage.jsx",
+      "bytes": 31092,
+      "sha256": "b308b39a9ae7081336b94eab175d860ad6534e61b0973bd34fb8ac52656ba784"
+    },
+    {
+      "path": "app/src/pages/PermissionPage.css",
+      "bytes": 1376,
+      "sha256": "6a434dbc6c0147f0f22db9599cb89c10b7ff4c1ab55f166f385ec2160d1f881c"
+    },
+    {
+      "path": "app/src/pages/PermissionPage.jsx",
+      "bytes": 3974,
+      "sha256": "42c898f3629710e515ebea3524a7e0e6c2d87c6c1585d78fceddc8be4c463195"
+    },
+    {
+      "path": "app/src/pages/ProfilePage.jsx",
+      "bytes": 4470,
+      "sha256": "13e1658b2669e3164756a2d2ef475612287ccb951fd9836f57540d7d6b902536"
+    },
+    {
+      "path": "app/src/pages/ReaderNavigation.jsx",
+      "bytes": 10091,
+      "sha256": "3a00ec5676e46b540b1f4b2e0c2b3f77c8943e479c6945ab80739ba8712b6be8"
+    },
+    {
+      "path": "app/src/pages/ReaderPage.css",
+      "bytes": 8736,
+      "sha256": "d79e3949e99e7a92fcf730fb3cf3e2a98ea5c99c7b61d011230541d2c0829ce3"
+    },
+    {
+      "path": "app/src/pages/ReaderPage.jsx",
+      "bytes": 32250,
+      "sha256": "11806e866ec47dab6996c1912a8e1cf8d00067a11e3758aef8df7e7f8fd828cd"
+    },
+    {
+      "path": "app/src/pages/ReaderPages.css",
+      "bytes": 7054,
+      "sha256": "4b9d5d9ef0897b1da62b1807062dfd4218b04ade7bc25a3a2c0b4769651bbc3e"
+    },
+    {
+      "path": "app/src/pages/StatisticsPage.css",
+      "bytes": 7534,
+      "sha256": "a20194beac5487a889bc03fd81f4ebf0620a56ad9b46809ed931dc4777866032"
+    },
+    {
+      "path": "app/src/pages/StatisticsPage.jsx",
+      "bytes": 21362,
+      "sha256": "ec9c16f34a7b9c186c51d6ce2e15dec73aab68956b3c668029d6fb8b3b2bbd62"
+    },
+    {
+      "path": "app/src/ui/BorrowContext.js",
+      "bytes": 90,
+      "sha256": "8ffd55c556ca6d8107f2cd1eea15b1194f2095f44197bb2478c94e34cde5b756"
+    },
+    {
+      "path": "app/src/ui/ReadContext.js",
+      "bytes": 88,
+      "sha256": "5dc0719c282ce8ccb1b463ddd47846f0ec9c464e38c38607afd5b60e88be29af"
+    },
+    {
+      "path": "app/src/ui/authMessages.js",
+      "bytes": 3991,
+      "sha256": "69c90e0dade1130552da32dfafb1b75aecccde8a78449ae9513ca122c70668a1"
+    },
+    {
+      "path": "app/src/ui/authorMessages.js",
+      "bytes": 3411,
+      "sha256": "4255383dd535eab5eca74dd4ab68f37f569491c42175fdaffb3ebc11cf1a4ceb"
+    },
+    {
+      "path": "app/src/ui/borrowMessages.js",
+      "bytes": 3689,
+      "sha256": "3ee271cbbc3cafb49207fb1210f24b53b7f442ebda88ebf4900b0e66f7c35c7d"
+    },
+    {
+      "path": "app/src/ui/borrowWorkflow.js",
+      "bytes": 4372,
+      "sha256": "54ccdacb669ecc428d0d89268cd0b7016d6a29926d20a98d35645b7fee3d3566"
+    },
+    {
+      "path": "app/src/ui/en.json",
+      "bytes": 18474,
+      "sha256": "d5714f72105e81c02f30d8faf6acf7d551558efdc559335b71fc0c6769ae9755"
+    },
+    {
+      "path": "app/src/ui/librarySettingsStore.js",
+      "bytes": 457,
+      "sha256": "6afc9c35944217b6018e6b8b0f0f69163d690b69ab24ff978421d8c8eb936601"
+    },
+    {
+      "path": "app/src/ui/libraryStore.js",
+      "bytes": 5166,
+      "sha256": "4f3f2b6f8cb20f004d88ac873e30558e3a1992f361db7a4afdb1c371ed166f80"
+    },
+    {
+      "path": "app/src/ui/loanMessages.js",
+      "bytes": 8468,
+      "sha256": "98d3f57304af17d074a9aebe07577adf0a9c9ce957b87d12677af8913ce48604"
+    },
+    {
+      "path": "app/src/ui/notificationStore.js",
+      "bytes": 1765,
+      "sha256": "6f8ad87e5b0556f20d229d0cf5dc750a8ffad7c0b08d69a9d10a8fd554be49ee"
+    },
+    {
+      "path": "app/src/ui/pdfReader.js",
+      "bytes": 1489,
+      "sha256": "bcb8c71de4882ab36e06a380fd735c906a7606b8ea70855deaa793a6e7b0d4bc"
+    },
+    {
+      "path": "app/src/ui/readerMessages.js",
+      "bytes": 5304,
+      "sha256": "d646da08ece5f855d6ea8a68157b13e56c487cc281428f8a430824f4b703df70"
+    },
+    {
+      "path": "app/src/ui/settings.js",
+      "bytes": 2516,
+      "sha256": "ddc7556a883d683dd89b8c75b1e6544126e0fb0d68424ff55d1bf02731b161ab"
+    },
+    {
+      "path": "app/test/ai.test.mjs",
+      "bytes": 1545,
+      "sha256": "fa3162b3022d07571dd00e41fde751c566bc423d166ec89edc28b8a4c55e8b29"
+    },
+    {
+      "path": "app/test/books-api.test.mjs",
+      "bytes": 3077,
+      "sha256": "88ea35995d87fad58acdc0ed47ad2319ef05bbbecb9a9920c81c23a73e4490c0"
+    },
+    {
+      "path": "app/test/browser/application.spec.mjs",
+      "bytes": 11865,
+      "sha256": "bd86b687cd61c6e963f1a12197ffea5f138cc89e144e3ff9e1cdabbd486ffe5d"
+    },
+    {
+      "path": "app/test/browser/copies.spec.mjs",
+      "bytes": 3771,
+      "sha256": "75fc2298a4a73f42d5b69c9aafef8ce97834eb7f9837a3b9620b6c7f5f8d6de3"
+    },
+    {
+      "path": "app/test/browser/source-books.spec.mjs",
+      "bytes": 2504,
+      "sha256": "39efc122fbb7cc637f61b26e81ee44c40d68861f9b30d9293066f3c06adcde2b"
+    },
+    {
+      "path": "app/test/categories.test.mjs",
+      "bytes": 1937,
+      "sha256": "ddc78a968058f7c31246c8b20cfe51538a6cea5f8d42e5acefd8bf0bc3350167"
+    },
+    {
+      "path": "app/test/knowledge.test.mjs",
+      "bytes": 2716,
+      "sha256": "afb7f233d9c9ef2b50805c1e966b09198f076d82037f9f9d98ba41cae827aa2d"
+    },
+    {
+      "path": "app/test/legacy-source.test.mjs",
+      "bytes": 723,
+      "sha256": "4745a19efb0dc28fa6ab2547fc347c94f2a2f7d6794d88716962657dc360f729"
+    },
+    {
+      "path": "app/test/library.test.mjs",
+      "bytes": 35574,
+      "sha256": "a665ff2692566520da1b72111f156673c10560d6467b9cec8dd1254855fd4bae"
+    },
+    {
+      "path": "app/test/standard-ebooks.test.mjs",
+      "bytes": 5109,
+      "sha256": "8674b9519f156f7e19bb98d68f69de8529265bcc6680eb4354aa7f2cb18badc0"
+    },
+    {
+      "path": "app/test/standard-reading.test.mjs",
+      "bytes": 5064,
+      "sha256": "b635b146188023a5f63d446b3e8b7aa7ab8beee0ec95249223efa07f0381d66a"
+    },
+    {
+      "path": "app/vite.config.js",
+      "bytes": 273,
+      "sha256": "3a8269027888c88d1f65b0a936727c189a722c9b65bf1a29a88fea752f339e4c"
+    },
+    {
+      "path": "cloud-library-db/.env.example",
+      "bytes": 307,
+      "sha256": "22b78f187d611e05cb258ade81b2344fb1ecbb1652c5ab0043a929716e994e78"
+    },
+    {
+      "path": "cloud-library-db/.gitignore",
+      "bytes": 484,
+      "sha256": "cef17af650c9e82f544c1864b50e690d42ffdaa0390fb26dec0d93e977e8d2bc"
+    },
+    {
+      "path": "cloud-library-db/README.md",
+      "bytes": 3653,
+      "sha256": "b9326c9651863acdb01407f61980d8a14564603c8b8b1a9df715fdacf26bb837"
+    },
+    {
+      "path": "cloud-library-db/README_DATABASE.md",
+      "bytes": 11976,
+      "sha256": "acc659959af74ead9b7d74634fc11e4ef2b5e591f703fba48fce24fd7fce0848"
+    },
+    {
+      "path": "cloud-library-db/admin/approve-book.js",
+      "bytes": 7981,
+      "sha256": "325364ae60d0232e6bc5ebea3d9bab2c4d2c3f2fff664bb86d96b9f1e6ca0d0e"
+    },
+    {
+      "path": "cloud-library-db/admin/list-pending-books.js",
+      "bytes": 4149,
+      "sha256": "0f4d47dd7340dde848b9194fcaceef25caccd1ebd0740a4d66d474e2b328dc00"
+    },
+    {
+      "path": "cloud-library-db/admin/return-book.js",
+      "bytes": 7056,
+      "sha256": "10ecde70cc23bec42d532b8f5739eb5bded1ad1244a576f187a76ca7352044ce"
+    },
+    {
+      "path": "cloud-library-db/api/(old)open-library.js",
+      "bytes": 6086,
+      "sha256": "9e77e81e9798005ae6066544c2258d0b067f8c271148c5ec2077304ae56ab864"
+    },
+    {
+      "path": "cloud-library-db/api/auth.js",
+      "bytes": 17096,
+      "sha256": "65b56f162eb674332f6ae59b1a6246d78d130d68d43696d2c145c3529a0d3e1a"
+    },
+    {
+      "path": "cloud-library-db/api/book-filters.js",
+      "bytes": 2508,
+      "sha256": "7736df331b916243a713053653c1713dcbbe602ec14d5c5378c9aeaa41280d5e"
+    },
+    {
+      "path": "cloud-library-db/api/gutenberg.js",
+      "bytes": 5895,
+      "sha256": "c5683204b1b581e5024500fbba3c1ffcc5194f4077df52f777297744c97021ae"
+    },
+    {
+      "path": "cloud-library-db/api/local-reader.js",
+      "bytes": 7332,
+      "sha256": "3c18fc4ae9b1cf8831467de742066014f4da945b1b7641cbb23c1ae580efab39"
+    },
+    {
+      "path": "cloud-library-db/api/pdf-reader.js",
+      "bytes": 5016,
+      "sha256": "c2be9bbaec71e2209fc112782ca58aa3f3a9d8423c383d4dce9387d3b27b3aa2"
+    },
+    {
+      "path": "cloud-library-db/api/server.js",
+      "bytes": 9732,
+      "sha256": "bad2db01cdac6e4c55f460ce2c72c033334359b174d5cb435a31ca63df70c776"
+    },
+    {
+      "path": "cloud-library-db/authors/attach-pdf.js",
+      "bytes": 10075,
+      "sha256": "f9b9479d2c242e0434b72613c24c6df30f6e676cfc3e936371a4a17eac25415e"
+    },
+    {
+      "path": "cloud-library-db/authors/create-book.js",
+      "bytes": 6590,
+      "sha256": "7e265eeac50448eddb74f0890f1fec1cc95ee39827b75c8c468394c91ec24757"
+    },
+    {
+      "path": "cloud-library-db/authors/edit-book.js",
+      "bytes": 8220,
+      "sha256": "22a1bb74561b1c5a7b0b8264d7e70deef9e3fc2c63f4766da6a29839ac9243ce"
+    },
+    {
+      "path": "cloud-library-db/authors/list-books.js",
+      "bytes": 4242,
+      "sha256": "c403f09fb60625f3ebc81c98acd3ec4d8f8f8ff7c240973d4f17a888d85c0ed7"
+    },
+    {
+      "path": "cloud-library-db/authors/submit-book.js",
+      "bytes": 9795,
+      "sha256": "466661d10f1140b26e7b133a6dea5a40b8b84a6b6da9f869c766749d6b0a0b7a"
+    },
+    {
+      "path": "cloud-library-db/books/import-gutenberg.js",
+      "bytes": 5646,
+      "sha256": "0da3a183cd05d3e052b9282ec29f1eabb7041090d5bc7455ed6d3bc429d0ba17"
+    },
+    {
+      "path": "cloud-library-db/books/import-open-library.js",
+      "bytes": 5520,
+      "sha256": "9dbdd102dfc26e9e9e97cdb5bd60adf54012d00b98a1a88d80b23dce598058c0"
+    },
+    {
+      "path": "cloud-library-db/check-account-links.js",
+      "bytes": 4768,
+      "sha256": "cc0fa22f571fabc37af300f5f6131806ab47f6430513e7265ec209f5df00e0e8"
+    },
+    {
+      "path": "cloud-library-db/check-all-integrity.js",
+      "bytes": 7121,
+      "sha256": "eb96673f22c63db3a72e9df832a43086e047c4fa71ed67c3e9cf37f1b384b7dc"
+    },
+    {
+      "path": "cloud-library-db/check-db.js",
+      "bytes": 544,
+      "sha256": "ddae6e36b6567f3f0b5f79cb3d03de0528dad3361f31c7b2945a9586d5292dae"
+    },
+    {
+      "path": "cloud-library-db/check-integrity.js",
+      "bytes": 10206,
+      "sha256": "f07210a429e2e51e6a57ad1ad2462564cb1c79ecd79f7ef035f3fe9afcf54b9a"
+    },
+    {
+      "path": "cloud-library-db/check-schema.js",
+      "bytes": 6482,
+      "sha256": "8cf28ab2f1741bedea78e0cef6b5693149f3b1b61143a61528faeac574944a50"
+    },
+    {
+      "path": "cloud-library-db/compose.yaml",
+      "bytes": 318,
+      "sha256": "c44fec86dcb999a67667783c1f984876c3b1736b82b2d34ef5bc372d6ef0c9fa"
+    },
+    {
+      "path": "cloud-library-db/config/db.js",
+      "bytes": 567,
+      "sha256": "1ee7130b9ea6092f26907a788ac5a5148ee2f8dcbadf8dd06c75554acdf4169b"
+    },
+    {
+      "path": "cloud-library-db/config/reading-schema.js",
+      "bytes": 1122,
+      "sha256": "58babba090d045450879e540bb26cf36e4280f1ce999f4e6bff81384e321061b"
+    },
+    {
+      "path": "cloud-library-db/copies/add-copies.js",
+      "bytes": 7779,
+      "sha256": "6e78503ccc37eec7bf67bce71aa14010237f1830dd38a22c8f77c3c0d73cc232"
+    },
+    {
+      "path": "cloud-library-db/data/author-demo.pdf",
+      "bytes": 14914,
+      "sha256": "be99cdf8c6cbd593eef80a079bc71313c8944ef0a6cb3d8315072ce09839fcd5"
+    },
+    {
+      "path": "cloud-library-db/eslint.config.mjs",
+      "bytes": 589,
+      "sha256": "9f9b44b8e55768eaf86e417b96919510b12055d87806e0e2f0703c5a0eb64817"
+    },
+    {
+      "path": "cloud-library-db/favorites/favorites-demo.js",
+      "bytes": 3896,
+      "sha256": "82e12a145b6c78642c5f4ca610b24c9978831bbeb0012d883f319e65d387221e"
+    },
+    {
+      "path": "cloud-library-db/index.html",
+      "bytes": 312,
+      "sha256": "992bcd892b866f0db676f0e98c3139206ca66726e3f39d35d90328d6066ac2b6"
+    },
+    {
+      "path": "cloud-library-db/loans/borrow-demo.js",
+      "bytes": 5442,
+      "sha256": "83ec4263b27fc95db2feee7ac139309dfee8b710d9559bf4b3cfc81a83f3f5c2"
+    },
+    {
+      "path": "cloud-library-db/loans/renewal-demo.js",
+      "bytes": 8191,
+      "sha256": "f3982a8d128e014d329d4571368bd44e80e9a7e4ba434b53339b0d4941ec2f7d"
+    },
+    {
+      "path": "cloud-library-db/loans/return-demo.js",
+      "bytes": 7237,
+      "sha256": "e9bd1f1c62bf3ac1e46b645d904884e05cd1c644141385a2c22a027e466f9e94"
+    },
+    {
+      "path": "cloud-library-db/notifications/notifications-demo.js",
+      "bytes": 5141,
+      "sha256": "b68725944a7dba22c919c7f6931ed056256b96be4bd7c668ec88e1df21eb6871"
+    },
+    {
+      "path": "cloud-library-db/notifications/reminders-demo.js",
+      "bytes": 7750,
+      "sha256": "a1abfbac14e2b728ee7cbac1cf5a2c0ede63346ed48f67b4b7a2257fee6e02d9"
+    },
+    {
+      "path": "cloud-library-db/package-lock.json",
+      "bytes": 158441,
+      "sha256": "ae13ac56b2d810a480b9501d2f62e6710b318d783343d238bebfec16ccb27813"
+    },
+    {
+      "path": "cloud-library-db/package.json",
+      "bytes": 1071,
+      "sha256": "1433ca38d43fbd5e526f634eeea7851ed60d20191c8755b3b5291ff3e0be5d9a"
+    },
+    {
+      "path": "cloud-library-db/public/favicon.svg",
+      "bytes": 9522,
+      "sha256": "61bc9a161de58248288e6905425d7180f0624c2865007b97d763fdac12043a66"
+    },
+    {
+      "path": "cloud-library-db/public/icons.svg",
+      "bytes": 5055,
+      "sha256": "7ca2d67c9c3aebf50cdc8709ee8aacf8cdb8cc7ea6325ea94939caef5da1c53d"
+    },
+    {
+      "path": "cloud-library-db/reading/reading-model.js",
+      "bytes": 3499,
+      "sha256": "326b7badbe576dcfe550137c21425405cc8c8cf983e2780c9d08750f0f01d48f"
+    },
+    {
+      "path": "cloud-library-db/reservations/add-reservation-demo.js",
+      "bytes": 4898,
+      "sha256": "46e9f2acdac4f1bc7e6bf5e3fd74ebb6fcc240503b6bc874c490c1c77c0f7edf"
+    },
+    {
+      "path": "cloud-library-db/reservations/expire-holds-demo.js",
+      "bytes": 21342,
+      "sha256": "e3a775cbe7b4e74e51ad9cb16ac52278823efc62a896255fed9e01a22fb07b02"
+    },
+    {
+      "path": "cloud-library-db/reservations/manage-reservations-demo.js",
+      "bytes": 6515,
+      "sha256": "6436d5a8e1f2cadc52651021b79f995be61295771d8f65e59748761f1fa62db9"
+    },
+    {
+      "path": "cloud-library-db/reservations/pickup-demo.js",
+      "bytes": 8123,
+      "sha256": "821c1a4014fe351aff98b8c433b03be3fd9ec41ffa50bdc8ea6b773bd74de271"
+    },
+    {
+      "path": "cloud-library-db/reservations/return-and-hold-demo.js",
+      "bytes": 11251,
+      "sha256": "12a2d4f1e0d6a3f284de54da0966e54a320910bd08d9c42400fdb5449240ada5"
+    },
+    {
+      "path": "cloud-library-db/scripts/localize-ui.cjs",
+      "bytes": 7877,
+      "sha256": "a4f6c8fb06e473572293672891012e9831480ced0dca43b6c2cbc2873ac3649d"
+    },
+    {
+      "path": "cloud-library-db/seed/seed-demo.js",
+      "bytes": 3157,
+      "sha256": "38e67daa16e69f47fca12b4418725339554c1813fb76c10a4fb263a99c0cbe4a"
+    },
+    {
+      "path": "cloud-library-db/seed/seed-expired-holds-demo.js",
+      "bytes": 6643,
+      "sha256": "0ed031df79a5a6f0d5e4be34bc949de833ec33c942db9049b21bb0116217278b"
+    },
+    {
+      "path": "cloud-library-db/seed/seed-reservation-demo.js",
+      "bytes": 4204,
+      "sha256": "eb71c0627928687804b5cddc8539f169d317e256e16d834a91dc76751836873d"
+    },
+    {
+      "path": "cloud-library-db/setup/add-book-indexes.js",
+      "bytes": 9787,
+      "sha256": "2516d2566d417eee93fcf56f196349f2b5652c3883f647ddd31c768aa829b577"
+    },
+    {
+      "path": "cloud-library-db/setup/create-feature-tables.js",
+      "bytes": 2905,
+      "sha256": "8bb3f1d6a3b80d66a09ce304d90fff52d96aea7208b291b108f57cd24f3df918"
+    },
+    {
+      "path": "cloud-library-db/setup/create-loans-table.js",
+      "bytes": 2002,
+      "sha256": "1946f46d748ac011e5c7ab64537ed6d3973e4b224e91743d51604ea0c4100548"
+    },
+    {
+      "path": "cloud-library-db/setup/create-tables.js",
+      "bytes": 2152,
+      "sha256": "1769fdc4b5c4df5a5baa146e9d338644f3fe3c8590cf84469e1cbaece2f901bf"
+    },
+    {
+      "path": "cloud-library-db/setup/link-reader-account.js",
+      "bytes": 7066,
+      "sha256": "a5c9c5448364511f1c202242aa758d9c8ab2c710f65a763a7ecbc7cafa932ce3"
+    },
+    {
+      "path": "cloud-library-db/setup/setup-accounts.js",
+      "bytes": 5629,
+      "sha256": "b188a9dc354f9e9b52a246089c60ceb32d8a8794ec7ad78d497b7a43fba0720e"
+    },
+    {
+      "path": "cloud-library-db/setup/setup-admin.js",
+      "bytes": 3930,
+      "sha256": "b351b7565688b4b4044b20c5406164e9ac72320f36224649880b4249eefa4e9c"
+    },
+    {
+      "path": "cloud-library-db/src/App.css",
+      "bytes": 378,
+      "sha256": "5546d5d98b50fd3c7e3e0d868401b1303af0e61298abe9c8565b2e0b835287db"
+    },
+    {
+      "path": "cloud-library-db/src/App.jsx",
+      "bytes": 11475,
+      "sha256": "cd5d4e4d63e9d0192633f9d2f754ba28378ed05ef196795075154bec63d051fc"
+    },
+    {
+      "path": "cloud-library-db/src/App.jsx.before-i18n",
+      "bytes": 4100,
+      "sha256": "ec99c27fa59be589709ce5d1333938a17d69d7453f1e6f2c6e149af2763f76ef"
+    },
+    {
+      "path": "cloud-library-db/src/GalaxyTheme.css",
+      "bytes": 24801,
+      "sha256": "6227cc90573cf6c2f7617433ef3408e9c6fb47530d81d41be7d60ea9302de37a"
+    },
+    {
+      "path": "cloud-library-db/src/LibraryRoot.jsx",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "cloud-library-db/src/api/catalog.js",
+      "bytes": 3841,
+      "sha256": "008a4e2415d4ab1901044942497f3ba14a46895d045a0e0768e77dbd1f2be2c7"
+    },
+    {
+      "path": "cloud-library-db/src/api/client.js",
+      "bytes": 7234,
+      "sha256": "1ee535bc577fb578ce460f2f9a015411f6bf45413483620528200274b227b67d"
+    },
+    {
+      "path": "cloud-library-db/src/api/libraryApi.js",
+      "bytes": 6818,
+      "sha256": "05cb30872ce029c69378a2b5376d2492418f533564cf01383c26463dbd6a96fa"
+    },
+    {
+      "path": "cloud-library-db/src/assets/decor/purple-butterflies.png",
+      "bytes": 1572354,
+      "sha256": "27b2f26b7fb3e312dbe42b3ca86edc51a1f8698dc4af2e38a143cbd7562a1289"
+    },
+    {
+      "path": "cloud-library-db/src/assets/decor/violet-corner.png",
+      "bytes": 926639,
+      "sha256": "8e2b9503e76198c46bb93c68434047c5dd0e43e99ab43f343e915357b6654d5f"
+    },
+    {
+      "path": "cloud-library-db/src/assets/hero.png",
+      "bytes": 13057,
+      "sha256": "881ffbcaafc212e49addad08846a5b82761355fa20624253af3477ba33262c5c"
+    },
+    {
+      "path": "cloud-library-db/src/assets/react.svg",
+      "bytes": 4126,
+      "sha256": "35ef61ed53b323ae94a16a8ec659b3d0af3880698791133f23b084085ab1c2e5"
+    },
+    {
+      "path": "cloud-library-db/src/assets/vite.svg",
+      "bytes": 8710,
+      "sha256": "2f1f6c6f90a0ef7422cbb4cfafcd8ad329c507a18afdc34cc21fa72179b9c54a"
+    },
+    {
+      "path": "cloud-library-db/src/components/books/BookCarousel.css",
+      "bytes": 3814,
+      "sha256": "a5436fa35d68929dde9cbb6488445753c312750075aa42fc00c5a50f3cd3f17c"
+    },
+    {
+      "path": "cloud-library-db/src/components/books/BookCarousel.jsx",
+      "bytes": 5508,
+      "sha256": "946af3fb6bb4fd2bc31a67ed3662118b95a00a314a0a90b59e6f4500366c2732"
+    },
+    {
+      "path": "cloud-library-db/src/components/books/BookCarousel.jsx.before-i18n",
+      "bytes": 3007,
+      "sha256": "99ed84be8d95e58515552083f7454c3f5ac811e2638d084f543c7a025e0daa45"
+    },
+    {
+      "path": "cloud-library-db/src/components/books/FavoriteButton.css",
+      "bytes": 1244,
+      "sha256": "c5da13836594206f1886c3947eab07135e6690c24714b687d58ecc70c8843544"
+    },
+    {
+      "path": "cloud-library-db/src/components/books/FavoriteButton.jsx",
+      "bytes": 810,
+      "sha256": "c5a28ff82709d3c03ef4b1ee290ef16a70f2b67ee2015f4aec69826df4cd9882"
+    },
+    {
+      "path": "cloud-library-db/src/components/books/HomeSections.css",
+      "bytes": 7464,
+      "sha256": "083ece3ea764560b40a0c209166bd40b8c53ea800ed9eee79799ef0d229ff623"
+    },
+    {
+      "path": "cloud-library-db/src/components/books/HomeSections.jsx",
+      "bytes": 11017,
+      "sha256": "977e54e23aed2e801d650939b285d41441a68517cb20be1d7e667d39dd0de69a"
+    },
+    {
+      "path": "cloud-library-db/src/components/books/HomeSections.jsx.before-i18n",
+      "bytes": 9829,
+      "sha256": "a90d927ab1bd8cf8be208516e558ebf0fc02f7df6ede07747211790adcd8e5e3"
+    },
+    {
+      "path": "cloud-library-db/src/components/books/LoanRecord.jsx",
+      "bytes": 2460,
+      "sha256": "caacb6ab285dbb2974743fd4f9d8a80ca13b72e2f4fbe93b89b1b4d174883e92"
+    },
+    {
+      "path": "cloud-library-db/src/components/books/ReadingHistory.css",
+      "bytes": 3985,
+      "sha256": "83e11803f2e3b938fd1c40c5891f57a9c28124ca2ceaa5195f6300ac82b11f44"
+    },
+    {
+      "path": "cloud-library-db/src/components/books/ReadingHistory.jsx",
+      "bytes": 6280,
+      "sha256": "3ccb2a807d3894d498f91999042d2f553158c8c64a2419c6949395c4f25763ee"
+    },
+    {
+      "path": "cloud-library-db/src/components/books/TopicBar.css",
+      "bytes": 1419,
+      "sha256": "d173b25308d77f72c012742fb55ae0bc4933c9e793a28e030cae5b92be316d0d"
+    },
+    {
+      "path": "cloud-library-db/src/components/books/TopicBar.jsx",
+      "bytes": 1297,
+      "sha256": "2599d87103af6e634fdde445c42df964b461712eb7caa211ee59006bb3c01b43"
+    },
+    {
+      "path": "cloud-library-db/src/components/layout/BotanicalDecor.jsx",
+      "bytes": 878,
+      "sha256": "43f9e6004279747f9cee291ffff45fecbcf5d303bdf0039fbfb9eba8c3268a33"
+    },
+    {
+      "path": "cloud-library-db/src/components/layout/BotanicalTheme.css",
+      "bytes": 26641,
+      "sha256": "da84544e7949d24304a595a1c659959d5a3589fa0b977d15984ad5a16f2c39b5"
+    },
+    {
+      "path": "cloud-library-db/src/components/layout/Header.css",
+      "bytes": 2208,
+      "sha256": "148b441cf5de5a1da83aecb2f308b049d8bfb0280b3e8e81809140967b27f870"
+    },
+    {
+      "path": "cloud-library-db/src/components/layout/Header.jsx",
+      "bytes": 2680,
+      "sha256": "6563664c8128b1fca1bb1f02bee088150f95e70ebce5a2eec44202bb04a48d94"
+    },
+    {
+      "path": "cloud-library-db/src/components/layout/Header.jsx.before-i18n",
+      "bytes": 1972,
+      "sha256": "4052e55b0a3a184863fe552157b55e1fba787826844c75d0375e3e27af1e7438"
+    },
+    {
+      "path": "cloud-library-db/src/components/layout/NotificationCenter.css",
+      "bytes": 3674,
+      "sha256": "b80b1cc5bbadceb8eab0a166ba30b55e0ae60e353fc3432b0ca4545768ee6da4"
+    },
+    {
+      "path": "cloud-library-db/src/components/layout/NotificationCenter.jsx",
+      "bytes": 7143,
+      "sha256": "4221ed01c90fa966021e6ac94e76620b772b8da09311e55fe8a1030a3c9cbee3"
+    },
+    {
+      "path": "cloud-library-db/src/components/layout/Sidebar.css",
+      "bytes": 2363,
+      "sha256": "a61e46c5910c1c01fa30c27e54ad33efaa759374729d0518d3a5a9450247939e"
+    },
+    {
+      "path": "cloud-library-db/src/components/layout/Sidebar.jsx",
+      "bytes": 2500,
+      "sha256": "14291c6c01c9b3b63f417f776235954addb44ca6e1b2e92e321dedd9cf91d22b"
+    },
+    {
+      "path": "cloud-library-db/src/components/layout/Sidebar.jsx.before-i18n",
+      "bytes": 1987,
+      "sha256": "124823aaafe63b144970cf71d0bd9836dc556704fb92ade924700aac6848cc48"
+    },
+    {
+      "path": "cloud-library-db/src/components/layout/UiControls.jsx",
+      "bytes": 1294,
+      "sha256": "fb63e5673985d3560c67567ffb2a4d8f7525ec9495f31ee9ff278d5f9bbb5d3a"
+    },
+    {
+      "path": "cloud-library-db/src/data/books.js",
+      "bytes": 3326,
+      "sha256": "5d63ccbfd6b1f8a25cce9abb4a4acd576231983ca37a11b99b80c084aeed98b3"
+    },
+    {
+      "path": "cloud-library-db/src/data/demoAccounts.js",
+      "bytes": 3207,
+      "sha256": "8719994d9f8e48108c1f3a0999a9b3bad054c4d8ee21d1787152d7efd06d7126"
+    },
+    {
+      "path": "cloud-library-db/src/data/demoCredentials.js",
+      "bytes": 1714,
+      "sha256": "127804fb23f40acfa23efc377295ff29ee0f11f271b86b8d2db1e4a3928368b0"
+    },
+    {
+      "path": "cloud-library-db/src/data/libraryData.js",
+      "bytes": 7913,
+      "sha256": "223ea6e75b4bc76c591c9c31004f61bfc8e3e678175d3742636a8736a78a18dd"
+    },
+    {
+      "path": "cloud-library-db/src/data/libraryFavorites.js",
+      "bytes": 1065,
+      "sha256": "0242fce6f2026942ee0b6925e5e8f139636f2868efa45a14488088e6d96d9fa8"
+    },
+    {
+      "path": "cloud-library-db/src/data/libraryHistory.js",
+      "bytes": 6201,
+      "sha256": "c07767d5be80a17944a9b4e454a04b2d607acef1bca9f5886c7ba7bc5bfe99d3"
+    },
+    {
+      "path": "cloud-library-db/src/data/libraryNotifications.js",
+      "bytes": 2672,
+      "sha256": "08e83576163ba5f0376e7a451863c3d25c6826f2dfdad265b4ea7cbc1ea07938"
+    },
+    {
+      "path": "cloud-library-db/src/data/libraryPermissions.js",
+      "bytes": 1766,
+      "sha256": "90e54d52b48a4f32511c870f548eda04a3970272c8e067958e1efba53d31d2c3"
+    },
+    {
+      "path": "cloud-library-db/src/data/libraryReports.js",
+      "bytes": 8435,
+      "sha256": "ccf96bd777554a0fe67e0c1d2baf87ade59542e3e35c2573db36adb04bc2436b"
+    },
+    {
+      "path": "cloud-library-db/src/data/librarySettings.js",
+      "bytes": 3051,
+      "sha256": "19735b7bfb2513739af225c94358f5196209bda0db04de7a654dd3474547f5ef"
+    },
+    {
+      "path": "cloud-library-db/src/data/managementActions.js",
+      "bytes": 6361,
+      "sha256": "940c32fef9eafe01543d621177f643bff8ae51650e4687a4e0154f7e8d5994a2"
+    },
+    {
+      "path": "cloud-library-db/src/hooks/useApiCatalog.js",
+      "bytes": 4265,
+      "sha256": "fa1faa93572ec3bb0378219755a5f177b8469f0e0d94c68834c335251cd265e2"
+    },
+    {
+      "path": "cloud-library-db/src/hooks/useBorrowRequests.js",
+      "bytes": 5572,
+      "sha256": "a25e38dd4aaecca9417581d039a7661e96746e419449636091d7b7d77ff12628"
+    },
+    {
+      "path": "cloud-library-db/src/hooks/useDemoAuth.js",
+      "bytes": 4831,
+      "sha256": "54887fa01b9bd82d7db9153df635b02efe84e32fec7604b66162677b045acec2"
+    },
+    {
+      "path": "cloud-library-db/src/hooks/useFavorites.js",
+      "bytes": 1408,
+      "sha256": "bd217c7d4bb49b7782f445bebd521f4864fccd5bc040b403882d7d15d68e7b41"
+    },
+    {
+      "path": "cloud-library-db/src/hooks/useStoredState.js",
+      "bytes": 888,
+      "sha256": "c964c417ea5a9560658c2bd5ae1251ae03693bf181eed1c3501bc1fe6e2d26d8"
+    },
+    {
+      "path": "cloud-library-db/src/index.css",
+      "bytes": 3386,
+      "sha256": "5c6e92f2d1f9da5985acb1a5cca5809440ce380e07404964fa6a4ba6320d24c7"
+    },
+    {
+      "path": "cloud-library-db/src/main.jsx",
+      "bytes": 242,
+      "sha256": "25ce0c6b3bf832d29bade28da526fcf45961fe563424b302cc6413f062f6165f"
+    },
+    {
+      "path": "cloud-library-db/src/pages/ApiCatalogPage.css",
+      "bytes": 1413,
+      "sha256": "17983c5e303bceb9b76a2d7723df5446822f8e9e55186982607d00fe0c5e7ede"
+    },
+    {
+      "path": "cloud-library-db/src/pages/ApiCatalogPage.jsx",
+      "bytes": 4862,
+      "sha256": "613ce960d9009d6c4dd8de07d9e855bc6fb413f10b9d39596580d20e4b8104dc"
+    },
+    {
+      "path": "cloud-library-db/src/pages/AssistantPage.css",
+      "bytes": 14330,
+      "sha256": "f82e9a7f67d8a91538fd9de3a7800eaca68f38acd91e38957f423d3a742e3418"
+    },
+    {
+      "path": "cloud-library-db/src/pages/AssistantPage.jsx",
+      "bytes": 26845,
+      "sha256": "f2818fe53a361d8978352e211cceaae218331487425a90f8ffd21a5c5fd874db"
+    },
+    {
+      "path": "cloud-library-db/src/pages/AuthPage.css",
+      "bytes": 3962,
+      "sha256": "48f747d81042faf930cd9e392d27427d5de9566138412712dccf0517e72271a9"
+    },
+    {
+      "path": "cloud-library-db/src/pages/AuthPage.jsx",
+      "bytes": 6692,
+      "sha256": "42c93ff0bc904c5c123672cecf30ba37adf462b924baeaaf68e1830f512de0a7"
+    },
+    {
+      "path": "cloud-library-db/src/pages/BorrowFlow.css",
+      "bytes": 2430,
+      "sha256": "5d9595c7ca442ef3aedb0f955892ab54773dfedeb07317d89d6203eabc100672"
+    },
+    {
+      "path": "cloud-library-db/src/pages/CatalogPage.css",
+      "bytes": 6094,
+      "sha256": "49f7370e56ab5a7ed422a65efeb14dc8af9de92fc4eff8ccbfd1c8977595dc86"
+    },
+    {
+      "path": "cloud-library-db/src/pages/CatalogPage.jsx",
+      "bytes": 12238,
+      "sha256": "7fe4a138b9c4167a567c5ed780e50473118e04d4896636fe5bc387fa3374d360"
+    },
+    {
+      "path": "cloud-library-db/src/pages/HistoryPage.css",
+      "bytes": 6396,
+      "sha256": "48d6807298d5d0d068e9afa190dfc50936ecf14ee9f0aff99be96a995fe136a7"
+    },
+    {
+      "path": "cloud-library-db/src/pages/HistoryPage.jsx",
+      "bytes": 25192,
+      "sha256": "99ca2bd7d3f6425b8801b596e5e7f61e57455d2fc97b5b5549a82c338e5928e0"
+    },
+    {
+      "path": "cloud-library-db/src/pages/LibrarianPage.jsx",
+      "bytes": 13032,
+      "sha256": "f311bb64aa28da06bef28fc4dd2b8b98c3696bdc4a255d9fd94743ddeb14ad39"
+    },
+    {
+      "path": "cloud-library-db/src/pages/LibrarySettingsPage.css",
+      "bytes": 3980,
+      "sha256": "7b492c06cae1f0ec50120a2e6b3c779d1b7d972b35b24f75c5a53f426a652898"
+    },
+    {
+      "path": "cloud-library-db/src/pages/LibrarySettingsPage.jsx",
+      "bytes": 11083,
+      "sha256": "3790b88e9a3c3b73dc0330d9af41a181c3b8392ce852ae658ffe7ff151aefb12"
+    },
+    {
+      "path": "cloud-library-db/src/pages/LoanWorkspace.css",
+      "bytes": 11535,
+      "sha256": "03ecd8064e4113d18664cccc3d519e41050bc0f759ccc61d1e9faf57ee4e59a5"
+    },
+    {
+      "path": "cloud-library-db/src/pages/LoansPage.jsx",
+      "bytes": 8879,
+      "sha256": "a1cb7c5056b0202d6ec79d57da1e81c1eaea2aba2a1c750684f01452d2734bc4"
+    },
+    {
+      "path": "cloud-library-db/src/pages/ManagementModules.css",
+      "bytes": 5921,
+      "sha256": "83c73105dbd9ca8f92171fb75a9589984649a79d1dd08a82edb096d071961687"
+    },
+    {
+      "path": "cloud-library-db/src/pages/ManagementModules.jsx",
+      "bytes": 27495,
+      "sha256": "e02dfb34a504e39241c60152f83cda689cb4b7700b673577b99fcf559697dfec"
+    },
+    {
+      "path": "cloud-library-db/src/pages/ManagementPage.css",
+      "bytes": 14842,
+      "sha256": "c1ba0835785ff3e15891c52820e9cb3058c913d284a0bd5ab1dec8c68c02988e"
+    },
+    {
+      "path": "cloud-library-db/src/pages/ManagementPage.jsx",
+      "bytes": 7758,
+      "sha256": "c1f819d87cc0ebad48d7f25fb9ef5b6e8ceab13bda5b8ed18159b226733327b7"
+    },
+    {
+      "path": "cloud-library-db/src/pages/PermissionPage.css",
+      "bytes": 1444,
+      "sha256": "6d46a763955a85151d10506d1506300a61b8a2f8a250a532bff6c58bb309aae0"
+    },
+    {
+      "path": "cloud-library-db/src/pages/PermissionPage.jsx",
+      "bytes": 4811,
+      "sha256": "f788aa60a830c1465a3dcb3c84c9cf6355d94bdcafd15ee5bbb58935cee88c02"
+    },
+    {
+      "path": "cloud-library-db/src/pages/ProfilePage.jsx",
+      "bytes": 4675,
+      "sha256": "e05d3a3646f11617bb60d776849a7eeb97780cee8372d041c037f17e028e71fe"
+    },
+    {
+      "path": "cloud-library-db/src/pages/ReaderPage.css",
+      "bytes": 3168,
+      "sha256": "2dff2e4c2c070bdd71a2586b76a2d039d0155cc73c331cd520a837a2ae9e9858"
+    },
+    {
+      "path": "cloud-library-db/src/pages/ReaderPage.jsx",
+      "bytes": 5113,
+      "sha256": "5fe518b41b7e8654e459d07948a989ba8a995655a4678865ed982df5e8ea33a9"
+    },
+    {
+      "path": "cloud-library-db/src/pages/ReaderPages.css",
+      "bytes": 8295,
+      "sha256": "9c45fd7229aeba99040ce919aa420d81e815437639bcd10960b255880e6c366a"
+    },
+    {
+      "path": "cloud-library-db/src/pages/StatisticsPage.css",
+      "bytes": 8018,
+      "sha256": "d1de3ba0d92840c1bdcd7b0f1a0e542b221a5771e30c614681a47254ecf00167"
+    },
+    {
+      "path": "cloud-library-db/src/pages/StatisticsPage.jsx",
+      "bytes": 28098,
+      "sha256": "fbb1d19f98561dfc61dcc530ba7cf2463e5ff5dd6288081f0a3ca9e0f70f046e"
+    },
+    {
+      "path": "cloud-library-db/src/ui/BorrowContext.js",
+      "bytes": 93,
+      "sha256": "1dbc2885886493a6572f06f14221cb86bab567c23a786f25f3fa303101571c26"
+    },
+    {
+      "path": "cloud-library-db/src/ui/ReadContext.js",
+      "bytes": 91,
+      "sha256": "a6429e64144f32ab2c46d155084d16ea7ed8e06e1eaa507f29a91dd8fa5a4b21"
+    },
+    {
+      "path": "cloud-library-db/src/ui/authMessages.js",
+      "bytes": 3481,
+      "sha256": "ffcccd55076b5201ed178dd953d1681e4925b03dff2926f935394fa7f5c752ca"
+    },
+    {
+      "path": "cloud-library-db/src/ui/borrowMessages.js",
+      "bytes": 3882,
+      "sha256": "e8ed7caeefc9a66228ef31a565bba40c678060664fa520014d41d0c613fcd81a"
+    },
+    {
+      "path": "cloud-library-db/src/ui/borrowWorkflow.js",
+      "bytes": 4588,
+      "sha256": "fc9c307c053842d1904f21369a56836f2315fcaa3acf1f887d5e188cb0bcee88"
+    },
+    {
+      "path": "cloud-library-db/src/ui/en.json",
+      "bytes": 8250,
+      "sha256": "288ea9bde953f62f6685bd46e9b246f4183b8deda3eccf84188eb3d9e5f7f540"
+    },
+    {
+      "path": "cloud-library-db/src/ui/librarySettingsStore.js",
+      "bytes": 1206,
+      "sha256": "897993ef13191501ed20da8546a4703bf23b445d44f9e267c55ff0678f6480b3"
+    },
+    {
+      "path": "cloud-library-db/src/ui/libraryStore.js",
+      "bytes": 4271,
+      "sha256": "1f699863eae2189f4b75036c10399091f9d3bf27d28d1d99d595d49c0126096b"
+    },
+    {
+      "path": "cloud-library-db/src/ui/loanMessages.js",
+      "bytes": 8660,
+      "sha256": "144587cf06bcd278e34daf2e32670e5a94b62e2d999c8435c935ccdbbea23ce3"
+    },
+    {
+      "path": "cloud-library-db/src/ui/notificationStore.js",
+      "bytes": 1793,
+      "sha256": "28aa3cdb8a95ce9369d28db4a7ee47e4381042d5bc5eccf6a1126cc62bd5751d"
+    },
+    {
+      "path": "cloud-library-db/src/ui/readerMessages.js",
+      "bytes": 1698,
+      "sha256": "7201a44131d9e97e2cfdf69d48f69a77fa18c93ccc60d6580d35e9556d237d05"
+    },
+    {
+      "path": "cloud-library-db/src/ui/settings.js",
+      "bytes": 2631,
+      "sha256": "ac5da20277ecc91b2be9da9e6b791233670204d4c316e8fb5d507b04aa0c1356"
+    },
+    {
+      "path": "cloud-library-db/storage/ebooks/BOOK_PG_1661.txt",
+      "bytes": 607606,
+      "sha256": "922e2a12ccb43a4c9544c260b2166c6ad2097aeb5957faeee113f173bb857cd0"
+    },
+    {
+      "path": "cloud-library-db/storage/private-pdfs/BOOK_AUTHOR_DEMO001/be99cdf8c6cbd593eef80a079bc71313c8944ef0a6cb3d8315072ce09839fcd5.pdf",
+      "bytes": 14914,
+      "sha256": "be99cdf8c6cbd593eef80a079bc71313c8944ef0a6cb3d8315072ce09839fcd5"
+    },
+    {
+      "path": "cloud-library-db/storage/private-pdfs/BOOK_AUTHOR_DEMO002/be99cdf8c6cbd593eef80a079bc71313c8944ef0a6cb3d8315072ce09839fcd5.pdf",
+      "bytes": 14914,
+      "sha256": "be99cdf8c6cbd593eef80a079bc71313c8944ef0a6cb3d8315072ce09839fcd5"
+    },
+    {
+      "path": "cloud-library-db/storage/private-pdfs/BOOK_AUTHOR_DEMO003/be99cdf8c6cbd593eef80a079bc71313c8944ef0a6cb3d8315072ce09839fcd5.pdf",
+      "bytes": 14914,
+      "sha256": "be99cdf8c6cbd593eef80a079bc71313c8944ef0a6cb3d8315072ce09839fcd5"
+    },
+    {
+      "path": "cloud-library-db/test.txt",
+      "bytes": 7,
+      "sha256": "ee6a8fc8265192856fbd9dc05a094116b6b47ef55fbfeb8d9f759ee5b188189d"
+    },
+    {
+      "path": "cloud-library-db/vite.config.mjs",
+      "bytes": 168,
+      "sha256": "f58edcc886dbf642f0aad60dce0c36a378df3022aa88cec76592532b12d529cc"
+    },
+    {
+      "path": "requirements/CloudLibrary_TaiLieuchung.pdf",
+      "bytes": 1108551,
+      "sha256": "7fc5b819c89d25484b566c65e73f2f31976b8a3d30b3a18edb32cfcf8bc366c8"
+    },
+    {
+      "path": "requirements/Cloud_Library_Management_System.docx",
+      "bytes": 35822,
+      "sha256": "19636327749f1ccfa2c9a5cabb5c824ee3e6536074fc50a58f32a213684b0256"
+    }
+  ]
+}

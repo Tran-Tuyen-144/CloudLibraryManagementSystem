@@ -1,0 +1,2433 @@
+{
+  "source": "Standard Ebooks public repositories",
+  "fetchedAt": "2026-11-21T14:44:35.458055+00:00",
+  "books": [
+    {
+      "id": "se-jane-austen_pride-and-prejudice",
+      "file": "jane-austen_pride-and-prejudice.json",
+      "sha256": "2c0e87600aae9fd12e5c61a44a36554b6bc13573ae6d852728f6ec287a6a1edc",
+      "title": "Pride and Prejudice",
+      "author": "Jane Austen",
+      "sourceUrl": "https://standardebooks.org/ebooks/jane-austen/pride-and-prejudice",
+      "repository": "https://github.com/standardebooks/jane-austen_pride-and-prejudice",
+      "archiveUrl": "https://api.github.com/repos/standardebooks/jane-austen_pride-and-prejudice/zipball/master",
+      "archiveSha256": "c5d2d87aa1f8106b324d8c5793bf1de9834ffc264b4ae28b576abe695b0af685",
+      "coverSha256": "49f0a949bc6f30b223f7ce597d6f29496f9c75f4c188bc05a65fe4247706735c",
+      "chapterCount": 63,
+      "characters": 687011,
+      "spineFiles": [
+        {
+          "path": "src/epub/text/chapter-1.xhtml",
+          "sha256": "78e777101e7a3d6dc723dbf6df5d851ae1ba6fd1ebaad29264b14607c9e23214",
+          "characters": 4472
+        },
+        {
+          "path": "src/epub/text/chapter-2.xhtml",
+          "sha256": "c5676c9d0b4ff82acea89cf03adbcec402dfa0f1be4fac1bf33c02fab3370db1",
+          "characters": 4290
+        },
+        {
+          "path": "src/epub/text/chapter-3.xhtml",
+          "sha256": "1b3f3ea948d2051b31b653e91a2d81c07689ebce5ff7cac554b322b9f1c4ab44",
+          "characters": 9548
+        },
+        {
+          "path": "src/epub/text/chapter-4.xhtml",
+          "sha256": "80455e033b965ce8f13db270bf839728d17ac31604b16e4251d443472304899e",
+          "characters": 5906
+        },
+        {
+          "path": "src/epub/text/chapter-5.xhtml",
+          "sha256": "3de78d2f926fa02ffd599c721847884ae5e9c278647c81ecf8a5156000e5b464",
+          "characters": 5232
+        },
+        {
+          "path": "src/epub/text/chapter-6.xhtml",
+          "sha256": "abb38f83382c5a8ffcf7e26653cff869549d75b0cc1cec9b5815ccb344b96e2c",
+          "characters": 12989
+        },
+        {
+          "path": "src/epub/text/chapter-7.xhtml",
+          "sha256": "c23dfd04c31bb28d0a203b6582605c965d597f9e845774a5a2aa910daeb00531",
+          "characters": 11158
+        },
+        {
+          "path": "src/epub/text/chapter-8.xhtml",
+          "sha256": "67dee293952ab2498f25505eccd129b2f07d3b16a3ab7c45935117fac6154a31",
+          "characters": 10992
+        },
+        {
+          "path": "src/epub/text/chapter-9.xhtml",
+          "sha256": "b34c75be3b5d9daec2befa1e5210076b6b9cec2a40f67a46bf24007e7b2cc5ad",
+          "characters": 9734
+        },
+        {
+          "path": "src/epub/text/chapter-10.xhtml",
+          "sha256": "6a766c8df48203478b58c01fa771ffab722524c16236f249254073b1b0630e04",
+          "characters": 12493
+        },
+        {
+          "path": "src/epub/text/chapter-11.xhtml",
+          "sha256": "265256c8e542912cafeca1d769dfd72effbfff193c9e34310b1e0d8a38bb17c1",
+          "characters": 8928
+        },
+        {
+          "path": "src/epub/text/chapter-12.xhtml",
+          "sha256": "50369fe46c7064cdf2f5ce861ad6d55704fa058b5f0ee7ce22ba16b631693415",
+          "characters": 3933
+        },
+        {
+          "path": "src/epub/text/chapter-13.xhtml",
+          "sha256": "1ace0b6df210e94c71ca81c3066705618c5e12cf8500a28b99240e0d7ced2cd4",
+          "characters": 9256
+        },
+        {
+          "path": "src/epub/text/chapter-14.xhtml",
+          "sha256": "36976697c7ec97fd145cf89559a013955bb9e6c3e900995957e6756173dc73c5",
+          "characters": 6441
+        },
+        {
+          "path": "src/epub/text/chapter-15.xhtml",
+          "sha256": "2f2906aca7542cc7becde9853cec79f74e30d8ca3592508edb229ac3999c26e2",
+          "characters": 9772
+        },
+        {
+          "path": "src/epub/text/chapter-16.xhtml",
+          "sha256": "82fc6002f077872a2c6e62637acbfa5e775f02c371fc2a551798d9574a6f5649",
+          "characters": 19017
+        },
+        {
+          "path": "src/epub/text/chapter-17.xhtml",
+          "sha256": "6b5e27e722c8bcd90e52a2a8a5a34352a97b72b8b0f70d37e2d40df589af5161",
+          "characters": 7277
+        },
+        {
+          "path": "src/epub/text/chapter-18.xhtml",
+          "sha256": "a86d9dcca9e12b50d72c1449790340f401caaeae1af03004d6b980c98b336dd2",
+          "characters": 29106
+        },
+        {
+          "path": "src/epub/text/chapter-19.xhtml",
+          "sha256": "a287b373972b9f3f18f718eeb6d9bef971cbf66e39856bc2536b1f392dfe632c",
+          "characters": 10625
+        },
+        {
+          "path": "src/epub/text/chapter-20.xhtml",
+          "sha256": "393ccd920966790f7687ee6a9698da0d7d7cbdc47039090a5e080a210699e757",
+          "characters": 9159
+        },
+        {
+          "path": "src/epub/text/chapter-21.xhtml",
+          "sha256": "748005c8aa49e0735d5e95c709b79b5655a053243b869e55b4aeccd87104598d",
+          "characters": 11273
+        },
+        {
+          "path": "src/epub/text/chapter-22.xhtml",
+          "sha256": "b00dd64d8ebfd753a6d8fcd1552c1558edc75b48bf50f6abe2733304fdaa9bf6",
+          "characters": 9992
+        },
+        {
+          "path": "src/epub/text/chapter-23.xhtml",
+          "sha256": "8671d70ec9c21479ca3f47af476cc5ac1af9ddd3556da9a3cba3764e6709e4e4",
+          "characters": 9313
+        },
+        {
+          "path": "src/epub/text/chapter-24.xhtml",
+          "sha256": "5e91952a29d99a491bbe8f355e42e21307b8b405196b234ca0f295e68fbbf9ed",
+          "characters": 10834
+        },
+        {
+          "path": "src/epub/text/chapter-25.xhtml",
+          "sha256": "67f9fee0058be3203b08aed3c69664ad2399a6d41aee57160e08d4c0f4d5ba95",
+          "characters": 8593
+        },
+        {
+          "path": "src/epub/text/chapter-26.xhtml",
+          "sha256": "434122c097ed8bea37798aebe843928f38305b9c0800dbb26d274b4203fb5abe",
+          "characters": 12758
+        },
+        {
+          "path": "src/epub/text/chapter-27.xhtml",
+          "sha256": "828b2c183fbc4f5f944684c149b7f787cc836fa2ee4da5b3d5c63229934b07f0",
+          "characters": 7199
+        },
+        {
+          "path": "src/epub/text/chapter-28.xhtml",
+          "sha256": "bd24356c3201e51333884c136b80cf4f58587bd6ef057d5466e78aa1427b1125",
+          "characters": 8231
+        },
+        {
+          "path": "src/epub/text/chapter-29.xhtml",
+          "sha256": "6b5c3794e2a106367fa9585aaf88b6895797823ed66a4499e671f0d5ff677830",
+          "characters": 13705
+        },
+        {
+          "path": "src/epub/text/chapter-30.xhtml",
+          "sha256": "05274643bae7ef84e90049a75b8d563570b5e44abe97c05ff82484f9b78509ac",
+          "characters": 7058
+        },
+        {
+          "path": "src/epub/text/chapter-31.xhtml",
+          "sha256": "275aab2c9397a7f88c7c20dab369308b1fbd4eb7097fcc4b5e3e7174ff398cc2",
+          "characters": 8753
+        },
+        {
+          "path": "src/epub/text/chapter-32.xhtml",
+          "sha256": "760bdef49d88b39f4a02891bd39a2c3894cf6bbc50fddc053c836738a0f3dfe8",
+          "characters": 8459
+        },
+        {
+          "path": "src/epub/text/chapter-33.xhtml",
+          "sha256": "265f8fb0fb603fbdd1c77b810f45d550a0aa6f725168e56451d7617a248e6063",
+          "characters": 10372
+        },
+        {
+          "path": "src/epub/text/chapter-34.xhtml",
+          "sha256": "e69f7e761a1143e22f3640e0ef46908f831ea4b48b0c25e74d6fa198330722df",
+          "characters": 12009
+        },
+        {
+          "path": "src/epub/text/chapter-35.xhtml",
+          "sha256": "54f4af760339b35940809e1dec9955fa92a199871e6ed2b70508afc307bfb8e2",
+          "characters": 16996
+        },
+        {
+          "path": "src/epub/text/chapter-36.xhtml",
+          "sha256": "11f726d7e066f0a1a2db933571957eac9e3c4fc982134f8cbcc5dfbb58d75505",
+          "characters": 11801
+        },
+        {
+          "path": "src/epub/text/chapter-37.xhtml",
+          "sha256": "af18be0bd2a1ac21035dad44e2b80d9beeacbc6543656a63ac4d3796bc32b317",
+          "characters": 7792
+        },
+        {
+          "path": "src/epub/text/chapter-38.xhtml",
+          "sha256": "1a98a6fa04f567e49edd9cd48ac5ed62d9f9bb5102003f718e2b0c70687903a1",
+          "characters": 5957
+        },
+        {
+          "path": "src/epub/text/chapter-39.xhtml",
+          "sha256": "e73aebfb96d127672877b323e49ad65f26a7b7816efe9fe9285dbb156591ccfd",
+          "characters": 8759
+        },
+        {
+          "path": "src/epub/text/chapter-40.xhtml",
+          "sha256": "1776fcebb142b4e4ccf8d684c060eb1300c0e8b852fbac1f38aa75790cad26cf",
+          "characters": 9179
+        },
+        {
+          "path": "src/epub/text/chapter-41.xhtml",
+          "sha256": "2719d05dc65a90c19511c36846a86135ae5496269a0d8615a2aeafab54ddf9bf",
+          "characters": 12986
+        },
+        {
+          "path": "src/epub/text/chapter-42.xhtml",
+          "sha256": "dd41a1b0220d625be354f5af415f823b3dece349a0e217d96aac23244e159d9e",
+          "characters": 10648
+        },
+        {
+          "path": "src/epub/text/chapter-43.xhtml",
+          "sha256": "16945f18da2200ecc4aaefa67d360e5706e3980141ee2cc08945650ac63afc6a",
+          "characters": 27507
+        },
+        {
+          "path": "src/epub/text/chapter-44.xhtml",
+          "sha256": "3dc66d911a5aa921e8d4a84de07b0a84b0c87e787d13520049503cf546c56190",
+          "characters": 13386
+        },
+        {
+          "path": "src/epub/text/chapter-45.xhtml",
+          "sha256": "f95c3861b243ed4bb26557b83934969c605a2108e0e66c5f02585f7d1ddb0dad",
+          "characters": 10098
+        },
+        {
+          "path": "src/epub/text/chapter-46.xhtml",
+          "sha256": "5fc03ad75b62f15067441afaeda11fb158cc4075842a47fc5f3f64ae0b42da02",
+          "characters": 16920
+        },
+        {
+          "path": "src/epub/text/chapter-47.xhtml",
+          "sha256": "92f71491579009f24108cf323eceafdfa31a9a91068dede607b0cd4e2afad00b",
+          "characters": 22341
+        },
+        {
+          "path": "src/epub/text/chapter-48.xhtml",
+          "sha256": "ae7e0c14f8e3112953bea72593029951e5d1d7659909a5a180844c43a5346c44",
+          "characters": 12570
+        },
+        {
+          "path": "src/epub/text/chapter-49.xhtml",
+          "sha256": "1cd39638d6f513d4da1805e8921f173c94326ebec72458bf5a6d81eab7cd63f9",
+          "characters": 12257
+        },
+        {
+          "path": "src/epub/text/chapter-50.xhtml",
+          "sha256": "d4a62aace286b619dbc8988d9242fe040c436b9d0e9e3f5b6fc7f17f041ff9a5",
+          "characters": 12505
+        },
+        {
+          "path": "src/epub/text/chapter-51.xhtml",
+          "sha256": "642f374f1de8c91d23a3570440162f40eeeaa5d373eee7c8c8d12ea3901d26ca",
+          "characters": 11217
+        },
+        {
+          "path": "src/epub/text/chapter-52.xhtml",
+          "sha256": "58289ebe09ff33b552b738f22003997a57542295a47faf9ae58a2be687300a8a",
+          "characters": 16546
+        },
+        {
+          "path": "src/epub/text/chapter-53.xhtml",
+          "sha256": "7ac0e84338885ec2a10622aadc22b46f43d7fd0249dda931c56073f3dd3bed27",
+          "characters": 16095
+        },
+        {
+          "path": "src/epub/text/chapter-54.xhtml",
+          "sha256": "0cae8d826b98a3df8c42b1036f3c209c1b9bca83f66e39b8005bd8c1bd2fd811",
+          "characters": 8849
+        },
+        {
+          "path": "src/epub/text/chapter-55.xhtml",
+          "sha256": "fa531b146e8a1b13f6e68a92bf630c3bc6947d25240a7044db86d687e71ae5f1",
+          "characters": 12980
+        },
+        {
+          "path": "src/epub/text/chapter-56.xhtml",
+          "sha256": "8f3608413c70c4d62291997eaf5eeba4f7f1173bc0f61216021d4f7b1e76b445",
+          "characters": 15315
+        },
+        {
+          "path": "src/epub/text/chapter-57.xhtml",
+          "sha256": "7a4bb2dce8e7025032f7bd30f1d68861a82488b8812888afb488e4dc64234184",
+          "characters": 9391
+        },
+        {
+          "path": "src/epub/text/chapter-58.xhtml",
+          "sha256": "95be56d24df391a5414e009df47ed9b54c390751e6b00c6775c5bf77a8202f7b",
+          "characters": 13652
+        },
+        {
+          "path": "src/epub/text/chapter-59.xhtml",
+          "sha256": "ecd5795d9a772f48ade3a0e6f40f9869a955d8a310885f22d50b4155bfadb55b",
+          "characters": 13542
+        },
+        {
+          "path": "src/epub/text/chapter-60.xhtml",
+          "sha256": "be7c90259a03f54295cbdffc51a31e31690f6a7958b8afa848455d971804a9ad",
+          "characters": 8693
+        },
+        {
+          "path": "src/epub/text/chapter-61.xhtml",
+          "sha256": "da154fb6cbc0fdec240a3edcd9a72ce4c5664989246d07ab67be6f65b59a8f96",
+          "characters": 7074
+        },
+        {
+          "path": "src/epub/text/colophon.xhtml",
+          "sha256": "a12aab7a502e6b6b4b3758864625e0840274e435aeb02e5b5d6f1513b15fb474",
+          "characters": 1015
+        },
+        {
+          "path": "src/epub/text/uncopyright.xhtml",
+          "sha256": "ac42c6c238a057e35db7f2fd4c14423440a1c5ea438f856b44d88ec662b09b9a",
+          "characters": 2063
+        }
+      ]
+    },
+    {
+      "id": "se-arthur-conan-doyle_the-adventures-of-sherlock-holmes",
+      "file": "arthur-conan-doyle_the-adventures-of-sherlock-holmes.json",
+      "sha256": "3669bc52037aa1279eb82309ae1fec48c737a8ced9fb3927a2234be853e8f814",
+      "title": "The Adventures of Sherlock Holmes",
+      "author": "Arthur Conan Doyle",
+      "sourceUrl": "https://standardebooks.org/ebooks/arthur-conan-doyle/the-adventures-of-sherlock-holmes",
+      "repository": "https://github.com/standardebooks/arthur-conan-doyle_the-adventures-of-sherlock-holmes",
+      "archiveUrl": "https://api.github.com/repos/standardebooks/arthur-conan-doyle_the-adventures-of-sherlock-holmes/zipball/master",
+      "archiveSha256": "c38a95686723cb57eec10d724d259caa3071f06fb2e5564bf615ecb23731a2a0",
+      "coverSha256": "6f3991d8d1568dcc22e790275f3971f8c0f9dbf7aad9b8847ba15cfe6d5613bf",
+      "chapterCount": 14,
+      "characters": 564295,
+      "spineFiles": [
+        {
+          "path": "src/epub/text/a-scandal-in-bohemia.xhtml",
+          "sha256": "f43eb48c0e360f113ea47b9b9154f0a47d5946c38e5b3b82f0fa0bc665c182a1",
+          "characters": 46384
+        },
+        {
+          "path": "src/epub/text/the-redheaded-league.xhtml",
+          "sha256": "151fd4a83cedcc63a314313b6fe80e508c0c2545c4cba15b8df0f5557d8ec314",
+          "characters": 49238
+        },
+        {
+          "path": "src/epub/text/a-case-of-identity.xhtml",
+          "sha256": "3da1ec6203aca159c3a8594a73af4c595b5c799bfc675b5d112b8d79aace5cce",
+          "characters": 37893
+        },
+        {
+          "path": "src/epub/text/the-boscombe-valley-mystery.xhtml",
+          "sha256": "2d1800b7e363ddff8ad0cd13ea13b0b147169df50c250f5a8331bc2ac21915e3",
+          "characters": 51345
+        },
+        {
+          "path": "src/epub/text/the-five-orange-pips.xhtml",
+          "sha256": "ce329574bf5ccca4f3c9d2122a6f6e29fd1954465fccb07758fa6342d27f2f78",
+          "characters": 39429
+        },
+        {
+          "path": "src/epub/text/the-man-with-the-twisted-lip.xhtml",
+          "sha256": "822e618bf68c97f9412c19aac981a45129e819212d7afc73eacb0622ce673c7a",
+          "characters": 49139
+        },
+        {
+          "path": "src/epub/text/the-adventure-of-the-blue-carbuncle.xhtml",
+          "sha256": "a8550337d012c09ad3f67237aa82165f2a6e9e4646d6cba4c0eeebed33259201",
+          "characters": 42099
+        },
+        {
+          "path": "src/epub/text/the-adventure-of-the-speckled-band.xhtml",
+          "sha256": "b59209c14d19744934312bdb7851a6dc977f31989081b54c790fa9cbaf6596f8",
+          "characters": 52940
+        },
+        {
+          "path": "src/epub/text/the-adventure-of-the-engineers-thumb.xhtml",
+          "sha256": "4d2a68e779f6983d33bdfa67ddaf75fa459928a813f3506129042bf8c69e2355",
+          "characters": 44628
+        },
+        {
+          "path": "src/epub/text/the-adventure-of-the-noble-bachelor.xhtml",
+          "sha256": "39de0eff5e030045a492f55db5fac7307d5a0c4d08983b2ef6ab6cba98d56d47",
+          "characters": 44087
+        },
+        {
+          "path": "src/epub/text/the-adventure-of-the-beryl-coronet.xhtml",
+          "sha256": "1ccab043f7af01e3070c0552e4fc8dc72152051108ae8dd2ae2597f33c890a7e",
+          "characters": 51003
+        },
+        {
+          "path": "src/epub/text/the-adventure-of-the-copper-beeches.xhtml",
+          "sha256": "3db6e094afc893a64c40d8ef408eb6212ffd72982b42c1a3664980382479d4d5",
+          "characters": 53067
+        },
+        {
+          "path": "src/epub/text/colophon.xhtml",
+          "sha256": "bc7880d7ccaecc859b5fb1811f476aa529f8327e355321be413e9e1d8f0cf290",
+          "characters": 980
+        },
+        {
+          "path": "src/epub/text/uncopyright.xhtml",
+          "sha256": "ac42c6c238a057e35db7f2fd4c14423440a1c5ea438f856b44d88ec662b09b9a",
+          "characters": 2063
+        }
+      ]
+    },
+    {
+      "id": "se-mary-shelley_frankenstein",
+      "file": "mary-shelley_frankenstein.json",
+      "sha256": "a5e8cbede9ca4e4f3dbd2ea612c7f440c76a12eb10714103716d4ef8eafc3002",
+      "title": "Frankenstein",
+      "author": "Mary Shelley",
+      "sourceUrl": "https://standardebooks.org/ebooks/mary-shelley/frankenstein",
+      "repository": "https://github.com/standardebooks/mary-shelley_frankenstein",
+      "archiveUrl": "https://api.github.com/repos/standardebooks/mary-shelley_frankenstein/zipball/master",
+      "archiveSha256": "01e23922eb325ce63a5fb8b997fc6086b94baaa435c40251116b39f87a84b654",
+      "coverSha256": "415c868ece504e9eb1f1f2e04dacb9f813fdd3ad6a1c63a07143294fda39095e",
+      "chapterCount": 36,
+      "characters": 439611,
+      "spineFiles": [
+        {
+          "path": "src/epub/text/introduction.xhtml",
+          "sha256": "d67140cde13a22a034ee0d81510e296ab6ad5c6e44241812f2157eec3acbcec9",
+          "characters": 12468
+        },
+        {
+          "path": "src/epub/text/preface.xhtml",
+          "sha256": "d4407fa4aa18bfe13b8339689f0c7b02ac632e759b5ab9bf301caefea9580527",
+          "characters": 3382
+        },
+        {
+          "path": "src/epub/text/dedication.xhtml",
+          "sha256": "e765677f8b85bcaff6e71a0c20763467253ea142b10dcace2c4f351e39055063",
+          "characters": 122
+        },
+        {
+          "path": "src/epub/text/epigraph.xhtml",
+          "sha256": "d4e2a33ad2638eb1dfc242d3a1642c18c2e7c1adee2b363840f38888ee35facf",
+          "characters": 134
+        },
+        {
+          "path": "src/epub/text/halftitlepage.xhtml",
+          "sha256": "ba33cf483f7bb971ac5e2cc1d6224d9287d8b5468d92d1589415fc4b4acba674",
+          "characters": 39
+        },
+        {
+          "path": "src/epub/text/letter-1.xhtml",
+          "sha256": "f938d5a312f42943627a856b095de55b5d5a0a37694ffa905811805bb80edf81",
+          "characters": 6863
+        },
+        {
+          "path": "src/epub/text/letter-2.xhtml",
+          "sha256": "4ce5793bae36d12ada8cf52b3063f1c33eedd50e99c76403b490cc25c9225156",
+          "characters": 7381
+        },
+        {
+          "path": "src/epub/text/letter-3.xhtml",
+          "sha256": "5186ebb96235e85bbc1520dc0c886ea8f7699b57d19c47273fc8d0e33ae1077b",
+          "characters": 1739
+        },
+        {
+          "path": "src/epub/text/letter-4.xhtml",
+          "sha256": "e08bf1994744b8538707cf924b8649db6bf0f2b138ad7dbf68c5ba990c07237a",
+          "characters": 15246
+        },
+        {
+          "path": "src/epub/text/chapter-1.xhtml",
+          "sha256": "3dc161f1f60ad594583567b76040cbb7367106e51d24af213a19b2e893c67508",
+          "characters": 10195
+        },
+        {
+          "path": "src/epub/text/chapter-2.xhtml",
+          "sha256": "1f1409a0d0c98dc5e92f4a8a417d941756a9df70abb8668c2917b970a7515780",
+          "characters": 12756
+        },
+        {
+          "path": "src/epub/text/chapter-3.xhtml",
+          "sha256": "89c587d5b49a161c119eff66739eca28931139a1398275844c80b509430944cf",
+          "characters": 15355
+        },
+        {
+          "path": "src/epub/text/chapter-4.xhtml",
+          "sha256": "7954e9a24896e147e65b2231665b70dc644cfc42f1ef45c8942f8b4d8837de6e",
+          "characters": 14473
+        },
+        {
+          "path": "src/epub/text/chapter-5.xhtml",
+          "sha256": "0fca57401bc198b376bf139f0b870d5dc7a2fe9625c2ac62e1cb36946a41f241",
+          "characters": 12978
+        },
+        {
+          "path": "src/epub/text/chapter-6.xhtml",
+          "sha256": "0796c8890cfa94b711da165414efdcb885fc22651794b338b61ef6494e585777",
+          "characters": 15535
+        },
+        {
+          "path": "src/epub/text/chapter-7.xhtml",
+          "sha256": "b243a6b081be54828443420d78969dde42c0ab21beda949e168c097504d71650",
+          "characters": 19914
+        },
+        {
+          "path": "src/epub/text/chapter-8.xhtml",
+          "sha256": "5a693da42fb30247f531fe7dfb21d9cdeca56bdccd4203baee18ea5d0ed6176a",
+          "characters": 17336
+        },
+        {
+          "path": "src/epub/text/chapter-9.xhtml",
+          "sha256": "78bdcd07a48abd40ddee017379ca6f14197e553e89d02ee006e860c9f008b564",
+          "characters": 12492
+        },
+        {
+          "path": "src/epub/text/chapter-10.xhtml",
+          "sha256": "f0f3e1674cf7a93f28b807947e6bb9abb17cbbd92141e19ec64d523aca4d41c7",
+          "characters": 12998
+        },
+        {
+          "path": "src/epub/text/chapter-11.xhtml",
+          "sha256": "3e75bab2461981d3a4e25d7f9ab145792b04bdf96383a3f6611bdf6fa888b1da",
+          "characters": 15988
+        },
+        {
+          "path": "src/epub/text/chapter-12.xhtml",
+          "sha256": "c23670a036055eea42fad1a0a9ef220eb2854919d98aed50acf230d7a5eaa4a9",
+          "characters": 12032
+        },
+        {
+          "path": "src/epub/text/chapter-13.xhtml",
+          "sha256": "69aeeacd0eb1eb975e17f06dd6926d68c66d4652486130508d37559ec3983473",
+          "characters": 11631
+        },
+        {
+          "path": "src/epub/text/chapter-14.xhtml",
+          "sha256": "cffdcb0bf50e124a01b14c3ef99ba77be33790465827077e1f1c3054a964b509",
+          "characters": 10508
+        },
+        {
+          "path": "src/epub/text/chapter-15.xhtml",
+          "sha256": "b0a3592bb5fd494e411f8ec2f5dec65412db626e3d364d9130b2129cff2cfc8f",
+          "characters": 17202
+        },
+        {
+          "path": "src/epub/text/chapter-16.xhtml",
+          "sha256": "a0f84c21a5c90e52e6dbf9e70e72c86f1a08379aab7f00d369081f9c6ccfc228",
+          "characters": 17625
+        },
+        {
+          "path": "src/epub/text/chapter-17.xhtml",
+          "sha256": "eecdc6b2719a650cce88eea9fc9933e020e2739db1d4c153612bc1ae880b4b3a",
+          "characters": 10305
+        },
+        {
+          "path": "src/epub/text/chapter-18.xhtml",
+          "sha256": "08d1ab7ada164663592d766ebea8c24c80d7ba590f58dec965f886955f6f4198",
+          "characters": 16177
+        },
+        {
+          "path": "src/epub/text/chapter-19.xhtml",
+          "sha256": "8bd3ffca3ac6c4f41abba789ccba0259fc136a6f7225a58105d57e4b1484e6f8",
+          "characters": 14862
+        },
+        {
+          "path": "src/epub/text/chapter-20.xhtml",
+          "sha256": "86124786c877853baa33b00e72eaa7adc5fcb76822c771b9b32fdade83f27253",
+          "characters": 19117
+        },
+        {
+          "path": "src/epub/text/chapter-21.xhtml",
+          "sha256": "512d4673cbd7bcf8c9c64282dded60a476369a526a7be3d77a9780f71f8b59bb",
+          "characters": 20545
+        },
+        {
+          "path": "src/epub/text/chapter-22.xhtml",
+          "sha256": "6ded40d7fc6243a74dc724579fe69f44f403b49dafa2c680e2aa929561dd773d",
+          "characters": 19110
+        },
+        {
+          "path": "src/epub/text/chapter-23.xhtml",
+          "sha256": "2582ee1e71bf7146d5d3af0e089025998f84740c5852ba6b2e25eb97b4c6353d",
+          "characters": 14104
+        },
+        {
+          "path": "src/epub/text/chapter-24.xhtml",
+          "sha256": "f8b370de17342923c06801c4d9dd521ce59ec598e8fae39dc635f757896e16ae",
+          "characters": 45856
+        },
+        {
+          "path": "src/epub/text/endnotes.xhtml",
+          "sha256": "5023fc4ad341fdd569d98daf12ef3ff154eedc58eb8d97a9449320660f536d23",
+          "characters": 88
+        },
+        {
+          "path": "src/epub/text/colophon.xhtml",
+          "sha256": "7e9fe9600298d9ffbc334aea168a13f57f4cbe4ddf12b5ff3410339749cb3c35",
+          "characters": 992
+        },
+        {
+          "path": "src/epub/text/uncopyright.xhtml",
+          "sha256": "ac42c6c238a057e35db7f2fd4c14423440a1c5ea438f856b44d88ec662b09b9a",
+          "characters": 2063
+        }
+      ]
+    },
+    {
+      "id": "se-bram-stoker_dracula",
+      "file": "bram-stoker_dracula.json",
+      "sha256": "08d9b56ec45f41a6d42e6bf21bdc62ff21a0e53308d9e6d67a70d05c555488df",
+      "title": "Dracula",
+      "author": "Bram Stoker",
+      "sourceUrl": "https://standardebooks.org/ebooks/bram-stoker/dracula",
+      "repository": "https://github.com/standardebooks/bram-stoker_dracula",
+      "archiveUrl": "https://api.github.com/repos/standardebooks/bram-stoker_dracula/zipball/master",
+      "archiveSha256": "490c0ffe31c90b33799e8719e2c2492bcfc60f1cf9173c2624fa034d0b9e903f",
+      "coverSha256": "a491fa12468736005f4a00de0cc598dc8b8d94c44edc517759fd1fcd53e361de",
+      "chapterCount": 33,
+      "characters": 837746,
+      "spineFiles": [
+        {
+          "path": "src/epub/text/dedication.xhtml",
+          "sha256": "090d1d43d4fbcfd1c6a02cbb2c5c11441fe7f8856a00cdf3b795d7013c31a759",
+          "characters": 27
+        },
+        {
+          "path": "src/epub/text/preface.xhtml",
+          "sha256": "305e4191968b079d644796b2e1a3ab91c6c3c97a599c2099cfce29700158fbb4",
+          "characters": 454
+        },
+        {
+          "path": "src/epub/text/halftitlepage.xhtml",
+          "sha256": "c98467b899b42366eb99cf624499410d52a54427e41a17e2252e859c1a0f24cc",
+          "characters": 7
+        },
+        {
+          "path": "src/epub/text/chapter-1.xhtml",
+          "sha256": "1845c6809542ca397b6c1df3651ee614af8097cd14127b7479b5f88dbc2c1503",
+          "characters": 30644
+        },
+        {
+          "path": "src/epub/text/chapter-2.xhtml",
+          "sha256": "b633e317993385bbe136dc2e3f5376c10c009f5aa66ef6300e15a8e5a45d9bd8",
+          "characters": 28554
+        },
+        {
+          "path": "src/epub/text/chapter-3.xhtml",
+          "sha256": "2ead6746e81eb3735695c00f8a5e623c5142fd546884cacc075e2852243f3a71",
+          "characters": 29825
+        },
+        {
+          "path": "src/epub/text/chapter-4.xhtml",
+          "sha256": "e155b94398ad19cb8b0dee2a84d76e55de0b0f5141912df85b7e800fdbd5f312",
+          "characters": 30254
+        },
+        {
+          "path": "src/epub/text/chapter-5.xhtml",
+          "sha256": "3d6defdd7bbc77525f01cfc9d2f912c00ef53a8923608f406d212f44204f75d3",
+          "characters": 18053
+        },
+        {
+          "path": "src/epub/text/chapter-6.xhtml",
+          "sha256": "51c59026271424900d38808acd7d24297d3d162a2b66ebb10f3e19529f2cb43e",
+          "characters": 29197
+        },
+        {
+          "path": "src/epub/text/chapter-7.xhtml",
+          "sha256": "8b5600586057fb5ba664530472ac4548dd321dc45e0208d15ab6e26c6123ae4f",
+          "characters": 29920
+        },
+        {
+          "path": "src/epub/text/chapter-8.xhtml",
+          "sha256": "9fd1af83be71873ee38851a99de42e58461bc27b12d28fa267f27398bae1ff67",
+          "characters": 32645
+        },
+        {
+          "path": "src/epub/text/chapter-9.xhtml",
+          "sha256": "b5c38a694513bf6ffd9eddf075a4cf4ee1201a6c07566265b099fc413a87995d",
+          "characters": 30193
+        },
+        {
+          "path": "src/epub/text/chapter-10.xhtml",
+          "sha256": "bee3af68bc8b22ccdffdbe9922ef1e5e9e626e2858441dfc14717f8be10fc59c",
+          "characters": 30852
+        },
+        {
+          "path": "src/epub/text/chapter-11.xhtml",
+          "sha256": "99bdd55d311fa8e7d0498c75c67c2579c249f517479a0f31f1a02ca2a43b437f",
+          "characters": 27003
+        },
+        {
+          "path": "src/epub/text/chapter-12.xhtml",
+          "sha256": "0e3bdd4b7be8c137d7f6af1cee2a0caae2024715cfceecb6a975001632ad456a",
+          "characters": 37984
+        },
+        {
+          "path": "src/epub/text/chapter-13.xhtml",
+          "sha256": "e11d9773247c49c9ead10971214023909a69dccbd22abd7cd60df8d59aefe8be",
+          "characters": 34261
+        },
+        {
+          "path": "src/epub/text/chapter-14.xhtml",
+          "sha256": "8ef5f7d9f85d74e301efc0474a7416189fcf335a12de7011e0a31bfd7b8d098d",
+          "characters": 32688
+        },
+        {
+          "path": "src/epub/text/chapter-15.xhtml",
+          "sha256": "2df18a24efbc0223e3f8d4d6cd0f4b01a1c437bf8c415ca92d36981625901de5",
+          "characters": 29828
+        },
+        {
+          "path": "src/epub/text/chapter-16.xhtml",
+          "sha256": "f9cd2f64fdad8ef13ff62a70e870e8c2b6ac23ef04a10173798ddbc597a79d2c",
+          "characters": 23959
+        },
+        {
+          "path": "src/epub/text/chapter-17.xhtml",
+          "sha256": "660b992db64221d842e1ab5c3d3032b04b617e51d7f5644b0b97337f38eba645",
+          "characters": 29105
+        },
+        {
+          "path": "src/epub/text/chapter-18.xhtml",
+          "sha256": "de91a5cb691fa3c83245c82bfd2007ac44667752217ae03c0172e2a7f3e8f7ba",
+          "characters": 36021
+        },
+        {
+          "path": "src/epub/text/chapter-19.xhtml",
+          "sha256": "c881f7612378919cba1247742e8229ab39c0a90a4fc7b3fe2d439555fd7b0dc8",
+          "characters": 29472
+        },
+        {
+          "path": "src/epub/text/chapter-20.xhtml",
+          "sha256": "244ac2f386738cbdfd3074907150071d4e7fa2dde2ff41cfb45330a7bf4b1087",
+          "characters": 31285
+        },
+        {
+          "path": "src/epub/text/chapter-21.xhtml",
+          "sha256": "9f48ce991338a3d6e6e8128615bde8af2d2e3b41ac90d795973b7b9b8c8cb491",
+          "characters": 32281
+        },
+        {
+          "path": "src/epub/text/chapter-22.xhtml",
+          "sha256": "abead2668ce9dd764eb9fb9b59d50f85142dba92098afb90ad7c1b4ef744b60a",
+          "characters": 28167
+        },
+        {
+          "path": "src/epub/text/chapter-23.xhtml",
+          "sha256": "e6330b206a08cb71974c60900376d09303ecb579e1b9969fb2ba31de493ed51b",
+          "characters": 29604
+        },
+        {
+          "path": "src/epub/text/chapter-24.xhtml",
+          "sha256": "3c7af02f3756b0660f0732146d2124cf4256c9925623acf12a6723a9078163a6",
+          "characters": 32092
+        },
+        {
+          "path": "src/epub/text/chapter-25.xhtml",
+          "sha256": "0496bcfac1e3b9557aca16c210ffde0beb745f44bdfaaae015498e75edbb4b0f",
+          "characters": 32581
+        },
+        {
+          "path": "src/epub/text/chapter-26.xhtml",
+          "sha256": "065e0e1f415c43495d2b7321a6edc79e528f03255fe033bfff5f6a7ea729251a",
+          "characters": 37046
+        },
+        {
+          "path": "src/epub/text/chapter-27.xhtml",
+          "sha256": "e4ac844dd4ea1cc90fc1309dddc14a7f635f430588ca7fe4aed9384ddc21ea16",
+          "characters": 38918
+        },
+        {
+          "path": "src/epub/text/epilogue.xhtml",
+          "sha256": "d4d1bc48f5893294bb362252eb876641186f0dd69a2d44755f137ed926a71b18",
+          "characters": 1804
+        },
+        {
+          "path": "src/epub/text/colophon.xhtml",
+          "sha256": "b730f5575b906022cd055ea4d7dbab76402110de47d63ea7f0dc26eabdfb47ad",
+          "characters": 959
+        },
+        {
+          "path": "src/epub/text/uncopyright.xhtml",
+          "sha256": "ac42c6c238a057e35db7f2fd4c14423440a1c5ea438f856b44d88ec662b09b9a",
+          "characters": 2063
+        }
+      ]
+    },
+    {
+      "id": "se-oscar-wilde_the-picture-of-dorian-gray",
+      "file": "oscar-wilde_the-picture-of-dorian-gray.json",
+      "sha256": "9002462aa3b82d3f27aa3850d82c1b3493280328e3484e7dca7fa737fe1a96eb",
+      "title": "The Picture of Dorian Gray",
+      "author": "Oscar Wilde",
+      "sourceUrl": "https://standardebooks.org/ebooks/oscar-wilde/the-picture-of-dorian-gray",
+      "repository": "https://github.com/standardebooks/oscar-wilde_the-picture-of-dorian-gray",
+      "archiveUrl": "https://api.github.com/repos/standardebooks/oscar-wilde_the-picture-of-dorian-gray/zipball/master",
+      "archiveSha256": "829953ad03a3838d62e4a4470c6fe01dcd3aa4e050164ae501748fa03d91731e",
+      "coverSha256": "b1f5e9b048a287efa23c74a610f1bc3107fb98381c4ae79bde93daf2b93fb49b",
+      "chapterCount": 24,
+      "characters": 431554,
+      "spineFiles": [
+        {
+          "path": "src/epub/text/preface.xhtml",
+          "sha256": "b8b506025b38603b96af565d203115088821e8c8d2f1a50a958fbd5e1280d448",
+          "characters": 2077
+        },
+        {
+          "path": "src/epub/text/halftitlepage.xhtml",
+          "sha256": "5a0cfe563849f7a0b480047b1f42c05b6bcbedd57822b372068941945cc99279",
+          "characters": 26
+        },
+        {
+          "path": "src/epub/text/chapter-1.xhtml",
+          "sha256": "0403ca9228d49638fb53439ceb63c4c93d4263438885342b9cb4a1275a1ee829",
+          "characters": 26712
+        },
+        {
+          "path": "src/epub/text/chapter-2.xhtml",
+          "sha256": "96f099adc6e423121c4c593761dddc1f22db123ae493160d2f301853bf8b8bf5",
+          "characters": 30241
+        },
+        {
+          "path": "src/epub/text/chapter-3.xhtml",
+          "sha256": "284668f568d2cf642b496d97e6d1d42886437122ffb49b22f4dc6f1ce2d022c1",
+          "characters": 24703
+        },
+        {
+          "path": "src/epub/text/chapter-4.xhtml",
+          "sha256": "4487cfa4c65217e2f365222120023455408ab684a017068b775ac111652a6dae",
+          "characters": 30113
+        },
+        {
+          "path": "src/epub/text/chapter-5.xhtml",
+          "sha256": "dd2aa9a187d6924380c5b64bcd1f313eea843a7e15c61ab8bca80e0818c451c2",
+          "characters": 23466
+        },
+        {
+          "path": "src/epub/text/chapter-6.xhtml",
+          "sha256": "09db66de8985d34375997dbc95b55a44edc14f52f8f8fb96c8b2e030bb3163e9",
+          "characters": 15412
+        },
+        {
+          "path": "src/epub/text/chapter-7.xhtml",
+          "sha256": "da2aaa3846d0e04772e7e415ab8160d4af7d5bf831171f5846ce5862e0facd8b",
+          "characters": 23962
+        },
+        {
+          "path": "src/epub/text/chapter-8.xhtml",
+          "sha256": "62ddf8a808c933d9d54ac0f830227026eb7190aed86c89c72cb5e4abdf02a3c4",
+          "characters": 28406
+        },
+        {
+          "path": "src/epub/text/chapter-9.xhtml",
+          "sha256": "f853312d630d381a731bcd5bb545a9c0dc317267dadda76e55f3b9ac5b843ffe",
+          "characters": 20548
+        },
+        {
+          "path": "src/epub/text/chapter-10.xhtml",
+          "sha256": "7aebce354eb5b035f03be290ffa75073843ad4a6637286b939be875bf179ee95",
+          "characters": 17526
+        },
+        {
+          "path": "src/epub/text/chapter-11.xhtml",
+          "sha256": "9a3c9a1a52fdf033c335620670bcae2e4df2e39de42863fc7199464372f69c12",
+          "characters": 41818
+        },
+        {
+          "path": "src/epub/text/chapter-12.xhtml",
+          "sha256": "ddf0950c6e01afde7461b455bc1fed40cb4f078e9a1e0865c37f5947364f31b2",
+          "characters": 14499
+        },
+        {
+          "path": "src/epub/text/chapter-13.xhtml",
+          "sha256": "f8aad56aa5bdb361f0984a09b8367857c6abb32b63b01f27216378e41756b194",
+          "characters": 13405
+        },
+        {
+          "path": "src/epub/text/chapter-14.xhtml",
+          "sha256": "19cf861d8a0e838bec5cca211bc78d0cd68eaab8359d0b344338281a889326b1",
+          "characters": 24433
+        },
+        {
+          "path": "src/epub/text/chapter-15.xhtml",
+          "sha256": "f83dfe1de4e51480a542ab50b1115bacb79943e79c5775b895971b7e16106a63",
+          "characters": 17368
+        },
+        {
+          "path": "src/epub/text/chapter-16.xhtml",
+          "sha256": "6af4bb5730fb127b63730fefec27212ffd2e7ca6be8d96e2fc6cac9c6546bba9",
+          "characters": 16755
+        },
+        {
+          "path": "src/epub/text/chapter-17.xhtml",
+          "sha256": "a9e12a07297b26e848aecf68b4f63272066271f80cdb4764d88f3e3e8630402c",
+          "characters": 10133
+        },
+        {
+          "path": "src/epub/text/chapter-18.xhtml",
+          "sha256": "e4ab958674104e2010ec550148b14e995f6c6115361fa086040ced7cff5f8ab4",
+          "characters": 17745
+        },
+        {
+          "path": "src/epub/text/chapter-19.xhtml",
+          "sha256": "0ad5a82171edd7716c5c76fd7173e169ca335b6194749a6eaaaf9b2b65b5d7cc",
+          "characters": 19043
+        },
+        {
+          "path": "src/epub/text/chapter-20.xhtml",
+          "sha256": "b5a32d8a955e88b7a0406e050a13eb15aeb9d2ee4335d1926124bee1406915b7",
+          "characters": 10158
+        },
+        {
+          "path": "src/epub/text/colophon.xhtml",
+          "sha256": "4311251cbcab0aed3916a8708c7daeab280e017a96ef69f7ba937d37244307c8",
+          "characters": 942
+        },
+        {
+          "path": "src/epub/text/uncopyright.xhtml",
+          "sha256": "ac42c6c238a057e35db7f2fd4c14423440a1c5ea438f856b44d88ec662b09b9a",
+          "characters": 2063
+        }
+      ]
+    },
+    {
+      "id": "se-h-g-wells_the-time-machine",
+      "file": "h-g-wells_the-time-machine.json",
+      "sha256": "406c8c663da7967f01cc4e535d7f2dc29f7e4d33c3b4e5ce55d870d9ae3a0e92",
+      "title": "The Time Machine",
+      "author": "H. G. Wells",
+      "sourceUrl": "https://standardebooks.org/ebooks/h-g-wells/the-time-machine",
+      "repository": "https://github.com/standardebooks/h-g-wells_the-time-machine",
+      "archiveUrl": "https://api.github.com/repos/standardebooks/h-g-wells_the-time-machine/zipball/master",
+      "archiveSha256": "3a5f7a3f36ab706d75aeb016d0125beed67722bf757ef05ed61663547daee072",
+      "coverSha256": "e31c5ffc56476a4161635686670ecadb75abadc8b174541a73edbd78e14b5052",
+      "chapterCount": 16,
+      "characters": 181744,
+      "spineFiles": [
+        {
+          "path": "src/epub/text/chapter-1.xhtml",
+          "sha256": "271ade0cbef9469a3b6afac85e6b76d49f632398ff35dae08c7cf1f63ee268ee",
+          "characters": 17296
+        },
+        {
+          "path": "src/epub/text/chapter-2.xhtml",
+          "sha256": "cb7ed8ceec4b08ad13b4bd0d80890e1fdf6d981344d02213c9185db12ff4194a",
+          "characters": 11092
+        },
+        {
+          "path": "src/epub/text/chapter-3.xhtml",
+          "sha256": "a41554ea42988f9dfbabccf0fbc64f4ddec47dc7b79b4ef4c8d4d8e1002eea5b",
+          "characters": 11646
+        },
+        {
+          "path": "src/epub/text/chapter-4.xhtml",
+          "sha256": "f48797e9353fb8322148d77cfde4e4178823428fdb21acc96d89876877c79bca",
+          "characters": 21849
+        },
+        {
+          "path": "src/epub/text/chapter-5.xhtml",
+          "sha256": "e330e4c088d3c8bcc5f8a779be31295afd486dba83ce6eca6bf9d5009da9c91c",
+          "characters": 35763
+        },
+        {
+          "path": "src/epub/text/chapter-6.xhtml",
+          "sha256": "e9b36771d39be05b6916313f51f98f23ae0c970d6c9b34c133a7297a1ff5da21",
+          "characters": 11790
+        },
+        {
+          "path": "src/epub/text/chapter-7.xhtml",
+          "sha256": "3e62c3d055ad95cbacbb234ac1adb49d1d446cb34dab5f2dd093fda56c0888c2",
+          "characters": 13752
+        },
+        {
+          "path": "src/epub/text/chapter-8.xhtml",
+          "sha256": "db2ef974cf9eb3ae9d7626195b8f9d67463c5da03668cc06da59b958c89736b6",
+          "characters": 13539
+        },
+        {
+          "path": "src/epub/text/chapter-9.xhtml",
+          "sha256": "3cb59e4348986f5050c8f43f5682c426d72460788f3d9fd89e8fb7b7b7624248",
+          "characters": 13958
+        },
+        {
+          "path": "src/epub/text/chapter-10.xhtml",
+          "sha256": "d315e566f89f0fa0ed58c8ace8f9fff33e07e1b0fc570da5986ebf8d07ad1a52",
+          "characters": 5936
+        },
+        {
+          "path": "src/epub/text/chapter-11.xhtml",
+          "sha256": "c0e832ef3520e178011267eda3030340383ab29d8a75fa7584ac3ca49ca1ae2b",
+          "characters": 10391
+        },
+        {
+          "path": "src/epub/text/chapter-12.xhtml",
+          "sha256": "a0da3f5b5159ce7e9acc38b616f03e270aa73d3f69ac8559d2b984791e450675",
+          "characters": 10073
+        },
+        {
+          "path": "src/epub/text/epilogue.xhtml",
+          "sha256": "b0160019ef31fdba4683bb66ddf954f0a81743cfb0e853db44ca4b9af59b9d92",
+          "characters": 1546
+        },
+        {
+          "path": "src/epub/text/endnotes.xhtml",
+          "sha256": "54ddad93104df2944c34350ca3d02ca4f7e98b11620b691a02b0013c97f00d21",
+          "characters": 124
+        },
+        {
+          "path": "src/epub/text/colophon.xhtml",
+          "sha256": "3b56d2c663733872741e4e631f3a1d9d936620301bf7864a5fd3588dd01347d4",
+          "characters": 926
+        },
+        {
+          "path": "src/epub/text/uncopyright.xhtml",
+          "sha256": "ac42c6c238a057e35db7f2fd4c14423440a1c5ea438f856b44d88ec662b09b9a",
+          "characters": 2063
+        }
+      ]
+    },
+    {
+      "id": "se-jane-austen_sense-and-sensibility",
+      "file": "jane-austen_sense-and-sensibility.json",
+      "sha256": "dc52886ed6fcecaa1a0a2c684ea3ec3b5a7c16b3996706bce3a4a03a713a7e17",
+      "title": "Sense and Sensibility",
+      "author": "Jane Austen",
+      "sourceUrl": "https://standardebooks.org/ebooks/jane-austen/sense-and-sensibility",
+      "repository": "https://github.com/standardebooks/jane-austen_sense-and-sensibility",
+      "archiveUrl": "https://api.github.com/repos/standardebooks/jane-austen_sense-and-sensibility/zipball/master",
+      "archiveSha256": "0bb36d1b5e1ffa43119d54a956cb0af1f8d9518ae295631002d885f9ff600cfb",
+      "coverSha256": "0776a994b9282164b17fe9fa3eb4897b98be6f273a95930848d3d05d8dfa21f6",
+      "chapterCount": 52,
+      "characters": 671466,
+      "spineFiles": [
+        {
+          "path": "src/epub/text/chapter-1.xhtml",
+          "sha256": "3529ada23bd68c0a10cfd012f34d12de7e9356493908150b0931ced978269df5",
+          "characters": 8880
+        },
+        {
+          "path": "src/epub/text/chapter-2.xhtml",
+          "sha256": "4f243d3ce87d0fe22e2b7dc2fc88a1be3a4173e716e7b1a0cc7c4d8729e097d4",
+          "characters": 10720
+        },
+        {
+          "path": "src/epub/text/chapter-3.xhtml",
+          "sha256": "01850fede3ea022886c186e1aacb20737cb86fab1e0c75c487e513de04d51648",
+          "characters": 8791
+        },
+        {
+          "path": "src/epub/text/chapter-4.xhtml",
+          "sha256": "4e4998cc5800374e3d00d84b32b0b78a62f29092abc7841a3a2aad351ed92e3a",
+          "characters": 10995
+        },
+        {
+          "path": "src/epub/text/chapter-5.xhtml",
+          "sha256": "d76b43f1baf7a6cdb2991b4e744de0c88a6844077642da75b6537f8dc158155f",
+          "characters": 5811
+        },
+        {
+          "path": "src/epub/text/chapter-6.xhtml",
+          "sha256": "2af2e61eb03f5a77b9e4d65297b836c3bdf21562133e9f59bcd3049efcc02f13",
+          "characters": 7484
+        },
+        {
+          "path": "src/epub/text/chapter-7.xhtml",
+          "sha256": "c8d29b0f3593071d746361a2ff28b84cc272dd3bdbce9557956e2096eabe8716",
+          "characters": 7361
+        },
+        {
+          "path": "src/epub/text/chapter-8.xhtml",
+          "sha256": "b1e4bec940bd81b6bbae55f0a16abb3fd2f099255a8255c901e362b7ead67715",
+          "characters": 6993
+        },
+        {
+          "path": "src/epub/text/chapter-9.xhtml",
+          "sha256": "7852bb258bab992d6c9472f301f57f13162723f304d2e8b717e39a15fed73309",
+          "characters": 10470
+        },
+        {
+          "path": "src/epub/text/chapter-10.xhtml",
+          "sha256": "2bd7a31daffbbfc0a4ab17a0d7e9f57bb985c7b0b2f6ff6e15e2638b457949a3",
+          "characters": 11959
+        },
+        {
+          "path": "src/epub/text/chapter-11.xhtml",
+          "sha256": "9120e20a4614cfa3659301e7eaa60070242fae0428d6501bd56ba32ee5a961a0",
+          "characters": 8391
+        },
+        {
+          "path": "src/epub/text/chapter-12.xhtml",
+          "sha256": "75c0aff711e583157b3c7662ba3c27faa2cd1d2e0b7a52503e5cb648e5939609",
+          "characters": 9193
+        },
+        {
+          "path": "src/epub/text/chapter-13.xhtml",
+          "sha256": "d53d6d95b3c617376fe7340fbdeb21b8e7bfafc4ce6b21a81c8e06e59c588119",
+          "characters": 11511
+        },
+        {
+          "path": "src/epub/text/chapter-14.xhtml",
+          "sha256": "abc507df33bf1a0a75a1ae75d42853c5f32939f2a33059d9f07692fbddcc61b9",
+          "characters": 8354
+        },
+        {
+          "path": "src/epub/text/chapter-15.xhtml",
+          "sha256": "9b531c0be7a25a7606dced1e38965f99558f827755bc636947569e9cac5962fa",
+          "characters": 14245
+        },
+        {
+          "path": "src/epub/text/chapter-16.xhtml",
+          "sha256": "5ae03fc44217e3db53c5abaac4bd8d645ce482d884a47a71ab54f1518b8800f2",
+          "characters": 11420
+        },
+        {
+          "path": "src/epub/text/chapter-17.xhtml",
+          "sha256": "08588a24cd12cd273a1b53e0422d99470276792b2a1f0ed0c7a64f44a37627e1",
+          "characters": 9131
+        },
+        {
+          "path": "src/epub/text/chapter-18.xhtml",
+          "sha256": "b2b6e94e90702154def2c56b67e63e92a107307258640a27d4f87999fcbd49cb",
+          "characters": 8665
+        },
+        {
+          "path": "src/epub/text/chapter-19.xhtml",
+          "sha256": "59502ae86134ebc2465d8838061b7dd035313837c027e922bb0b12feb8a430e0",
+          "characters": 16168
+        },
+        {
+          "path": "src/epub/text/chapter-20.xhtml",
+          "sha256": "6881e47e81785ba1ea9d5d4038b59e940b7efd4bee3ce576fe86ddd491cdb86e",
+          "characters": 12870
+        },
+        {
+          "path": "src/epub/text/chapter-21.xhtml",
+          "sha256": "50c6e73382576f9231bb4149aee34d01983d7e180c99f1d1279414db6888f927",
+          "characters": 16570
+        },
+        {
+          "path": "src/epub/text/chapter-22.xhtml",
+          "sha256": "7654087b38ce768db256325eaeab68c772016fee2a668a34b8de1b52442fb439",
+          "characters": 15459
+        },
+        {
+          "path": "src/epub/text/chapter-23.xhtml",
+          "sha256": "c01f78a12194a370e232838336ac8786dab41e57810b8a1d477393307df3ba41",
+          "characters": 13635
+        },
+        {
+          "path": "src/epub/text/chapter-24.xhtml",
+          "sha256": "29c8facc0a45c274372349df86ab05dabc2622aee863ba3f9513fc34528b95be",
+          "characters": 11531
+        },
+        {
+          "path": "src/epub/text/chapter-25.xhtml",
+          "sha256": "f013fa2acfbb0c749040d73853017256bc2f14ba71e7de6a48f346fd9c9126c3",
+          "characters": 10801
+        },
+        {
+          "path": "src/epub/text/chapter-26.xhtml",
+          "sha256": "a6004a0f6a56c9126fd25617ba41b0cf3ee0b8edb3e7e1cb20c163cf286757c4",
+          "characters": 14374
+        },
+        {
+          "path": "src/epub/text/chapter-27.xhtml",
+          "sha256": "460d4db6c181d3871dec54a8a54236549ff33613855dd606eaf3a0db2e449432",
+          "characters": 14178
+        },
+        {
+          "path": "src/epub/text/chapter-28.xhtml",
+          "sha256": "a73ece0456331583238daaa46305eeb85749d024e4e8fd3585318703b9aa15d4",
+          "characters": 8301
+        },
+        {
+          "path": "src/epub/text/chapter-29.xhtml",
+          "sha256": "c0789b2a2addca1c19282108b58409cb44c83e71418510737104b6da7aa492b3",
+          "characters": 21181
+        },
+        {
+          "path": "src/epub/text/chapter-30.xhtml",
+          "sha256": "92d6e8f96c6850b52b18084f646cdc86e2701b5e8a05bebf6608b2940715a855",
+          "characters": 16381
+        },
+        {
+          "path": "src/epub/text/chapter-31.xhtml",
+          "sha256": "91d199da23a1c86e00b9af70897ee4adc18c5e653bf9e16a57efb8c048752658",
+          "characters": 21248
+        },
+        {
+          "path": "src/epub/text/chapter-32.xhtml",
+          "sha256": "d4bccf4e0cc168b78f27172f6b4b6dce2032b6494059867f8ae9589131e9d13b",
+          "characters": 14545
+        },
+        {
+          "path": "src/epub/text/chapter-33.xhtml",
+          "sha256": "025fdb309f7e7dc1f562cc239754b164a67ccac53ab0042803eae221af07f8ee",
+          "characters": 16782
+        },
+        {
+          "path": "src/epub/text/chapter-34.xhtml",
+          "sha256": "12c238a0965b9ea8641b3bfa5e4a44b6e53bc2397e7535d7b22eecde4b296801",
+          "characters": 15223
+        },
+        {
+          "path": "src/epub/text/chapter-35.xhtml",
+          "sha256": "0756671f7233d4f25c061bab52921dba7d0e38ee68cebe005ff1d9eb50ebd2ee",
+          "characters": 12985
+        },
+        {
+          "path": "src/epub/text/chapter-36.xhtml",
+          "sha256": "b8fd25b2a42a8b3cbc9bbff063cabee2f40918bb7e0da54f0ff4f299aed0eaac",
+          "characters": 17364
+        },
+        {
+          "path": "src/epub/text/chapter-37.xhtml",
+          "sha256": "e9e43ab0e68e2ccce5e68cd762956f6be10202dc614000afc91968e65c00e78a",
+          "characters": 24503
+        },
+        {
+          "path": "src/epub/text/chapter-38.xhtml",
+          "sha256": "546506931148f0a0bbe431ed4e1507c94ddaac8e35564c3368a6460fb1ddb6b7",
+          "characters": 16594
+        },
+        {
+          "path": "src/epub/text/chapter-39.xhtml",
+          "sha256": "9ed2aefc5db50f8a5d05de1cdce85fe5acfe946852285b53f4609c7a2ba0d5bc",
+          "characters": 11180
+        },
+        {
+          "path": "src/epub/text/chapter-40.xhtml",
+          "sha256": "9298210fcdbd22be888b638f9f1839cb967f22f25e9634e739111a9fda64fae3",
+          "characters": 14240
+        },
+        {
+          "path": "src/epub/text/chapter-41.xhtml",
+          "sha256": "2207ee3df55acb1c8df1a5413978e0684e1c7215d1c3b704ef69a21893d54fa7",
+          "characters": 14425
+        },
+        {
+          "path": "src/epub/text/chapter-42.xhtml",
+          "sha256": "9f599313f9f796a6ae8261b8c65cc7e4c982a0d9aeb1b34d020a8ce438bac34f",
+          "characters": 10337
+        },
+        {
+          "path": "src/epub/text/chapter-43.xhtml",
+          "sha256": "cd235f102035d73050280375383fbdc601001a91eb892b9262440b5be87b68bb",
+          "characters": 19677
+        },
+        {
+          "path": "src/epub/text/chapter-44.xhtml",
+          "sha256": "836002b2328ea01835326308774b3726512fa3ec01d25719803001eb19c84dc9",
+          "characters": 30054
+        },
+        {
+          "path": "src/epub/text/chapter-45.xhtml",
+          "sha256": "d56118c3d6c4756f1fea1f96b8c5e8ee474b2be8c2e535fed217b4347220ee59",
+          "characters": 12100
+        },
+        {
+          "path": "src/epub/text/chapter-46.xhtml",
+          "sha256": "32afe29bf639081e5dcc3fcecc5c575750f0222e4142367a499997477e7a3819",
+          "characters": 16385
+        },
+        {
+          "path": "src/epub/text/chapter-47.xhtml",
+          "sha256": "a97a5eb6cebd87d3664f5a5aa9cd0b21384b3f024fba3bc33de627ba1d1f335d",
+          "characters": 13471
+        },
+        {
+          "path": "src/epub/text/chapter-48.xhtml",
+          "sha256": "3804953a91c75ad5dd7105f9f30cb2ecaf25b21cea0f32855a5b2d6d3a363ab1",
+          "characters": 7291
+        },
+        {
+          "path": "src/epub/text/chapter-49.xhtml",
+          "sha256": "051827880388a5544eeba74ea02ac3442be24741dd77955c1b53cfc9a6701cb4",
+          "characters": 23727
+        },
+        {
+          "path": "src/epub/text/chapter-50.xhtml",
+          "sha256": "07816b84833b682203f2cf43f1ab734c2a3f033ea15229f700084813f90153c7",
+          "characters": 14484
+        },
+        {
+          "path": "src/epub/text/colophon.xhtml",
+          "sha256": "21b935a547f9d5b5d68fa8becbff168ac8d7cd7815ebf9ae71266ab9358e038f",
+          "characters": 965
+        },
+        {
+          "path": "src/epub/text/uncopyright.xhtml",
+          "sha256": "ac42c6c238a057e35db7f2fd4c14423440a1c5ea438f856b44d88ec662b09b9a",
+          "characters": 2063
+        }
+      ]
+    },
+    {
+      "id": "se-charlotte-bronte_jane-eyre",
+      "file": "charlotte-bronte_jane-eyre.json",
+      "sha256": "ccf157a5eec8051930ebebad220291f64a2f1fe07fb0c07850e9fb775e184ccf",
+      "title": "Jane Eyre",
+      "author": "Charlotte Brontë",
+      "sourceUrl": "https://standardebooks.org/ebooks/charlotte-bronte/jane-eyre",
+      "repository": "https://github.com/standardebooks/charlotte-bronte_jane-eyre",
+      "archiveUrl": "https://api.github.com/repos/standardebooks/charlotte-bronte_jane-eyre/zipball/master",
+      "archiveSha256": "97d7f7465c12a49d3701d034fc9654c200a81c9a26d447ce1a88d96136f23402",
+      "coverSha256": "e29b0ea914fa6a69ff3e76c5145df9d07ae105caa7890284fc208e96e1329388",
+      "chapterCount": 44,
+      "characters": 1027214,
+      "spineFiles": [
+        {
+          "path": "src/epub/text/preface.xhtml",
+          "sha256": "914483132b837d64c51f6018e3e9732b26464ff976f263031a67ff61629533da",
+          "characters": 4573
+        },
+        {
+          "path": "src/epub/text/editorial-note.xhtml",
+          "sha256": "a5c153a1ea2c21dd65489867a8feca4e4ce9b7c35c98fb766dde07276d3f6e02",
+          "characters": 553
+        },
+        {
+          "path": "src/epub/text/halftitlepage.xhtml",
+          "sha256": "33e98422a132e578c0469c21883c5fbf32d299b70e3db7cf86959b8ee3682292",
+          "characters": 27
+        },
+        {
+          "path": "src/epub/text/chapter-1.xhtml",
+          "sha256": "9085c026986d81a71de7df65452286607a44c533f54202b638c923cb8376b197",
+          "characters": 10851
+        },
+        {
+          "path": "src/epub/text/chapter-2.xhtml",
+          "sha256": "19439cf88dd6f57af71f69ae60b03c5d4f94cac6878b9e48fc5e3549a6af7fec",
+          "characters": 15351
+        },
+        {
+          "path": "src/epub/text/chapter-3.xhtml",
+          "sha256": "954d31453b0bdc87cd438ae72266071f5ed9e046686ca4edc51a4fd690c1b438",
+          "characters": 17566
+        },
+        {
+          "path": "src/epub/text/chapter-4.xhtml",
+          "sha256": "3ef499bc176b4fb00bbfd14e03862477c5622a36eb792cd9162da45d0c8a2485",
+          "characters": 31946
+        },
+        {
+          "path": "src/epub/text/chapter-5.xhtml",
+          "sha256": "094ffbd84fd2b73cf66e9923b93cd4ca25bafab77ac3c09e8603533926cafcb5",
+          "characters": 27764
+        },
+        {
+          "path": "src/epub/text/chapter-6.xhtml",
+          "sha256": "e11da724877eb6fd35e0dbebcc38752ec0286d9dbaf0f12a55dba0dfc4fc1350",
+          "characters": 16028
+        },
+        {
+          "path": "src/epub/text/chapter-7.xhtml",
+          "sha256": "e55d22ec0a3a186c2b9efa4739af172f92648fe42217dcadfedcab41ec8a7e72",
+          "characters": 20121
+        },
+        {
+          "path": "src/epub/text/chapter-8.xhtml",
+          "sha256": "2890232f7305f6a2e31ef8f5f64a837af6540166ab4640f06aae4ffbf9be45a2",
+          "characters": 16531
+        },
+        {
+          "path": "src/epub/text/chapter-9.xhtml",
+          "sha256": "f21a0939e3c8337b00bf26b1b5bbbc17cbf2230a0c9ecc6a80549f4f3169c27c",
+          "characters": 17775
+        },
+        {
+          "path": "src/epub/text/chapter-10.xhtml",
+          "sha256": "8d37dcb81d4f30a41a12cf9d137ea73c4aa8c4a7f46fcbf0a9e56f98572b1e4d",
+          "characters": 23982
+        },
+        {
+          "path": "src/epub/text/chapter-11.xhtml",
+          "sha256": "99468584575f3392561c2ceea38ed296d2042db8a00656d4e0cca9508babb9c8",
+          "characters": 35368
+        },
+        {
+          "path": "src/epub/text/chapter-12.xhtml",
+          "sha256": "5190192859733743bce595b26c676e672534d9907398f4f921eb8d472b0e4426",
+          "characters": 22938
+        },
+        {
+          "path": "src/epub/text/chapter-13.xhtml",
+          "sha256": "c6791bb16f87580fdb04b8e8f88aaca579c6d5cfee6962b340f9a2383ecb8075",
+          "characters": 22293
+        },
+        {
+          "path": "src/epub/text/chapter-14.xhtml",
+          "sha256": "dd1c84c5469eceed44f76d5acf894d9e9dd7c27e28c754e8bcb22e2a30958841",
+          "characters": 27294
+        },
+        {
+          "path": "src/epub/text/chapter-15.xhtml",
+          "sha256": "0a57de08be0fdb53b9a91f2a34f965e5505edaaccce166fe9206031f881ddb77",
+          "characters": 27465
+        },
+        {
+          "path": "src/epub/text/chapter-16.xhtml",
+          "sha256": "b00b2fbd6140fa94fcef575a2c347ca20e808fc37a0d061e2964dc886c1a3e4b",
+          "characters": 21202
+        },
+        {
+          "path": "src/epub/text/chapter-17.xhtml",
+          "sha256": "504e7c4e2dd4e16929d6d7d1905c4c5b6fde3a7fc4595e6b41ef61a9d2ea1824",
+          "characters": 45185
+        },
+        {
+          "path": "src/epub/text/chapter-18.xhtml",
+          "sha256": "f661897cda8305c17be63142168973f02339b2f8721e4ccfed5c4890f8f06dfb",
+          "characters": 33590
+        },
+        {
+          "path": "src/epub/text/chapter-19.xhtml",
+          "sha256": "a67cf7a8d75747f5e2829d00808fa2476baab060aaa2f2e2f3ca9d211d9d0a5b",
+          "characters": 20497
+        },
+        {
+          "path": "src/epub/text/chapter-20.xhtml",
+          "sha256": "15197028d2e83af35d73be5cab7717c2d75ce6b1f4615d8f5be488f5d793a5fa",
+          "characters": 32056
+        },
+        {
+          "path": "src/epub/text/chapter-21.xhtml",
+          "sha256": "eaf0091420c828c347ba4063c9ab1c80f19d8947c9959b8d57581623d385a40d",
+          "characters": 47667
+        },
+        {
+          "path": "src/epub/text/chapter-22.xhtml",
+          "sha256": "f6edb829913f06e9976361e3e7a3b8fb8010ce352f6fc440480f454067a1db2c",
+          "characters": 15385
+        },
+        {
+          "path": "src/epub/text/chapter-23.xhtml",
+          "sha256": "7527d8d0b7de3928e5f3a62af988119f8e2538373aa5d730743cf3ffb8a660b4",
+          "characters": 21223
+        },
+        {
+          "path": "src/epub/text/chapter-24.xhtml",
+          "sha256": "d4a029bbd2b6f00295b4b5b546f9f2ae8fa7897417ece2af4a1aeca44b02dd1d",
+          "characters": 38423
+        },
+        {
+          "path": "src/epub/text/chapter-25.xhtml",
+          "sha256": "2f8f13550b03703be9ecd62f1f4452c5405f746e8be315151ddacf514cf30348",
+          "characters": 27039
+        },
+        {
+          "path": "src/epub/text/chapter-26.xhtml",
+          "sha256": "33ae0af956bb745f16ffeacc2a6400461ffd9460dd82a3d2cb03ffa98b68443c",
+          "characters": 23653
+        },
+        {
+          "path": "src/epub/text/chapter-27.xhtml",
+          "sha256": "6ed7c4bbd00c14f98d44796ceef94cafb7db7ecf704f946fb82d84c9d20dc336",
+          "characters": 59878
+        },
+        {
+          "path": "src/epub/text/chapter-28.xhtml",
+          "sha256": "a78d1bc78f5c7dc9030b33f11e4503636fdd05a37bcda0299bf9391cc5e9abb7",
+          "characters": 36927
+        },
+        {
+          "path": "src/epub/text/chapter-29.xhtml",
+          "sha256": "7a57c29b1f3a7205ff99d7e147b0dd29c80edd895ae7528d332b27dcadff235f",
+          "characters": 24654
+        },
+        {
+          "path": "src/epub/text/chapter-30.xhtml",
+          "sha256": "5a9a15b48bb91a5ba2884c1d230fe5131d87f13e5aca2081e5bb8c2d01f2d7b2",
+          "characters": 21033
+        },
+        {
+          "path": "src/epub/text/chapter-31.xhtml",
+          "sha256": "baba17f4edf7aa9ae2131196e20f14b07f5e1efbf01c0761a0895097ed79081f",
+          "characters": 16992
+        },
+        {
+          "path": "src/epub/text/chapter-32.xhtml",
+          "sha256": "3c91f7c17fed172f8e5579a80f49e8fb4a3792bce81f03d7008210ec5dc56b4e",
+          "characters": 25903
+        },
+        {
+          "path": "src/epub/text/chapter-33.xhtml",
+          "sha256": "fb34b1576d4a1ebb41c212ce46e6c8d12b66b0c794a5ef498bc661944e6f4520",
+          "characters": 26660
+        },
+        {
+          "path": "src/epub/text/chapter-34.xhtml",
+          "sha256": "dcdbf298a3f660749bbb67d036719b3562baaf78df3f4373ce028e6540f35928",
+          "characters": 50923
+        },
+        {
+          "path": "src/epub/text/chapter-35.xhtml",
+          "sha256": "97055306a0931ade049cc2d4f9b277088ab7ba338cfdd543596a48a446f0ef92",
+          "characters": 23424
+        },
+        {
+          "path": "src/epub/text/chapter-36.xhtml",
+          "sha256": "29781e7df58f0f2e8c89e704fb05f385989a856ff24ede8c6cf550556830a11d",
+          "characters": 21141
+        },
+        {
+          "path": "src/epub/text/chapter-37.xhtml",
+          "sha256": "aeaef422d46cf8609a0544a5ae9c3f6c9b251c3c5b26d95420455262d3b7f7f6",
+          "characters": 40250
+        },
+        {
+          "path": "src/epub/text/chapter-38.xhtml",
+          "sha256": "48bd265ef4519cc643697b4f7fa9e3e1506c3fa4a4360d2b1b35c91fb9b03949",
+          "characters": 9749
+        },
+        {
+          "path": "src/epub/text/endnotes.xhtml",
+          "sha256": "683fddb6ec19332a2f1589da65366613146965c5327da543bcfa43cbc9510f17",
+          "characters": 2303
+        },
+        {
+          "path": "src/epub/text/colophon.xhtml",
+          "sha256": "47112066e4589e2c6bc662e9a5dd1cef3932d89d665a039e9b1867b36d02df56",
+          "characters": 968
+        },
+        {
+          "path": "src/epub/text/uncopyright.xhtml",
+          "sha256": "ac42c6c238a057e35db7f2fd4c14423440a1c5ea438f856b44d88ec662b09b9a",
+          "characters": 2063
+        }
+      ]
+    },
+    {
+      "id": "se-h-g-wells_the-war-of-the-worlds",
+      "file": "h-g-wells_the-war-of-the-worlds.json",
+      "sha256": "22284497a2d92166c492fec5fa5d8016eb45f80cc89c2562d7758167afffe453",
+      "title": "The War of the Worlds",
+      "author": "H. G. Wells",
+      "sourceUrl": "https://standardebooks.org/ebooks/h-g-wells/the-war-of-the-worlds",
+      "repository": "https://github.com/standardebooks/h-g-wells_the-war-of-the-worlds",
+      "archiveUrl": "https://api.github.com/repos/standardebooks/h-g-wells_the-war-of-the-worlds/zipball/master",
+      "archiveSha256": "7b219a45696c1405bb2308b7b9a7aed8d2e11d0307362182e5978a5b533f1a12",
+      "coverSha256": "093438d3c6041f7386cbe51b3ff0045b88815415ed659186a45d75c94fe5faad",
+      "chapterCount": 34,
+      "characters": 339553,
+      "spineFiles": [
+        {
+          "path": "src/epub/text/dedication.xhtml",
+          "sha256": "c3ade5bb631ec557a3c61ee06478d37125dee3b072d38de92862f21e2d4da9dc",
+          "characters": 54
+        },
+        {
+          "path": "src/epub/text/epigraph.xhtml",
+          "sha256": "a52d7c449ab5d8351e7808488575dd2fd7ccbd47432cfbb6217ac924a26e13be",
+          "characters": 182
+        },
+        {
+          "path": "src/epub/text/halftitlepage.xhtml",
+          "sha256": "7363297d683d9e887ca757c91e30f99e5d2004f2d90df2015eb57dc2ad25f67d",
+          "characters": 21
+        },
+        {
+          "path": "src/epub/text/book-1.xhtml",
+          "sha256": "01e0893c6013b66d7add0c509be5a6a911754f5d2e73311c84a0dcd596cc1648",
+          "characters": 34
+        },
+        {
+          "path": "src/epub/text/chapter-1-1.xhtml",
+          "sha256": "2a3d267e4be1568508d1a1e2613516187807527d4ab4a2b5a4c99c06f0c56df8",
+          "characters": 12681
+        },
+        {
+          "path": "src/epub/text/chapter-1-2.xhtml",
+          "sha256": "2db56f4bc3c9690eed040c458ebc2abe5367c6df6c37b27adcf5d8d2ba75bd99",
+          "characters": 7404
+        },
+        {
+          "path": "src/epub/text/chapter-1-3.xhtml",
+          "sha256": "1d17dbf57e42dcddf572c390be779cf03bbc50902085cbd916b8ed76f1e0b331",
+          "characters": 5641
+        },
+        {
+          "path": "src/epub/text/chapter-1-4.xhtml",
+          "sha256": "4f36a47f3576f4dff432fde2e8cb05f12b9898dd4f745ef728a28a7972c80bc5",
+          "characters": 6311
+        },
+        {
+          "path": "src/epub/text/chapter-1-5.xhtml",
+          "sha256": "62787057710ad75ef253a8a07cb4fe9e90a7c88385f8b6ee0b5d254ea85ddb6f",
+          "characters": 8240
+        },
+        {
+          "path": "src/epub/text/chapter-1-6.xhtml",
+          "sha256": "ad710415336dae27576120430c21bf61b3de5378b77e3ec49f61039085fbe30b",
+          "characters": 4788
+        },
+        {
+          "path": "src/epub/text/chapter-1-7.xhtml",
+          "sha256": "26a1239bd74a71476c20cd327aa2f0faf85cfb7a5201536164994287fb168683",
+          "characters": 7253
+        },
+        {
+          "path": "src/epub/text/chapter-1-8.xhtml",
+          "sha256": "ef005c0049ebe7b4b2470cf401ec875436c21f514d46dd69522cfb6f34b34c03",
+          "characters": 5578
+        },
+        {
+          "path": "src/epub/text/chapter-1-9.xhtml",
+          "sha256": "9233ccf31ab35de7dc98c680df68186ef4806b151385f1105f7d4c03c3bebfb4",
+          "characters": 11426
+        },
+        {
+          "path": "src/epub/text/chapter-1-10.xhtml",
+          "sha256": "b5df3e10eedfa623c53be5d475e42785af54d9c53d1b2e57ab826b0c2152cd50",
+          "characters": 12172
+        },
+        {
+          "path": "src/epub/text/chapter-1-11.xhtml",
+          "sha256": "ce9f1d66b31e115fd8401ef979f0d6d39e4ebdca121a515db60059bbe68fca97",
+          "characters": 10974
+        },
+        {
+          "path": "src/epub/text/chapter-1-12.xhtml",
+          "sha256": "39e7f2dc75568280706d94266a7c1ae2f79039e8ad97eec19b3f565de21e282f",
+          "characters": 21641
+        },
+        {
+          "path": "src/epub/text/chapter-1-13.xhtml",
+          "sha256": "a73ef2c8caae6f7b42224ac43ef2489b13263aef7c06506d9a1d239f45ab5e5f",
+          "characters": 10039
+        },
+        {
+          "path": "src/epub/text/chapter-1-14.xhtml",
+          "sha256": "2a66936a652e965135b9ff8e4482316f81d9b540b0ac0c4b2b85b34d2ef1fb58",
+          "characters": 21939
+        },
+        {
+          "path": "src/epub/text/chapter-1-15.xhtml",
+          "sha256": "8dbc25c2ad2a7b6b4dfbdd58f23debe7cd2e8d81994d7ce013fa2e9123759916",
+          "characters": 16096
+        },
+        {
+          "path": "src/epub/text/chapter-1-16.xhtml",
+          "sha256": "a7b83f0e785368d22a4dba5692b10141bb408ef2ea8a76bc10f6702a4beffaf8",
+          "characters": 24589
+        },
+        {
+          "path": "src/epub/text/chapter-1-17.xhtml",
+          "sha256": "46fc33b8a5a57feef32280a4ef3cbd0bcd3090800e79c527e9ac21810e8bd7a2",
+          "characters": 18875
+        },
+        {
+          "path": "src/epub/text/book-2.xhtml",
+          "sha256": "32b2092aed316a9c1f69b218e07bff76c03f9ad99d2c98fbacc57311cea4b51f",
+          "characters": 37
+        },
+        {
+          "path": "src/epub/text/chapter-2-1.xhtml",
+          "sha256": "21b03730bfdcc69f47c813fe90533a7de8745a8879f167372d21ed9749767b57",
+          "characters": 14317
+        },
+        {
+          "path": "src/epub/text/chapter-2-2.xhtml",
+          "sha256": "3214719948e2e0e9759ad75f0f581b241d1688408838a2675ed9117f8b7de4dc",
+          "characters": 19275
+        },
+        {
+          "path": "src/epub/text/chapter-2-3.xhtml",
+          "sha256": "d2fb65efc3a2189b3d80bb4d3f3ac4b2771f6e689943728b55978932611d5e6a",
+          "characters": 10865
+        },
+        {
+          "path": "src/epub/text/chapter-2-4.xhtml",
+          "sha256": "03ccf3ead14ed3bc11f38e1248cd4c7c6f30ea8f718a9f93cd4936b71d39f653",
+          "characters": 8739
+        },
+        {
+          "path": "src/epub/text/chapter-2-5.xhtml",
+          "sha256": "a0456a21a3a649470fecfa3aa7dd9ce2bcdedec63847ba3adc485e2db04098a2",
+          "characters": 5263
+        },
+        {
+          "path": "src/epub/text/chapter-2-6.xhtml",
+          "sha256": "6294f672ec01341fa669afe512b7fc9ea960dbf4beed6518ae6aacd32c76f01f",
+          "characters": 6877
+        },
+        {
+          "path": "src/epub/text/chapter-2-7.xhtml",
+          "sha256": "9906254a9e65f83f2bd9318cc47aba1d6d1e366cfcfd392f00d8c9328dc5f9a5",
+          "characters": 30338
+        },
+        {
+          "path": "src/epub/text/chapter-2-8.xhtml",
+          "sha256": "7c7faa691169f32a575587bd524e8a31c78a44062d9ff991794f2c003a5a52f6",
+          "characters": 17019
+        },
+        {
+          "path": "src/epub/text/chapter-2-9.xhtml",
+          "sha256": "18bf8c08d15a12d028d42b0778bb617bbe7ca069b35099c547d13d986d0fa2ba",
+          "characters": 10160
+        },
+        {
+          "path": "src/epub/text/chapter-2-10.xhtml",
+          "sha256": "24849bbed820472fed1f6f1e81a768aab35ff08e423e942d4196b0fe2f810eef",
+          "characters": 7671
+        },
+        {
+          "path": "src/epub/text/colophon.xhtml",
+          "sha256": "1c2405a00483a086efd017602aad2de9fb38894db1bea86e9d97fc6d1b125f96",
+          "characters": 991
+        },
+        {
+          "path": "src/epub/text/uncopyright.xhtml",
+          "sha256": "ac42c6c238a057e35db7f2fd4c14423440a1c5ea438f856b44d88ec662b09b9a",
+          "characters": 2063
+        }
+      ]
+    },
+    {
+      "id": "se-robert-louis-stevenson_treasure-island",
+      "file": "robert-louis-stevenson_treasure-island.json",
+      "sha256": "29ef53d81290bb27c6c7018bccfdb73c6e025fafb638de12b247b48b95ceb67d",
+      "title": "Treasure Island",
+      "author": "Robert Louis Stevenson",
+      "sourceUrl": "https://standardebooks.org/ebooks/robert-louis-stevenson/treasure-island",
+      "repository": "https://github.com/standardebooks/robert-louis-stevenson_treasure-island",
+      "archiveUrl": "https://api.github.com/repos/standardebooks/robert-louis-stevenson_treasure-island/zipball/master",
+      "archiveSha256": "e0e847fece09b6fa6bb87856472485fce449f59d5e519c3a729d7ac388296eab",
+      "coverSha256": "99c1ec43ec97d69390bdfc9b9a03d15160060d973a60bfad4302140884d6cd3e",
+      "chapterCount": 46,
+      "characters": 364212,
+      "spineFiles": [
+        {
+          "path": "src/epub/text/epigraph.xhtml",
+          "sha256": "68862db95d2df290cf086e4da97eb57afa28a96970b7eba54225baf4101ae69e",
+          "characters": 557
+        },
+        {
+          "path": "src/epub/text/dedication.xhtml",
+          "sha256": "0a4ade9fcdc9e0ddb0d85440688d0b4df6b375436a5f07663b1a7ea4f2d89a0e",
+          "characters": 253
+        },
+        {
+          "path": "src/epub/text/halftitlepage.xhtml",
+          "sha256": "18ed12cbdc6a93a6fa5b1d8d29aa6bf53320673251bc5562a63048615bc72b3d",
+          "characters": 15
+        },
+        {
+          "path": "src/epub/text/part-1.xhtml",
+          "sha256": "837547f33d281f3da222b5f0c0e9e63266c6a1fd0ab09c5c8e07423b4333b955",
+          "characters": 25
+        },
+        {
+          "path": "src/epub/text/chapter-1.xhtml",
+          "sha256": "2ff716ce01bf03aa93480a14cfb13e622bbd603dbd530ad32eb0e96fcf4294fb",
+          "characters": 11502
+        },
+        {
+          "path": "src/epub/text/chapter-2.xhtml",
+          "sha256": "ada6ffa7fd76d709605b2934c672fc0305f53f9664e114a001c17f391fbd1eca",
+          "characters": 11610
+        },
+        {
+          "path": "src/epub/text/chapter-3.xhtml",
+          "sha256": "a96fffecf562e81953494e97b9e355825340f95cee6224590e3bfc7306e94e92",
+          "characters": 11023
+        },
+        {
+          "path": "src/epub/text/chapter-4.xhtml",
+          "sha256": "03c4a4df07e8fd9affb4a73224c23175dd0e7fd8f264f9cebf00f4c7a73af472",
+          "characters": 11266
+        },
+        {
+          "path": "src/epub/text/chapter-5.xhtml",
+          "sha256": "2be5e6c3df463da9508a714cee7ce0a96e3cf1c29aa311e8180f29620f7c50df",
+          "characters": 9875
+        },
+        {
+          "path": "src/epub/text/chapter-6.xhtml",
+          "sha256": "585718e7000127cf1bcc907d95eacac1a0e7129e1e98e6f9c3d83d41b7915ef7",
+          "characters": 10576
+        },
+        {
+          "path": "src/epub/text/part-2.xhtml",
+          "sha256": "476a06224f241c09c0473cf2e0af29d6408a14d6f5505d9284668e28b636eae2",
+          "characters": 21
+        },
+        {
+          "path": "src/epub/text/chapter-7.xhtml",
+          "sha256": "f67dcff4c107822dc62149f889ec42fbbc141ff7f174776edfe32e58d2f7ed57",
+          "characters": 9746
+        },
+        {
+          "path": "src/epub/text/chapter-8.xhtml",
+          "sha256": "61edf93a7f4bc6ba8ccf33690b5803cf7c42074d6dc25b1b69d25d337e02aa3e",
+          "characters": 9375
+        },
+        {
+          "path": "src/epub/text/chapter-9.xhtml",
+          "sha256": "7f80c6064bee93b2b8d18c3591006a51ebddd114d69794b63bcceb26b16e9de1",
+          "characters": 9258
+        },
+        {
+          "path": "src/epub/text/chapter-10.xhtml",
+          "sha256": "37a022c6b53d3f880f75d50a2977e976782f255174aed650dcad57d1066370c0",
+          "characters": 10222
+        },
+        {
+          "path": "src/epub/text/chapter-11.xhtml",
+          "sha256": "10623f2d4c2b48765c2313961ca02f0f667d30365632c9d0c05d82fec3283906",
+          "characters": 10951
+        },
+        {
+          "path": "src/epub/text/chapter-12.xhtml",
+          "sha256": "a7d88b4c617f89df834198b89f5c88dc63b78e0b9dbe8a20ca899e13446ab697",
+          "characters": 9682
+        },
+        {
+          "path": "src/epub/text/part-3.xhtml",
+          "sha256": "4e65a3e3895c31f17b50f7553a7b7a26fd8122bbde4803751f8e18967f10863d",
+          "characters": 28
+        },
+        {
+          "path": "src/epub/text/chapter-13.xhtml",
+          "sha256": "c011a7727816a39081b34d324ef63aaa3e35f7c29a3fbeca44eed2a52a13a138",
+          "characters": 9462
+        },
+        {
+          "path": "src/epub/text/chapter-14.xhtml",
+          "sha256": "fea5be4a9bfc6c552c517ca28c88fd61ba846a4ef2c1d2d64412e03c9b825876",
+          "characters": 10087
+        },
+        {
+          "path": "src/epub/text/chapter-15.xhtml",
+          "sha256": "4c541696e3dc944cd4febcff362d2710e44937975bd8a9b390afd24eb09be7ff",
+          "characters": 11753
+        },
+        {
+          "path": "src/epub/text/part-4.xhtml",
+          "sha256": "17e12be9c42430245ce48e144013bfcb6d0cf9992f742ccc6dc2c2af926a832a",
+          "characters": 21
+        },
+        {
+          "path": "src/epub/text/chapter-16.xhtml",
+          "sha256": "8107553707c392b66f7de3bf70793d3a5a76a5f9085a20db1a02515ae00a0864",
+          "characters": 8716
+        },
+        {
+          "path": "src/epub/text/chapter-17.xhtml",
+          "sha256": "57caab276b4591318b57c5ef6bd3b21bced99ca684de0e237a6fb62531a5204f",
+          "characters": 7881
+        },
+        {
+          "path": "src/epub/text/chapter-18.xhtml",
+          "sha256": "f0c9634b71ab651f2ee1242cb0fbc98767cc167e4834089eada9c029c55aa9a1",
+          "characters": 8052
+        },
+        {
+          "path": "src/epub/text/chapter-19.xhtml",
+          "sha256": "e98397dd4f2f11ba68a413d4fa5dd456b9cc4f3f2a93a289927d4ec9f9a58aee",
+          "characters": 10582
+        },
+        {
+          "path": "src/epub/text/chapter-20.xhtml",
+          "sha256": "0c2a1a176986daa665e3ed87eb9e0f598d8c5694ed8d61afde8a0c3e6cf1947d",
+          "characters": 9979
+        },
+        {
+          "path": "src/epub/text/chapter-21.xhtml",
+          "sha256": "c17fce9d41551198f3c64a6b79cf2558e26f6a0797e0f12da116c5794b45f093",
+          "characters": 10731
+        },
+        {
+          "path": "src/epub/text/part-5.xhtml",
+          "sha256": "d1b0bae42f977ac05348abaf80acb5499203e45b43cadb2a2e02840c5da922ba",
+          "characters": 24
+        },
+        {
+          "path": "src/epub/text/chapter-22.xhtml",
+          "sha256": "3f8fb15715c843aa3e969c6e87371c20af92f46da1d3fb9cf0f2733d95e9a78d",
+          "characters": 10936
+        },
+        {
+          "path": "src/epub/text/chapter-23.xhtml",
+          "sha256": "bc4cbeca164ad7d854a91acc50111dd53917a60976e65b0651e6e0db2f9e086b",
+          "characters": 8486
+        },
+        {
+          "path": "src/epub/text/chapter-24.xhtml",
+          "sha256": "d81386bab8cfd6f2e51d2368c26631371c41b116aab581fc29ba9b9f13040c9d",
+          "characters": 10529
+        },
+        {
+          "path": "src/epub/text/chapter-25.xhtml",
+          "sha256": "25277449e925501e9b5fab11b8e6d6c491507c559a03eeeafafccd2ba028c9c2",
+          "characters": 9050
+        },
+        {
+          "path": "src/epub/text/chapter-26.xhtml",
+          "sha256": "1f4282e485637ff1d0cffaaf0d2ae8fde98513f3ba52ebe9f5d1eff11d10d915",
+          "characters": 15293
+        },
+        {
+          "path": "src/epub/text/chapter-27.xhtml",
+          "sha256": "2eb82fce938fe10eeabe383a2e01c3e54b4f24bf08f785d840dfd8efe57957a8",
+          "characters": 11369
+        },
+        {
+          "path": "src/epub/text/part-6.xhtml",
+          "sha256": "73ed739687a4c9648036213bd25e05d52547450055f5bb66eb74741f9a71b8e2",
+          "characters": 23
+        },
+        {
+          "path": "src/epub/text/chapter-28.xhtml",
+          "sha256": "e4d60aef873d47ffb526a397ff5bb48a1aec0f992c4cfb04735aba64006588a9",
+          "characters": 14306
+        },
+        {
+          "path": "src/epub/text/chapter-29.xhtml",
+          "sha256": "93b0ded454f1f0f8218480ebcae81050e33d67bb417f7c9ab3b1cad514aa7ba6",
+          "characters": 11452
+        },
+        {
+          "path": "src/epub/text/chapter-30.xhtml",
+          "sha256": "e6fb8978de4010e976104b44c5058295a4f546ff19f1ce095a3f62bef5c87900",
+          "characters": 12371
+        },
+        {
+          "path": "src/epub/text/chapter-31.xhtml",
+          "sha256": "73e0b2d22d165e0a1024dfdd9c30901c1a422fde380388d5934732e750e0d069",
+          "characters": 12205
+        },
+        {
+          "path": "src/epub/text/chapter-32.xhtml",
+          "sha256": "202509a0ec844c11f8c42f6473fa46f5c4bc7cd235af92d45343ebf2c9f1b97e",
+          "characters": 10755
+        },
+        {
+          "path": "src/epub/text/chapter-33.xhtml",
+          "sha256": "cb2a591b3d1cc2cbdf99ce4ae4954ad60aae2ef4ddcdac0492b18e5cbbbc1178",
+          "characters": 10748
+        },
+        {
+          "path": "src/epub/text/chapter-34.xhtml",
+          "sha256": "441202075126c025d033625e4a167a218fa9e3abc529ccf1579f10d544f9f254",
+          "characters": 10139
+        },
+        {
+          "path": "src/epub/text/endnotes.xhtml",
+          "sha256": "ed84f2b7befb73a38c1c0436bb21bf5d79b8137aef494a0288e289a2811fe0f4",
+          "characters": 219
+        },
+        {
+          "path": "src/epub/text/colophon.xhtml",
+          "sha256": "dce9f0fc3a1a9cf1fb7ba3103dc85c5964822b57d16bc0ffc9dc235d26858af1",
+          "characters": 995
+        },
+        {
+          "path": "src/epub/text/uncopyright.xhtml",
+          "sha256": "ac42c6c238a057e35db7f2fd4c14423440a1c5ea438f856b44d88ec662b09b9a",
+          "characters": 2063
+        }
+      ]
+    },
+    {
+      "id": "se-jane-austen_persuasion",
+      "file": "jane-austen_persuasion.json",
+      "sha256": "20acd4bd1867c18773795d77e1534cfb920349b596b380ec23a5e23adba01ba9",
+      "title": "Persuasion",
+      "author": "Jane Austen",
+      "sourceUrl": "https://standardebooks.org/ebooks/jane-austen/persuasion",
+      "repository": "https://github.com/standardebooks/jane-austen_persuasion",
+      "archiveUrl": "https://api.github.com/repos/standardebooks/jane-austen_persuasion/zipball/master",
+      "archiveSha256": "b41f57fe5e5e9206dbee9d64aafe98a69e8ef4216fc66f8d841c245d0cad3533",
+      "coverSha256": "dcfbcb9af0be87891c6e77034845792fdd9be8a377580350acf8ecdf17acf13d",
+      "chapterCount": 26,
+      "characters": 467690,
+      "spineFiles": [
+        {
+          "path": "src/epub/text/chapter-1.xhtml",
+          "sha256": "89c6d2e174046730ecbc55a88809e98d82fb8c5a9c6b2b942b8cf076ffd25138",
+          "characters": 15080
+        },
+        {
+          "path": "src/epub/text/chapter-2.xhtml",
+          "sha256": "67ec6d1c8d9eaac1584e65c1508fd4915796706b94291abd9a81d1356d0682da",
+          "characters": 11296
+        },
+        {
+          "path": "src/epub/text/chapter-3.xhtml",
+          "sha256": "5e8e76d363ad9188b48fae550085ff266900bb9d36e84704492fb8675b621576",
+          "characters": 15685
+        },
+        {
+          "path": "src/epub/text/chapter-4.xhtml",
+          "sha256": "46b8b5614e17c2fdb2c545aaf17c8359f845de57531b74b7f4deba23eb6b8b3c",
+          "characters": 10532
+        },
+        {
+          "path": "src/epub/text/chapter-5.xhtml",
+          "sha256": "a38ccbaf65d7f38851df4baaadd22530fbc9d5f0a6bed4668dce1d4989013396",
+          "characters": 18303
+        },
+        {
+          "path": "src/epub/text/chapter-6.xhtml",
+          "sha256": "e5602174d682cdeea15646a904aebb21e2530c34a38ffcddac8b151a782d37b3",
+          "characters": 21140
+        },
+        {
+          "path": "src/epub/text/chapter-7.xhtml",
+          "sha256": "0566773d18680c9c589f1ce44162c511e5d1eadca4f80cdb0060e58cd3a70763",
+          "characters": 18474
+        },
+        {
+          "path": "src/epub/text/chapter-8.xhtml",
+          "sha256": "4aa33e5f7b0629b62c867c46a1f4bb4a44924279dbeb24ec4ac38b599d1e2a05",
+          "characters": 18396
+        },
+        {
+          "path": "src/epub/text/chapter-9.xhtml",
+          "sha256": "aec7cc11a2f5c5615c5bdd3cf1d60d30a34bef9a9c5752cafb2c7559e7aae1eb",
+          "characters": 16057
+        },
+        {
+          "path": "src/epub/text/chapter-10.xhtml",
+          "sha256": "9ec677225bb8a56897e05f050782b7cff12fc0701c8a3ad1917c642494daa33f",
+          "characters": 21504
+        },
+        {
+          "path": "src/epub/text/chapter-11.xhtml",
+          "sha256": "b7825422174231b0f087d3c07435d93ee03fa9cd96c8dfd95d9ac3e298c71626",
+          "characters": 17372
+        },
+        {
+          "path": "src/epub/text/chapter-12.xhtml",
+          "sha256": "0ae8a7e26308a4da41016abda6533b818343525f235e290bfeb5b20dc4fda636",
+          "characters": 30720
+        },
+        {
+          "path": "src/epub/text/chapter-13.xhtml",
+          "sha256": "f43b2b2515bd200b885302d5063fa7180e00fa385fe37cc93b363f7fa7b89fed",
+          "characters": 15281
+        },
+        {
+          "path": "src/epub/text/chapter-14.xhtml",
+          "sha256": "56b54533029278205093c1e0a2641b91cd7c54119694ab978229b30673c45efb",
+          "characters": 13959
+        },
+        {
+          "path": "src/epub/text/chapter-15.xhtml",
+          "sha256": "648b5eae650e85ba953dafc28d8e3d9d345787b64d8c66577bd29af640ee4691",
+          "characters": 15737
+        },
+        {
+          "path": "src/epub/text/chapter-16.xhtml",
+          "sha256": "ad2986bbd8dda4ccf2ec2158ec9d7f13859a55628308f31f96528c0060f6847e",
+          "characters": 13642
+        },
+        {
+          "path": "src/epub/text/chapter-17.xhtml",
+          "sha256": "139856d96cbed87cec2017d6b8cc120603df97dfa3f913203e2c43c2b83a237c",
+          "characters": 19744
+        },
+        {
+          "path": "src/epub/text/chapter-18.xhtml",
+          "sha256": "789b089a2fd18c5b7148df4180f107c203d73e0c27f0b1d2f48b602a7eccf74a",
+          "characters": 22324
+        },
+        {
+          "path": "src/epub/text/chapter-19.xhtml",
+          "sha256": "f6ccfc27aac43072e1819f7c4f0bc9da64c820be6df0c972c1d2936528dc63ed",
+          "characters": 13339
+        },
+        {
+          "path": "src/epub/text/chapter-20.xhtml",
+          "sha256": "e10d5c22fdab22169214549a728be0a8ffc931cee4fedb071f5248ec63447b8f",
+          "characters": 19608
+        },
+        {
+          "path": "src/epub/text/chapter-21.xhtml",
+          "sha256": "d90474c366e1527999b1846e1292fc13e35dbe02470032a017d10e6c9c209ff4",
+          "characters": 38128
+        },
+        {
+          "path": "src/epub/text/chapter-22.xhtml",
+          "sha256": "91b4a54a51b42143d9be158843c4eca417981b135d52af1934698402e37b12ae",
+          "characters": 32819
+        },
+        {
+          "path": "src/epub/text/chapter-23.xhtml",
+          "sha256": "7ac2deb0c94325c48a5000560a633566f2e698e4d38b7266a091ca28a13a7920",
+          "characters": 36526
+        },
+        {
+          "path": "src/epub/text/chapter-24.xhtml",
+          "sha256": "c5df76123cf36c37a06f3296e9de6d8dcfe48c7889c3706ca34da0321ffab3c8",
+          "characters": 9010
+        },
+        {
+          "path": "src/epub/text/colophon.xhtml",
+          "sha256": "33542f1c806493a1731f98d9c7fec953686f5c67855a53e86d77048337b211e9",
+          "characters": 951
+        },
+        {
+          "path": "src/epub/text/uncopyright.xhtml",
+          "sha256": "ac42c6c238a057e35db7f2fd4c14423440a1c5ea438f856b44d88ec662b09b9a",
+          "characters": 2063
+        }
+      ]
+    },
+    {
+      "id": "se-jane-austen_emma",
+      "file": "jane-austen_emma.json",
+      "sha256": "261b4097266b379715935cb9dbbd7ed7e27fdd11b1cf942c7c5f440110a99fac",
+      "title": "Emma",
+      "author": "Jane Austen",
+      "sourceUrl": "https://standardebooks.org/ebooks/jane-austen/emma",
+      "repository": "https://github.com/standardebooks/jane-austen_emma",
+      "archiveUrl": "https://api.github.com/repos/standardebooks/jane-austen_emma/zipball/master",
+      "archiveSha256": "7631c42576df92753fd09fbfc31ee54bfb0decc3587d56f8c5969c2c6a72a113",
+      "coverSha256": "182cc39cb0fbaf4dc287c1e2d24384bca96c02b1d6d981aaa0605a5f1f2fb784",
+      "chapterCount": 59,
+      "characters": 883622,
+      "spineFiles": [
+        {
+          "path": "src/epub/text/dedication.xhtml",
+          "sha256": "15ef4692ecc41c44cda55c44ad8f52184267e9afd41fae01511c4d87f90f45b5",
+          "characters": 188
+        },
+        {
+          "path": "src/epub/text/halftitlepage.xhtml",
+          "sha256": "66c9f7b2c68c1fd12c6bcca2777c2fd32b5339e948ad306ae604eec8280d6da1",
+          "characters": 4
+        },
+        {
+          "path": "src/epub/text/chapter-1.xhtml",
+          "sha256": "db0a536c8027551e35f8cbb0ab2f4b4fc20b3e3eb23b55e5c7a70311f01d6333",
+          "characters": 17847
+        },
+        {
+          "path": "src/epub/text/chapter-2.xhtml",
+          "sha256": "a4321eeb2ac2aa4d6812b40f01a3e2202f02d211b692fe8b0a9684006dbd6b95",
+          "characters": 9899
+        },
+        {
+          "path": "src/epub/text/chapter-3.xhtml",
+          "sha256": "76fdfcaa99a815f7109cd6097714571e9f0bd97264362a2740bd3fcd49eaf020",
+          "characters": 10620
+        },
+        {
+          "path": "src/epub/text/chapter-4.xhtml",
+          "sha256": "cf05b83bf0118ff9f8cafeb8b7acfbf80c176b70e43341ededecaaa0d1749234",
+          "characters": 19062
+        },
+        {
+          "path": "src/epub/text/chapter-5.xhtml",
+          "sha256": "6aec794e3f13e28303e20f72e3c50dd5c191d9042287ed6d62a8ec9db1468072",
+          "characters": 10694
+        },
+        {
+          "path": "src/epub/text/chapter-6.xhtml",
+          "sha256": "69b3e29f2d661d108dcf49a332946010fc3193ae0ffdae12203addfb64dbb946",
+          "characters": 15062
+        },
+        {
+          "path": "src/epub/text/chapter-7.xhtml",
+          "sha256": "fa8eba0413652a41179a0bfa6d27a88a46d61611dea6db7e38a7b6b6e38dcdcc",
+          "characters": 13108
+        },
+        {
+          "path": "src/epub/text/chapter-8.xhtml",
+          "sha256": "53d588df2f9c739ed6e993b8a03fa243afdb27ef40869422c02a4e0388433707",
+          "characters": 23310
+        },
+        {
+          "path": "src/epub/text/chapter-9.xhtml",
+          "sha256": "db38e91b97018f4c0fcc2db5ca335775e04b56ce296a5e7f5516be9ce20f1c26",
+          "characters": 25671
+        },
+        {
+          "path": "src/epub/text/chapter-10.xhtml",
+          "sha256": "fa63c09c90b120e9b0464a3d267a6c329520232ee8dec0cf90f43096aef89e22",
+          "characters": 14318
+        },
+        {
+          "path": "src/epub/text/chapter-11.xhtml",
+          "sha256": "872897e252f4fd1c0e81e1a0a0445c4d95b289d7fd6d207dfb0df93734af6c98",
+          "characters": 11988
+        },
+        {
+          "path": "src/epub/text/chapter-12.xhtml",
+          "sha256": "c0186e2b39afe3a6b082638f7f1425b6a08aab59bcf655fb5eb0e920bc4ec6d8",
+          "characters": 17602
+        },
+        {
+          "path": "src/epub/text/chapter-13.xhtml",
+          "sha256": "accb72bafbaa6722169bc8d0b43dfb1e5ed7d968267de6eeb8479f8b054140e4",
+          "characters": 16554
+        },
+        {
+          "path": "src/epub/text/chapter-14.xhtml",
+          "sha256": "dc57c409629c498818e0805867624af14d7233d7b42b660f80155c147a729e45",
+          "characters": 13219
+        },
+        {
+          "path": "src/epub/text/chapter-15.xhtml",
+          "sha256": "3b7ec0ca0d6db7a940e9a76850d70c3606484cbe97d284c7a488b9f9afd214f4",
+          "characters": 18484
+        },
+        {
+          "path": "src/epub/text/chapter-16.xhtml",
+          "sha256": "dface809d27af29185a5d4e4ca1c0650e697ff91aba584f2964f2de8042a20d9",
+          "characters": 10649
+        },
+        {
+          "path": "src/epub/text/chapter-17.xhtml",
+          "sha256": "80bf53b6d821d5a13852c4febdd7dec222de90cc73912d541bcad1ec9fcd80a7",
+          "characters": 6703
+        },
+        {
+          "path": "src/epub/text/chapter-18.xhtml",
+          "sha256": "e2f61dd4298c926279fe849fd45668f7d6fde0e8636e915e6d38e94aebd7fbae",
+          "characters": 13780
+        },
+        {
+          "path": "src/epub/text/chapter-19.xhtml",
+          "sha256": "6487a50f139a22ee4121ba91d64fc380e7a9d1c9c4ec54e3ac7fdbabbfd5d73a",
+          "characters": 16079
+        },
+        {
+          "path": "src/epub/text/chapter-20.xhtml",
+          "sha256": "f2d567f47e6d433407918b9890f056e3ab07b62204bdf10e878187d4f99ce24f",
+          "characters": 13796
+        },
+        {
+          "path": "src/epub/text/chapter-21.xhtml",
+          "sha256": "69206c53f37dceef482fcac9403de962a41808cc53275895ce645bbd7cc6e7b4",
+          "characters": 21060
+        },
+        {
+          "path": "src/epub/text/chapter-22.xhtml",
+          "sha256": "ba8029a4f8baa8f0744c5f2c6a5772a1c4c5c3a5d5c0102b69a6011ce481f3b5",
+          "characters": 9360
+        },
+        {
+          "path": "src/epub/text/chapter-23.xhtml",
+          "sha256": "0c1b378ed7378d4ab98e85de7dbb2e49d7af7c996e3d216283e0d40eb950fa90",
+          "characters": 18291
+        },
+        {
+          "path": "src/epub/text/chapter-24.xhtml",
+          "sha256": "916706655190a3d9dc12c5a2c3cff038c4fa8c3eba5add83caacf950ee6f8af5",
+          "characters": 16663
+        },
+        {
+          "path": "src/epub/text/chapter-25.xhtml",
+          "sha256": "9d974587989a92ba461e66cea02dd30a5b7a64b598bad487721ca31be282bb88",
+          "characters": 12753
+        },
+        {
+          "path": "src/epub/text/chapter-26.xhtml",
+          "sha256": "75705414ab91b8662292b601689c83722ba202c117170980306ad69084051c4f",
+          "characters": 35650
+        },
+        {
+          "path": "src/epub/text/chapter-27.xhtml",
+          "sha256": "9491c73ff65675c244a364392f4b039153bf82b8d50fc4bab7246de58073d9a4",
+          "characters": 17030
+        },
+        {
+          "path": "src/epub/text/chapter-28.xhtml",
+          "sha256": "92ec1af02486c2d00083baf1924431516b609d6073832f108d605a5c56d931a5",
+          "characters": 11034
+        },
+        {
+          "path": "src/epub/text/chapter-29.xhtml",
+          "sha256": "3ad4e367221e910cb93e8bbfb05073e5a35d83310de0cd30b4e0f843b5dde9f8",
+          "characters": 17857
+        },
+        {
+          "path": "src/epub/text/chapter-30.xhtml",
+          "sha256": "52f157f7de5dfeb56d45706423886ec1054a2ee54616d6ce127c2a99ebfda3f9",
+          "characters": 11864
+        },
+        {
+          "path": "src/epub/text/chapter-31.xhtml",
+          "sha256": "7f34285dc5865b26f01216041305586c306e52ba4443493d76083917e761853e",
+          "characters": 11001
+        },
+        {
+          "path": "src/epub/text/chapter-32.xhtml",
+          "sha256": "fe36e7352fa470204de78e07720086396425d7b416139150e59407a8ab073721",
+          "characters": 20848
+        },
+        {
+          "path": "src/epub/text/chapter-33.xhtml",
+          "sha256": "ecdae8ec6e29032ef89431dc568658b0030076eb6bba97af8cacdc5eba4275b6",
+          "characters": 16688
+        },
+        {
+          "path": "src/epub/text/chapter-34.xhtml",
+          "sha256": "2ab111bc1ae4456bb944686b1f5ad4afd24478a7063a66274797ab4a64b4f9c0",
+          "characters": 17057
+        },
+        {
+          "path": "src/epub/text/chapter-35.xhtml",
+          "sha256": "2c07c944102fef2100122da6899df3cebd7e443821fc60584b4d132289df4344",
+          "characters": 11927
+        },
+        {
+          "path": "src/epub/text/chapter-36.xhtml",
+          "sha256": "9efeb459e33814af83fc486c5c4c4dbf011c77a950cad01f450f003f2b57a1c4",
+          "characters": 15268
+        },
+        {
+          "path": "src/epub/text/chapter-37.xhtml",
+          "sha256": "d542d5d97052c5a265bb55d2d9ca06f1bcfcf09f339ef7418e039303e68e6ef4",
+          "characters": 7002
+        },
+        {
+          "path": "src/epub/text/chapter-38.xhtml",
+          "sha256": "672b8b8b9466ecc8727c67233240622fddf582afcf6ecf698cde5d2f2da55aa4",
+          "characters": 24586
+        },
+        {
+          "path": "src/epub/text/chapter-39.xhtml",
+          "sha256": "3c3836952d3633dae49b4f414ed01a93a7a5b31cab824053216e23d18231f7e2",
+          "characters": 9667
+        },
+        {
+          "path": "src/epub/text/chapter-40.xhtml",
+          "sha256": "df4c7c4ce86d0a8c1583446931bf9c019df90bc94e4ca6ffbe6f8ec44b553001",
+          "characters": 11230
+        },
+        {
+          "path": "src/epub/text/chapter-41.xhtml",
+          "sha256": "6a0aaa2fb46ff9ab02a80a5c016d1c8dff1c5f40025f830fa88d56eec518b3a2",
+          "characters": 16545
+        },
+        {
+          "path": "src/epub/text/chapter-42.xhtml",
+          "sha256": "4165b78eff67e12c2d59066249f7c0a229d8392dbebd7f0fb75b8f344fbc9073",
+          "characters": 28387
+        },
+        {
+          "path": "src/epub/text/chapter-43.xhtml",
+          "sha256": "ff96f67671093e70f8691d543ab48baa11058a2bedfb006cdd9dd8becfac089d",
+          "characters": 18362
+        },
+        {
+          "path": "src/epub/text/chapter-44.xhtml",
+          "sha256": "35832affe12aed881df1abfb659dc1dd6b29c6d549cebf57bc07f46a7bdfcc82",
+          "characters": 15027
+        },
+        {
+          "path": "src/epub/text/chapter-45.xhtml",
+          "sha256": "6f9ce0b690b14d8ab8a6312e4dbca61933a36298d92fe7ee39b102ab37ff1c21",
+          "characters": 13960
+        },
+        {
+          "path": "src/epub/text/chapter-46.xhtml",
+          "sha256": "fbaf581c005bb81a9904da7ed0a4d8dc00dc77d6f4078ef7e63e8c8140ac9f9c",
+          "characters": 17304
+        },
+        {
+          "path": "src/epub/text/chapter-47.xhtml",
+          "sha256": "3474ff3cbbc02c37b8ac8901361a0074dffca36ccb0d1683702334dc0f65700f",
+          "characters": 24134
+        },
+        {
+          "path": "src/epub/text/chapter-48.xhtml",
+          "sha256": "7c683aa4a5887f59c422dccb3ea6fab1eba2450465b5ed94858adc6fa50a2f24",
+          "characters": 16848
+        },
+        {
+          "path": "src/epub/text/chapter-49.xhtml",
+          "sha256": "87fefd8e54e024258c6d55264e175d3c14f0fa86f206a79d654c5c9a222ff430",
+          "characters": 18828
+        },
+        {
+          "path": "src/epub/text/chapter-50.xhtml",
+          "sha256": "9ffbcb7c832ec776fe33a9722b0ec99eb3fc67bfb2da6c2ef77afd8c10ad216f",
+          "characters": 20110
+        },
+        {
+          "path": "src/epub/text/chapter-51.xhtml",
+          "sha256": "baf8eac484b4fe6b573c6d9729a1d775f1ab26e2e21c8a2184297a9e8b57a2de",
+          "characters": 13137
+        },
+        {
+          "path": "src/epub/text/chapter-52.xhtml",
+          "sha256": "e5d58752dd0ac1730e62e340340b902d4b62619aefd8de9bc7d78fc5ebe46274",
+          "characters": 18216
+        },
+        {
+          "path": "src/epub/text/chapter-53.xhtml",
+          "sha256": "0b67c255b0a009ae545542c63ca78b115cf320a25c7e41df3efe3dacb2456985",
+          "characters": 17091
+        },
+        {
+          "path": "src/epub/text/chapter-54.xhtml",
+          "sha256": "9f18fad2bf81a658c1ad4763021cf46280d12d0539be064db6f7a8caf7ed5116",
+          "characters": 20213
+        },
+        {
+          "path": "src/epub/text/chapter-55.xhtml",
+          "sha256": "fe47fcce7769c6177adc4eece52e1561adbfb133e874ef673b975fcdeed646fb",
+          "characters": 7010
+        },
+        {
+          "path": "src/epub/text/colophon.xhtml",
+          "sha256": "54520004088e1689b30239d1443cf8b7a306f8ce17a4014629ab12453ed61745",
+          "characters": 914
+        },
+        {
+          "path": "src/epub/text/uncopyright.xhtml",
+          "sha256": "ac42c6c238a057e35db7f2fd4c14423440a1c5ea438f856b44d88ec662b09b9a",
+          "characters": 2063
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+export function normalizeAuthorSearch(value) {
+  return String(value ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/đ/g, "d")
+    .trim()
+    .replace(/\s+/g, " ");
+}
+
+export function getPublicAuthors(state, catalogBooks = state.books) {
+  // Dùng số bản còn sẵn đã được tính theo luồng mượn–trả.
+  const stock = new Map(
+    catalogBooks.map((book) => [book.id, book.availableCopies]),
+  );
+
+  if (state.publicAuthors)
+    return state.publicAuthors
+      .map((profile) => ({
+        id: profile.id,
+        name: profile.penName,
+        books: catalogBooks.filter(
+          (book) => !book.archived && (profile.bookIds || []).includes(book.id),
+        ),
+        categories: [
+          ...new Set(
+            catalogBooks
+              .filter((book) => (profile.bookIds || []).includes(book.id))
+              .map((book) => book.category),
+          ),
+        ],
+      }))
+      .filter((profile) => profile.books.length)
+      .sort((a, b) => a.name.localeCompare(b.name, "vi"));
+  const profiles = state.authorApplications || [];
+
+  return state.accounts
+    .filter(
+      (account) => account.role === "author" && account.status === "active",
+    )
+    .map((account) => {
+      const profile = profiles.find(
+        (item) =>
+          item.readerEmail === account.email && item.status === "approved",
+      );
+
+      if (
+        !profile ||
+        typeof profile.penName !== "string" ||
+        !profile.penName.trim()
+      ) {
+        return null;
+      }
+
+      const books = state.books
+        .filter((book) => !book.archived && book.authorEmail === account.email)
+        .map((book) => ({
+          ...book,
+          availableCopies: stock.get(book.id) ?? book.availableCopies,
+        }));
+
+      if (!books.length) {
+        return null;
+      }
+
+      return {
+        id: profile.id,
+        name: profile.penName.trim(),
+
+        categories: [
+          ...new Set(books.map((book) => book.category).filter(Boolean)),
+        ],
+
+        books,
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.name.localeCompare(b.name, "vi"));
+}

@@ -1,0 +1,134 @@
+.source-discovery {
+  margin-bottom: 2rem;
+}
+.source-book-search {
+  margin: 1.4rem 0 0.8rem;
+  max-width: 680px;
+}
+.source-book-search label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+.source-book-search > div {
+  display: flex;
+  gap: 0.75rem;
+}
+.source-book-search input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border, #8b789e);
+  border-radius: 12px;
+  background: var(--input-bg, #252037);
+  color: inherit;
+  font: inherit;
+}
+.source-book-search input::placeholder {
+  color: inherit;
+  opacity: 0.65;
+}
+.source-book-status {
+  min-height: 1.7rem;
+  margin: 0.75rem 0 1.25rem;
+  font-size: 0.9rem;
+}
+.source-book-status button {
+  margin-left: 0.5rem;
+}
+.source-book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+  gap: 1.75rem 1.25rem;
+}
+.source-book-grid .book-tile {
+  width: auto;
+  min-width: 0;
+}
+.source-book-grid .book-tile-cover {
+  display: block;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  height: auto;
+  overflow: hidden;
+}
+.source-book-grid img,
+.source-book-dialog img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.source-book-origin {
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+.source-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.75rem;
+}
+.source-pagination button,
+.source-book-status button {
+  border: 1px solid #9d84b5;
+  border-radius: 10px;
+  padding: 0.65rem 1rem;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.source-pagination button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.source-book-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.source-book-actions a {
+  color: inherit;
+}
+.source-book-actions .borrow-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+.source-book-note {
+  font-size: 0.85rem;
+  opacity: 0.75;
+  margin-top: 1rem;
+}
+.source-book-dialog .home-description {
+  max-height: 230px;
+  overflow-y: auto;
+  white-space: pre-line;
+}
+.source-book-search input:focus-visible,
+.source-discovery button:focus-visible,
+.source-book-actions a:focus-visible {
+  outline: 3px solid #ba9aee;
+  outline-offset: 3px;
+}
+@media (max-width: 600px) {
+  .source-book-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem 0.8rem;
+  }
+  .source-book-search > div {
+    flex-wrap: wrap;
+  }
+  .source-book-search input {
+    flex-basis: 100%;
+  }
+  .source-book-search button {
+    width: 100%;
+    justify-content: center;
+  }
+}

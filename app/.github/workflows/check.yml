@@ -1,0 +1,36 @@
+name: Check Cloud Library
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - run: npm ci
+      - run: npm run setup:local
+      - run: npx playwright install --with-deps chromium
+      - name: Start local services
+        run: |
+          npm run dev > .local/dev.log 2>&1 &
+          node --input-type=module -e "for(let i=0;i<120;i++){try{if((await fetch('http://127.0.0.1:5173/api/v1/health')).ok)process.exit(0);}catch{} await new Promise(r=>setTimeout(r,500));}process.exit(1);"
+      - run: npm run check
+      - run: npm run test:e2e
+      - run: npm run build:lambda
+      - run: npm run infra:prepare
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verification
+          path: |
+            playwright-report/
+            test-results/
+            .local/dev.log

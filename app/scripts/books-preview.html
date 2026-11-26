@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Cloud Library — thử API sách</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: system-ui, sans-serif;
+        background: #171325;
+        color: #eee5fa;
+      }
+      body {
+        max-width: 1100px;
+        margin: auto;
+        padding: 28px;
+      }
+      h1,
+      h2 {
+        font-family: Georgia, serif;
+      }
+      a {
+        color: #cfb4ff;
+      }
+      button,
+      input,
+      select {
+        font: inherit;
+        color: inherit;
+        background: #30253f;
+        border: 1px solid #8e70a9;
+        border-radius: 10px;
+        padding: 10px 14px;
+      }
+      button {
+        cursor: pointer;
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
+      input {
+        min-width: 0;
+        flex: 1;
+      }
+      form {
+        display: flex;
+        gap: 10px;
+        margin: 24px 0;
+      }
+      .hint {
+        color: #c2b1d2;
+        font-size: 0.95rem;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+        gap: 24px;
+      }
+      .book {
+        padding: 0;
+        border: 0;
+        background: transparent;
+        text-align: left;
+      }
+      .book img {
+        width: 100%;
+        aspect-ratio: 2/3;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+      .book strong,
+      .book small {
+        display: block;
+        margin-top: 8px;
+      }
+      .book small {
+        color: #c2b1d2;
+      }
+      #reader {
+        max-width: 780px;
+        margin: auto;
+      }
+      #description {
+        white-space: pre-line;
+        color: #c2b1d2;
+        line-height: 1.6;
+      }
+      #content {
+        white-space: pre-wrap;
+        line-height: 1.9;
+        font-size: 19px;
+        background: #241c32;
+        padding: 24px;
+        border-radius: 12px;
+        margin-top: 20px;
+      }
+      .reader-controls {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      select {
+        max-width: 100%;
+      }
+      #status {
+        min-height: 24px;
+      }
+      code {
+        overflow-wrap: anywhere;
+      }
+      button:focus-visible,
+      a:focus-visible,
+      input:focus-visible,
+      select:focus-visible {
+        outline: 3px solid #d0b4ff;
+        outline-offset: 3px;
+      }
+      [hidden] {
+        display: none !important;
+      }
+      @media (max-width: 500px) {
+        body {
+          padding: 18px;
+        }
+        .grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        form {
+          flex-wrap: wrap;
+        }
+        form input {
+          flex-basis: 100%;
+        }
+        #content {
+          padding: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Thử API sách — Cloud Library</h1>
+      <p class="hint">
+        12 sách Standard Ebooks đã tải sẵn · Không dùng database · Không lưu
+        tiến độ đọc
+      </p>
+      <p>
+        <a href="/api/v1/books" target="_blank" rel="noopener"
+          >Xem JSON danh sách sách</a
+        >
+        ·
+        <a href="/api/v1/health" target="_blank" rel="noopener">Kiểm tra API</a>
+      </p>
+    </header>
+    <p id="status" role="status" aria-live="polite">Đang tải danh sách…</p>
+    <section id="catalog">
+      <form id="search">
+        <input
+          id="query"
+          type="search"
+          maxlength="120"
+          aria-label="Tên sách hoặc tác giả"
+          placeholder="Tên sách hoặc tác giả"
+        /><button>Tìm sách</button>
+      </form>
+      <div id="books" class="grid"></div>
+    </section>
+    <section id="reader" hidden>
+      <button id="back">← Về danh sách</button>
+      <h2 id="title"></h2>
+      <p id="author"></p>
+      <p id="description"></p>
+      <div class="reader-controls">
+        <label for="chapter">Chương</label
+        ><select id="chapter"></select
+        ><button id="previous">Trước</button><button id="next">Tiếp</button>
+      </div>
+      <p class="hint"><code id="endpoint"></code></p>
+      <article id="content"></article>
+    </section>
+    <script type="module">
+      import { bookDescriptionText } from "/assets/book-description.js";
+      const $ = (id) => document.getElementById(id);
+      let selectedBook,
+        currentIndex = 0,
+        chapterRequest = 0;
+      async function api(path) {
+        const response = await fetch(path);
+        const body = await response.json();
+        if (!response.ok)
+          throw new Error(body.error || "Chưa tải được dữ liệu.");
+        return body;
+      }
+      async function list() {
+        $("status").textContent = "Đang gọi API…";
+        try {
+          const result = await api(
+            "/api/v1/books?q=" + encodeURIComponent($("query").value.trim()),
+          );
+          $("books").replaceChildren();
+          for (const book of result.data) {
+            const button = document.createElement("button");
+            button.className = "book";
+            const cover = document.createElement("img");
+            cover.src = book.cover;
+            cover.alt = "Bìa sách: " + book.title;
+            cover.loading = "lazy";
+            const title = document.createElement("strong");
+            title.textContent = book.title;
+            const author = document.createElement("small");
+            author.textContent = book.author;
+            button.append(cover, title, author);
+            button.addEventListener("click", () => open(book.detailsUrl));
+            $("books").append(button);
+          }
+          $("status").textContent = "API trả về " + result.total + " sách.";
+        } catch (error) {
+          $("status").textContent = error.message;
+        }
+      }
+      async function open(path) {
+        $("status").textContent = "Đang lấy thông tin sách…";
+        try {
+          selectedBook = (await api(path)).data;
+          $("title").textContent = selectedBook.title;
+          $("author").textContent = selectedBook.author;
+          $("description").textContent = bookDescriptionText(
+            selectedBook.description,
+          );
+          $("chapter").replaceChildren();
+          selectedBook.chapters.forEach((chapter, index) => {
+            const option = document.createElement("option");
+            option.value = index;
+            option.textContent = index + 1 + ". " + chapter.title;
+            $("chapter").append(option);
+          });
+          $("catalog").hidden = true;
+          $("reader").hidden = false;
+          await readChapter(0);
+        } catch (error) {
+          $("status").textContent = error.message;
+        }
+      }
+      async function readChapter(index) {
+        const chapter = selectedBook.chapters[index];
+        if (!chapter) return;
+        const request = ++chapterRequest;
+        currentIndex = index;
+        $("chapter").value = index;
+        $("previous").disabled = index === 0;
+        $("next").disabled = index === selectedBook.chapters.length - 1;
+        $("content").textContent = "Đang tải chương…";
+        $("endpoint").textContent = "GET " + chapter.href;
+        try {
+          const { data } = await api(chapter.href);
+          if (request !== chapterRequest) return;
+          $("content").textContent = data.content;
+          $("status").textContent = "Đã đọc nội dung từ API: " + data.title;
+        } catch (error) {
+          if (request === chapterRequest) {
+            $("content").textContent = "";
+            $("status").textContent = error.message;
+          }
+        }
+      }
+      $("search").addEventListener("submit", (event) => {
+        event.preventDefault();
+        list();
+      });
+      $("chapter").addEventListener("change", () =>
+        readChapter(Number($("chapter").value)),
+      );
+      $("previous").addEventListener("click", () =>
+        readChapter(currentIndex - 1),
+      );
+      $("next").addEventListener("click", () => readChapter(currentIndex + 1));
+      $("back").addEventListener("click", () => {
+        chapterRequest++;
+        $("reader").hidden = true;
+        $("catalog").hidden = false;
+        $("status").textContent = "Chọn sách để thử API đọc chương.";
+      });
+      list();
+    </script>
+  </body>
+</html>
